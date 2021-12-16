@@ -1,0 +1,339 @@
+<html><head>
+
+  <title>Overwatch | What is it?</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Encode+Sans:400,700" rel="stylesheet">
+
+<style>
+.topnav {
+	background-color: black;
+	overflow: hidden;
+  z-index:1;
+}
+.topnav a {
+	float: left;
+	display: block;
+	color: white;
+	Font-family: Tahoma;
+	text-align: center;
+	padding-top: 14px;
+	padding-bottom: 14px;
+	width: 20%;
+	text-decoration: none;
+	font-size: 17px;
+}
+.topnav a:hover {
+	background-color: #ddd;
+	color: black;
+}
+.topnav a.active {
+	background-color: #4CAF50;
+	color: white;
+  }
+
+header, footer {
+	padding: 0em;
+	color: white;
+	background-color: black;
+	clear: left;
+	text-align: center;
+}
+
+briefbox{
+  width: 80%;
+  margin:auto;
+  margin-top: 20px;
+  padding: 3em;
+  overflow: hidden;
+  display: block;
+  border-radius: 20px;
+  background-color: rgb(50, 125, 240);
+}
+
+deepbox{
+  width: 80%;
+  margin:auto;    
+  margin-top: 20px;
+  padding: 3em;
+  overflow: hidden;
+  display: block;
+  border-radius: 20px;
+  background-color: rgb(110, 0, 255);
+}
+
+salesbox{
+  width: 80%;
+  margin:auto;
+  margin-top: 20px;
+  padding: 3em;
+  overflow: hidden;
+  display: block;
+  border-radius: 20px;
+  background-color: rgb(0, 125, 25);
+}
+
+h1{
+  Font-family: Tahoma;
+  Font-size: 30pt;
+}
+
+h2{
+  Font-family: Tahoma;
+  Font-size: 20pt;
+}
+
+h3{
+  Font-family: Tahoma;
+  Font-size: 15pt;
+  line-height: 150%;
+}
+
+/* HAM MENU BEGINS */
+    
+    
+    #homeHead h1 {
+      margin: auto;
+      line-height: 2em;
+      font-size: 2em;
+      font-family: Encode Sans;
+      color: white;
+    }
+    
+    #hamMenu h1 {
+      margin: auto;
+      line-height: 2em;
+      font-size: 2em;
+      font-family: Encode Sans;
+      color: white;
+    }
+    
+    #hamMenu h2 {
+      margin: auto;
+      padding: 0 1em 1em 24px;
+      font-size: 2em;
+      font-family: Encode Sans;
+    }
+    
+    #homeHead a:link {
+      text-decoration: none;
+    }
+    
+    #homeHead a:visited {
+      color: white;
+      text-decoration: none;
+    }
+    
+    #homeHead a:hover {
+      text-decoration: none;
+      text-decoration-color: white;
+    }
+    
+    #hamMenu a:link {
+      text-decoration: none;
+    }
+    
+    #hamMenu a:hover {
+      text-decoration: none;
+      text-decoration-color: white;
+    }
+    
+    /* Div classes */
+    
+    /* Ham */
+    
+    .secretDropdownContainer {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    
+    .upperHam {
+      margin: auto;
+      padding: 0.5em 1em 0.5em 24px;
+      width: 100%;
+      position: relative;
+      background-color: rgba(0, 0, 175, 1);
+      border: none;
+      outline: none;
+      font-size: 2em;
+      font-family: Encode Sans;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      transition: 0.4s;
+    }
+    
+    .upperHam.active {
+      background-color: rgba(25, 25, 175, 1);
+    }
+    
+    .lowerHam {
+      display: none;
+      position: relative;
+      width: 100%;
+      margin: auto;
+      overflow: hidden;
+      background-color: rgba(50, 50, 175, 1);
+      cursor: pointer;
+      transition: max-height 0.2s ease-out;
+    }
+    
+    .lowerHam a {
+      display: block;
+      padding: 1em;
+      overflow: hidden;
+      font-size: 1.5em;
+      font-family: Encode Sans;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      text-align:center;
+    }
+
+    .lowerHam a:hover {
+      background-color: white;
+      color: rgba(50, 50, 175, 1);
+    }
+    
+    .secretDropdownContainer:hover .lowerHam {
+      display: block;
+    }
+    
+    /* Div IDs */
+    
+    #main {
+      height: 100%;
+      transition: margin-right .5s;
+    }
+    
+    /* Ham */
+    
+    #homeHead {
+      background-color: rgb(0, 0, 200);
+      position: fixed;
+      top: 0;
+      z-index: 5;
+      width: 100%;
+      transition: width .5s;
+    }
+    
+    #hamMenu {
+      width: 0px;
+      height: 100%;
+      position: fixed;
+      top: 0px;
+      right: 0px;
+      z-index: 10000;
+      overflow-x: hidden;
+      transition: 0.5s;
+      background-color: rgb(0, 0, 125);
+      text-align: right;
+      color: white;
+    }
+    
+    #hamMenuText {
+      line-height: 2em;
+      text-align: right;
+      color: white;
+    }
+    
+    #gamesMenuBase {
+      display: none;
+    }
+    
+    #sitesMenuBase {
+      display: none;
+    }
+    
+    /* HAM MENU COMPLETE */
+
+</style>
+</head>
+
+<body style="margin:0">
+<header>
+  <div id="homeHead">
+    <div style="display: inline-block;width: 10%;z-index: 10000;float: left;padding: 1%;">
+
+    </div>
+    <div style="display:inline-block;margin: 0px auto;width: 76%;position: relative;z-index: 6;">
+      <a href="../index.html" style="z-index: 6;"><h1 style="text-align:center;min-height: 64px;">Colestanley.ca</h1></a>
+    </div>
+    <div style="display:inline-block;width: 10%;height: 44px;float: right;padding: 10;">
+      <img id="hamImage" style="float: right;width:44px;z-index: 10000;transition: opacity .5s;cursor:pointer;" src="../siteimages/goinham.png" onclick="openHam();">
+    </div>
+  </div>
+  <a href="Home.html">
+      <img src="../siteimages/owi/owilogo.png" style="float: centre;width:20%;padding-top: 0%;margin:auto;margin-top:5em"></a>  <h1>Overwatch | What is it?</h1>
+  <div class="topnav" id="myTopnav">
+  <a href="Home.html">Home</a>
+  <a href="Gameplay.html">What is Overwatch</a>
+  <a href="Development.html">Trailblazer in Game Development</a>
+  <a href="Society.html">Reflection of Society</a>
+  <a href="Community.html">Impact on Community</a>
+</div>
+</header>
+
+  <div id=hamMenu>
+    <div style="background-color:rgb(0, 0, 200);height:64px;">
+      <h1 style="text-align:center;">MENU</h1></div>
+    <div id="gamesMenuItem" class="secretDropdownContainer">
+      <button class="upperHam">Games</button>
+    </div>
+    <div id="sitesMenuItem" class="secretDropdownContainer">
+      <button class="upperHam">Websites</button>
+    </div>
+
+    <img src="../siteimages/closebutton.png" style="margin: auto;margin-top: 33%;display: block;width: 33%;position: relative;bottom: 0px;cursor:pointer;" onclick="closeHam()">
+
+    <a href="../index.html"><img src="../siteimages/home.png" style="margin: auto;margin-top: 33%;display: block;width: 33%;position: relative;bottom: 0px;cursor:pointer;"></a>
+  </div>
+  
+  <script src="../scripts/hamMenu.js"></script>
+  
+  <script>
+    function openHam() {
+      document.getElementById("hamMenu").style.width = "25%";
+      document.getElementById("main").style.marginRight = "25%";
+      document.getElementById("header").style.width = "75%";
+      document.getElementById("hamImage").style.opacity = "0";
+    }
+    
+    function closeHam() {
+      document.getElementById("hamMenu").style.width = "0%";
+      document.getElementById("main").style.marginRight = "0%";
+      document.getElementById("header").style.width = "100%";
+      document.getElementById("hamImage").style.opacity = "1";
+    }
+  </script>
+
+  <div id="main">
+
+<div id="gototop" style="bottom: 0.5%; position: fixed; right: 0.5%; width: 5%; z-index: 9999; display: none;">
+   <a href="#"><img src="../siteimages/owi/top.png" style="width:100%;padding-top:0%"></a>
+</div>
+
+<briefbox>
+  <h2 style="color:white">Overwatch for Beginners</h2>
+  <h3 style="color:white">Those who aren't deeply invested in online gaming may not have heard of the global sensation known as Overwatch.  This paragraph will serve to update you on the basics.  Overwatch is a video game that has swept across the face of the Earth.  On May 24th, 2016, Blizzard Entertainment released Overwatch to the world after one and a half years of development.  It can be played on the Xbox One, Playstation Four, and PC.  Overwatch is referred to as a <i>first person shooter</i>, or FPS, by gamers, due to the first-person camera angle and the prevalence of firearms.  Overwatch is almost solely multiplayer, and requires an online connection.  This allows gamers to play a round of Overwatch with other gamers who could be halfway across the world.  The game is played in rounds that last roughly ten minutes, in virtual locations scattered across the Earth.  The twenty-four playable characters of the game are comprised of numerous races, genders, nationalities, sexualities, and much, much more.  This combination led to the creation of a game which is truly unique.</h3>
+</briefbox>
+
+<deepbox>
+  <h2 style="color:white">Overwatch for Gamers</h2>
+  <h3 style="color:white">Dear nerds who made it this far, congratulations!  At this point, anything will probably be a refresher to you.  But if you are actually just a diligent reader who does not give up easily, here's deeper information about the world of Overwatch.  The story begins with the creation of <i>omnics</i>, robots who possess sentient AI.  The omnics were able to usher in an economic and social golden age, and every major population centre wanted to have omnics manufactured nearby.  However, for reasons currently left unexplained, the omnic factories simultaneously began producing hostile omnics that were ready for war.  This led to the <i>Omnic Crisis</i>, a World War III between the human and the omnics.  To end the war, the United Nations founded the team that would come to be named "Overwatch".  At the time of the events of the game, the year is 2070, and the playable cast is comprised of 24 different heroes.  These heroes range from soldiers to scientists, humans to omnics, omnics to gorillas, and much, much more.  The game is played on 15 different maps, spanning five unique game modes.  There is also a competitive league within the game, where players can play in more intense, serious environments.  All these various possibilities allow for some players to find new strategies and playstyles even after hundreds of hours being logged into the game.</h3>
+  <img src="../siteimages/owi/owiomnic.jpg" style="align:centre;width:100%;height:56.25%;border-radius:20px">
+</deepbox>
+
+<salesbox>
+  <h2 style="color:white">Global Success</h2>
+  <h3 style="color:white">As of now, Overwatch has surpassed 30 000 000 copies sold.  The lead developer, Jeffery Kaplan, can be seen in the clip below expressing his involvement in reaching that milestone.  The game is now large enough to have eSports tournaments, many of which are consistently dominated by the eSports powerhouse of South Korea.  Overwatch has truly extended across the world, and it has been built to reflect the world it relies upon.</h3>
+  <div style="position:relative;height:0;padding-bottom:56.25%"><iframe src="https://www.youtube.com/embed/3NQWP7npOSw?start=176&amp;end=211" width="640" height="360" frameborder="0" style="position:absolute;width:100%;height:100%;left:0" allowfullscreen=""></iframe></div>
+</salesbox>
+  </div>
+
+
+<script src="../scripts/owi_scroll_to_top.js"></script>
+
+
+
+</body></html>

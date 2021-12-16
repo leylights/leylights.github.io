@@ -1,0 +1,125 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>colestanley.ca | EM Wave Generator</title>
+  <link href="https://fonts.googleapis.com/css?family=Encode+Sans:400,700" rel="stylesheet">
+  <link href="../stylesheets/main.css" rel="stylesheet" />
+  <link href="../stylesheets/emwaves.css?v=1.1" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="icon" href="../siteimages/favicon.png">
+  <script src="../scripts/build-page.js" type="module"></script>
+</head>
+
+<body style="margin:0">
+
+  <div id="main" class='emwaves-main' style='overflow: hidden;'>
+
+    <div id="loadingScreen">
+      <img src="../siteimages/logo.svg">
+    </div>
+
+    <div class="dark-invert">
+      <div id="controls">
+        <div id="controls-inner">
+          <h1 class="dark-invert">Controls</h1>
+          <div userselect="none" class="controlsSubMenu" id="general">
+            <h2 style="border-bottom:none" id="general-button">
+              General</h2>
+            <h3 style="display:none" id="hide-gridlines-button">
+              Hide gridlines</h3>
+            <div style="display:none">
+              <label>Wave speed (px/frame):</label>
+              <span><input type="text" id="waveSpeedInput"></input></span>
+            </div>
+          </div>
+          <div userselect="none" class="controlsSubMenu" id="blue">
+            <h2 style="border-bottom:none" id="electric-field-dropdown">
+              Electric Field</h2>
+            <h3 style="display:none" id="electric-hide-vectors">
+              Hide vectors</h3>
+            <h3 style="display:none" id="electric-hide-wave">
+              Hide wave</h3>
+            <h3 style="display:none" id="electric-half-wave">
+              Display half wave</h3>
+          </div>
+          <div userselect="none" class="controlsSubMenu" id="red">
+            <h2 style="border-bottom:none" id="magnetic-field-dropdown">
+              Magnetic Field</h2>
+            <h3 style="display:none" id="magnetic-hide-vectors">
+              Hide vectors</h3>
+            <h3 style="display:none" id="magnetic-hide-wave">
+              Hide wave</h3>
+            <h3 style="display:none" id="magnetic-half-wave">
+              Display half wave</h3>
+          </div>
+          <div userselect="none" class="controlsSubMenu" id="presetMenu">
+            <h2 style="border-bottom:none" id="preset-selector-dropdown">
+              Preset Selection</h2>
+          </div>
+          <div userselect="none" class="controlsSubMenu" id="customPreset">
+            <h2 style="border-bottom:none" id="customizer-dropdown">
+              Customize Diagram</h2>
+            <div style="display:none">
+              <label>Amplitude - <br>Magnetic wave (px):</label>
+              <span><input type="text" id="xLenInput"></input></span>
+            </div>
+            <div style="display:none">
+              <label>Amplitude - <br>Electric wave (px):</label>
+              <span><input type="text" id="electricAmplitudeText"></input></span>
+            </div>
+            <div style="display:none">
+              <label>Axis stretch (%):</label>
+              <span><input type="text" id="axisStretchInput"></input></span>
+            </div>
+            <div style="display:none">
+              <label>Full axes:</label>
+              <span><input class="checkbox" type="checkbox" id="backAxesInput"></input></span>
+            </div>
+            <div style="display:none">
+              <label>Gridlines:</label>
+              <span><input type="text" id="gridlinesText"></input></span>
+            </div>
+            <div style="display:none">
+              <label>Vector spacing (px):</label>
+              <span><input type="text" id="vectorText"></input></span>
+            </div>
+            <div style="display:none">
+              <label>Wavelength, &#955; (px):</label>
+              <span><input type="text" id="wavesText"></input></span>
+            </div>
+            <div style="display:none">
+              <label>X-axis angle (degrees):</label>
+              <span><input type="text" id="xAngleInput"></input></span>
+            </div>
+            <div style="display:none">
+              <label>Z-axis angle (degrees):</label>
+              <span><input type="text" id="zAngleInput"></input></span>
+            </div>
+            <div style="display:none">
+              <label>Z-axis length (px):</label>
+              <span><input type="text" id="zLenInput"></input></span>
+            </div>
+            <div style="display:none; font-weight: bold; cursor: pointer;" id="applyCustomizations">
+              Apply customizations
+            </div>
+          </div>
+        </div>
+        <div id="controlsOpener">
+          &#9965;
+        </div>
+      </div>
+    </div>
+
+    <div id="canvasBox">
+    </div>
+
+    <h3 class='wavePreset' style='display:none'>
+      PRESET_NAME</h3>
+  </div>
+
+  <script type="module" src="../scripts/special/emwaves.js?v=1.3"></script>
+</body>
+
+</html>

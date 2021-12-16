@@ -1,0 +1,206 @@
+<html style="overflow-y:hidden">
+
+<head>
+  <title>colestanley.ca | Pac Man</title>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css?family=Encode+Sans:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="icon" href="../siteimages/favicon.png">
+  <link href="../stylesheets/main.css" rel="stylesheet">
+  </link>
+  <script type="module" src="../scripts/build-page.js"></script>
+  </link>
+  <style>
+    #canvasBox {
+      display: block;
+      width: max-content;
+      width: -moz-max-content;
+      margin: auto;
+      padding-top: 80px;
+    }
+
+    canvas {
+      border: 4px solid #d3d3d3;
+      background-color: #000000;
+      z-index: 5;
+      float: left;
+    }
+
+    #hss {
+      background-color: #0000c8;
+      border: 4px solid #d3d3d3;
+      padding: 10px;
+    }
+
+    #hss th {
+      color: white;
+      font-family: Courier New;
+      text-align: center;
+      font-size: 1.6em;
+    }
+
+    #hss td {
+      color: white;
+      font-family: Courier New;
+      font-size: 1.2em;
+    }
+
+    #controls {
+      text-align: center;
+      padding: 0.5em 1em 0 24px;
+    }
+
+    .sprite {
+      display: none;
+      z-index: -10;
+    }
+
+    /* WEBSITE STUFF */
+
+    /* Boxes */
+
+    header {
+      /* background-color: rgb(0, 0, 200); */
+      position: fixed;
+      top: 0;
+      z-index: 5;
+      width: 100%;
+      transition: width .5s;
+    }
+  </style>
+</head>
+
+<body onload="startGame()">
+
+  <div id="loadingScreen">
+    <img src="../siteimages/logo.svg">
+  </div>
+
+  <div id="main">
+    <div id="pacThings">
+      <div id="canvasBox">
+        <div id="canvasFoundation">
+        </div>
+      </div>
+      <div id="hsbox">
+        <table id="hss">
+          <tbody id=hstbody>
+            <tr>
+              <th>High Scores</th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+<!-- 
+    <img src="../siteimages/darkon.png" id="darkmode"
+      style="width:4%;height:auto;position:fixed;bottom:15px;right:15px;cursor:pointer" onclick="bodySwitch()"> -->
+  </div>
+
+  <!--   Images -->
+
+  <!--   Pacman -->
+
+  <img src="../siteimages/pac/pacman/u1.png" id="../siteimages/pac/pacman/u1.png" class="sprite">
+  <img src="../siteimages/pac/pacman/u2.png" id="../siteimages/pac/pacman/u2.png" class="sprite">
+  <img src="../siteimages/pac/pacman/l1.png" id="../siteimages/pac/pacman/l1.png" class="sprite">
+  <img src="../siteimages/pac/pacman/l2.png" id="../siteimages/pac/pacman/l2.png" class="sprite">
+  <img src="../siteimages/pac/pacman/d1.png" id="../siteimages/pac/pacman/d1.png" class="sprite">
+  <img src="../siteimages/pac/pacman/d2.png" id="../siteimages/pac/pacman/d2.png" class="sprite">
+  <img src="../siteimages/pac/pacman/r1.png" id="../siteimages/pac/pacman/r1.png" class="sprite">
+  <img src="../siteimages/pac/pacman/r2.png" id="../siteimages/pac/pacman/r2.png" class="sprite">
+
+  <img src="../siteimages/pac/pacd/1.png" id="../siteimages/pac/pacd/1.png" class="sprite">
+  <img src="../siteimages/pac/pacd/2.png" id="../siteimages/pac/pacd/2.png" class="sprite">
+  <img src="../siteimages/pac/pacd/3.png" id="../siteimages/pac/pacd/3.png" class="sprite">
+  <img src="../siteimages/pac/pacd/4.png" id="../siteimages/pac/pacd/4.png" class="sprite">
+  <img src="../siteimages/pac/pacd/5.png" id="../siteimages/pac/pacd/5.png" class="sprite">
+  <img src="../siteimages/pac/pacd/6.png" id="../siteimages/pac/pacd/6.png" class="sprite">
+  <img src="../siteimages/pac/pacd/7.png" id="../siteimages/pac/pacd/7.png" class="sprite">
+  <img src="../siteimages/pac/pacd/8.png" id="../siteimages/pac/pacd/8.png" class="sprite">
+  <img src="../siteimages/pac/pacd/9.png" id="../siteimages/pac/pacd/9.png" class="sprite">
+  <img src="../siteimages/pac/pacd/10.png" id="../siteimages/pac/pacd/10.png" class="sprite">
+
+  <img src="../siteimages/pac/pacman/large0.png" id="../siteimages/pac/pacman/large0.png" class="sprite">
+  <img src="../siteimages/pac/pacman/large1.png" id="../siteimages/pac/pacman/large1.png" class="sprite">
+  <img src="../siteimages/pac/pacman/large2.png" id="../siteimages/pac/pacman/large2.png" class="sprite">
+  <img src="../siteimages/pac/pacman/s1.png" id="../siteimages/pac/pacman/s1.png" class="sprite">
+  <img src="../siteimages/pac/pacman/default.png" id="../siteimages/pac/pacman/default.png" class="sprite">
+
+  <!--   Blinky -->
+
+  <img src="../siteimages/pac/red/u1.png" id="../siteimages/pac/red/u1.png" class="sprite">
+  <img src="../siteimages/pac/red/u2.png" id="../siteimages/pac/red/u2.png" class="sprite">
+  <img src="../siteimages/pac/red/l1.png" id="../siteimages/pac/red/l1.png" class="sprite">
+  <img src="../siteimages/pac/red/l2.png" id="../siteimages/pac/red/l2.png" class="sprite">
+  <img src="../siteimages/pac/red/d1.png" id="../siteimages/pac/red/d1.png" class="sprite">
+  <img src="../siteimages/pac/red/d2.png" id="../siteimages/pac/red/d2.png" class="sprite">
+  <img src="../siteimages/pac/red/r1.png" id="../siteimages/pac/red/r1.png" class="sprite">
+  <img src="../siteimages/pac/red/r2.png" id="../siteimages/pac/red/r2.png" class="sprite">
+
+  <!--   Pinky -->
+
+  <img src="../siteimages/pac/pink/u1.png" id="../siteimages/pac/pink/u1.png" class="sprite">
+  <img src="../siteimages/pac/pink/u2.png" id="../siteimages/pac/pink/u2.png" class="sprite">
+  <img src="../siteimages/pac/pink/l1.png" id="../siteimages/pac/pink/l1.png" class="sprite">
+  <img src="../siteimages/pac/pink/l2.png" id="../siteimages/pac/pink/l2.png" class="sprite">
+  <img src="../siteimages/pac/pink/d1.png" id="../siteimages/pac/pink/d1.png" class="sprite">
+  <img src="../siteimages/pac/pink/d2.png" id="../siteimages/pac/pink/d2.png" class="sprite">
+  <img src="../siteimages/pac/pink/r1.png" id="../siteimages/pac/pink/r1.png" class="sprite">
+  <img src="../siteimages/pac/pink/r2.png" id="../siteimages/pac/pink/r2.png" class="sprite">
+
+  <!--   Inky -->
+
+  <img src="../siteimages/pac/cyan/u1.png" id="../siteimages/pac/cyan/u1.png" class="sprite">
+  <img src="../siteimages/pac/cyan/u2.png" id="../siteimages/pac/cyan/u2.png" class="sprite">
+  <img src="../siteimages/pac/cyan/l1.png" id="../siteimages/pac/cyan/l1.png" class="sprite">
+  <img src="../siteimages/pac/cyan/l2.png" id="../siteimages/pac/cyan/l2.png" class="sprite">
+  <img src="../siteimages/pac/cyan/d1.png" id="../siteimages/pac/cyan/d1.png" class="sprite">
+  <img src="../siteimages/pac/cyan/d2.png" id="../siteimages/pac/cyan/d2.png" class="sprite">
+  <img src="../siteimages/pac/cyan/r1.png" id="../siteimages/pac/cyan/r1.png" class="sprite">
+  <img src="../siteimages/pac/cyan/r2.png" id="../siteimages/pac/cyan/r2.png" class="sprite">
+
+  <!--   Clyde -->
+
+  <img src="../siteimages/pac/orange/u1.png" id="../siteimages/pac/orange/u1.png" class="sprite">
+  <img src="../siteimages/pac/orange/u2.png" id="../siteimages/pac/orange/u2.png" class="sprite">
+  <img src="../siteimages/pac/orange/l1.png" id="../siteimages/pac/orange/l1.png" class="sprite">
+  <img src="../siteimages/pac/orange/l2.png" id="../siteimages/pac/orange/l2.png" class="sprite">
+  <img src="../siteimages/pac/orange/d1.png" id="../siteimages/pac/orange/d1.png" class="sprite">
+  <img src="../siteimages/pac/orange/d2.png" id="../siteimages/pac/orange/d2.png" class="sprite">
+  <img src="../siteimages/pac/orange/r1.png" id="../siteimages/pac/orange/r1.png" class="sprite">
+  <img src="../siteimages/pac/orange/r2.png" id="../siteimages/pac/orange/r2.png" class="sprite">
+
+  <!--   DeadStuff -->
+
+  <img src="../siteimages/pac/chase/b1.png" id="../siteimages/pac/chase/b1.png" class="sprite">
+  <img src="../siteimages/pac/chase/b2.png" id="../siteimages/pac/chase/b2.png" class="sprite">
+  <img src="../siteimages/pac/chase/w1.png" id="../siteimages/pac/chase/w1.png" class="sprite">
+  <img src="../siteimages/pac/chase/w2.png" id="../siteimages/pac/chase/w2.png" class="sprite">
+
+  <img src="../siteimages/pac/death/u.png" id="../siteimages/pac/death/u.png" class="sprite">
+  <img src="../siteimages/pac/death/r.png" id="../siteimages/pac/death/r.png" class="sprite">
+  <img src="../siteimages/pac/death/d.png" id="../siteimages/pac/death/d.png" class="sprite">
+  <img src="../siteimages/pac/death/l.png" id="../siteimages/pac/death/l.png" class="sprite">
+
+  <!--   Other -->
+
+  <img src="../siteimages/pac/murderpellet.png" id="../siteimages/pac/murderpellet.png" class="sprite">
+  <img src="../siteimages/pac/transparent.png" id="../siteimages/pac/transparent.png" class="sprite">
+
+  <!--   Fruits -->
+
+  <img src="../siteimages/pac/fruits/1.png" id="../siteimages/pac/fruits/1.png" class="sprite">
+  <img src="../siteimages/pac/fruits/2.png" id="../siteimages/pac/fruits/2.png" class="sprite">
+  <img src="../siteimages/pac/fruits/3.png" id="../siteimages/pac/fruits/3.png" class="sprite">
+  <img src="../siteimages/pac/fruits/4.png" id="../siteimages/pac/fruits/4.png" class="sprite">
+  <img src="../siteimages/pac/fruits/5.png" id="../siteimages/pac/fruits/5.png" class="sprite">
+  <img src="../siteimages/pac/fruits/6.png" id="../siteimages/pac/fruits/6.png" class="sprite">
+  <img src="../siteimages/pac/fruits/7.png" id="../siteimages/pac/fruits/7.png" class="sprite">
+  <img src="../siteimages/pac/fruits/8.png" id="../siteimages/pac/fruits/8.png" class="sprite">
+
+  <script src="../scripts/special/pacscript.js?v=1.1"></script>
+
+</body>
+
+</html>

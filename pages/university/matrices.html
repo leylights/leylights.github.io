@@ -1,0 +1,125 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>colestanley.ca | Matrices</title>
+  <link href="https://fonts.googleapis.com/css?family=Encode+Sans:400,700" rel="stylesheet">
+  <link href="../../stylesheets/main.css" rel="stylesheet">
+  </link>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="../../stylesheets/matrices.css" rel="stylesheet">
+  <link rel="icon" href="../../siteimages/favicon.png">
+  <script src="../../scripts/build-page.js" type="module"></script>
+</head>
+
+<body style="margin:0">
+
+  <div id="loadingScreen">
+    <img src="../../siteimages/logo.svg">
+  </div>
+
+  
+
+  <div id="main">
+    <div class="content">
+      <h1>Matrix Calculator</h1>
+      <div id="tabs-bar">
+        <ul>
+          <li class="active-tab">Single Matrix</li>
+          <li>Complex Calculator</li>
+          <li>Matrix Multiplier</li>
+        </ul>
+      </div>
+
+      <div class="tab-body">
+        <div class="matrixContainer generate">
+          <ul class="matrixData">
+            <li class="matrix-title">Matrix</li>
+            <li class="matrix-editable">true</li>
+            <li class="matrix-buttons">resize undo fill clear scale det cofactor adj invert solve</li>
+            <li class="matrix-display-footer">true</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tab-body">
+        <div class="matrixContainer" id="calculator">
+          <div class="matrixHeader">
+            <h1>Base Calculator</h1>
+            <div class="matrixButtons">
+              <div class="matrixButton" id="complexAdd">+</div>
+              <div class="matrixButton" id="complexSub">-</div>
+              <div class="matrixButton" id="complexMul">&#215;</div>
+              <div class="matrixButton" id="complexDiv">&#247;</div>
+            </div>
+          </div>
+          <table id="inputMatrix" class="matrixTable">
+            <tr>
+              <td contenteditable></td>
+              <td contenteditable></td>
+            </tr>
+          </table>
+          <div class="matrixFooter text-align-center">
+            <p>&nbsp</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-body">
+        <div id="multiplier-sides">
+          <div>
+            <div class="matrixContainer generate">
+              <ul class="matrixData">
+                <li class="matrix-title">Matrix A</li>
+                <li class="matrix-editable">true</li>
+                <li class="matrix-buttons">resize</li>
+                <li class="matrix-display-footer">false</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="matrixContainer generate">
+              <ul class="matrixData">
+                <li class="matrix-title">Matrix B</li>
+                <li class="matrix-editable">true</li>
+                <li class="matrix-buttons">resize</li>
+                <li class="matrix-display-footer">false</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        <div class="button" id="multiply-matrices-button">
+          Multiply
+        </div>
+
+        <br />
+
+        <div class="matrixContainer generate">
+          <ul class="matrixData">
+            <li class="matrix-title">Multiplied Matrices</li>
+            <li class="matrix-editable">false</li>
+            <li class="matrix-size">0 0</li>
+            <li class="matrix-buttons"></li>
+            <li class="matrix-display-footer">false</li>
+            <li class="matrix-hide-when-empty">true</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div style="color: var(--primary-bg-color)">
+      <div class="matrix-output">italic text loader</div>
+    </div>
+  </div>
+
+  
+
+  <script type="module" src="../../scripts/special/matrices.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,338 @@
+<html><head>
+
+<title>Overwatch | Society</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Encode+Sans:400,700" rel="stylesheet">
+
+<style>
+.topnav {
+	background-color: black;
+	overflow: hidden;
+  z-index:1;
+}
+.topnav a {
+	float: left;
+	display: block;
+	color: white;
+	Font-family: Tahoma;
+	text-align: center;
+	padding-top: 14px;
+	padding-bottom: 14px;
+	width: 20%;
+	text-decoration: none;
+	font-size: 17px;
+}
+.topnav a:hover {
+	background-color: #ddd;
+	color: black;
+}
+.topnav a.active {
+	background-color: #4CAF50;
+	color: white;
+  }
+
+header, footer {
+	padding: 0em;
+	color: white;
+	background-color: black;
+	clear: left;
+	text-align: center;
+}
+
+symbox{
+  width: 80%;
+  margin:auto;
+  margin-top: 20px;
+  padding: 3em;
+  overflow: hidden;
+  display: block;
+  border-radius: 20px;
+  background-color: rgb(66, 166, 240);
+}
+
+numbox{
+  width: 80%;
+  margin:auto;    
+  margin-top: 20px;
+  padding: 3em;
+  overflow: hidden;
+  display: block;
+  border-radius: 20px;
+  background-color: rgb(100, 225, 60);
+}
+
+diversitybox{
+  width: 80%;
+  margin:auto;
+  margin-top: 20px;
+  padding: 3em;
+  overflow: hidden;
+  display: block;
+  border-radius: 20px;
+  background-color: rgb(80, 15, 225);
+}
+
+h1{
+  Font-family: Tahoma;
+  Font-size: 30pt;
+}
+
+h2{
+  Font-family: Tahoma;
+  Font-size: 20pt;
+}
+
+h3{
+  Font-family: Tahoma;
+  Font-size: 15pt;
+  line-height: 150%;
+  color:white;
+}
+
+/* HAM MENU BEGINS */
+    
+    
+    #homeHead h1 {
+      margin: auto;
+      line-height: 2em;
+      font-size: 2em;
+      font-family: Encode Sans;
+      color: white;
+    }
+    
+    #hamMenu h1 {
+      margin: auto;
+      line-height: 2em;
+      font-size: 2em;
+      font-family: Encode Sans;
+      color: white;
+    }
+    
+    #hamMenu h2 {
+      margin: auto;
+      padding: 0 1em 1em 24px;
+      font-size: 2em;
+      font-family: Encode Sans;
+    }
+    
+    #homeHead a:link {
+      text-decoration: none;
+    }
+    
+    #homeHead a:hover {
+      text-decoration: none;
+      text-decoration-color: white;
+    }
+    
+    #hamMenu a:link {
+      text-decoration: none;
+    }
+    
+    #hamMenu a:hover {
+      text-decoration: none;
+      text-decoration-color: white;
+    }
+    
+    /* Div classes */
+    
+    /* Ham */
+    
+    .secretDropdownContainer {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    
+    .upperHam {
+      margin: auto;
+      padding: 0.5em 1em 0.5em 24px;
+      width: 100%;
+      position: relative;
+      background-color: rgba(0, 0, 175, 1);
+      border: none;
+      outline: none;
+      font-size: 2em;
+      font-family: Encode Sans;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      transition: 0.4s;
+    }
+    
+    .upperHam.active {
+      background-color: rgba(25, 25, 175, 1);
+    }
+    
+    .lowerHam {
+      display: none;
+      position: relative;
+      width: 100%;
+      margin: auto;
+      overflow: hidden;
+      background-color: rgba(50, 50, 175, 1);
+      cursor: pointer;
+      transition: max-height 0.2s ease-out;
+    }
+    
+    .lowerHam a {
+      display: block;
+      padding: 1em;
+      overflow: hidden;
+      font-size: 1.5em;
+      font-family: Encode Sans;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      text-align:center;
+    }
+
+    .lowerHam a:hover {
+      background-color: white;
+      color: rgba(50, 50, 175, 1);
+    }
+    
+    .secretDropdownContainer:hover .lowerHam {
+      display: block;
+    }
+    
+    /* Div IDs */
+    
+    #main {
+      height: 100%;
+      transition: margin-right .5s;
+    }
+    
+    /* Ham */
+    
+    #homeHead {
+      background-color: rgb(0, 0, 200);
+      position: fixed;
+      top: 0;
+      z-index: 5;
+      width: 100%;
+      transition: width .5s;
+    }
+    
+    #hamMenu {
+      width: 0px;
+      height: 100%;
+      position: fixed;
+      top: 0px;
+      right: 0px;
+      z-index: 10000;
+      overflow-x: hidden;
+      transition: 0.5s;
+      background-color: rgb(0, 0, 125);
+      text-align: right;
+      color: white;
+    }
+    
+    #hamMenuText {
+      line-height: 2em;
+      text-align: right;
+      color: white;
+    }
+    
+    #gamesMenuBase {
+      display: none;
+    }
+    
+    #sitesMenuBase {
+      display: none;
+    }
+    
+    /* HAM MENU COMPLETE */
+</style>
+</head>
+
+<body style="margin:0">
+<header>
+  <div id="homeHead">
+    <div style="display: inline-block;width: 10%;z-index: 10000;float: left;padding: 1%;">
+
+    </div>
+    <div style="display:inline-block;margin: 0px auto;width: 76%;position: relative;z-index: 6;">
+      <a href="../index.html" style="z-index: 6;"><h1 style="text-align:center;min-height: 64px;">Colestanley.ca</h1></a>
+    </div>
+    <div style="display:inline-block;width: 10%;height: 44px;float: right;padding: 10;">
+      <img id="hamImage" style="float: right;width:44px;z-index: 10000;transition: opacity .5s;cursor:pointer;" src="../siteimages/goinham.png" onclick="openHam();">
+    </div>
+  </div>
+  <a href="Home.html">
+        <img src="../siteimages/owi/owilogo.png" style="float: centre;width:20%;padding-top: 0%;margin:auto;margin-top:5em"></a>
+  <h1>Overwatch | Reflections of Society</h1>
+  <div class="topnav" id="myTopnav">
+  <a href="Home.html">Home</a>
+  <a href="Gameplay.html">What is Overwatch</a>
+  <a href="Development.html">Trailblazer in Game Development</a>
+  <a href="Society.html">Reflection of Society</a>
+  <a href="Community.html">Impact on Community</a>
+</div>
+</header>
+
+  <div id=hamMenu>
+    <div style="background-color:rgb(0, 0, 200);height:64px;">
+      <h1 style="text-align:center;">MENU</h1></div>
+    <div id="gamesMenuItem" class="secretDropdownContainer">
+      <button class="upperHam">Games</button>
+    </div>
+    <div id="sitesMenuItem" class="secretDropdownContainer">
+      <button class="upperHam">Websites</button>
+    </div>
+
+    <img src="../siteimages/closebutton.png" style="margin: auto;margin-top: 33%;display: block;width: 33%;position: relative;bottom: 0px;cursor:pointer;" onclick="closeHam()">
+
+    <a href="../index.html"><img src="../siteimages/home.png" style="margin: auto;margin-top: 33%;display: block;width: 33%;position: relative;bottom: 0px;cursor:pointer;"></a>
+  </div>
+  
+  <script src="../scripts/hamMenu.js"></script>
+  
+  <script>
+    function openHam() {
+      document.getElementById("hamMenu").style.width = "25%";
+      document.getElementById("main").style.marginRight = "25%";
+      document.getElementById("header").style.width = "75%";
+      document.getElementById("hamImage").style.opacity = "0";
+    }
+    
+    function closeHam() {
+      document.getElementById("hamMenu").style.width = "0%";
+      document.getElementById("main").style.marginRight = "0%";
+      document.getElementById("header").style.width = "100%";
+      document.getElementById("hamImage").style.opacity = "1";
+    }
+  </script>
+
+  <div id="main">
+
+<div id="gototop" style="bottom: 0.5%; position: fixed; right: 0.5%; width: 5%; z-index: 9999; display: none;">
+   <a href="#"><img src="../siteimages/owi/top.png" style="width:100%;padding-top:0%"></a>
+</div>
+
+<symbox>
+  <h2 style="color:white">Symmetra: Overcoming Adversity</h2>
+  <h3 style="color:white">Hollywood loves angelic characters.  People with no flaws are thrown into difficult situations, and succeed no matter the opposition.  However, real life is not so heavenly.  In real life, people have flaws, mistakes, and disorders.  These people hardly ever have any heroes to look up to.  Overwatch is an exception to this norm.  Each of the 24 playable characters have their own story, but the one of current importance is the story of Symmetra.  In gameplay, she is equal in potential to many of the other characters.  Her story is what is different.  Symmetra is an architect by day, one of the very best in the world.  She is also a superhero by night, helping to bring prosperity to underdeveloped communities.  She is also autistic.  Symmetra is able to overcome her disability to help make the world a better place.  In our current world of flawless, angelic heroes, Symmetra stands out.  She becomes someone for those suffering from autism all around the world to look up to.  And this beacon of  hope is all because of Overwatch.</h3>
+  <img src="../siteimages/owi/owisym.jpg" align="middle" style="display:block;margin:auto;width:80%;padding-top:0%;border-radius:20px">
+</symbox>
+
+<numbox>
+  <h2 style="color:white">Numbani: The Vision For Africa</h2>
+  <h3 style="color:white">Autism sufferers aren't the only ones Overwatch gives hope to.  One of the many arenas the game is played on is an African city named Numbani.  But Numbani isn't what many would imagine an African city to be like.  Instead of mud huts, broken buildings, prevalent crime, Numbani is a hope for something different.  Numbani is the vision of a developed, first-world African city.  For so long, Africa has been a home to poverty and misfortune, but Overwatch has a vision for what it could be.  A hope, for what Africa could be.  But that's what Overwatch is all about.  Hope.</h3>
+  <img src="../siteimages/owi/owinumbani.jpg" style="align:centre;width:100%;padding-top:0%;border-radius:20px">
+</numbox>
+
+<diversitybox>
+  <h2 style="color:white">Overwatch: The Diverse Guardians of the World</h2>
+  <h3 style="color:white">The very most visible reflection of society is found in the cast of heroes.  Whereas many video games feature only male, white protagonists, Overwatch is much more varied.  Eleven out of twenty-four playable heroes are female.  There is one confirmed LGBTQ+ character, and more speculated by the community.  There are nine non-white characters.  There are multiple characters who suffer from mental disorders, namely Symmetra.  Not only are these characters physically diverse, they also are very diverse in their walks of life.  Many characters are not from "the west".  There is a climate scientist, a DJ, a pro gamer, a hacker, a lunar scientist, a weightlifter, and so many more.  This game was designed to include everybody, to inspire everybody, and to relate with everybody.  Mission Accomplished.</h3>
+  <h3>Click on the image below to be brought to the offcial list of Overwatch's Heroes.</h3>
+  <a href="https://playoverwatch.com/en-us/heroes/" style="align:centre;width:100%;padding-top:0%;border-radius:20px"><img src="../siteimages/owi/owiheroes.jpg" style="align:centre;width:100%;padding-top:0%;border-radius:20px"></a>
+</diversitybox>
+  </div>
+
+
+<script src="../scripts/owi_scroll_to_top.js"></script>
+
+
+
+
+</body></html>

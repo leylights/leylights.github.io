@@ -1,0 +1,93 @@
+<html>
+
+<head>
+  <title>colestanley.ca | Eight Ball</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Bungee|Encode+Sans:400,700" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, inital-scale=1.0">
+  <meta charset="UTF-8">
+
+  <link rel="icon" href="../siteimages/favicon.png">
+  <link rel="stylesheet" href="../stylesheets/main.css">
+  <script src="../scripts/build-page.js" type="module"></script>
+
+  <style>
+    body {
+      background: rgb(187, 187, 200);
+    }
+
+    #bodycontainer {
+      margin-top: 64;
+    }
+
+    #eightballcontainer {
+      position: relative;
+      text-align: center;
+      margin-top: 264px;
+    }
+
+    #eightball {
+      cursor: pointer;
+    }
+
+    #eightballtext {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      font-family: "Bungee", cursive;
+      color: black;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body style="margin:0">
+
+  <div id="loadingScreen">
+    <img src="../siteimages/logo.svg">
+  </div>
+
+  
+
+  <div id="main">
+    <div id="eightballcontainer" onclick="roll()">
+      <img id="eightball" src="../siteimages/eightball/eightballpic.png">
+      <div id="eightballtext">Please Click<br>to Shake</div>
+    </div>
+  </div>
+
+  
+
+  <script>
+    function roll(n) {
+      if (typeof n === "undefined") n = 0;
+      else if (n > 11) return;
+      let answers = [
+        "Definitely",
+        "Yes",
+        "Probably",
+        "Likely",
+        "There's a chance",
+        "Uncertain",
+        "Maybe",
+        "Roll Again",
+        "Unlikely",
+        "Probably Not",
+        "No",
+        "Absolutely not",
+        "Impossible"
+      ];
+      setTimeout(function () {
+        let ansnum = Math.floor(Math.random() * answers.length);
+        let answ = answers[ansnum];
+        document.getElementById("eightballtext").innerHTML = answ;
+        roll(n + 1);
+      }, 80);
+    }
+  </script>
+
+</body>
+
+</html>

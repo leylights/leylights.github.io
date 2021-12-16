@@ -1,0 +1,140 @@
+#controls {
+  font-family: monospace;
+  width: 220px;
+  height: 100%;
+  border-right: 2px solid #000000;
+  float: left;
+  z-index: 10;
+  overflow-y: hidden;
+}
+
+#controls h2 {
+  text-align: center;
+  border-bottom: 2px solid #000000;
+  margin-bottom: 0;
+}
+
+#canvasBox canvas {
+  float: inherit;
+}
+
+#calculations > p{
+  color: #666;
+  text-align: center;
+  padding: 1em;
+  margin: 0;
+}
+
+#vectorTabs{
+  overflow-x: hidden;
+  overflow-y: scroll;
+  border-bottom: 1px solid #000000;
+}
+
+#vectorCreator .vectorColour {
+  color: #666;
+  line-height: 40px;
+}
+
+.calculation {
+  padding: 10px;
+  display: grid;
+  border-bottom: 1px solid #000000;
+}
+
+.calculation p {
+  margin: 0.25em 0;
+}
+
+.calculation p.clickable {
+  color: #0034f1;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.calculation h3 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.calculation .center {
+  text-align: center;
+  margin: auto;
+  font-size: 18px;
+  margin-top: 0.25em;
+}
+
+.calculation .singleLine .vectorDropArea {
+  margin-right: 6px;
+}
+
+.calculation .singleLine h3 {
+  margin-top: 1px;
+}
+
+.calculation .vectorDropArea {
+  border: 2px dotted #CCC;
+  width: 10px;
+  height: 10px;
+  float: left;
+  padding: 3px;
+  border-radius: 100px;
+  color: #FFF;
+  font-size: 10px;
+  text-align: center;
+}
+
+.calculation .operator {
+  width: 18px;
+  height: 18px;
+  float: left;
+}
+
+.closeInfoTab {
+  margin-top: -1em;
+  cursor: pointer;
+  color: #aaaaaa;
+}
+
+.infoTab {
+  display: table;
+  width: 210px;
+  padding: 1em 10px 1em 0em;
+  border-bottom: 1px solid #000000;
+}
+
+.infoTab>.vectorColour {
+  width: 10px;
+  height: 10px;
+  float: left;
+  margin-left: 4px;
+  padding: 3px;
+  border-radius: 100px;
+  border: 2px solid #FFFFFF;
+  color: #FFF;
+  font-size: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.infoTab>.coordinates {
+  margin-left: 0.5em;
+  float: left;
+}
+
+.infoTab>.coordinates>p {
+  margin: 0;
+}
+
+.infoTab>.coordinates input {
+  width: 2em;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #444444;
+  font-family: monospace;
+  text-align: center;
+}
+
+.scrollArea {
+  width: 14px;
+}

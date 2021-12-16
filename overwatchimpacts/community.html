@@ -1,0 +1,351 @@
+<html><head>
+
+<title>Overwatch | Impact</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Encode+Sans:400,700" rel="stylesheet">
+
+<style>
+.topnav {
+	background-color: black;
+	overflow: hidden;
+  z-index:1;
+}
+.topnav a {
+	float: left;
+	display: block;
+	color: white;
+	Font-family: Tahoma;
+	text-align: center;
+	padding-top: 14px;
+	padding-bottom: 14px;
+	width: 20%;
+	text-decoration: none;
+	font-size: 17px;
+}
+.topnav a:hover {
+	background-color: #ddd;
+	color: black;
+}
+.topnav a.active {
+	background-color: #4CAF50;
+	color: white;
+  }
+
+header, footer {
+	padding: 0em;
+	color: white;
+	background-color: black;
+	clear: left;
+	text-align: center;
+    z-index: 1;
+}
+
+fxbox{
+  width: 80%;
+  margin:auto;
+  margin-top: 20px;
+  padding: 3em;
+  overflow: hidden;
+  display: block;
+  border-radius: 20px;
+  background-color: rgb(30, 170, 40);
+}
+
+ebox{
+  width: 80%;
+  margin:auto;    
+  margin-top: 20px;
+  padding: 3em;
+  overflow: hidden;
+  display: block;
+  border-radius: 20px;
+  background-color: rgb(110, 0, 255);
+}
+
+blizzbox{
+  width: 80%;
+  margin:auto;
+  margin-top: 20px;
+  padding: 3em;
+  overflow: hidden;
+  display: block;
+  border-radius: 20px;
+  background-color: rgb(45, 65, 240);
+}
+
+h1{
+  Font-family: Tahoma;
+  Font-size: 30pt;
+}
+
+h2{
+  Font-family: Tahoma;
+  Font-size: 20pt;
+}
+
+h3{
+  Font-family: Tahoma;
+  Font-size: 15pt;
+  line-height: 150%;
+}
+
+/* HAM MENU BEGINS */
+    
+    
+    #homeHead h1 {
+      margin: auto;
+      line-height: 2em;
+      font-size: 2em;
+      font-family: Encode Sans;
+      color: white;
+    }
+    
+    #hamMenu h1 {
+      margin: auto;
+      line-height: 2em;
+      font-size: 2em;
+      font-family: Encode Sans;
+      color: white;
+    }
+    
+    #hamMenu h2 {
+      margin: auto;
+      padding: 0 1em 1em 24px;
+      font-size: 2em;
+      font-family: Encode Sans;
+    }
+    
+    #homeHead a:link {
+      text-decoration: none;
+    }
+    
+    #homeHead a:hover {
+      text-decoration: none;
+      text-decoration-color: white;
+    }
+    
+    #hamMenu a:link {
+      text-decoration: none;
+    }
+    
+    #hamMenu a:hover {
+      text-decoration: none;
+      text-decoration-color: white;
+    }
+    
+    /* Div classes */
+    
+    /* Ham */
+    
+    .secretDropdownContainer {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    
+    .upperHam {
+      margin: auto;
+      padding: 0.5em 1em 0.5em 24px;
+      width: 100%;
+      position: relative;
+      background-color: rgba(0, 0, 175, 1);
+      border: none;
+      outline: none;
+      font-size: 2em;
+      font-family: Encode Sans;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      transition: 0.4s;
+    }
+    
+    .upperHam.active {
+      background-color: rgba(25, 25, 175, 1);
+    }
+    
+    .lowerHam {
+      display: none;
+      position: relative;
+      width: 100%;
+      margin: auto;
+      overflow: hidden;
+      background-color: rgba(50, 50, 175, 1);
+      cursor: pointer;
+      transition: max-height 0.2s ease-out;
+    }
+    
+    .lowerHam a {
+      display: block;
+      padding: 1em;
+      overflow: hidden;
+      font-size: 1.5em;
+      font-family: Encode Sans;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      text-align:center;
+    }
+
+    .lowerHam a:hover {
+      background-color: white;
+      color: rgba(50, 50, 175, 1);
+    }
+    
+    .secretDropdownContainer:hover .lowerHam {
+      display: block;
+    }
+    
+    /* Div IDs */
+    
+    #main {
+      height: 100%;
+      transition: margin-right .5s;
+    }
+    
+    /* Ham */
+    
+    #homeHead {
+      background-color: rgb(0, 0, 200);
+      position: fixed;
+      top: 0;
+      z-index: 5;
+      width: 100%;
+      transition: width .5s;
+    }
+    
+    #hamMenu {
+      width: 0px;
+      height: 100%;
+      position: fixed;
+      top: 0px;
+      right: 0px;
+      z-index: 10000;
+      overflow-x: hidden;
+      transition: 0.5s;
+      background-color: rgb(0, 0, 125);
+      text-align: right;
+      color: white;
+    }
+    
+    #hamMenuText {
+      line-height: 2em;
+      text-align: right;
+      color: white;
+    }
+    
+    #gamesMenuBase {
+      display: none;
+    }
+    
+    #sitesMenuBase {
+      display: none;
+    }
+    
+    /* HAM MENU COMPLETE */
+
+</style>
+</head>
+
+<body style="margin:0">
+<header>
+  <div id="homeHead">
+    <div style="display: inline-block;width: 10%;z-index: 10000;float: left;padding: 1%;">
+
+    </div>
+    <div style="display:inline-block;margin: 0px auto;width: 76%;position: relative;z-index: 6;">
+      <a href="../index.html" style="z-index: 6;"><h1 style="text-align:center;min-height: 64px;">Colestanley.ca</h1></a>
+    </div>
+    <div style="display:inline-block;width: 10%;height: 44px;float: right;padding: 10;">
+      <img id="hamImage" style="float: right;width:44px;z-index: 10000;transition: opacity .5s;cursor:pointer;" src="../siteimages/goinham.png" onclick="openHam();">
+    </div>
+  </div>
+  <a href="Home.html">
+        <img src="../siteimages/owi/owilogo.png" style="float: centre;width:20%;padding-top: 0%;margin:auto;margin-top:5em"></a>
+  <h1>Overwatch | Impact</h1>
+  <div class="topnav" id="myTopnav">
+  <a href="Home.html">Home</a>
+  <a href="Gameplay.html">What is Overwatch</a>
+  <a href="Development.html">Trailblazer in Game Development</a>
+  <a href="Society.html">Reflection of Society</a>
+  <a href="Community.html">Impact on Community</a>
+</div>
+</header>
+
+  <div id=hamMenu>
+    <div style="background-color:rgb(0, 0, 200);height:64px;">
+      <h1 style="text-align:center;">MENU</h1></div>
+    <div id="gamesMenuItem" class="secretDropdownContainer">
+      <button class="upperHam">Games</button>
+    </div>
+    <div id="sitesMenuItem" class="secretDropdownContainer">
+      <button class="upperHam">Websites</button>
+    </div>
+
+    <img src="../siteimages/closebutton.png" style="margin: auto;margin-top: 33%;display: block;width: 33%;position: relative;bottom: 0px;cursor:pointer;" onclick="closeHam()">
+
+    <a href="../index.html"><img src="../siteimages/home.png" style="margin: auto;margin-top: 33%;display: block;width: 33%;position: relative;bottom: 0px;cursor:pointer;"></a>
+  </div>
+  
+  <script src="../scripts/hamMenu.js"></script>
+  
+  <script>
+    function openHam() {
+      document.getElementById("hamMenu").style.width = "25%";
+      document.getElementById("main").style.marginRight = "25%";
+      document.getElementById("header").style.width = "75%";
+      document.getElementById("hamImage").style.opacity = "0";
+    }
+    
+    function closeHam() {
+      document.getElementById("hamMenu").style.width = "0%";
+      document.getElementById("main").style.marginRight = "0%";
+      document.getElementById("header").style.width = "100%";
+      document.getElementById("hamImage").style.opacity = "1";
+    }
+  </script>
+
+  <div id="main">
+
+<div id="gototop" style="bottom: 0.5%;width:5%; position: fixed;right: 0.5%;width: 5%;z-index: 9999;display:none;">
+   <a href="#"><img src="../siteimages/owi/top.png" style="width:100%;padding-top:0%"></a>
+</div>
+
+<fxbox>
+  <h2 style="color:white">Effects of Video Games</h2>
+  <h3 style="color:white">Video games have a horrific reputation.  Multiple times a year, tragic events will be loosely linked to video games, and the international community will tear the name of video games through the mud.  But do they deserve such foul treatment?  A recent essay by Danielle Dai and Amanda Fry of Vanderbilt University condenses the ages-old debate.  The report cites information that shows a higher prevalence of violent thoughts within gamers.  The report also cites that due to the interior-based nature of videogames, frequent gamers gather less face-to-face social experience, and gamers' obesity rates are higher.  However, video games also have a wide variety of positive benefits.  They develop direction-following, pattern recognition, resource management, and map reading skills.  These skills are gained through the consuming of specific activities in games.  On top of that, gamers develop problem-solving, situational judgement, multitasking, quick thinking, and a heightened ability to track moving objects.  These skills are developed through almost activity in any videogame.  Hand-eye coordination is improved in gamers, due to the constant use of controllers and keyboards for precise actions.  For those who aren't motivated by many extracurricular activities, gaming can be a social event,  Finally, videogames can be educational, from learning the alphabet to world history.  Video games may have some negative effects, but the positives surely outweigh them.
+</h3>
+</fxbox>
+
+<ebox>
+  <h2 style="color:white">eSports</h2>
+  <h3 style="color:white">eSports is a new idea that is rapidly growing, due to the success of games like Overwatch.  Overwatch is adding a new idea to the eSports community, which is the Overwatch League.  The Overwatch League is a way of combining the traditional sports league setup and eSports.  Major cities will have their own team, so that everyone will be able to cheer on a team that they have a personal connection with.  The Overwatch League is currently in very early stages of setup, but there are other events to keep the community busy until then.  Last year, Blizzard held an "Overwatch World Cup", where countries from around the world competed against each other to see who was the Overwatch champion.  South Korea won, which was no surprise to many gamers, as a majority of eSports tournaments are dominated by South Korea.  eSports is to South Korea as hockey is to Canada.  The next Overwatch World Cup takes place on November 3 and 4, 2017.  Contrary to popular belief, becoming a pro player for Overwatch takes lots of time, skill, and luck. To be allowed to compete in smaller, third party tournaments, players have to be ranked in the top 500 of their region, and maintain this high rank.  Then, with a high enough in-game competitive rank, pros can compete in tournaments, or the Newly announced Amateur League.  These miniature tournaments allow players to build up a reputation, and prove themselves worthy for placement on a professional team.  This process is summarized in the video below.</h3>
+  <div style="position:relative;height:0;padding-bottom:56.25%"><iframe src="https://www.youtube.com/embed/OFHpK627XkI?ecver=2" width="640" height="360" frameborder="0" style="position:absolute;width:100%;height:100%;left:0" allowfullscreen=""></iframe></div>
+</ebox>
+
+<blizzbox>
+  <h2 style="color:white">Blizzard Entertainment</h2>
+  <h3 style="color:white">Blizzard Entertainment is the one behind the creation of Overwatch.  With game director Jeff Kaplan leading the efforts to make this masterfully crafted game, Blizzard brought one of the best multiplayer games in recent memory to the world, along with a plethora of comics, animated shorts, and other hidden knowledge about the story of Overwatch.  Their website, linked below, also has a purchase link, for anyone who has been inspired to see what the international sensation is all about.<br></h3>
+  <a href="../siteimages/owi/owiblizz.jpg" style="align:centre;width:100%;padding-top:0%;border-radius:20px"></a>
+
+
+</blizzbox>
+  </div>
+
+
+<script>
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+    if (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400 ) {
+        document.getElementById("gototop").style.display = "block";
+    } else {
+        document.getElementById("gototop").style.display = "none";
+    }
+}
+</script>
+
+
+
+
+</body></html>

@@ -1,0 +1,55 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>colestanley.ca | NPC Generator</title>
+  <link href="https://fonts.googleapis.com/css?family=Encode+Sans:400,700" rel="stylesheet">
+  <link href="../../stylesheets/main.css" rel="stylesheet">
+  </link>
+  <link href="../../stylesheets/npcs/general.css" rel="stylesheet">
+  </link>
+  <link href="../../stylesheets/npcs/generator.css" rel="stylesheet">
+  </link>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="icon" href="../../siteimages/favicon.png">
+  <script src="../../scripts/build-page.js" type="module"></script>
+</head>
+
+<body style="margin:0">
+
+  <div id="loadingScreen">
+    <img src="../../siteimages/logo.svg">
+  </div>
+
+  <div id="main">
+    <div id="npcsHead" class="primary-bg">
+      <div style="max-width: 720px; margin:auto">
+        <div class="selector">
+          <select id="races" class="input">
+            <option>any race</option>
+          </select>
+          <select id="characterClasses" class="input">
+            <option>any type</option>
+          </select>
+          <input id="inputName" placeholder="name" class="input">
+          </input>
+          <input id="inputCr" placeholder="target CR" class="input">
+          </input>
+          <button class="lightButton" id="generateButton">
+            Generate
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="imgs" style="display: none">
+    <img id="slant_bar" src="../../siteimages/npcs/slant_bar.png"></img>
+  </div>  
+
+  <script type="module" src="../../scripts/special/npcs/npc-generator.js"></script>
+
+</body>
+
+</html>

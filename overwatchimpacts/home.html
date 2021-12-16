@@ -1,0 +1,360 @@
+<html>
+
+<head>
+
+  <title>Overwatch | Impacts on the World</title>
+  
+  <link href="https://fonts.googleapis.com/css?family=Encode+Sans:400,700" rel="stylesheet">
+
+  <style>
+    .topnav {
+      background-color: black;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .topnav a {
+      float: left;
+      display: block;
+      color: white;
+      Font-family: Tahoma;
+      text-align: center;
+      padding-top: 14px;
+      padding-bottom: 14px;
+      width: 25%;
+      text-decoration: none;
+      font-size: 17px;
+    }
+    .topnav a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+    .topnav a.active {
+      background-color: #4CAF50;
+      color: white;
+    }
+    
+    header, footer {
+      padding: 0em;
+      color: white;
+      background-color: black;
+      clear: left;
+      text-align: center;
+    }
+    
+    whatbox {
+      width: 80%;
+      margin: auto;
+      margin-top: 20px;
+      padding: 3em;
+      overflow: hidden;
+      display: block;
+      border-radius: 20px;
+      background-color: rgb(120, 200, 50);
+    }
+    
+    gamebox {
+      width: 80%;
+      margin: auto;
+      margin-top: 20px;
+      padding: 3em;
+      overflow: hidden;
+      display: block;
+      border-radius: 20px;
+      background-color: rgb(125, 15, 190);
+    }
+    
+    societybox {
+      width: 80%;
+      margin: auto;
+      margin-top: 20px;
+      padding: 3em;
+      overflow: hidden;
+      display: block;
+      border-radius: 20px;
+      background-color: rgb(0, 125, 25);
+    }
+    
+    communitybox {
+      width: 80%;
+      margin: auto;
+      margin-top: 20px;
+      padding: 3em;
+      overflow: hidden;
+      display: block;
+      border-radius: 20px;
+      background-color: rgb(0, 100, 255);
+    }
+    
+    h1 {
+      Font-family: Tahoma;
+      Font-size: 30pt;
+    }
+    
+    h2 {
+      Font-family: Tahoma;
+      Font-size: 20pt;
+    }
+    
+    h3 {
+      Font-family: Tahoma;
+      Font-size: 15pt;
+    }
+    
+    
+    /* HAM MENU BEGINS */
+    
+    
+    #homeHead h1 {
+      margin: auto;
+      line-height: 2em;
+      font-size: 2em;
+      font-family: Encode Sans;
+      color: white;
+    }
+    
+    #hamMenu h1 {
+      margin: auto;
+      line-height: 2em;
+      font-size: 2em;
+      font-family: Encode Sans;
+      color: white;
+    }
+    
+    #hamMenu h2 {
+      margin: auto;
+      padding: 0 1em 1em 24px;
+      font-size: 2em;
+      font-family: Encode Sans;
+    }
+    
+    #homeHead a:link {
+      text-decoration: none;
+    }
+    
+    #homeHead a:visited {
+      color: white;
+      text-decoration: none;
+    }
+    
+    #homeHead a:hover {
+      text-decoration: none;
+      text-decoration-color: white;
+    }
+    
+    #hamMenu a:link {
+      text-decoration: none;
+    }
+    
+    #hamMenu a:hover {
+      text-decoration: none;
+      text-decoration-color: white;
+    }
+    
+    /* Div classes */
+    
+    /* Ham */
+    
+    .secretDropdownContainer {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    
+    .upperHam {
+      margin: auto;
+      padding: 0.5em 1em 0.5em 24px;
+      width: 100%;
+      position: relative;
+      background-color: rgba(0, 0, 175, 1);
+      border: none;
+      outline: none;
+      font-size: 2em;
+      font-family: Encode Sans;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      transition: 0.4s;
+    }
+    
+    .upperHam.active {
+      background-color: rgba(25, 25, 175, 1);
+    }
+    
+    .lowerHam {
+      display: none;
+      position: relative;
+      width: 100%;
+      margin: auto;
+      overflow: hidden;
+      background-color: rgba(50, 50, 175, 1);
+      cursor: pointer;
+      transition: max-height 0.2s ease-out;
+    }
+    
+    .lowerHam a {
+      display: block;
+      padding: 1em;
+      overflow: hidden;
+      font-size: 1.5em;
+      font-family: Encode Sans;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      text-align:center;
+    }
+
+    .lowerHam a:hover {
+      background-color: white;
+      color: rgba(50, 50, 175, 1);
+    }
+    
+    .secretDropdownContainer:hover .lowerHam {
+      display: block;
+    }
+    
+    /* Div IDs */
+    
+    #main {
+      height: 100%;
+      transition: margin-right .5s;
+    }
+    
+    /* Ham */
+    
+    #homeHead {
+      background-color: rgb(0, 0, 200);
+      position: fixed;
+      top: 0;
+      z-index: 5;
+      width: 100%;
+      transition: width .5s;
+    }
+    
+    #hamMenu {
+      width: 0px;
+      height: 100%;
+      position: fixed;
+      top: 0px;
+      right: 0px;
+      z-index: 10000;
+      overflow-x: hidden;
+      transition: 0.5s;
+      background-color: rgb(0, 0, 125);
+      text-align: right;
+      color: white;
+    }
+    
+    #hamMenuText {
+      line-height: 2em;
+      text-align: right;
+      color: white;
+    }
+    
+    #gamesMenuBase {
+      display: none;
+    }
+    
+    #sitesMenuBase {
+      display: none;
+    }
+    
+    /* HAM MENU COMPLETE */
+  </style>
+</head>
+
+<body style="margin:0">
+  
+  <header>
+    <div id="homeHead">
+    <div style="display: inline-block;width: 10%;z-index: 10000;float: left;padding: 1%;">
+
+    </div>
+    <div style="display:inline-block;margin: 0px auto;width: 76%;position: relative;z-index: 6;">
+      <a href="../index.html" style="z-index: 6;"><h1 style="text-align:center;min-height: 64px;">Colestanley.ca</h1></a>
+    </div>
+    <div style="display:inline-block;width: 10%;height: 44px;float: right;padding: 10;">
+      <img id="hamImage" style="float: right;width:44px;z-index: 10000;transition: opacity .5s;cursor:pointer;" src="../siteimages/goinham.png" onclick="openHam();">
+    </div>
+  </div>
+    <a href="Home.html">
+      <img src="../siteimages/owi/owilogo.png" style="float: centre;width:20%;padding-top: 0%;margin:auto;margin-top:5em"></a>
+    <h1>Overwatch | Impacts on the World</h1>
+    <div class="topnav" id="myTopnav">
+      <a href="Gameplay.html">What is Overwatch</a>
+      <a href="Development.html">Trailblazer In Game Development</a>
+      <a href="Society.html">Reflection of Society</a>
+      <a href="Community.html">Impact on Gaming Community</a>
+    </div>
+  </header>
+  
+  <div id=hamMenu>
+    <div style="background-color:rgb(0, 0, 200);height:64px;">
+      <h1 style="text-align:center;">MENU</h1></div>
+    <div id="gamesMenuItem" class="secretDropdownContainer">
+      <button class="upperHam">Games</button>
+    </div>
+    <div id="sitesMenuItem" class="secretDropdownContainer">
+      <button class="upperHam">Websites</button>
+    </div>
+
+    <img src="../siteimages/closebutton.png" style="margin: auto;margin-top: 33%;display: block;width: 33%;position: relative;bottom: 0px;cursor:pointer;" onclick="closeHam()">
+
+    <a href="../index.html"><img src="../siteimages/home.png" style="margin: auto;margin-top: 33%;display: block;width: 33%;position: relative;bottom: 0px;cursor:pointer;"></a>
+  </div>
+  
+  <script src="../scripts/hamMenu.js"></script>
+  
+  <script>
+    function openHam() {
+      document.getElementById("hamMenu").style.width = "25%";
+      document.getElementById("main").style.marginRight = "25%";
+      document.getElementById("header").style.width = "75%";
+      document.getElementById("hamImage").style.opacity = "0";
+    }
+    
+    function closeHam() {
+      document.getElementById("hamMenu").style.width = "0%";
+      document.getElementById("main").style.marginRight = "0%";
+      document.getElementById("header").style.width = "100%";
+      document.getElementById("hamImage").style.opacity = "1";
+    }
+  </script>
+
+  <div id="main">
+  <div id="gototop" style="bottom: 0.5%; position: fixed; right: 0.5%; width: 5%; z-index: 9999; display: none;">
+    <a href="#"><img src="../siteimages/owi/top.png" style="width:100%;padding-top:0%"></a>
+  </div>
+
+  <whatbox>
+    <!--   <h2><img src= "http://vignette1.wikia.nocookie.net/overwatch/images/6/6a/Bastion_portrait.png/revision/latest?cb=20160429042023" style= "float:right;width:133px;height:100px;"> -->
+
+    <h2><img src="../siteimages/owi/owibastion.png" style="float:right;width:20%;padding-top:0%;">  
+  <a href="Gameplay.html" target:"_self"="" style="color: white;"> What is Overwatch?</a></h2>
+    <h3 style="color:white;">Factual details and statistics of the worldwide sensation, Overwatch</h3>
+  </whatbox>
+
+  <gamebox>
+    <!--   <h2 style="color:white; text-align:right"><img src= "../siteimages/owi/owisombra.png" style= "float:left;width:95px;height:100px">  <a href= "Development.html" target:"_self" style="color: white;">Trailblazer in Game Development</a></h2> -->
+
+    <h2 style="color:white; text-align:right"><img src="https://hydra-media.cursecdn.com/overwatch.gamepedia.com/2/22/Spray_Sombra_Cute.png?version=92ba022e28615d637407ae70f6ee3a43" style="float:left;width:20%;padding-top:0%">  <a href="Development.html" target:"_self"="" style="color: white;">Trailblazer in Game Development</a></h2>
+    <h3 style="color:white; text-align:right">How Blizzard has set a new example for good development in the gaming sector</h3>
+  </gamebox>
+
+  <societybox>
+    <h2 style="color:white;"><img src="../siteimages/owi/owilucio.png" style="float:right;width:20%;padding-top:0%"><a href="Society.html" target:"_self"="" style="color: white;">Reflection of Society</a></h2>
+    <h3 style="color:white;">How Overwatch is evidence of a more diverse, accepting global society</h3>
+  </societybox>
+
+  <communitybox>
+    <h2 style="color:white; text-align: right;"><img src="../siteimages/owi/owipharah.png" style="float:left;width:20%;padding-top:0%"><a href="Community.html" target:"_self"="" style="color: white;">Impact on Global Community</a></h2>
+    <h3 style="color:white; text-align: right;">How Overwatch has made a permanent mark in the gaming world</h3>
+  </communitybox>
+  </div>
+
+
+  <script src="../scripts/owi_scroll_to_top.js"></script>
+
+
+</body>
+
+</html>

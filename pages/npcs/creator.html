@@ -1,0 +1,166 @@
+<!-- <!DOCTYPE html> -->
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>colestanley.ca | NPC Creator</title>
+  <link href="https://fonts.googleapis.com/css?family=Encode+Sans:400,700" rel="stylesheet">
+  <link href="../../stylesheets/main.css" rel="stylesheet">
+  </link>
+  <link href="../../stylesheets/npcs/general.css" rel="stylesheet">
+  </link>
+  <link href="../../stylesheets/npcs/creator.css" rel="stylesheet">
+  </link>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="icon" href="../../siteimages/favicon.png">
+  <script src="../../scripts/build-page.js" type="module"></script>
+</head>
+
+<body style="margin:0">
+
+  <div id="loadingScreen">
+    <img src="../../siteimages/logo.svg">
+  </div>
+
+  <div class='popup-window'>
+    <div class='popup-shadow' id='card-display'>
+      <div class='popup-container'>
+        <div class='popup-close'>
+          x
+        </div>
+        <div class='popup-body'>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="main">
+    <div class='content'>
+      <h1>NPC Creator</h1>
+      <hr>
+      <div id='npcs-creator-side-bar'>
+        <h3>Saved Characters</h3>
+      </div>
+      <div id='npcs-creator-main'>
+        <h2><input id='name-input' placeholder="Character Name"></input></h2>
+        <h4>
+          <select id='race-selector'>
+          </select>
+          <select id='class-selector'>
+          </select>
+        </h4>
+        <hr />
+        <div class="horizontal-grid">
+          <div>
+            <h3>Armour Class</h3>
+            <h5 id='armour-class-display'>11</h5>
+            <h4><select id='armour-selector'>
+              </select></h4>
+          </div>
+          <div>
+            <h3>Hit Points</h3>
+            <h5 id='hit-points-display'>11</h5>
+            <h4>Hit Dice: (<input id='hit-dice-entry' class='fit-to-content'></input>)</h4>
+          </div>
+        </div>
+        <div class="horizontal-grid">
+          <div class='display-mobile-border'>
+            <h5><input id='speed-input' placeholder='30' class='fit-to-content' style='text-align: right;'></input>ft.
+            </h5>
+            <h4>Speed</h4>
+          </div>
+        </div>
+        <hr />
+        <div class='horizontal-grid abilities'>
+        </div>
+        <hr />
+        <div id='boolean-types-block'>
+        </div>
+        <div id='alignment-container'>
+        </div>
+        <div id='languages-block'></div>
+        <div class="horizontal-grid">
+          <div>
+            <h4>Passive Perception</h4>
+            <h5 id='passive-perception-display'>14</h5>
+          </div>
+          <div>
+            <h4>Darkvision</h4>
+            <h5><input id="darkvision-entry" class='fit-to-content' style='text-align: right' />ft.</h5>
+          </div>
+        </div>
+        <div class="horizontal-grid">
+          <div class='display-mobile-border'>
+            <h3>Challenge Rating:</h3>
+            <h5><input id='challenge-rating-entry' style="text-align: center" /></h5>
+          </div>
+        </div>
+        <hr />
+        <div class='vertical-grid' id='attributes-container'>
+        </div>
+        <hr />
+        <div class='vertical-grid' id='actions-container'>
+        </div>
+        <div class='vertical-grid' id='reactions-container'>
+        </div>
+        <hr />
+        <div id='attacks-container'>
+        </div>
+        <table id='attacks-table'>
+          <thead>
+            <tr>
+              <th>
+                Name
+              </th>
+              <th>
+                Damage
+              </th>
+              <th>
+                Properties
+              </th>
+              <th>
+                Equipped
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id='melee-header'>
+              <th>Melee</th>
+            </tr>
+            <tr id='ranged-header'>
+              <th>Ranged</th>
+              <td style='visibility: hidden;'>
+                blank
+              </td>
+              <td style='visibility: hidden;'>
+                blank
+              </td>
+              <td>
+                <button class="toggle-selector" style='visibility: hidden;'>Unequip</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <hr />
+        <div id='spells-container'>
+        </div>
+        <hr />
+        <div class='button' id='save-created-npc-button'>Save</div>
+        <br>
+        <div class='button' id='view-created-npc-button'>View</div>
+        <br>
+        <div class='button' id='print-created-npc-button'>Print</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="imgs" style="display: none">
+    <img id="slant_bar" src="../../siteimages/npcs/slant_bar.png"></img>
+  </div>
+
+  <script type="module" src="../../scripts/special/npcs/npc-creator.js"></script>
+
+</body>
+
+</html>

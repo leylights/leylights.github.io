@@ -1,0 +1,132 @@
+<html>
+<link rel="icon" href="../siteimages/favicon.png">
+<title>colestanley.ca | Dice</title>
+
+<head>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+
+  <link href="https://fonts.googleapis.com/css?family=Bungee|Encode+Sans:400,700" rel="stylesheet">
+
+  <link rel="icon" href="../siteimages/favicon.png">
+
+  <link rel="stylesheet" href="../stylesheets/main.css">
+  </link>
+  <link rel="stylesheet" href="../stylesheets/dice.css">
+  </link>
+
+  <script src="../scripts/build-page.js" type="module"></script>
+</head>
+
+<body style="margin: 0">
+
+  <div id="loadingScreen">
+    <img src="../siteimages/logo.svg">
+  </div>
+
+
+
+  <div id="main">
+    <div id="container">
+      <div>
+        <input id="diceIn" placeholder="1d20"></input>
+      </div>
+      <div id="buttons">
+        <div style="display:none" class="button" id="repeat">Repeat</div>
+        <div class="button" id="submit">Roll</div>
+      </div>
+      <div id="dice-field">
+        <div>
+          <table class="dice-table" id="base-dice">
+            <tr>
+              <td>
+                <div>
+                  <img class="dice" src="../siteimages/dice/d4.svg">
+                  <span id="d4">4</span>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <img class="dice" src="../siteimages/dice/d6.svg">
+                  <span id="d6">6</span>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <img class="dice" src="../siteimages/dice/d8.svg">
+                  <span id="d8">8</span>
+                </div>
+              </td>
+            </tr>
+            <td>
+              <div>
+                <img class="dice" src="../siteimages/dice/d10.svg">
+                <span id="d10">10</span>
+              </div>
+            </td>
+            <td>
+              <div>
+                <img class="dice" src="../siteimages/dice/d12.svg">
+                <span id="d12">12</span>
+              </div>
+            </td>
+            <td>
+              <div>
+                <img class="dice" src="../siteimages/dice/d20.svg">
+                <span id="d20">20</span>
+              </div>
+            </td>
+            </tr>
+          </table>
+          <table style="visibility: hidden" class="dice-table" id="percentile-dice-table">
+            <tr>
+              <td>
+                <div>
+                  <img class="dice" src="../siteimages/dice/d10.svg">
+                  <span id="d100-1">00</span>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <img class="dice" src="../siteimages/dice/d10.svg">
+                  <span id="d100-2">0</span>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="tooltip" id="colour-tooltip">
+      <div id="colour-circle"></div>
+      <div id="after-colour" style="display:none">
+        <input type="range" min="1" max="360" value="0" id="colour-slider">
+        <span id="colour-close" style="text-align: right; z-index: 10; cursor: pointer;"><u>Close</u></span>
+      </div>
+    </div>
+    <div class="tooltip" id="percentiles-tooltip">
+      %
+    </div>
+    <div class="tooltip" id="q">
+      <span id="before-q">?</span>
+      <div id="after-q" style="display:none">
+        <p>This is an online dice roller, designed for use in a tabletop RPG setting. Of
+          course, it does not need to be used as such, as it is simply a stylized random number generator.</p>
+        <p>To use this contraption, enter the following in the grey field above:</p>
+        <p style="text-align:center">(The number of dice you would like to roll) + <i>The letter "d"</i> + (The number
+          of sides on each die)</p>
+        <p>For example, rolling two six-sided dice would be entered as <i>2d6.</i></p>
+        <p>Alternatively, simply click on one of the dice at the bottom of the screen to roll a standardized amount.</p>
+        <p style="text-align: right"><u>Close</u></p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../scripts/special/dice.js"></script>
+
+
+
+</body>
+
+</html>

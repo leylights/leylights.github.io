@@ -1,0 +1,48 @@
+<html>
+<link rel="icon" href="../siteimages/favicon.png">
+<title>colestanley.ca | Quadratics</title>
+
+<head>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+
+  <link href="https://fonts.googleapis.com/css?family=Bungee|Encode+Sans:400,700" rel="stylesheet">
+
+  <link rel="icon" href="../siteimages/favicon.png">
+
+  <link rel="stylesheet" href="../stylesheets/main.css">
+  </link>
+  <link rel="stylesheet" href="../stylesheets/quadratic.css?v=1.1">
+  </link>
+  <script src="../scripts/build-page.js" type="module"></script>
+
+</head>
+
+<body style="margin:0">
+
+  <div id="loadingScreen">
+    <img src="../siteimages/logo.svg">
+  </div>
+
+  
+
+  <div id="main">
+    <div id="inputsContainer">
+      <div id="inputBox">
+        <input id="quadA" class="input" placeholder="a" onblur="getCalc()">
+        <input id="quadB" class="input" placeholder="b" onblur="getCalc()">
+        <input id="quadC" class="input" placeholder="c" onblur="getCalc()">
+      </div>
+      <div id="answer"></div>
+    </div>
+    <div id="calcButton" onclick="getCalc()">Calculate</div>
+  </div>
+
+  
+
+  <script src="../scripts/special/quadratic.js?v=1.1"></script>
+
+</body>
+
+</html>

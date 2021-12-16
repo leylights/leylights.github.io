@@ -1,0 +1,63 @@
+﻿<html>
+<!-- 	Published August 26th, 2018 -->
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>colestanley.ca | Broken Wires</title>
+  <link href="https://fonts.googleapis.com/css?family=Encode+Sans:400,700" rel="stylesheet">
+  <link href="../stylesheets/main.css" rel="stylesheet">
+  </link>
+  <link href="../stylesheets/wires.css" rel="stylesheet">
+  </link>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="icon" href="../siteimages/favicon.png">
+  <script src="../scripts/build-page.js" type="module"></script>
+</head>
+
+<body style="margin:0">
+
+  <div id="loadingScreen">
+    <img src="../siteimages/logo.svg">
+  </div>
+
+  <div id="main" style="transition: all 0.5s linear">
+
+    <div id="insWrap" class="content">
+      <h1> Broken Wires </h1>
+      <h2> Objective </h2>
+      <p> Connect the <span class='cyan-span'>blue</span> rectangle to the <span class='orange-span'>orange</span> rectangle by rotating tiles to form a solid line between them. </p>
+      <h2> Controls </h2>
+      <p> Click on a tile to rotate it, both left and right click work. <br> Click the <strong>checkmark</strong> or press enter to solve
+        the puzzle. <br> <br> Click <b>?</b> to see a solution to the current puzzle <br> Click <b>⟲</b> to try a new
+        puzzle <br> Click <b>∞</b> to allow the puzzle to cover your entire screen <br> Click <b>⅟₁</b> to shrink the
+        tiles </p>
+      <a href="#">
+        <div class="playButton" id="casual">
+          <h3> CLICK HERE TO PLAY RELAXED MODE </h3>
+        </div>
+        <div class="playButton" id="comp">
+          <h3> CLICK HERE TO PLAY CHALLENGE MODE </h3>
+        </div>
+      </a>
+    </div>
+
+    <div id="canvasBox">
+      <div id="canvasFoundation">
+      </div>
+    </div>
+
+    <!-- <img src="../siteimages/darkon.png" id="darkmode"
+      style="width:4%;height:auto;position:fixed;bottom:15px;right:15px;cursor:pointer; display: none"> -->
+    <!-- <img src="../siteimages/darkon.png" id="darkmode"
+      style="width:4%;height:auto;position:fixed;bottom:15px;right:15px;cursor:pointer" onclick="bodySwitch()"> -->
+  </div>
+
+  <div id="imgs" style="display:none">
+  </div>
+
+  <script type="module" src="../scripts/special/wires/wires.js"></script>
+
+</body>
+
+</html>

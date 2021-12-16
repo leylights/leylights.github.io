@@ -1,0 +1,150 @@
+<html>
+
+<head>
+  <title>colestanley.ca | Pac-Man</title>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css?family=Encode+Sans:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="icon" href="../siteimages/favicon.png">
+  <link href="../stylesheets/main.css" rel="stylesheet">
+  </link>
+  <link href="../stylesheets/pacnew.css" rel="stylesheet">
+  </link>
+  <script src="../scripts/build-page.js" type="module"></script>
+  <script type="module" src="../scripts/special/pacman-new/pacman.page.js"></script>
+</head>
+
+<body>
+  <div id="loadingScreen">
+    <img src="../siteimages/logo.svg">
+  </div>
+
+  <div id="main">
+    <div class="content">
+      <h1>
+        Pac-Man
+      </h1>
+
+      <div id="canvas-container">
+      </div>
+
+      <h2>
+        Controls
+      </h2>
+      <div class='horizontal-grid'>
+        <div>
+          <table class='pac-controls-table'>
+            <tr>
+              <td class='hide-cell'></td>
+              <td>W</td>
+              <td class='hide-cell'></td>
+            </tr>
+            <tr>
+              <td>A</td>
+              <td>S</td>
+              <td>D</td>
+            </tr>
+          </table>
+        </div>
+        <div>
+          <h3 style='text-align: center;'>or</h3>
+        </div>
+        <div>
+          <table class='pac-controls-table'>
+            <tr>
+              <td class='hide-cell'></td>
+              <td>&#x2191;</td>
+              <td class='hide-cell'></td>
+            </tr>
+            <tr>
+              <td>&#x2190;</td>
+              <td>&#x2193;</td>
+              <td>&#x2192;</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <p>
+        Press any of the movement keys shown above to start.
+      </p>
+
+      <h2>
+        What libraries/packages were used to make this?
+      </h2>
+      <p>
+        The code was written in TypeScript, to allow for better debugging and overall tighter code.
+        <br />
+        No other libraries were used in this project.
+      </p>
+
+      <h2>
+        Design decisions
+      </h2>
+      <p>
+        This is my second attempt at creating a Pac-Man game to upload to this portfolio. The first can be found <a
+          href='./pacman-v1.html'>here</a>.
+      </p>
+      <p>
+        You can immediately spot a few differences, including the graphics and the 'High Scores' feature. Looking at the
+        code, the differences become far starker.
+      </p>
+      <p>
+        The old version of Pac-Man was my third code project. Ever. Due to my inexperience at the time, I had put all of
+        my code in one JavaScript file.
+        There was no class-based architecture, minimal comments anywhere (to my great dismay later on), and many other
+        design decisions that I still cannot figure out the logic behind.
+      </p>
+      <p>
+        In terms of navigation, the old version was using a repurposed collision structure I had built for the <a
+          href='./luigi.html'>Mario</a> game. The characters' movement was based on whether they had walls in their way
+        &#8212; if there was a wall, the character could not move in that direction, otherwise, they could.
+      </p>
+      <p>
+        This worked perfectly fine while the character moved at 1 pixel/second. However, once they sped up, the
+        navigation system began to break. Ghosts and players would often try to turn at an intersection and fail, which
+        proved to severely hinder gameplay.
+      </p>
+      <div class='horizontal-grid squash-mobile pacman-hallway-comparison'>
+        <div>
+          <img src='../siteimages/pac/html-content/pacman-pre-hall.png' />
+          <p>
+            In this frame, Pac-Man is approaching the intersection. If he travels at 1px/second, he will reach the
+            intersection next frame and be able to turn.
+          </p>
+        </div>
+        <div>
+          <img src='../siteimages/pac/html-content/pacman-past-hall.png' />
+          <p>
+            However, if he is moving at <strong>2px/second</strong>, he will pass by the intersection, never turning no
+            matter how much the player tries, since he is <em>always touching a wall</em>.
+          </p>
+        </div>
+      </div>
+      <p>
+        Hence, Pac-Man Version 2 implements an entirely different navigation strategy: a graph of nodes. Instead of
+        deciding whether the character can move based on whether they are touching a wall, the characters' movements
+        are based on whether there is a <em>path</em> in that direction.
+      </p>
+      <div class='in-text-image'>
+        <img src='../siteimages/pac/html-content/node-map.png' />
+        <p>The node-based navigation structure of Pac-Man Version 2.</p>
+      </div>
+      <p>
+        This means that, looking at the code, one can see that <em>there are no walls</em>. The walls no longer exist in
+        this version of the code &#8212; there are only paths.
+      </p>
+      <div class='in-text-image'>
+        <img src='../siteimages/pac/html-content/node-map-no-walls.png' />
+        <p>Even with the walls removed, the game works as normal.</p>
+      </div>
+      <p>
+        This approach has resolved the navigation problems, and improved gameplay immensely.
+      </p>
+    </div>
+  </div>
+
+  <div id="sprites-container">
+  </div>
+</body>
+
+</html>

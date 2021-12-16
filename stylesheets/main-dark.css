@@ -1,0 +1,233 @@
+:root {
+  --primary-bg-color: #111;
+  --secondary-bg-color: #222;
+  --accent-bg-color: #444;
+  --accent-bg-color-hover: #555;
+  --accent-color: #fff;
+  --text-color: #fff;
+  --light-text-color: #ddd;
+  --very-light-text-color: #aaa;
+  --invert-text-color: #333;
+  /* primary-accent-color: light */
+  --primary-accent-color: #00eeff;
+  /* secondary-accent-color: dark */
+  --secondary-accent-color: #000;
+  /* tertiary-accent-color: light */
+  --tertiary-accent-color: #ff0077;
+  /* success-color: dark */
+  --success-color: #04af12;
+  /* reject-color: dark */
+  --reject-color: #d10000;
+}
+
+html {
+  background-color: var(--primary-bg-color);
+}
+
+/* #loadingScreen {
+  background-color: var(--primary-bg-color);
+}
+
+#loadingScreen img {
+  filter: invert(1);
+} */
+
+a:link {
+  color: var(--primary-accent-color);
+}
+
+a:visited {
+  color: var(--light-text-color);
+}
+
+header {
+  color: var(--accent-color);
+  background-color: var(--primary-bg-color);
+}
+
+#homeHead a:hover {
+  text-decoration-color: white;
+}
+
+#hamMenu a:hover {
+  text-decoration-color: white;
+}
+
+#headerLogo {
+  filter: invert(1);
+}
+
+/* classes */
+
+/* Ham */
+
+.upperham:hover {
+  background-color: var(--accent-bg-color-hover);
+}
+
+.upperHam {
+  background-color: var(--accent-bg-color);
+  /* background-color: var(--secondary-accent-color); */
+  color: white;
+}
+
+.upperHam.active {
+  background-color: var(--accent-bg-color-hover);
+}
+
+.lowerHam {
+  background-color: white;
+}
+
+.lowerHam a, .lowerHam a:visited, .lowerHam a:link {
+  color: var(--invert-text-color);
+}
+
+.lowerHam a:hover {
+  /* color: #ffbb00; */
+  color: var(--tertiary-accent-color);
+}
+
+/* Div IDs */
+
+#main {
+  height: calc(100% - 64px);
+  transition: margin-right 0.5s ease;
+  margin-top: calc(64px + 0.5em);
+  color: var(--text-color);
+}
+
+/* Menu */
+
+#homeHead {
+  background-color: inherit;
+  border-bottom: 5px var(--primary-accent-color) solid;
+  box-shadow: 0 0 6px 1px #0088;
+}
+
+#homeHead h1 {
+  color: var(--accent-color);
+}
+
+#hamMenu {
+  background-color: var(--secondary-bg-color);
+  color: var(--accent-color);
+}
+
+#hamMenu h1 {
+  color: var(--text-color);
+}
+
+#hamMenuText {
+  color: var(--text-color);
+}
+
+#hamImage {
+  filter: brightness(100);
+}
+
+#gamesMenuBase {
+  display: none;
+}
+
+#sitesMenuBase {
+  display: none;
+}
+
+/* HAM MENU & HEADER COMPLETE */
+
+/* SPECIFIC - index.html */
+
+.item, .itemSurround {
+  background-color: var(--secondary-bg-color) !important;
+  color: var(--text-color) !important;
+}
+
+.itemSurround a {
+  color: var(--primary-accent-color) !important;
+}
+
+/* SPECIFIC - Vectors.html */
+
+.calculation p.clickable {
+  color: var(--primary-accent-color) !important;
+}
+
+/* GENERAL */
+
+.content {
+  color: var(--text-color);
+}
+
+.content h1 {
+  max-width: 980px;
+  margin: auto;
+  color: var(--text-color);
+}
+
+.content table td {
+  color: var(--text-color);
+}
+
+#main {
+  background-color: var(--primary-bg-color);
+}
+
+input {
+  background-color: inherit;
+  border-color: var(--accent-color);
+  color: inherit;
+}
+
+.button {
+  color: var(--invert-text-color);
+  background-color: var(--primary-accent-color);
+  border: 1px solid var(--accent-color);
+}
+
+.button:hover {
+  background-color: var(--secondary-accent-color);
+  color: var(--text-color);
+}
+
+/* General dark inverting */
+
+.dark-invert {
+  color: var(--text-color) !important;
+}
+
+.dark-invert-hover:hover {
+  color: var(--secondary-accent-color) !important;
+}
+
+.dark-only {
+  display: unset;
+}
+
+.dark-none {
+  display: none !important;
+}
+
+.dark-invert-filter {
+  filter: invert(1);
+}
+
+.side-menu-end-button {
+  filter: invert(1);
+}
+
+.popup-body {
+  box-shadow: 0 0 10000px 10000px #000b !important;
+}
+
+.experience-image.dark-none {
+  display: none;
+}
+
+.experience-image.dark-only {
+  display: block !important;
+}
+
+.emwaves-main #electric-field-dropdown:hover {
+  color: #00eeff;
+}

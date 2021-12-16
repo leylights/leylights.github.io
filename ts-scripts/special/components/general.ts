@@ -1,0 +1,1 @@
+export const BASE_TEMP_HIGHLIGHT_TIME: number = 1.25 * 1000;
