@@ -48,7 +48,9 @@ export class LineChartComponent {
         });
     }
     set points(pts) {
-        this._points = pts;
+        this._points = pts.sort((a, b) => {
+            return b.x - a.x;
+        });
         this.rebuild();
     }
     get titleSizePx() {
@@ -108,6 +110,15 @@ export class LineChartComponent {
                 return a.value - b.value;
             });
         }
+    }
+    getPointXMin() {
+        if (!this._points[0])
+            return undefined;
+        let min = this._points[0].x;
+        this._points.forEach((point) => {
+            min = Math.min(point.x, min);
+        });
+        return min;
     }
     getPointXMax() {
         if (!this._points[0])
@@ -253,13 +264,15 @@ export class LineChartComponent {
         }
     }
     redraw() {
-        const me = this, maxX = this.getPointXMax(), maxY = this.getPointYMax(), area = this.innerRect;
+        const me = this, minX = this.getPointXMin(), maxX = this.getPointXMax(), maxY = this.getPointYMax(), area = this.innerRect;
         this.canvas.clearColour = this.colours.background;
         this.canvas.clear();
         if (this.showGridlines)
             drawGridlines();
         for (let i = 1; i < this._points.length; i++) {
             const start = convertPoint(this._points[i - 1]), end = convertPoint(this._points[i]);
+            // debugger;
+            console.log("pt #" + this._points[i - 1].x + ", x:" + start.x + ", y" + start.y);
             this.canvas.drawLine(start.x, start.y, end.x, end.y, this.colours.line, 2);
         }
         function drawGridlines() {
@@ -283,7 +296,7 @@ export class LineChartComponent {
         }
         function convertPoint(pt) {
             const output = {
-                x: area.x + pt.x * (area.width / maxX),
+                x: area.x + (pt.x - minX) * (area.width / (maxX - minX)),
                 y: area.bottom - (pt.y * (area.height / maxY)),
                 label: pt.label,
             };

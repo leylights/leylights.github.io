@@ -109,7 +109,10 @@ export class LineChartComponent {
   }
 
   set points(pts: LineChartPoint[]) {
-    this._points = pts;
+    this._points = pts.sort((a, b) => {
+      return b.x - a.x;
+    });
+
     this.rebuild();
   }
 
@@ -188,6 +191,14 @@ export class LineChartComponent {
     }
   }
 
+  private getPointXMin(this: LineChartComponent): number {
+    if (!this._points[0]) return undefined;
+    let min = this._points[0].x;
+    this._points.forEach((point) => {
+      min = Math.min(point.x, min);
+    });
+    return min;
+  }
 
   private getPointXMax(this: LineChartComponent): number {
     if (!this._points[0]) return undefined;
@@ -360,6 +371,7 @@ export class LineChartComponent {
 
   redraw(this: LineChartComponent) {
     const me = this,
+      minX = this.getPointXMin(),
       maxX = this.getPointXMax(),
       maxY = this.getPointYMax(),
       area = this.innerRect;
@@ -373,6 +385,9 @@ export class LineChartComponent {
     for (let i = 1; i < this._points.length; i++) {
       const start = convertPoint(this._points[i - 1]),
         end = convertPoint(this._points[i]);
+      // debugger;
+
+      console.log("pt #" + this._points[i - 1].x + ", x:" + start.x + ", y" + start.y);
       this.canvas.drawLine(start.x, start.y, end.x, end.y, this.colours.line, 2);
     }
 
@@ -412,7 +427,7 @@ export class LineChartComponent {
 
     function convertPoint(pt: LineChartPoint): LineChartPoint {
       const output: LineChartPoint = {
-        x: area.x + pt.x * (area.width / maxX),
+        x: area.x + (pt.x - minX) * (area.width / (maxX - minX)),
         y: area.bottom - (pt.y * (area.height / maxY)),
         label: pt.label,
       };

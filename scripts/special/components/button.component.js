@@ -19,8 +19,9 @@ export class Button {
         this._errorAction = null;
         this._rejectErrors = true;
         this.rejectionTime = -1;
-        this.rejectionLength = BASE_TEMP_HIGHLIGHT_TIME;
+        this.classFlashLength = BASE_TEMP_HIGHLIGHT_TIME;
         this._swallowErrors = false;
+        this.warnTime = -1;
         this.clickAction = clickAction;
         this.internalName = data.name;
         this._isDisabled = false;
@@ -83,14 +84,21 @@ export class Button {
         this.setEnabled(true);
     }
     /**
+     * Adds a class to the button, then removes it moments later
+     *   Note: Client should set lastFlashTime = Date.now() after calling this
+     */
+    genericClassFlash(className, lastFlashTime) {
+        this.element.classList.add(className);
+        setTimeout(() => {
+            if (Date.now() - lastFlashTime >= this.classFlashLength)
+                this.element.classList.remove(className);
+        }, this.classFlashLength);
+    }
+    /**
      * Gives a button the appearance of being rejected
      */
     reject() {
-        this.element.className += ' button-reject';
-        setTimeout(() => {
-            if (Date.now() - this.rejectionTime >= this.rejectionLength)
-                this.element.className = this.element.className.replace(/button-reject/g, "").trim();
-        }, this.rejectionLength);
+        this.genericClassFlash('button-reject', this.rejectionTime);
         this.rejectionTime = Date.now();
     }
     setEnabled(isEnabled) {
@@ -101,6 +109,13 @@ export class Button {
         else {
             this.element.classList.add('button-disabled');
         }
+    }
+    /**
+     * Gives a button the appearance of being rejected
+     */
+    warn() {
+        this.genericClassFlash('button-warn', this.warnTime);
+        this.warnTime = Date.now();
     }
     /**
      * Takes an existing element in the HTML and gives it a Button child

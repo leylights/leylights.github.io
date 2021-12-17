@@ -24,8 +24,9 @@ export class Button {
 
   private _rejectErrors: boolean = true;
   private rejectionTime: number = -1;
-  private rejectionLength: number = BASE_TEMP_HIGHLIGHT_TIME;
+  private classFlashLength: number = BASE_TEMP_HIGHLIGHT_TIME;
   private _swallowErrors: boolean = false;
+  private warnTime: number = -1; 
   private _isDisabled: boolean;
 
   /**
@@ -114,16 +115,23 @@ export class Button {
   }
 
   /**
+   * Adds a class to the button, then removes it moments later
+   *   Note: Client should set lastFlashTime = Date.now() after calling this
+   */
+  private genericClassFlash(this: Button, className: string, lastFlashTime: number): void {
+    this.element.classList.add(className);
+    
+    setTimeout(() => {
+      if (Date.now() - lastFlashTime >= this.classFlashLength)
+        this.element.classList.remove(className);
+    }, this.classFlashLength);
+  }
+
+  /**
    * Gives a button the appearance of being rejected
    */
   reject(this: Button): void {
-    this.element.className += ' button-reject';
-
-    setTimeout(() => {
-      if (Date.now() - this.rejectionTime >= this.rejectionLength)
-        this.element.className = this.element.className.replace(/button-reject/g, "").trim();
-    }, this.rejectionLength);
-
+    this.genericClassFlash('button-reject', this.rejectionTime);
     this.rejectionTime = Date.now();
   }
 
@@ -134,6 +142,14 @@ export class Button {
     } else {
       this.element.classList.add('button-disabled');
     }
+  }
+
+  /**
+   * Gives a button the appearance of being rejected
+   */
+  warn(this: Button): void {
+    this.genericClassFlash('button-warn', this.warnTime);
+    this.warnTime = Date.now();
   }
 
   /**

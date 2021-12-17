@@ -7,6 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var _a;
 import { cws } from "../../cws.js";
 import { Button } from "../components/button.component.js";
 import { KeyboardListener } from "../../tools/keyboard-listener.js";
@@ -167,6 +168,7 @@ class NPCsGenerator {
         });
     }
 }
+_a = NPCsGenerator;
 NPCsGenerator.footer = NPCsMemory.HTML.createSavedBar(document.getElementById('main'), (data) => __awaiter(void 0, void 0, void 0, function* () {
     yield NPCsGenerator.createCard('card', data);
 }), (data) => {

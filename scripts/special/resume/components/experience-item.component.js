@@ -94,7 +94,8 @@ export class ResumeExperienceItemComponent {
                             }),
                         }),
                     ]
-                }), cws.createElement({
+                }),
+                cws.createElement({
                     type: 'div',
                     classList: ['experience-image-container', 'desktop-only'],
                     children: me.getImages()

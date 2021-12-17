@@ -16,6 +16,8 @@
   --tertiary-accent-color: #027d28;
   /* success-color: dark */
   --success-color: #006b1b;
+  /* warn-color: light */
+  --warn-color: #ffe600;
   /* reject-color: dark */
   --reject-color: #8d0000;
   --primary-font: 'Poppins', Verdana;
@@ -426,6 +428,11 @@ input {
 .button-reject {
   color: white !important;
   background-color: var(--reject-color) !important;
+}
+
+.button-warn {
+  color: black !important;
+  background-color: var(--warn-color) !important;
 }
 
 .button-disabled, .button-disabled:hover {
