@@ -1,4 +1,3 @@
-import { cws } from "../../../cws.js";
 import { NPCsAbility } from "./general.js";
 import { STR, DEX, INT, WIS, CHA } from "./general.js";
 

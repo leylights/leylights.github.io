@@ -1,5 +1,3 @@
-// SHOULD NEVER IMPORT ANYTHING
-
 /**
  * General functions to be used anywhere
  * @author Cole Stanley
@@ -576,6 +574,13 @@ export class cws {
     }
   }
 
+  /**
+   * Returns whether this value is an integer
+   */
+  static isInteger(n: number): boolean {
+    return Math.round(n) == n;
+  }
+
   static Object = {
     get: {
       /**
@@ -589,7 +594,7 @@ export class cws {
      * Replaces Object.entries
      */
 
-    entries: function <K extends string | number | symbol,T>(obj: Record<K, T>): ([K, T])[] {
+    entries: function <K extends string | number | symbol, T>(obj: Record<K, T>): ([K, T])[] {
       let keys = Object.keys(obj);
       let values = [];
 
@@ -815,8 +820,45 @@ export class cws {
    * @requires decimalPlaces is an integer
    */
   static roundToDecimalPlaces(value: number, decimalPlaces: number): number {
-    decimalPlaces = Math.round(decimalPlaces);
+    if (Math.round(decimalPlaces) != decimalPlaces) {
+      throw new Error("Not an integer: " + decimalPlaces);
+    }
     return Math.round(value * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces);
+  }
+
+  /**
+   * Rounds n to the nth digit
+   * @example roundToNthDigit(12345.67, 2) => 12300
+   * @example roundToNthDigit(12345.67, 0) => 12345
+   * @example roundToNthDigit(12345.67, -1) => 12345.6
+   * @requires n is an integer
+   */
+  static roundToNthDigit(value: number, n: number): number {
+    if (Math.round(n) != n) {
+      throw new Error("Not an integer: " + n);
+    }
+
+    if (n < 0) {
+      return cws.roundToDecimalPlaces(value, -n);
+    } else if (n > 0) {
+      return Math.round(value / Math.pow(10, n)) * Math.pow(10, n);
+    } else {
+      return Math.round(value);
+    }
+  }
+
+  /**
+   * Rounds n to significantFigures significant figures
+   * @example roundToSignificantFigures(12345, 2) => 12000
+   * @requires n is an integer
+   * @requires significantFigures is an integer
+   */
+  static roundToSignificantFigures(n: number, significantFigures: number): number {
+    if (Math.round(n) != n) {
+      throw new Error("Not an integer: " + n);
+    }
+
+    return cws.roundToDecimalPlaces(n, -(n.toString().length - significantFigures));
   }
 
   /**

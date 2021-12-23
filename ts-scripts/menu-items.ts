@@ -308,12 +308,12 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
     "name": "Dice Histogram",
     "shortName": "Dice Histogram",
     "type": "Tool",
-    "date": "October 2021",
+    "date": "December 2021",
     "description": "See the distribution of any number of dice rolled",
     "links": {
-      "href": "pages/npcs/histogram.html"
+      "href": "pages/npcs/histogram.html",
+      "thumbnail": "siteimages/dice/dicethumb.png"
     },
-    "isSecret": true
   },
   "wiresV1": {
     "name": "Broken Wires (Version 1)",
@@ -334,9 +334,9 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
 const mainMenuConfig: (CoreMenuItem | MenuItem)[] = [
   MENU_ITEMS.matrices,
   MENU_ITEMS.npcNames,
-  MENU_ITEMS.diceHistogram,
   MENU_ITEMS.infectionModel,
   MENU_ITEMS.pacManV2,
+  MENU_ITEMS.diceHistogram,
   MENU_ITEMS.npcGenerator,
   MENU_ITEMS.emWaves,
   MENU_ITEMS.npcInitiative,
@@ -377,6 +377,7 @@ const topMenuConfig = {
       MENU_ITEMS.dice,
       MENU_ITEMS.npcGenerator,
       MENU_ITEMS.npcCreator,
+      MENU_ITEMS.diceHistogram,
       MENU_ITEMS.npcInitiative,
     ],
     MENU_ITEMS.matrices,

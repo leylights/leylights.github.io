@@ -29,8 +29,50 @@
       <hr>
       <div id='canvas-container'>
       </div>
-      <input id='dice-input' />
-      <input id='count-input' />
+      <div id='roll-container'></div>
+      <input id='dice-input' placeholder="dice values" />
+      <input id='count-input' placeholder="roll count" />
+      <div class="horizontal-grid chart-limit-grid">
+        <div>
+          <table>
+            <tr>
+              <td><input id='x-min' placeholder="-&#8734;"></td>
+              <td>
+                <p>&leq; x &leq;</p>
+              </td>
+              <td><input id='x-max' placeholder="&#8734;"></td>
+            </tr>
+          </table>
+        </div>
+        <div>
+          <table>
+            <tr>
+              <td><input id='y-min' placeholder="-&#8734;"></td>
+              <td>
+                <p>&leq; y &leq;</p>
+              </td>
+              <td><input id='y-max' placeholder="&#8734;"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <h2>How to use</h2>
+      <p>The upper box is for the values of the dice. This follows tabletop game notation of
+        &lt;count&gt;d&lt;value&gt;. That is, one six-sided die would be represented as 1d6, four six-sided dice would
+        be represented as 4d6, and four twenty-sided dice would be represented as 4d20.</p>
+      <p>Different values of dice can be
+        added or subtracted from each other, so combinations like '3d6 + 2d4' are valid.</p>
+      <p>The lower box is the number of 'experiments' that will take place. If the count is 100, then the given set of
+        dice will be rolled 100 times, and their values will be recorded. </p>
+      <p>The more experiments you put in the lower box, the more accurate the dice distribution will be to its true
+        set of probabilities. </p>
+      <h2>Why does a bell curve appear so often?</h2>
+      <p>This is a result of the <a href="https://en.wikipedia.org/wiki/Central_limit_theorem" target="_blank">Central
+          Limit Theorem</a>, a statistics theorem stating that if many
+        random results are added together, they will form a bell curve.</p>
+      <h2>Libraries used</h2>
+      <p>TypeScript is the only library used for this. The primary challenge of this project was the development of the
+        line graph, which I used no external sources for.</p>
     </div>
   </div>
 </body>
