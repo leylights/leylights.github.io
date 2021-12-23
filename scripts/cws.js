@@ -1,4 +1,7 @@
-// SHOULD NEVER IMPORT ANYTHING
+/**
+ * General functions to be used anywhere
+ * @author Cole Stanley
+*/
 var LightingModes;
 (function (LightingModes) {
     LightingModes[LightingModes["dark"] = -1] = "dark";
@@ -229,6 +232,12 @@ export class cws {
             return { dusk: dusk, dawn: dawn };
         }
     }
+    /**
+     * Returns whether this value is an integer
+     */
+    static isInteger(n) {
+        return Math.round(n) == n;
+    }
     static nestedFilter(array, filterFn) {
         return array.filter((item) => {
             if (Array.isArray(item))
@@ -393,8 +402,43 @@ export class cws {
      * @requires decimalPlaces is an integer
      */
     static roundToDecimalPlaces(value, decimalPlaces) {
-        decimalPlaces = Math.round(decimalPlaces);
+        if (Math.round(decimalPlaces) != decimalPlaces) {
+            throw new Error("Not an integer: " + decimalPlaces);
+        }
         return Math.round(value * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces);
+    }
+    /**
+     * Rounds n to the nth digit
+     * @example roundToNthDigit(12345.67, 2) => 12300
+     * @example roundToNthDigit(12345.67, 0) => 12345
+     * @example roundToNthDigit(12345.67, -1) => 12345.6
+     * @requires n is an integer
+     */
+    static roundToNthDigit(value, n) {
+        if (Math.round(n) != n) {
+            throw new Error("Not an integer: " + n);
+        }
+        if (n < 0) {
+            return cws.roundToDecimalPlaces(value, -n);
+        }
+        else if (n > 0) {
+            return Math.round(value / Math.pow(10, n)) * Math.pow(10, n);
+        }
+        else {
+            return Math.round(value);
+        }
+    }
+    /**
+     * Rounds n to significantFigures significant figures
+     * @example roundToSignificantFigures(12345, 2) => 12000
+     * @requires n is an integer
+     * @requires significantFigures is an integer
+     */
+    static roundToSignificantFigures(n, significantFigures) {
+        if (Math.round(n) != n) {
+            throw new Error("Not an integer: " + n);
+        }
+        return cws.roundToDecimalPlaces(n, -(n.toString().length - significantFigures));
     }
     /**
      * @example stringToLength('apple', 10) => 'apple     '

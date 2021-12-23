@@ -27,7 +27,17 @@ export class NPCsDiceHistogramPage {
         });
         this.diceInput = new InputComponent({ element: document.getElementById('dice-input') });
         this.countInput = new InputComponent({ element: document.getElementById('count-input') });
-        this.submit = Button.createByAppending(document.body.querySelector('.content'), () => __awaiter(this, void 0, void 0, function* () {
+        this.limits = {
+            x: {
+                min: new InputComponent({ element: document.getElementById('x-min') }),
+                max: new InputComponent({ element: document.getElementById('x-max') }),
+            },
+            y: {
+                min: new InputComponent({ element: document.getElementById('y-min') }),
+                max: new InputComponent({ element: document.getElementById('y-max') }),
+            }
+        };
+        this.submit = Button.createByAppending(document.getElementById('roll-container'), () => __awaiter(this, void 0, void 0, function* () {
             // sanitize
             try {
                 this.checkInputs();
@@ -46,9 +56,9 @@ export class NPCsDiceHistogramPage {
             yield this.rebuildChart();
             this.submit.HTMLText = this.text.roll;
         }), 'Roll', true);
-        // debug
-        this.diceInput.value = '2d4-4d6';
-        this.countInput.value = '1000000';
+        // defaults
+        this.diceInput.value = '6d20';
+        this.countInput.value = '10000';
         this.rebuildChart();
     }
     // Will throw BadInput if the input verification fails.
@@ -63,14 +73,14 @@ export class NPCsDiceHistogramPage {
         if (diceMatches.length <= 0) {
             rejectDiceInput();
         }
-        else if (diceMatches.length >= 1 && diceMatches.join('') != this.diceInput.value.split(' ').join('')) {
-            rejectDiceInput();
-        }
         else if (cws.orEquals(this.diceInput.value[this.diceInput.value.length - 1], ['+', '-'])) {
             rejectDiceInput();
         }
-        if (diceMatches.length > 1) {
-            me.submit.warn();
+        else if (cws.orEquals(this.diceInput.value.split(' ').join('')[0], ['+', '-'])) {
+            rejectDiceInput();
+        }
+        else if (diceMatches.length >= 1 && diceMatches.join('').split(/[\+\-]/g).join('') != this.diceInput.value.split(/[\+\-\s]/g).join('')) {
+            rejectDiceInput();
         }
         // countInput
         const countMatches = this.countInput.value.match(/[0-9]*/g).filter((s) => { return s !== ''; });
@@ -78,10 +88,38 @@ export class NPCsDiceHistogramPage {
             this.countInput.reject();
             throw new BadInput();
         }
+        // limits
+        function checkLimit(limit) {
+            // const result = !limit.value.match(/[^0-9\-\s]/g);
+            const result = limit.value.trim() == '' || parseInt(limit.value).toString() == limit.value.trim();
+            if (!result) {
+                limit.reject();
+                throw new BadInput();
+            }
+            return result;
+        }
+        function checkRelativeValue(set) {
+            if (set.min.value.trim() == '' || set.max.value.trim() == '')
+                return true;
+            if (parseInt(set.min.value) >= parseInt(set.max.value)) {
+                set.min.reject();
+                set.max.reject();
+                throw new BadInput();
+            }
+            return true;
+        }
+        checkLimit(this.limits.x.min);
+        checkLimit(this.limits.x.max);
+        checkLimit(this.limits.y.min);
+        checkLimit(this.limits.y.max);
+        checkRelativeValue(this.limits.x);
+        checkRelativeValue(this.limits.y);
         return true;
     }
     getDiceStrings() {
-        return this.diceInput.value.match(/([+-]?([0-9]*d[0-9]*))/g).filter((s) => { return s !== ''; });
+        return this.diceInput.value.match(/([+-]?(\s)*([0-9]*d[0-9]*))/g)
+            .map((s) => { return s.replace(/\s/g, ''); })
+            .filter((s) => { return s !== ''; });
     }
     getRollCounts() {
         const dice = [];
@@ -150,16 +188,43 @@ export class NPCsDiceHistogramPage {
         return __awaiter(this, void 0, void 0, function* () {
             const rolls = this.getRollCounts();
             const points = [];
-            for (let i = 0; i < rolls.pos.length; i++)
-                points[i] = {
+            for (let i = 0; i < rolls.pos.length; i++) {
+                if (rolls.pos[i] == 0) // @todo allow user to decide whether to shrink
+                    continue;
+                points.push({
                     x: i,
                     y: rolls.pos[i],
-                };
+                });
+            }
             for (let i = 1; i < rolls.neg.length; i++)
-                points[i + rolls.pos.length - 1] = {
+                points.push({
                     x: -i,
                     y: rolls.neg[i],
-                };
+                });
+            if (this.limits.x.min.value.trim() != '') {
+                this.chart.limits.x.min = parseInt(this.limits.x.min.value);
+            }
+            else {
+                this.chart.limits.x.min = null;
+            }
+            if (this.limits.x.max.value.trim() != '') {
+                this.chart.limits.x.max = parseInt(this.limits.x.max.value);
+            }
+            else {
+                this.chart.limits.x.max = null;
+            }
+            if (this.limits.y.min.value.trim() != '') {
+                this.chart.limits.y.min = parseInt(this.limits.y.min.value);
+            }
+            else {
+                this.chart.limits.y.min = null;
+            }
+            if (this.limits.y.max.value.trim() != '') {
+                this.chart.limits.y.max = parseInt(this.limits.y.max.value);
+            }
+            else {
+                this.chart.limits.y.max = null;
+            }
             this.chart.points = points;
         });
     }

@@ -9,8 +9,12 @@ export interface LineChartPoint {
 }
 
 type LineChartAxisData = {
-  minPoint: LineChartPoint,
-  maxPoint: LineChartPoint,
+  limits: {
+    minX: number,
+    minY: number,
+    maxX: number,
+    maxY: number,
+  }
   title: string,
   divisions: LineChartAxisDivision[]
 }
@@ -24,10 +28,25 @@ interface LineChartConfig extends CanvasCreationData {
   title?: string;
   xAxis?: string;
   yAxis?: string;
-  labelRoundingDigits?: number;
+
+  // Digit rounding:
+  // -2 => 123.45
+  // 0 => 123
+  // 2 => 100
+  yDigitRoundedTo?: number;
   showGridlines?: boolean;
   colour?: string;
   points: LineChartPoint[];
+  limits?: {
+    x?: {
+      min: number,
+      max: number,
+    },
+    y?: {
+      min: number,
+      max: number,
+    }
+  }
 };
 
 const MAX_UNIQUE_X_VALUES = 24;
@@ -55,8 +74,23 @@ export class LineChartComponent {
       background: null,
     };
 
-  labelRoundingDigits: number = 0;
+  yDigitRoundedTo: number = 2;
+
+  limits: { x: { min: number, max: number }, y: { min: number, max: number } } = {
+    x: {
+      min: null,
+      max: null,
+    },
+    y: {
+      min: null,
+      max: null,
+    }
+  };
+
+  autoRoundYAxis: boolean = false;
+
   showGridlines: boolean = true;
+  majorGridlineThickness: number = 3;
 
   xAxisHeight: number = 40;
   yAxisWidth: number = 60;
@@ -76,10 +110,15 @@ export class LineChartComponent {
     this.yAxisTitle = data.yAxis;
     this.colours.line = data.colour;
 
-    this.labelRoundingDigits = data.labelRoundingDigits ?? this.labelRoundingDigits;
+    this.yDigitRoundedTo = data.yDigitRoundedTo ?? this.yDigitRoundedTo;
     this.showGridlines = data.showGridlines !== undefined ? data.showGridlines : this.showGridlines;
 
     this.canvasConfig = data;
+
+    this.limits.x.min = data.limits?.x ? data.limits.x.min : null;
+    this.limits.x.max = data.limits?.x ? data.limits.x.max : null;
+    this.limits.y.min = data.limits?.y ? data.limits.x.min : null;
+    this.limits.y.max = data.limits?.y ? data.limits.x.max : null;
 
     PageBuilder.addDarkModeListener((isDark: boolean, styleSheet: CSSStyleSheet) => {
       me.resetColours(styleSheet);
@@ -127,95 +166,167 @@ export class LineChartComponent {
   }
 
   private generateYAxisData(this: LineChartComponent): LineChartAxisData {
-    return this.generateGenericAxisData('y', MAX_UNIQUE_Y_VALUES, this.yAxisTitle);
+    const me = this,
+      result = this.generateGenericAxisData('y', MAX_UNIQUE_Y_VALUES, this.yAxisTitle);
+    result.divisions = result.divisions.sort((a, b) => { return a.value - b.value });
+
+    result.divisions = result.divisions.map((a: LineChartAxisDivision) => {
+      if (me.autoRoundYAxis) {
+        const result: LineChartAxisDivision = {
+          label: cws.roundToNthDigit(a.value, me.yDigitRoundedTo) + '',
+          value: cws.roundToNthDigit(a.value, me.yDigitRoundedTo),
+        }
+        return result;
+      } else
+        return a;
+    });
+    return result;
   }
 
-  private generateGenericAxisData(this: LineChartComponent, pointAttribute: ('x' | 'y'), maximumPoints: number, axisTitle: string): LineChartAxisData {
+  private generateGenericAxisData(
+    this: LineChartComponent,
+    pointAttribute: ('x' | 'y'),
+    maximumPoints: number,
+    axisTitle: string
+  ): LineChartAxisData {
     const me = this,
-      uniqueValues: number[] = [];
+      uniqueValues: number[] = [],
+      allLimits = this.getLimits(),
+      trueLimits = this.getTrueLimits();
 
-    let minPoint: LineChartPoint = this._points[0],
-      maxPoint: LineChartPoint = this._points[0],
-      shouldGenerateDivisions: boolean = false;
+    let shouldGenerateDivisions: boolean = false;
 
-    this._points.forEach((point) => {
-      if (point[pointAttribute] < minPoint[pointAttribute]) {
-        minPoint = point;
+    if (pointAttribute == 'x' && (trueLimits.minX > allLimits.minX || trueLimits.maxX < allLimits.maxX)) {
+      shouldGenerateDivisions = true;
+    }
+
+    if (!shouldGenerateDivisions)
+      this._points.forEach((point) => {
+        if (!cws.Array.contains(uniqueValues, point[pointAttribute])) {
+          if (uniqueValues.length >= maximumPoints) {
+            shouldGenerateDivisions = true;
+          } else if (uniqueValues.length < maximumPoints)
+            uniqueValues.push(point[pointAttribute]);
+        }
+      });
+
+    let divisions: LineChartAxisDivision[];
+    if (this._points.length == 0) {
+      divisions = [];
+    } else if (pointAttribute == 'x') {
+      if (shouldGenerateDivisions)
+        divisions = generateNewDiv(allLimits.minX, allLimits.maxX, [10, 11, 12, 13, 14]);
+      else {
+        divisions = uniqueValues.filter((value: number) => {
+          return allLimits.minX <= value && value <= allLimits.maxX;
+        }).map((value: number) => {
+          const output: LineChartAxisDivision = {
+            label: value + '',
+            value: value,
+          }
+          return output;
+        }).sort((a, b) => {
+          return a.value - b.value;
+        });
       }
-      if (point[pointAttribute] > maxPoint[pointAttribute]) {
-        maxPoint = point;
+    } else { // y axis
+      divisions = generateNewDiv(allLimits.minY, allLimits.maxY, [8, 9, 10, 11, 12]);
+    }
+    // const divisions = this._points.length > 0 ? pointAttribute == 'x' ? generateEvenDivisions() : generateNewYDiv() : [];
+
+    function generateNewDiv(min: number, max: number, divisors: number[]): LineChartAxisDivision[] {
+      const initialMax = max;
+      let space = -1;
+      let success = false;
+
+      // find an integer spacing that creates a reasonable number of divisors
+      while (!success) {
+        for (let i = 0; i < divisors.length; i++) {
+          if (cws.isInteger((max - min) / divisors[i])) {
+            space = (max - min) / divisors[i];
+            success = true;
+            break;
+          }
+        }
+        max++;
       }
 
-      if (!cws.Array.contains(uniqueValues, point[pointAttribute])) {
-        if (uniqueValues.length >= maximumPoints) {
-          shouldGenerateDivisions = true;
-        } else if (uniqueValues.length < maximumPoints)
-          uniqueValues.push(point[pointAttribute]);
-      }
-    });
+      const values: number[] = [];
 
-    const divisions: LineChartAxisDivision[] = shouldGenerateDivisions ? generateDivisions() : uniqueValues.map((value: number) => {
-      const output: LineChartAxisDivision = {
-        label: value + '',
-        value: value,
+      // generate divisors
+      for (let x = min; x <= initialMax; x += space) {
+        values.push(x);
       }
+
+      // round divisors
+      const roundingDigit = values.length > 0 ? values[values.length - 1].toString().length - 3 : 0;
+      const output: LineChartAxisDivision[] = [];
+
+      values.forEach((n) => {
+        n = cws.roundToNthDigit(n, roundingDigit);
+        output.push({
+          label: n + '',
+          value: n,
+        });
+      });
+
       return output;
-    });
+    }
 
     return {
-      maxPoint: maxPoint,
-      minPoint: minPoint,
+      limits: {
+        minX: allLimits.minX,
+        minY: allLimits.minY,
+        maxX: allLimits.maxX,
+        maxY: allLimits.maxY,
+      },
       title: axisTitle,
       divisions: divisions,
     }
+  }
 
-    function generateDivisions(): LineChartAxisDivision[] {
-      const divisionValues: number[] = [],
-        middleValuesCount = maximumPoints - 1,
-        distanceBetweenDivisions: number = (maxPoint[pointAttribute] - minPoint[pointAttribute]) / middleValuesCount;
+  private getLimits(this: LineChartComponent): {
+    minX: number,
+    minY: number,
+    maxX: number,
+    maxY: number,
+  } {
+    if (!this._points[0]) throw new Error("No points");
 
-      divisionValues.push(minPoint[pointAttribute]);
+    const output = this.getTrueLimits();
 
-      for (let i = 1; i <= middleValuesCount; i++) {
-        divisionValues.push(minPoint[pointAttribute] + distanceBetweenDivisions * i);
-      }
+    output.minX = this.limits.x.min ?? output.minX;
+    output.maxX = this.limits.x.max ?? output.maxX;
+    output.minY = this.limits.y.min ?? output.minY;
+    output.maxY = this.limits.y.max ?? output.maxY;
 
-      return divisionValues.map((n: number) => {
-        return {
-          label: cws.roundToDecimalPlaces(n, me.labelRoundingDigits) + '',
-          value: n,
-        }
-      }).sort((a, b) => {
-        return a.value - b.value;
-      });
+    return output;
+  }
+
+  // Returns the true limits of the dataset; not considering client-defined limits
+  private getTrueLimits(this: LineChartComponent): {
+    minX: number,
+    minY: number,
+    maxX: number,
+    maxY: number,
+  } {
+    if (!this._points[0]) throw new Error("No points");
+
+    const output = {
+      minX: this._points[0].x,
+      minY: this._points[0].y,
+      maxX: this._points[0].x,
+      maxY: this._points[0].y
     }
-  }
 
-  private getPointXMin(this: LineChartComponent): number {
-    if (!this._points[0]) return undefined;
-    let min = this._points[0].x;
     this._points.forEach((point) => {
-      min = Math.min(point.x, min);
+      output.minX = Math.min(point.x, output.minX);
+      output.minY = Math.min(point.y, output.minY);
+      output.maxX = Math.max(point.x, output.maxX);
+      output.maxY = Math.max(point.y, output.maxY);
     });
-    return min;
-  }
 
-  private getPointXMax(this: LineChartComponent): number {
-    if (!this._points[0]) return undefined;
-    let max = this._points[0].x;
-    this._points.forEach((point) => {
-      max = Math.max(point.x, max);
-    });
-    return max;
-  }
-
-  private getPointYMax(this: LineChartComponent): number {
-    if (!this._points[0]) return undefined;
-    let max = this._points[0].y;
-    this._points.forEach((point) => {
-      max = Math.max(point.y, max);
-    });
-    return max;
+    return output;
   }
 
   main(this: LineChartComponent) {
@@ -255,21 +366,23 @@ export class LineChartComponent {
       style: `min-width: ${this.yAxisWidth}`,
     });
 
-    generateXAxis(MAX_UNIQUE_X_VALUES);
-    const yAxisData: LineChartAxisData = this.generateYAxisData();
+    if (this._points.length > 0) {
+      generateXAxis(MAX_UNIQUE_X_VALUES);
+      const yAxisData: LineChartAxisData = this.generateYAxisData();
 
-    yAxisData.divisions.forEach((division) => {
-      const next = cws.createElement({
-        type: 'div',
-        classList: yDivisionClassName,
-        children: [cws.createElement({
-          type: 'span',
-          innerText: division.label
-        })],
-        style: `bottom: ${((division.value - yAxisData.minPoint.y) / (yAxisData.maxPoint.y - yAxisData.minPoint.y)) * 100}%`
+      yAxisData.divisions.forEach((division) => {
+        const next = cws.createElement({
+          type: 'div',
+          classList: yDivisionClassName,
+          children: [cws.createElement({
+            type: 'span',
+            innerText: division.label
+          })],
+          style: `bottom: ${((division.value - yAxisData.limits.minY) / (yAxisData.limits.maxY - yAxisData.limits.minY)) * 100}%`
+        });
+        yAxis.appendChild(next);
       });
-      yAxis.appendChild(next);
-    });
+    }
 
     container.appendChild(titleContainer);
 
@@ -361,7 +474,7 @@ export class LineChartComponent {
             type: 'span',
             innerText: division.label
           })],
-          style: `left: ${((division.value - xAxisData.minPoint.x) / (xAxisData.maxPoint.x - xAxisData.minPoint.x)) * 100}%`
+          style: `left: ${((division.value - xAxisData.limits.minX) / (xAxisData.limits.maxX - xAxisData.limits.minX)) * 100}%`
         });
 
         xAxis.appendChild(next);
@@ -371,24 +484,31 @@ export class LineChartComponent {
 
   redraw(this: LineChartComponent) {
     const me = this,
-      minX = this.getPointXMin(),
-      maxX = this.getPointXMax(),
-      maxY = this.getPointYMax(),
       area = this.innerRect;
 
     this.canvas.clearColour = this.colours.background;
     this.canvas.clear();
 
-    if (this.showGridlines)
-      drawGridlines();
+    if (this._points.length > 0) {
+      const limits = this.getLimits();
 
-    for (let i = 1; i < this._points.length; i++) {
-      const start = convertPoint(this._points[i - 1]),
-        end = convertPoint(this._points[i]);
-      // debugger;
+      if (this.showGridlines)
+        drawGridlines();
 
-      console.log("pt #" + this._points[i - 1].x + ", x:" + start.x + ", y" + start.y);
-      this.canvas.drawLine(start.x, start.y, end.x, end.y, this.colours.line, 2);
+      function convertPoint(pt: LineChartPoint): LineChartPoint {
+        const output: LineChartPoint = {
+          x: limits.maxX - limits.minX != 0 ? area.x + (pt.x - limits.minX) * (area.width / (limits.maxX - limits.minX)) : area.x + area.width / 2,
+          y: limits.maxY - limits.minY != 0 ? area.bottom - ((pt.y - limits.minY) * (area.height / (limits.maxY - limits.minY))) : area.top + area.height / 2,
+          label: pt.label,
+        };
+        return output;
+      }
+
+      for (let i = 1; i < this._points.length; i++) {
+        const start = convertPoint(this._points[i - 1]),
+          end = convertPoint(this._points[i]);
+        this.canvas.drawLine(start.x, start.y, end.x, end.y, this.colours.line, 2);
+      }
     }
 
     function drawGridlines() {
@@ -397,41 +517,38 @@ export class LineChartComponent {
 
       let currentX: number = 0;
       for (let i = 1; i < xData.divisions.length; i++) {
-        const w = me.canvas.width * ((xData.divisions[i].value - xData.minPoint.x) / (xData.maxPoint.x - xData.minPoint.x));
-        if (currentX > w || w === me.canvas.width || w === 0) break;
-        currentX = w;
+        const x = me.canvas.width * ((xData.divisions[i].value - xData.limits.minX) / (xData.limits.maxX - xData.limits.minX));
+        const thickness = xData.divisions[i].label == '0' ? me.majorGridlineThickness : 1;
+        if (x < 0) continue;
+        if (currentX > x || x === me.canvas.width) break; // prevent x from going backwards
+        currentX = x;
         me.canvas.drawLine(
-          w,
+          x,
           0,
-          w,
+          x,
           me.canvas.height,
           me.colours.gridlines,
-          1);
+          thickness);
       }
 
       let currentY: number = 0;
       for (let i = 1; i < yData.divisions.length; i++) {
-        const h = me.canvas.height * ((yData.divisions[i].value - yData.minPoint.y) / (yData.maxPoint.y - yData.minPoint.y));
-        if (currentY > h || h === me.canvas.height || h === 0) break;
+        const h = me.canvas.height * ((yData.divisions[i].value - yData.limits.minY) / (yData.limits.maxY - yData.limits.minY));
+        const thickness = yData.divisions[i].value == 0 ? me.majorGridlineThickness : 1;
+        if (currentY > h || h === me.canvas.height || h === 0) break; // prevent y from going back down
+        if (h - currentY < 20) continue; // skip heavy overlaps
         currentY = h;
+
+        const top = me.canvas.height - h;
 
         me.canvas.drawLine(
           0,
-          h,
+          top,
           me.canvas.width,
-          h,
+          top,
           me.colours.gridlines,
-          1);
+          thickness);
       }
-    }
-
-    function convertPoint(pt: LineChartPoint): LineChartPoint {
-      const output: LineChartPoint = {
-        x: area.x + (pt.x - minX) * (area.width / (maxX - minX)),
-        y: area.bottom - (pt.y * (area.height / maxY)),
-        label: pt.label,
-      };
-      return output;
     }
   }
 
@@ -456,16 +573,13 @@ export class LineChartComponent {
         const definedRules = root.style.cssText.split(';');
         for (let i = 0; i < definedRules.length; i++) {
           const split = definedRules[i].split(':');
-          console.log(split);
           if (split[0].trim() == name) {
-            console.log(split[1].trim());
             return split[1].trim();
           }
         }
       }
 
       const result = style.getPropertyValue(name);
-      console.log(`${name}: ${result}`);
       if (result === '')
         throw new Error('Bad CSS variable name: ' + name);
 
