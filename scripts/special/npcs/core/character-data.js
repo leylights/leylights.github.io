@@ -1,7 +1,6 @@
 /**
  * Generates the data for a new NPC
  *
- * @todo ADD MORE DIVERSE NAME OPTIONS (which would probably be applied to most races with some exceptions (e.g. no german elves))
  * @todo implement overwriteData
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {

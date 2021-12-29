@@ -91,9 +91,6 @@ header {
 /* Div IDs */
 
 #main {
-  height: calc(100% - 64px);
-  transition: margin-right 0.5s ease;
-  margin-top: calc(64px + 0.5em);
   color: var(--text-color);
 }
 

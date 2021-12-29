@@ -22,6 +22,8 @@
   --reject-color: #8d0000;
   --primary-font: 'Poppins', Verdana;
   --hover-color-transition: linear 0.15s;
+
+  --button-padding: 0.5em;
 }
 
 header {
@@ -407,7 +409,7 @@ input {
   margin: auto;
   width: 120px;
   min-width: 100px;
-  padding: 0.5em;
+  padding: var(--button-padding);
   background-color: var(--primary-accent-color);
   color: var(--invert-text-color);
   cursor: pointer;

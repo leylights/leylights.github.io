@@ -36,9 +36,37 @@ export interface MenuItem extends CoreMenuItem {
   isExternalLink: boolean,
 }
 
-const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
-// const MENU_ITEMS = {
-  "infectionModel": {
+type MixedMenuItem = CoreMenuItem | MenuItem;
+interface MenuItemList {
+  infectionModel: MixedMenuItem;
+  emWaves: MixedMenuItem;
+  matrices: MixedMenuItem;
+  daydream: MixedMenuItem;
+  vectors: MixedMenuItem;
+  wiresV2: MixedMenuItem;
+  npcNames: MixedMenuItem;
+  pacManV2: MixedMenuItem;
+  npcSummons: MixedMenuItem;
+  diceHistogram: MixedMenuItem;
+  npcGenerator: MixedMenuItem;
+  npcInitiative: MixedMenuItem;
+  algebra: MixedMenuItem;
+  escape: MixedMenuItem;
+  dice: MixedMenuItem;
+  ticTacToe: MixedMenuItem;
+  kittenAndCrypt: MixedMenuItem;
+  luigi: MixedMenuItem;
+  wiresV1: MixedMenuItem;
+  complexCalculator: MixedMenuItem;
+  lunarDefense: MixedMenuItem;
+  quadraticCalc: MixedMenuItem;
+  pacManV1: MixedMenuItem;
+  eightBall: MixedMenuItem;
+  npcCreator: MixedMenuItem;
+}
+
+const MENU_ITEMS: MenuItemList = {
+  infectionModel: {
     "name": "Infection Model",
     "type": "Tool",
     "date": "April 2021",
@@ -48,7 +76,7 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
       "thumbnail": "siteimages/index/infection.png"
     }
   },
-  "emWaves": {
+  emWaves: {
     "name": "The Propagation of Electromagnetic Waves",
     "shortName": "EM Wave Animator",
     "type": "Tool",
@@ -61,7 +89,7 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
       "showcase": "siteimages/index/emwavesbig.png"
     }
   },
-  "matrices": {
+  matrices: {
     "name": "Matrix Calculator",
     "type": "Tool",
     "date": "June 2021",
@@ -72,7 +100,7 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
     "showInSmallMenus": false,
     "isSecret": true
   },
-  "daydream": {
+  daydream: {
     "name": "Daydream",
     "type": "Game",
     "date": "June 2019",
@@ -86,7 +114,7 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
     },
     "isExternalLink": true
   },
-  "vectors": {
+  vectors: {
     "name": "Vector Graphing Calculator",
     "shortName": "Vector Graphing",
     "type": "Tool",
@@ -97,7 +125,7 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
       "thumbnail": "siteimages/index/vectors.png"
     }
   },
-  "wiresV2": {
+  wiresV2: {
     "name": "Broken Wires",
     "shortName": "Broken Wires",
     "type": "Game",
@@ -110,7 +138,7 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
       "showcase": "siteimages/energy/showcase.png"
     }
   },
-  "algebra": {
+  algebra: {
     "name": "Algebraic Calculator",
     "type": "Tool",
     "date": "December 2020",
@@ -120,7 +148,7 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
     },
     "archive": true
   },
-  "ticTacToe": {
+  ticTacToe: {
     "name": "Tic Tac Toe AI",
     "type": "Game",
     "date": "April 2019",
@@ -133,7 +161,7 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
     "invertOnDark": true,
     "isExternalLink": true
   },
-  "escape": {
+  escape: {
     "name": "Starship Escape",
     "type": "Game",
     "date": "July 2018",
@@ -145,7 +173,7 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
       "showcase": "siteimages/escape/thumb.png"
     }
   },
-  "dice": {
+  dice: {
     "name": "Dice Roller",
     "type": "Tool",
     "date": "July 2018",
@@ -155,7 +183,7 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
       "thumbnail": "siteimages/dice/dicethumb.png"
     }
   },
-  "kittenAndCrypt": {
+  kittenAndCrypt: {
     "name": "The Kitten And The Crypt",
     "type": "Game",
     "date": "June 2018",
@@ -169,7 +197,7 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
     },
     "isExternalLink": true
   },
-  "luigi": {
+  luigi: {
     "name": "Mario 1-1",
     "type": "Game",
     "date": "Fall 2017",
@@ -181,7 +209,7 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
       "showcase": "siteimages/mario/showcase.png"
     }
   },
-  "complexCalculator": {
+  complexCalculator: {
     "name": "Complex Number Calculator",
     "shortName": "Complex Numbers I",
     "type": "Tool",
@@ -194,7 +222,7 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
     "archive": true,
     "showInSmallMenus": false
   },
-  "lunarDefense": {
+  lunarDefense: {
     "name": "Lunar Defense",
     "shortName": "Lunar Defense",
     "type": "Game",
@@ -208,7 +236,7 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
     },
     "archive": true
   },
-  "quadraticCalc": {
+  quadraticCalc: {
     "name": "Quadratic Calculator",
     "shortName": "Quadratics",
     "type": "Tool",
@@ -220,7 +248,7 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
     },
     "archive": true
   },
-  "pacManV1": {
+  pacManV1: {
     "name": "Pac-Man (Version 1)",
     "shortName": "Pac-Man V1",
     "type": "Game",
@@ -234,7 +262,7 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
     },
     "archive": true
   },
-  "pacManV2": {
+  pacManV2: {
     "name": "Pac-Man",
     "shortName": "Pac-Man",
     "type": "Game",
@@ -247,7 +275,7 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
       "showcase": "siteimages/pac/showcase-v2.png"
     }
   },
-  "eightBall": {
+  eightBall: {
     "name": "Magic 8 Ball",
     "shortName": "Eight Ball",
     "type": "Tool",
@@ -259,7 +287,7 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
     },
     "archive": true
   },
-  "npcGenerator": {
+  npcGenerator: {
     "name": "D&D 5e NPC Generator",
     "shortName": "NPC Generator",
     "type": "Tool",
@@ -271,7 +299,7 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
     },
     "invertOnDark": true
   },
-  "npcCreator": {
+  npcCreator: {
     "name": "D&D 5e NPC Creator",
     "shortName": "NPC Creator",
     "type": "Tool",
@@ -281,7 +309,7 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
       "href": "pages/npcs/creator.html"
     }
   },
-  "npcInitiative": {
+  npcInitiative: {
     "name": "D&D 5e Initiative Tracker",
     "shortName": "Initiative Tracker",
     "type": "Tool",
@@ -293,7 +321,7 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
     },
     "invertOnDark": true
   },
-  "npcNames": {
+  npcNames: {
     "name": "D&D 5e NPC Names List",
     "shortName": "NPC Names List",
     "type": "Tool",
@@ -304,7 +332,7 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
     },
     "isSecret": true
   },
-  "diceHistogram": {
+  diceHistogram: {
     "name": "Dice Histogram",
     "shortName": "Dice Histogram",
     "type": "Tool",
@@ -315,7 +343,18 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
       "thumbnail": "siteimages/dice/dicethumb.png"
     },
   },
-  "wiresV1": {
+  npcSummons: {
+    "name": "D&D 5e Creature Tracker",
+    "shortName": "Creature Tracker",
+    "type": "Tool",
+    "date": "December 2021",
+    "description": "Handle attack and damage rolls for many creatures at once.",
+    "links": {
+      "href": "pages/npcs/summons.html",
+      "thumbnail": "siteimages/creatures/thumbnail.png"
+    },
+  },
+  wiresV1: {
     "name": "Broken Wires (Version 1)",
     "shortName": "Broken Wires (V1)",
     "type": "Game",
@@ -332,9 +371,8 @@ const MENU_ITEMS: Record<string, (CoreMenuItem | MenuItem)> = {
 };
 
 const mainMenuConfig: (CoreMenuItem | MenuItem)[] = [
-  MENU_ITEMS.matrices,
-  MENU_ITEMS.npcNames,
   MENU_ITEMS.infectionModel,
+  MENU_ITEMS.npcSummons,
   MENU_ITEMS.pacManV2,
   MENU_ITEMS.diceHistogram,
   MENU_ITEMS.npcGenerator,
@@ -348,7 +386,9 @@ const mainMenuConfig: (CoreMenuItem | MenuItem)[] = [
   MENU_ITEMS.escape,
   MENU_ITEMS.ticTacToe,
   MENU_ITEMS.kittenAndCrypt,
-  MENU_ITEMS.luigi
+  MENU_ITEMS.luigi,
+  MENU_ITEMS.matrices,
+  MENU_ITEMS.npcNames
 ];
 
 const archiveMenuConfig = [
@@ -377,6 +417,7 @@ const topMenuConfig = {
       MENU_ITEMS.dice,
       MENU_ITEMS.npcGenerator,
       MENU_ITEMS.npcCreator,
+      MENU_ITEMS.npcSummons,
       MENU_ITEMS.diceHistogram,
       MENU_ITEMS.npcInitiative,
     ],

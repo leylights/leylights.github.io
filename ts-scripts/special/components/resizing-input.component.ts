@@ -65,9 +65,13 @@ export class ResizingInput extends InputComponent {
   /**
    * Parses through the HTML, initializing all input elements as necessary  
    */
-  static findAndCreate(): ResizingInput[] {
+  static findAndCreate(searchContainer?: HTMLElement): ResizingInput[] {
     const output: ResizingInput[] = [];
-    const results: HTMLInputElement[] = cws.Array.from.HTMLCollection(document.getElementsByClassName(ResizingInput.fitToContentClassName)) as HTMLInputElement[];
+    const selection = searchContainer
+      ? searchContainer.querySelectorAll(`.${ResizingInput.fitToContentClassName}`)
+      : document.getElementsByClassName(ResizingInput.fitToContentClassName);
+      
+    const results: HTMLInputElement[] = Array.from(selection) as HTMLInputElement[];
     results.forEach((el: HTMLInputElement) => {
       if (!el.classList.contains(this.createdClassName))
         output.push(new ResizingInput(el));
