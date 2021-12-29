@@ -1,4 +1,3 @@
-import { cws } from "../../cws.js";
 import { InputComponent } from "./input.component.js";
 /**
  * An HTMLInputElement that resizes to the width of its contents and placeholder
@@ -45,9 +44,12 @@ export class ResizingInput extends InputComponent {
     /**
      * Parses through the HTML, initializing all input elements as necessary
      */
-    static findAndCreate() {
+    static findAndCreate(searchContainer) {
         const output = [];
-        const results = cws.Array.from.HTMLCollection(document.getElementsByClassName(ResizingInput.fitToContentClassName));
+        const selection = searchContainer
+            ? searchContainer.querySelectorAll(`.${ResizingInput.fitToContentClassName}`)
+            : document.getElementsByClassName(ResizingInput.fitToContentClassName);
+        const results = Array.from(selection);
         results.forEach((el) => {
             if (!el.classList.contains(this.createdClassName))
                 output.push(new ResizingInput(el));

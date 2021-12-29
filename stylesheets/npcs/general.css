@@ -6,18 +6,6 @@
 
 /* Ability Scores */
 
-.asNames>th {
-  width: 14%;
-  color: var(--npcs-red);
-  font-size: 0.8em;
-}
-
-.asValues>td {
-  text-align: center;
-  color: var(--npcs-red);
-  font-size: 0.8em;
-}
-
 /* the NPC card */
 
 .monsterCard {
@@ -109,6 +97,18 @@
 .monsterCard p {
   font-size: 0.8em;
   color: var(--npcs-gray);
+}
+
+.asNames>th {
+  width: 14%;
+  color: var(--npcs-red);
+  font-size: 0.8em;
+}
+
+.asValues>td {
+  text-align: center;
+  color: var(--npcs-red);
+  font-size: 0.8em;
 }
 
 /* the menu */

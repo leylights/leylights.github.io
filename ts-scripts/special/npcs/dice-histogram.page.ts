@@ -185,7 +185,7 @@ export class NPCsDiceHistogramPage {
     const points: LineChartPoint[] = [];
 
     for (let i = 0; i < rolls.pos.length; i++) {
-      if (rolls.pos[i] == 0) // @todo allow user to decide whether to shrink
+      if (rolls.pos[i] == 0)
         continue;
       points.push({
         x: i,

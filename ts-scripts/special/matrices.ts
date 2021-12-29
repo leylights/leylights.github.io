@@ -6,19 +6,10 @@ import { BASE_TEMP_HIGHLIGHT_TIME } from "./components/general.js";
 /**
  * A program to handle complex number arithmetic.
  * 
- * Begin/End Date: May 30th, 2021 
+ * Begin Date: May 30th, 2021 
+ * End Date: August 2021
  * 
  * @author Cole Stanley
- */
-
-/**
- * @todo
- * 
- * FIX INFECTION.JS
- * 
- * Get cofactors
- * 
- * Make a class for canvases
  */
 
 /*

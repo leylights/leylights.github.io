@@ -27,7 +27,7 @@ interface ElementCreationData<ElementsType> {
 }
 
 interface CreateTableCreationData {
-  head: HTMLElement[][],
+  head?: HTMLElement[][],
   body: HTMLElement[][],
   classList?: string[],
   id?: string;
@@ -209,7 +209,9 @@ export class cws {
 
     if (data.id) element.id = data.id;
     if (data.classList) {
-      if (!Array.isArray(data.classList))
+      if (typeof data.classList === 'string' && data.classList.includes(' '))
+        data.classList = data.classList.split(' ');
+      else if (!Array.isArray(data.classList))
         data.classList = [data.classList];
 
       data.classList.forEach((className: string) => {
@@ -236,6 +238,19 @@ export class cws {
   }
 
   static createTable(data: CreateTableCreationData): HTMLTableElement {
+    const contents: HTMLElement[] = [];
+
+    // conditionally create head and body
+    if (data.head) contents.push(cws.createElement({
+      type: 'thead',
+      children: getRows(data.head, 'th')
+    }));
+    if (data.body) contents.push(cws.createElement({
+      type: 'tbody',
+      children: getRows(data.body, 'td')
+    }));
+
+    // create table
     const table = cws.createElement({
       type: 'table',
       id: data.id,
@@ -243,13 +258,7 @@ export class cws {
       style: data.style,
       otherNodes: data.otherNodes,
 
-      children: [cws.createElement({
-        type: 'thead',
-        children: getRows(data.head, 'th')
-      }), cws.createElement({
-        type: 'tbody',
-        children: getRows(data.body, 'td')
-      })],
+      children: contents,
     });
 
     return table;

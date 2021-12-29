@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>colestanley.ca | Creatures</title>
+  <link href="https://fonts.googleapis.com/css?family=Encode+Sans:400,700" rel="stylesheet">
+  <link href="../../stylesheets/main.css" rel="stylesheet">
+  </link>
+  <link href="../../stylesheets/npcs/summons.css" rel="stylesheet">
+  </link>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="icon" href="../../siteimages/favicon.png">
+  <script type="module" src="../../scripts/build-page.js"></script>
+  <script type="module" src="../../scripts/special/creatures/summons.page.js"></script>
+</head>
+
+<body style="margin:0">
+  <div id="loadingScreen">
+    <img src="../../siteimages/logo.svg">
+  </div>
+
+  <div id='popups-background'>
+    <div id='add-new-creature-container'>
+      <h2>Creature creator</h2>
+      <hr />
+      <p>Name: <input id='new-creature-name'></p>
+      <div id='creature-creator-grid'>
+        <h4>Health</h4>
+        <p>Health Dice:</p> <input id='new-creature-hp-dice'>
+        <p>Health Modifier:</p> <input id='new-creature-hp-mod'>
+        <h4>Attacks</h4>
+        <p>Attack Modifier:</p> <input id='new-creature-atk-mod'>
+        <h4>Damage</h4>
+        <p>Damage Dice:</p> <input id='new-creature-dmg-dice'>
+        <p>Damage Modifier:</p> <input id='new-creature-dmg-mod'>
+      </div>
+      <div id='create-new-creature-button'></div>
+    </div>
+  </div>
+
+  <div id="main">
+    <div class='content'>
+      <div id='title-bar'>
+        <h1>Creatures List</h1>
+        <div class='title-buttons'>
+          <div class='roll-all-btn'></div>
+          <div class='create-container'> </div>
+        </div>
+      </div>
+      <hr>
+      <div class='mobile-buttons'>
+        <div class='mobile-button-row'>
+          <div class='roll-all-btn'></div>
+          <div class='create-container'> </div>
+        </div>
+        <hr>
+      </div>
+      <div id='creatures-help-message'>
+        Begin by using the <span class='help-highlight'>"Add"</span> button to add a new creature.
+      </div>
+      <div id='creatures-grid-view'>
+      </div>
+      <hr>
+      <h2>Are criticals considered for damage rolls?</h2>
+      <p>No. The base damage is presented on all attacks including critical hits, and has not been doubled.</p>
+      <h2>Can I add my own creatures?</h2>
+      <p>Yes. Select "NEW" under the new creature selector, then press "Add".</p>
+    </div>
+  </div>
+</body>
+
+</html>
