@@ -237,6 +237,27 @@ export class cws {
     return element;
   }
 
+  /**
+   * Creates a link element.
+   * 
+   * DOES NOT ADD IT TO THE DOM
+   */
+  static createLinkElement(rel: string, href: string): HTMLLinkElement {
+    return cws.createElement({
+      type: 'link',
+      otherNodes: [
+        {
+          type: 'rel',
+          value: rel
+        },
+        {
+          type: 'href',
+          value: href
+        }
+      ]
+    });
+  }
+
   static createTable(data: CreateTableCreationData): HTMLTableElement {
     const contents: HTMLElement[] = [];
 
@@ -282,6 +303,12 @@ export class cws {
       return rows;
     }
   }
+
+  // Returns the number of days between two dates
+  static daysBetween(a: Date, b: Date): number {
+    return Math.abs(a.getTime() - b.getTime()) / (24 * 60 * 60 * 1000)
+  }
+
   /**
      * 
      * @deprecated use Canvas object instead 
@@ -798,6 +825,29 @@ export class cws {
       }
     }
   }
+
+  /**
+   * @example 1 => 1
+   * @example 1234 => 1 234
+   * @example 123456 => 123 456
+   */
+  static numberToPrettyNumber(label: number): string {
+    if (cws.isInteger(label)) {
+      return (label < 0 ? '-' : '') +
+        Math.abs(label)
+          .toString()
+          .split('')
+          .reverse()
+          .join('') // reverse order to split number correctly
+          .match(/.?.?.?/g)
+          .join(' ')
+          .split('')
+          .reverse()
+          .join('')
+          .trim();
+    } else return label + '';
+  }
+
   /**
    * Calculates the value of a missing side or angle
    */

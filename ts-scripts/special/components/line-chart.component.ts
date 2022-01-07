@@ -56,6 +56,7 @@ export class LineChartComponent {
   parentElement: HTMLElement;
   container: HTMLElement;
   canvas: Canvas;
+
   private _points: LineChartPoint[];
 
   canvasConfig: CanvasCreationData;
@@ -120,8 +121,13 @@ export class LineChartComponent {
     this.limits.y.min = data.limits?.y ? data.limits.x.min : null;
     this.limits.y.max = data.limits?.y ? data.limits.x.max : null;
 
-    PageBuilder.addDarkModeListener((isDark: boolean, styleSheet: CSSStyleSheet) => {
-      me.resetColours(styleSheet);
+    PageBuilder.addDarkModeListener({
+      config: {
+        notifyOnDebugToggle: true
+      },
+      listener: (isDark: boolean, styleSheet: CSSStyleSheet) => {
+        me.resetColours(styleSheet);
+      }
     });
 
     this.rebuild();
@@ -151,6 +157,12 @@ export class LineChartComponent {
     this._points = pts.sort((a, b) => {
       return b.x - a.x;
     });
+
+    pts.forEach((pt) => {
+      if (isNaN(pt.x) || isNaN(pt.y)) {
+        throw new Error(`Bad point: (${pt.x}, ${pt.y})`);
+      }
+    })
 
     this.rebuild();
   }
@@ -215,7 +227,7 @@ export class LineChartComponent {
       divisions = [];
     } else if (pointAttribute == 'x') {
       if (shouldGenerateDivisions)
-        divisions = generateNewDiv(allLimits.minX, allLimits.maxX, [10, 11, 12, 13, 14]);
+        divisions = generateNewDiv(allLimits.minX, allLimits.maxX, [10, 11, 12, 13, 14], true);
       else {
         divisions = uniqueValues.filter((value: number) => {
           return allLimits.minX <= value && value <= allLimits.maxX;
@@ -230,25 +242,36 @@ export class LineChartComponent {
         });
       }
     } else { // y axis
-      divisions = generateNewDiv(allLimits.minY, allLimits.maxY, [8, 9, 10, 11, 12]);
+      divisions = generateNewDiv(allLimits.minY, allLimits.maxY, [8, 9, 10, 11, 12], false);
     }
-    // const divisions = this._points.length > 0 ? pointAttribute == 'x' ? generateEvenDivisions() : generateNewYDiv() : [];
 
-    function generateNewDiv(min: number, max: number, divisors: number[]): LineChartAxisDivision[] {
+    function generateNewDiv(min: number, max: number, divisors: number[], labelDivisions: boolean): LineChartAxisDivision[] {
       const initialMax = max;
       let space = -1;
       let success = false;
 
       // find an integer spacing that creates a reasonable number of divisors
-      while (!success) {
-        for (let i = 0; i < divisors.length; i++) {
-          if (cws.isInteger((max - min) / divisors[i])) {
-            space = (max - min) / divisors[i];
-            success = true;
-            break;
+      if (allValuesAreIntegers()) {
+        while (!success) {
+          for (let i = 0; i < divisors.length; i++) {
+            if (cws.isInteger((max - min) / divisors[i])) {
+              space = (max - min) / divisors[i];
+              success = true;
+              break;
+            }
           }
+          max++;
         }
-        max++;
+      } else {
+        space = (max - min) / divisors[Math.floor(divisors.length / 2)];
+        success = true;
+      }
+
+      function allValuesAreIntegers() {
+        for (let i = 0; i < me._points.length; i++) {
+          if (!cws.isInteger(me._points[i][pointAttribute])) return false;
+        }
+        return true;
       }
 
       const values: number[] = [];
@@ -259,16 +282,32 @@ export class LineChartComponent {
       }
 
       // round divisors
-      const roundingDigit = values.length > 0 ? values[values.length - 1].toString().length - 3 : 0;
+      const roundingDigit = values.length > 0 ? Math.round(values[values.length - 1]).toString().length - 3 : 0;
       const output: LineChartAxisDivision[] = [];
 
       values.forEach((n) => {
         n = cws.roundToNthDigit(n, roundingDigit);
         output.push({
-          label: n + '',
+          label: findLabel(n),
           value: n,
         });
       });
+
+      function findLabel(x: number): string {
+        if (!labelDivisions) return cws.numberToPrettyNumber(x);
+
+        for (let i = 0; i < me._points.length; i++) {
+          if (me._points[i][pointAttribute] == x) {
+            if (me._points[i].label) {
+              return me._points[i].label;
+            } else {
+              return cws.numberToPrettyNumber(x);
+            }
+          }
+        }
+
+        return x + '';
+      }
 
       return output;
     }
@@ -429,9 +468,12 @@ export class LineChartComponent {
 
     this.canvas.drawOnce(() => { me.main(); });
 
+    // Rotates x axis labels when necessary
     function attemptRotateXAxis(): boolean {
       let lastDivision: HTMLDivElement = null;
       let needsRotation: boolean = false;
+
+      // Determine if the rotation is necessary
       const results = Array.from(xAxis.querySelectorAll(`.${xDivisionClassName}`)).sort((a: HTMLElement, b: HTMLElement) => {
         return a.getBoundingClientRect().x - b.getBoundingClientRect().x;
       }) as HTMLDivElement[];
@@ -448,6 +490,7 @@ export class LineChartComponent {
           lastDivision = results[i];
       };
 
+      // If rotation is necessary, rotate using css
       if (needsRotation) {
         results.forEach((divider) => {
           divider.style.writingMode = 'vertical-rl';
@@ -561,8 +604,6 @@ export class LineChartComponent {
 
     if (this._isInitialized)
       this.redraw();
-
-    console.log('colours reset');
 
     function getColourOrError(name: string): string {
       const root: CSSStyleRule = Array.from(styleSheet.cssRules).filter((rule: CSSStyleRule) => {

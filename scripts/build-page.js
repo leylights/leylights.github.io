@@ -88,14 +88,12 @@ export class PageBuilder {
      */
     static addDarkModeListener(listener) {
         if (PageBuilder.darkModeStatus == DarkModeResults.Light) {
-            listener(false, PageBuilder.getLightModeStyleSheet());
+            listener.listener(false, PageBuilder.getLightModeStyleSheet());
         }
         else if (PageBuilder.darkModeStatus == DarkModeResults.Dark) {
-            listener(true, PageBuilder.getDarkModeStyleSheet());
+            listener.listener(true, PageBuilder.getDarkModeStyleSheet());
         }
-        else {
-            PageBuilder.darkModeListeners.push(listener);
-        }
+        PageBuilder.darkModeListeners.push(listener);
     }
     /**
      * Builds the top of a generic page
@@ -117,10 +115,6 @@ export class PageBuilder {
         });
         // darkmode
         PageBuilder.doDarkmode(false);
-        // building the page
-        let addSrc = "";
-        if (!index)
-            addSrc = "../";
         // header
         let header = document.createElement("header");
         header.setAttributeNode(cws.betterCreateAttr("id", "header"));
@@ -223,31 +217,14 @@ export class PageBuilder {
      * @param force Forces darkmode to activate no matter the time of day
      */
     static doDarkmode(force) {
-        const mainCSSArr = Array.from(document.getElementsByTagName("link"))
-            .filter(function (x) { return x.rel == "stylesheet"; })
-            .filter(function (x) { return x.href.search("main.css") != -1; });
-        if (mainCSSArr.length == 0) // MAIN.CSS IS NOT PRESENT ON PAGE; dark mode does not apply
-            return;
         if (force || cws.isDark) {
-            const mainCSS = mainCSSArr[0];
-            const darkCSS = document.createElement("link");
-            darkCSS.setAttributeNode(cws.betterCreateAttr("href", cws.getRelativeUrlPath("stylesheets/main-dark.css")));
-            darkCSS.setAttributeNode(cws.betterCreateAttr("rel", "stylesheet"));
-            darkCSS.addEventListener('load', () => {
-                const darkStyleSheet = PageBuilder.getDarkModeStyleSheet();
-                console.log(darkStyleSheet);
-                PageBuilder.darkModeStatus = DarkModeResults.Dark;
-                PageBuilder.darkModeListeners.forEach((listener) => {
-                    listener(true, darkStyleSheet);
-                });
-            });
-            mainCSS.parentNode.insertBefore(darkCSS, mainCSS.nextSibling); // insertion
+            this.enableDarkMode(force);
         }
         else {
             const lightStyleSheet = PageBuilder.getLightModeStyleSheet();
             PageBuilder.darkModeStatus = DarkModeResults.Light;
             PageBuilder.darkModeListeners.forEach((listener) => {
-                listener(false, lightStyleSheet);
+                listener.listener(false, lightStyleSheet);
             });
         }
     }
@@ -264,12 +241,47 @@ export class PageBuilder {
         return ss;
     }
     /**
-     * Removes the main_dark.css stylesheet
+     * Adds the main_dark.css stylesheet and notifies listeners
+     */
+    static enableDarkMode(isFromDebug) {
+        // find main.css link
+        const mainCSSArr = Array.from(document.getElementsByTagName("link"))
+            .filter((x) => { return x.rel == "stylesheet"; })
+            .filter((x) => { return x.href.includes("main.css"); });
+        if (mainCSSArr.length == 0) // MAIN.CSS IS NOT PRESENT ON PAGE; dark mode does not apply
+            return;
+        const mainCSS = mainCSSArr[0];
+        const darkCSS = cws.createLinkElement('stylesheet', cws.getRelativeUrlPath("stylesheets/main-dark.css"));
+        mainCSS.parentNode.insertBefore(darkCSS, mainCSS.nextSibling); // insertion
+        darkCSS.addEventListener('load', () => {
+            const darkStyleSheet = PageBuilder.getDarkModeStyleSheet();
+            PageBuilder.darkModeStatus = DarkModeResults.Dark;
+            PageBuilder.darkModeListeners.forEach((listener) => {
+                listener.listener(true, darkStyleSheet);
+            });
+        });
+        // activate listeners
+        if (isFromDebug)
+            this.darkModeListeners.forEach((listener) => {
+                var _a;
+                if ((_a = listener.config) === null || _a === void 0 ? void 0 : _a.notifyOnDebugToggle) {
+                    listener.listener(false, PageBuilder.getDarkModeStyleSheet());
+                }
+            });
+    }
+    /**
+     * Removes the main_dark.css stylesheet and notifies listeners
      */
     static removeDarkMode() {
         Array.from(document.head.querySelectorAll('link')).forEach((link) => {
             if (link.href.includes('dark.css'))
                 link.remove();
+        });
+        this.darkModeListeners.forEach((listener) => {
+            var _a;
+            if ((_a = listener.config) === null || _a === void 0 ? void 0 : _a.notifyOnDebugToggle) {
+                listener.listener(false, PageBuilder.getLightModeStyleSheet());
+            }
         });
     }
 }
