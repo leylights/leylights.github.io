@@ -13,7 +13,12 @@ enum DarkModeResults {
   NoResponse
 }
 
-export type PageBuilderDarkModeListener = (isDark: boolean, styleSheet: CSSStyleSheet) => void;
+export type PageBuilderDarkModeListener = {
+  listener: (isDark: boolean, styleSheet?: CSSStyleSheet) => void,
+  config?: {
+    notifyOnDebugToggle?: boolean
+  }
+}
 
 export class PageBuilder {
   private static darkModeListeners: PageBuilderDarkModeListener[] = [];
@@ -83,12 +88,11 @@ export class PageBuilder {
    */
   static addDarkModeListener(listener: PageBuilderDarkModeListener) {
     if (PageBuilder.darkModeStatus == DarkModeResults.Light) {
-      listener(false, PageBuilder.getLightModeStyleSheet());
+      listener.listener(false, PageBuilder.getLightModeStyleSheet());
     } else if (PageBuilder.darkModeStatus == DarkModeResults.Dark) {
-      listener(true, PageBuilder.getDarkModeStyleSheet());
-    } else {
-      PageBuilder.darkModeListeners.push(listener);
+      listener.listener(true, PageBuilder.getDarkModeStyleSheet());
     }
+    PageBuilder.darkModeListeners.push(listener);
   }
 
   /**
@@ -117,14 +121,6 @@ export class PageBuilder {
     // darkmode
 
     PageBuilder.doDarkmode(false);
-
-    // building the page
-
-    let addSrc = "";
-
-    if (!index)
-      addSrc = "../";
-
 
     // header
 
@@ -247,35 +243,13 @@ export class PageBuilder {
    */
 
   static doDarkmode(force?: boolean) {
-    const mainCSSArr = Array.from(document.getElementsByTagName("link"))
-      .filter(function (x) { return x.rel == "stylesheet" })
-      .filter(function (x) { return x.href.search("main.css") != -1 });
-
-    if (mainCSSArr.length == 0) // MAIN.CSS IS NOT PRESENT ON PAGE; dark mode does not apply
-      return;
-
     if (force || cws.isDark) {
-      const mainCSS = mainCSSArr[0];
-      const darkCSS = document.createElement("link");
-
-      darkCSS.setAttributeNode(cws.betterCreateAttr("href", cws.getRelativeUrlPath("stylesheets/main-dark.css")));
-      darkCSS.setAttributeNode(cws.betterCreateAttr("rel", "stylesheet"));
-      darkCSS.addEventListener('load', () => {
-        const darkStyleSheet: CSSStyleSheet = PageBuilder.getDarkModeStyleSheet();
-        console.log(darkStyleSheet);
-
-        PageBuilder.darkModeStatus = DarkModeResults.Dark;
-        PageBuilder.darkModeListeners.forEach((listener: PageBuilderDarkModeListener) => {
-          listener(true, darkStyleSheet);
-        });
-      });
-
-      mainCSS.parentNode.insertBefore(darkCSS, mainCSS.nextSibling); // insertion
+      this.enableDarkMode(force);
     } else {
       const lightStyleSheet: CSSStyleSheet = PageBuilder.getLightModeStyleSheet();
       PageBuilder.darkModeStatus = DarkModeResults.Light;
       PageBuilder.darkModeListeners.forEach((listener: PageBuilderDarkModeListener) => {
-        listener(false, lightStyleSheet);
+        listener.listener(false, lightStyleSheet);
       });
     }
   }
@@ -296,12 +270,52 @@ export class PageBuilder {
   }
 
   /**
-   * Removes the main_dark.css stylesheet
+   * Adds the main_dark.css stylesheet and notifies listeners
+   */
+  static enableDarkMode(isFromDebug: boolean): void {
+    // find main.css link
+    const mainCSSArr = Array.from(document.getElementsByTagName("link"))
+      .filter((x) => { return x.rel == "stylesheet" })
+      .filter((x) => { return x.href.includes("main.css") });
+
+    if (mainCSSArr.length == 0) // MAIN.CSS IS NOT PRESENT ON PAGE; dark mode does not apply
+      return;
+
+    const mainCSS = mainCSSArr[0];
+    const darkCSS = cws.createLinkElement('stylesheet', cws.getRelativeUrlPath("stylesheets/main-dark.css"))
+
+    mainCSS.parentNode.insertBefore(darkCSS, mainCSS.nextSibling); // insertion
+
+    darkCSS.addEventListener('load', () => {
+      const darkStyleSheet: CSSStyleSheet = PageBuilder.getDarkModeStyleSheet();
+      PageBuilder.darkModeStatus = DarkModeResults.Dark;
+      PageBuilder.darkModeListeners.forEach((listener: PageBuilderDarkModeListener) => {
+        listener.listener(true, darkStyleSheet);
+      });
+    });
+
+    // activate listeners
+    if (isFromDebug)
+      this.darkModeListeners.forEach((listener: PageBuilderDarkModeListener) => {
+        if (listener.config?.notifyOnDebugToggle) {
+          listener.listener(false, PageBuilder.getDarkModeStyleSheet());
+        }
+      });
+  }
+
+  /**
+   * Removes the main_dark.css stylesheet and notifies listeners
    */
   static removeDarkMode(): void {
     Array.from(document.head.querySelectorAll('link')).forEach((link: HTMLLinkElement) => {
       if (link.href.includes('dark.css'))
         link.remove();
+    });
+
+    this.darkModeListeners.forEach((listener: PageBuilderDarkModeListener) => {
+      if (listener.config?.notifyOnDebugToggle) {
+        listener.listener(false, PageBuilder.getLightModeStyleSheet());
+      }
     });
   }
 }

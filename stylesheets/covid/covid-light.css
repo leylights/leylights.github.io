@@ -1,0 +1,37 @@
+:root {
+  /* --primary-accent-color: #ad0058; */
+  --covid-tab-colour: #444;
+  --covid-selected-tab-colour: var(--primary-accent-color);
+  --covid-card-color: var(--secondary-bg-color);
+}
+
+.display-card {
+  box-shadow: 0 0 7px -1px #888 inset;
+  background-color: unset;
+}
+
+.line-chart-container {
+  background-color: #fff;
+}
+
+.line-chart-container canvas {
+  background-color: #fff;
+}
+
+.display-card.success-card {
+  color: var(--success-color);
+}
+
+.display-card.fail-card {
+  color: var(--reject-color);
+}
+
+.covid-tab {
+  border-bottom: 1px solid var(--covid-tab-colour);
+}
+
+.covid-tab.selected,
+.covid-tab:hover {
+  color: var(--covid-selected-tab-colour);
+  border-bottom: 1px solid var(--covid-selected-tab-colour);
+}

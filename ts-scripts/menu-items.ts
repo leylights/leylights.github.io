@@ -63,6 +63,7 @@ interface MenuItemList {
   pacManV1: MixedMenuItem;
   eightBall: MixedMenuItem;
   npcCreator: MixedMenuItem;
+  covidDashboard: MixedMenuItem;
 }
 
 const MENU_ITEMS: MenuItemList = {
@@ -367,10 +368,22 @@ const MENU_ITEMS: MenuItemList = {
       "showcase": "siteimages/energy/showcase.png"
     },
     "archive": true,
-  }
+  },
+  covidDashboard: {
+    "name": "COVID-19 Dashboard",
+    "shortName": "COVID Dashboard",
+    "type": "Tool",
+    "date": "January 2022",
+    "description": "Track daily COVID-19 updates using the COVID-19 Canada Open Data Working Group's open API.",
+    "links": {
+      "thumbnail": "siteimages/covid/thumb.png",
+      "href": "pages/covid-data/home.html",
+    },
+  },
 };
 
 const mainMenuConfig: (CoreMenuItem | MenuItem)[] = [
+  MENU_ITEMS.covidDashboard,
   MENU_ITEMS.infectionModel,
   MENU_ITEMS.npcSummons,
   MENU_ITEMS.pacManV2,
@@ -421,6 +434,7 @@ const topMenuConfig = {
       MENU_ITEMS.diceHistogram,
       MENU_ITEMS.npcInitiative,
     ],
+    MENU_ITEMS.covidDashboard,
     MENU_ITEMS.matrices,
     MENU_ITEMS.infectionModel,
     MENU_ITEMS.vectors,
