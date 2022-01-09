@@ -279,6 +279,7 @@ export class LineChartComponent {
       // generate divisors
       for (let x = min; x <= initialMax; x += space) {
         values.push(x);
+        if (space === 0) break;
       }
 
       // round divisors

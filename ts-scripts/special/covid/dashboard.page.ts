@@ -211,6 +211,7 @@ class COVIDDashboardPage {
       }, 'Load', true);
 
       me.sections.regionSelect.appendToBody(body);
+      me.sections.provinceSelect.appendToBody(cws.createElement({ type: 'br' }));
     }
 
     function buildProvinceSelectorDashboard() {
@@ -261,6 +262,7 @@ class COVIDDashboardPage {
       }, 'Load', true);
 
       me.sections.provinceSelect.appendToBody(body);
+      me.sections.provinceSelect.appendToBody(cws.createElement({ type: 'br' }));
     }
 
     function buildRegionalDashboard(section: COVIDSection | HTMLElement, region: COVIDHealthUnit) {
@@ -364,7 +366,11 @@ class COVIDDashboardPage {
     }
 
     function buildTimeSeriesAnalysis(section: COVIDSection | HTMLElement, region: COVIDRegion, includeActiveCases: boolean) {
-      const days = 690;
+      const CASES_START: Date = new Date('2020-01-25'),
+        DEATHS_START: Date = new Date('2020-03-08'),
+        TODAY: Date = new Date(Date.now() - Date.now() % (24 * 60 * 60 * 1000)),
+        caseDays = cws.daysBetween(CASES_START, TODAY) ,
+        deathsDays = cws.daysBetween(DEATHS_START, TODAY);
 
       const title = cws.createElement({ type: 'h2', innerText: 'Time-series analysis' });
       if (section instanceof COVIDSection)
@@ -390,7 +396,7 @@ class COVIDDashboardPage {
 
       function buildCharts(collection: COVIDSectionCollection, averageDays: number) {
         buildPastNDaysChart(collection, {
-          days: days,
+          days: caseDays - averageDays,
           title: 'New cases per day',
           shortTitle: 'New cases',
           timeSeriesURI: `timeseries?loc=${region.locationId}&stat=cases&ymd=true`,
@@ -401,7 +407,7 @@ class COVIDDashboardPage {
         }, () => { resetHeights(); });
 
         buildPastNDaysChart(collection, {
-          days: cws.daysBetween(new Date('2020-03-08'), new Date(Date.now() - Date.now() % (24 * 60 * 60 * 1000))) - averageDays - 1,
+          days: deathsDays - averageDays,
           title: 'Deaths per day',
           shortTitle: 'Mortality',
           timeSeriesURI: `timeseries?loc=${region.locationId}&stat=mortality&ymd=true`,
@@ -413,7 +419,7 @@ class COVIDDashboardPage {
 
         if (includeActiveCases)
           buildPastNDaysChart(collection, {
-            days: days,
+            days: caseDays - averageDays,
             title: 'Active cases per day',
             shortTitle: 'Active cases',
             timeSeriesURI: `timeseries?loc=${region.locationId}&stat=active&ymd=true`,
