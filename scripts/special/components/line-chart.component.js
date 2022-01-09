@@ -175,6 +175,8 @@ export class LineChartComponent {
             // generate divisors
             for (let x = min; x <= initialMax; x += space) {
                 values.push(x);
+                if (space === 0)
+                    break;
             }
             // round divisors
             const roundingDigit = values.length > 0 ? Math.round(values[values.length - 1]).toString().length - 3 : 0;
