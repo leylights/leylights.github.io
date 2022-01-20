@@ -1,3 +1,4 @@
+import { SpotlightHeader } from "../showcase/spotlight-header.js";
 import { ResumeExperienceItemComponent } from "./components/experience-item.component.js";
 import { ResumeLanguageComponent } from "./components/language-item.component.js";
 import { ResumeOccupationItemComponent } from "./components/occupation-item.component.js";
@@ -9,6 +10,7 @@ export class ResumePage {
         this.projects = [];
         this.languages = [];
         const me = this;
+        new SpotlightHeader(document.getElementById('showcase'));
         loadExperience();
         loadProjects();
         loadLanguages();
@@ -24,8 +26,8 @@ export class ResumePage {
                 mainImageUrl: 'siteimages/resume/uptake.png',
                 darkImageUrl: 'siteimages/resume/uptake_dark.png',
                 experiencePoints: [
-                    `Independently developed <C><L>NestJS</L> RESTful API</C> endpoints and complex <C><L>SQL</L></C> stored procedures to support frontend requirements`,
-                    `<C>Worked with a team</C> to deploy new features to <C>production environments</C> using the <L>Ext JS</L> component framework to meet design specifications`,
+                    `Independently developed <C><L term=javascript>NestJS</L> RESTful API</C> endpoints and complex <C><L>SQL</L></C> stored procedures to support frontend requirements`,
+                    `<C>Worked with a team</C> to deploy new features to <C>production environments</C> using the <L term=javascript>Ext JS</L> component framework to meet design specifications`,
                     `Contributed to the development process, including <C><L>git</L></C> workflows, code reviews, <C>test-driven development</C>, and consultation with design teams to maximize code confidence and acceptability`,
                 ]
             }));
@@ -88,6 +90,7 @@ export class ResumePage {
                 dates: ['Spring 2017 \u2013 Present'],
                 mainImageUrl: 'siteimages/logo.svg',
                 darkImageUrl: 'siteimages/logo.svg',
+                imageAlt: 'colestanley.ca',
                 experiencePoints: [
                     `Developed and maintained a <C>mobile-aware</C> portfolio website, upgrading it as my development and <C>design</C> capabilities grew`,
                     `Updated site regularly with new projects, including a <L term='javascript typescript'>COVID-19 infection model</L>, <L term='java'>a machine-learning AI</L>,

@@ -18,6 +18,10 @@ h5 {
   font-style: italic;
 }
 
+#showcase-main-spotlight {
+  margin-top: 73px;
+}
+
 .eduGrid h4 {
   color: var(--light-text-color);
 }
@@ -98,7 +102,7 @@ a:hover {
   position: absolute;
   background-color: var(--primary-bg-color);
   width: 100%;
-  top: 75%;
+  /* top: 75%; */
 }
 
 .itemImg {
@@ -322,85 +326,107 @@ a:hover {
   .itemImage {
     display: none;
   }
+
   .itemSurround {
     top: 50%;
   }
+
   .rightAlignClass {
     /* float: left; */
     text-align: left;
   }
+
   #CscaTitle {
     width: null;
   }
+
   table.equal-2-col>tbody>tr>td {
     display: contents;
   }
+
   table.equal-2-col>tbody>tr>td ul {
     margin: 0;
   }
+
   .grid2x2 {
     display: block;
   }
+
   .grid2x2 .topRight {
     text-align: left;
   }
+
   .textAccentImage {
     max-width: 200px;
     width: 60%;
     margin: auto;
     float: none;
   }
+
   .textWithAccent {
     width: 100%;
     float: none;
   }
+
   .eduMobile {
     display: unset;
     text-align: center;
   }
+
   .eduMobile p {
     margin: 0;
   }
+
   .eduMobile img {
     margin: auto;
     width: 60%;
     padding: 2em 20%;
   }
+
   .eduDesk {
     display: none;
   }
+
   #skills-list {
     height: 200px;
   }
+
   .experience-table tr {
     display: block;
   }
+
   .experience-table th, td {
     display: block;
   }
+
   .experience-table .experience-date, .experience-grid .experience-date {
     text-align: left;
     float: left;
     width: 100%;
     font-size: 0.9em;
   }
+
   .workplace-name {
     font-style: italic;
     color: var(--light-text-color);
   }
+
   .experience-image, .experience-image.reversed {
     display: block;
     float: none;
     margin: auto;
     padding: 0;
   }
+
   .experience-image {
     margin: auto;
     display: block;
   }
+
   .experience-image-container {
     padding: 1em 0;
   }
+
   .experience-image.dark-only {
     display: none;
   }
@@ -410,20 +436,25 @@ a:hover {
   .itemImage {
     display: none;
   }
+
   .rightAlignClass {
     /* float: left; */
     text-align: left;
   }
+
   .itemSurround {
     box-shadow: none !important;
   }
+
   .item>h3:last-child {
     border-bottom: 1px solid #bbb;
     padding-bottom: 3em;
   }
+
   #CscaTitle {
     width: null;
   }
+
   .lowerShowcaseContainer {
     display: none;
   }

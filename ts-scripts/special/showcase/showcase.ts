@@ -1,6 +1,6 @@
-import { cws } from "../cws.js";
-import { MenuItem, Menu } from "../menu-items.js";
-import { KeyboardListener } from "../tools/keyboard-listener.js";
+import { cws } from "../../cws.js";
+import { MenuItem, Menu } from "../../menu-items.js";
+import { KeyboardListener } from "../../tools/keyboard-listener.js";
 
 const PARALLAX_SLOW = 0.5; // 0 < PARALLAX_SLOW <= 0.5
 const PARALLAX_HEIGHT_SLOW_MULT = 1; // 0 <= PARALLAX_HEIGHT_SLOW_MULT; faster < 1 < slower
@@ -59,56 +59,7 @@ function init(): void {
  */
 
 function createItem(item: MenuItem, specialClass?: string): void {
-
-  let baseItem = Menu.BASE_ITEM_INNER_HTML.substring(0);
-
-  baseItem = baseItem.replace("TITLE", item.name);
-  baseItem = baseItem.replace("TYPE", item.type);
-  baseItem = baseItem.replace("ITEM_NUMBER", itemNo + "");
-  baseItem = baseItem.replace("DATE_OF_CREATION", item.date);
-  baseItem = baseItem.replace("DESC", item.description);
-  baseItem = baseItem.replace("LINK_TO_PAGE", item.links.href);
-  baseItem = baseItem.replace("SIDE_IMAGE_SRC", item.links.thumbnail);
-  baseItem = baseItem.replace("OTHER_ITEM_CLASSES", specialClass);
-
-  // image style
-  if (item.type == "Tool") {
-    baseItem = baseItem.replace(/RIGHT_CLASS/g, "rightAlignClass");
-    baseItem = baseItem.replace("IMAGE_STYLE", "style = 'float:left; margin-right: 3em'");
-  } else {
-    baseItem = baseItem.replace(/RIGHT_CLASS/g, "");
-    baseItem = baseItem.replace("IMAGE_STYLE", "style = 'float:right; margin-left: 3em'");
-  }
-
-  // image class
-  if (item.invertOnDark) {
-    baseItem = baseItem.replace("IMAGE_CLASS", "class='itemImage dark-invert-filter'");
-  } else {
-    baseItem = baseItem.replace("IMAGE_CLASS", "class='itemImage'");
-  }
-
-  // appending
-  let el = document.createElement("div");
-  el.innerHTML = baseItem;
-  el.setAttributeNode(cws.betterCreateAttr("class", "itemSurround"));
-  el.setAttributeNode(cws.betterCreateAttr("id", "item" + itemNo));
-
-  // showcase
-  if (item.showcase) {
-    let showcase = document.createElement("div");
-    showcase.setAttributeNode(cws.betterCreateAttr("class", "lowerShowcaseContainer"));
-    showcase.setAttributeNode(cws.betterCreateAttr("style", "height: " + Menu.SHOWCASE_HEIGHT + "px"));
-
-    let showcaseInner = Menu.BASE_LOWER_SHOWCASE_INNER_HTML.substring(0);
-    showcaseInner = showcaseInner.replace("SHOWCASE_SRC", item.links.showcase);
-    showcase.innerHTML = showcaseInner;
-
-    document.getElementById("main").insertBefore(showcase,
-      document.getElementById("baseItem"));
-  }
-
-  document.getElementById("main").insertBefore(el,
-    document.getElementById("baseItem"));
+  
 
   itemNo++;
 }

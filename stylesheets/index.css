@@ -1,6 +1,6 @@
 body {
   margin: auto;
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 /* Fonts */
@@ -33,7 +33,6 @@ a:hover {
 
 .itemSurround {
   margin: auto;
-  position: relative;
   z-index: 10;
   top: 75%;
   width: 100%;
@@ -94,7 +93,7 @@ a:hover {
 
 .lowerShowcase {
   margin: auto;
-  margin-top: 0px;
+  margin-top: 0;
   position: relative;
   width: 100vw;
   transition: width .5s;
@@ -129,7 +128,7 @@ a:hover {
 
 #showcase {
   margin: auto;
-  margin-top: 0px;
+  margin-top: 0;
   width: 101%;
   position: fixed;
   z-index: -5;

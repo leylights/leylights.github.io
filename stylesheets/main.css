@@ -210,6 +210,19 @@ input {
   display: block;
 }
 
+#resume-header-button {
+  background-color: var(--primary-accent-color);
+  border-radius: 6px;
+  color: var(--invert-text-color);
+  padding: 7px 16px;
+  transition: var(--hover-color-transition);
+}
+
+#resume-header-button:hover {
+  background-color: var(--secondary-accent-color);
+  color: var(--text-color);
+}
+
 /* classes */
 
 /* Ham */
@@ -583,15 +596,19 @@ td.cell-reject {
   #hamImage {
     display: block;
   }
+
   .headerMenu {
     display: none;
   }
+
   .mobile-only {
     display: inherit;
   }
+
   .desktop-only {
     display: none !important;
   }
+
   .horizontal-grid.squash-mobile {
     display: block;
   }
@@ -601,6 +618,7 @@ td.cell-reject {
   #headerLogo {
     display: none;
   }
+
   #headerName {
     font-size: 0.8em;
   }

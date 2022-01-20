@@ -8,6 +8,7 @@ interface ResumeExperienceItemComponentCreationData {
   experiencePoints: string[];
   mainImageUrl: string;
   darkImageUrl: string;
+  imageAlt: string;
   flipped?: boolean;
   type: 'table' | 'grid';
   invertDarkImg?: boolean;
@@ -25,6 +26,7 @@ export class ResumeExperienceItemComponent {
   private _experiencePoints: string[];
   private _mainImageSrc: string;
   private _darkImageSrc: string;
+  private _imageAlt: string;
   private _invertDarkImg: boolean;
 
   constructor(data: ResumeExperienceItemComponentCreationData) {
@@ -41,6 +43,7 @@ export class ResumeExperienceItemComponent {
 
     this._mainImageSrc = cws.getRelativeUrlPath(validateUrl(data.mainImageUrl));
     this._darkImageSrc = cws.getRelativeUrlPath(validateUrl(data.darkImageUrl));
+    this._imageAlt = data.imageAlt;
     this._invertDarkImg = data.invertDarkImg || false;
 
     this.rebuildFn();
@@ -277,6 +280,9 @@ export class ResumeExperienceItemComponent {
       otherNodes: [{
         type: 'src',
         value: me._mainImageSrc
+      }, {
+        type: 'alt',
+        value: me._imageAlt
       }]
     }), cws.createElement({
       type: 'img',
@@ -284,6 +290,9 @@ export class ResumeExperienceItemComponent {
       otherNodes: [{
         type: 'src',
         value: me._darkImageSrc
+      }, {
+        type: 'alt',
+        value: me._imageAlt
       }]
     })];
   }

@@ -1,11 +1,12 @@
-import { cws } from "../cws.js";
-import { Menu } from "../menu-items.js";
-import { KeyboardListener } from "../tools/keyboard-listener.js";
+import { cws } from "../../cws.js";
+import { Menu } from "../../menu-items.js";
+import { KeyboardListener } from "../../tools/keyboard-listener.js";
 const PARALLAX_SLOW = 0.5; // 0 < PARALLAX_SLOW <= 0.5
 const PARALLAX_HEIGHT_SLOW_MULT = 1; // 0 <= PARALLAX_HEIGHT_SLOW_MULT; faster < 1 < slower
 const ON_INDEX = window.location.href.search("index.html") !== -1
     || window.location.href.split("colestanley.ca/")[1] === ""
     || window.location.href === window.location.origin + "/";
+const ON_OLD_INDEX = true;
 var itemNo = 0;
 var firstParallax = true;
 var secretsAdded = false;
@@ -13,7 +14,7 @@ var secretsAdded = false;
 // menu item creation
 function init() {
     window.addEventListener('scroll', parallaxScrolls);
-    if (ON_INDEX) {
+    if (ON_OLD_INDEX || ON_INDEX) {
         generateMenu();
     }
     setShowcaseImg();
@@ -53,7 +54,8 @@ function createItem(item, specialClass) {
     baseItem = baseItem.replace("DATE_OF_CREATION", item.date);
     baseItem = baseItem.replace("DESC", item.description);
     baseItem = baseItem.replace("LINK_TO_PAGE", item.links.href);
-    baseItem = baseItem.replace("SIDE_IMAGE_SRC", item.links.thumbnail);
+    baseItem = baseItem.replace("SIDE_IMAGE_SRC", '../' + item.links.thumbnail);
+    baseItem = baseItem.replace("IMAGE_ALT", item.description);
     baseItem = baseItem.replace("OTHER_ITEM_CLASSES", specialClass);
     // image style
     if (item.type == "Tool") {
@@ -236,4 +238,4 @@ function withinDates(date, minMonth, minDay, maxMonth, maxDay) {
     }
 }
 init();
-//# sourceMappingURL=showcase.js.map
+//# sourceMappingURL=old-showcase.js.map

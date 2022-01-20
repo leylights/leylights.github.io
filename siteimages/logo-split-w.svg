@@ -7,13 +7,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   sodipodi:docname="logoThick.svg"
+   sodipodi:docname="logo-split-2.svg"
    inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
    id="svg8"
    version="1.1"
-   viewBox="0 0 104 103.99999"
-   height="103.99998mm"
-   width="104mm">
+   viewBox="0 0 102 101.99998"
+   height="101.99998mm"
+   width="102mm">
   <defs
      id="defs2">
     <inkscape:path-effect
@@ -40,8 +40,8 @@
      inkscape:document-rotation="0"
      inkscape:current-layer="layer1"
      inkscape:document-units="mm"
-     inkscape:cy="181.24441"
-     inkscape:cx="336.22814"
+     inkscape:cy="285.42232"
+     inkscape:cx="326.77932"
      inkscape:zoom="1.4"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
@@ -56,8 +56,8 @@
     <inkscape:grid
        id="grid847"
        type="xygrid"
-       originx="1.4999809"
-       originy="1.4999926" />
+       originx="0.49998093"
+       originy="0.49999239" />
   </sodipodi:namedview>
   <metadata
      id="metadata5">
@@ -75,14 +75,14 @@
      id="layer1"
      inkscape:groupmode="layer"
      inkscape:label="Layer 1"
-     transform="translate(1.4999809,1.4999924)">
+     transform="translate(0.49998093,0.49999237)">
     <ellipse
        ry="49.999992"
        rx="50"
        cy="50.5"
        cx="50.500019"
        id="path839"
-       style="fill:#000000;fill-opacity:0;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="fill:#000000;fill-opacity:0;fill-rule:evenodd;stroke:#fffffe;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <path
        sodipodi:open="true"
        d="M 46.256736,59.837868 A 16,16 0 0 1 28.33901,65.920116 16,16 0 0 1 17.150303,50.660645 16,16 0 0 1 28.33901,35.401173 16,16 0 0 1 46.256736,41.483422"
@@ -95,10 +95,10 @@
        sodipodi:cx="33.150303"
        sodipodi:type="arc"
        id="path845"
-       style="fill:#000000;fill-opacity:0;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="fill:#000000;fill-opacity:0;fill-rule:evenodd;stroke:#fffffe;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <path
        sodipodi:open="true"
-       style="fill:#000000;fill-opacity:0;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#000000;fill-opacity:0;fill-rule:evenodd;stroke:#fffffe;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path845-5"
        sodipodi:type="arc"
        sodipodi:cx="67.850395"
@@ -121,7 +121,7 @@
        sodipodi:cx="-67.850395"
        sodipodi:type="arc"
        id="path845-5-8"
-       style="fill:#000000;fill-opacity:0;fill-rule:evenodd;stroke:#000000;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#000000;fill-opacity:0;fill-rule:evenodd;stroke:#fffffe;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        sodipodi:open="true" />
   </g>
 </svg>

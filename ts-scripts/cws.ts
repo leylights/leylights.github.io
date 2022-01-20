@@ -242,7 +242,7 @@ export class cws {
    * 
    * DOES NOT ADD IT TO THE DOM
    */
-  static createLinkElement(rel: string, href: string): HTMLLinkElement {
+  static createLinkElement(href: string, rel: string): HTMLLinkElement {
     return cws.createElement({
       type: 'link',
       otherNodes: [

@@ -24,6 +24,7 @@ export class ResumeOccupationItemComponent extends ResumeExperienceItemComponent
       dates: data.dates,
       mainImageUrl: data.mainImageUrl,
       darkImageUrl: data.darkImageUrl,
+      imageAlt: data.workplaceName,
       experiencePoints: data.experiencePoints,
       type: data.asGrid ? 'grid' : 'table',
       flipped: data.flipped,

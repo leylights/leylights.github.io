@@ -91,7 +91,7 @@ export class cws {
      *
      * DOES NOT ADD IT TO THE DOM
      */
-    static createLinkElement(rel, href) {
+    static createLinkElement(href, rel) {
         return cws.createElement({
             type: 'link',
             otherNodes: [

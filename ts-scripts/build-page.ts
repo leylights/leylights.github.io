@@ -130,17 +130,19 @@ export class PageBuilder {
       `<div id='homeHead'> 
           <div id='headerBounds'> 
             <a href='${cws.getRelativeUrlPath('index.html')}'> 
-              <img id='headerLogo' src='${cws.getRelativeUrlPath('siteimages/logo.svg')}'/> 
+              <img id='headerLogo' src='${cws.getRelativeUrlPath('siteimages/logo.svg')}' alt='csca'/> 
               <div id = 'headerName'> 
                 <h1>colestanley.ca</h1> 
               </div> 
             </a> 
             <div class='headerMenu'> 
+              <a class='headerDropBox' href='${cws.getRelativeUrlPath('pages/resume.html')}' onclick = ''> 
+                <div class='headerDropButton'>
+                  <span id='resume-header-button'>Resume</span>
+                </div>  
+              </a> 
               <a class='headerDropBox' href='${cws.getRelativeUrlPath('pages/archive.html')}' onclick = ''> 
                 <div class='headerDropButton'>Archive</div>  
-              </a> 
-              <a class='headerDropBox' href='${cws.getRelativeUrlPath('pages/resume.html')}' onclick = ''> 
-                <div class='headerDropButton'>Resume</div>  
               </a> 
               <a class='headerDropBox' href='javascript:void(0)' onclick = ''> 
                 <div class='headerDropButton'>Tools</div> 
@@ -282,7 +284,7 @@ export class PageBuilder {
       return;
 
     const mainCSS = mainCSSArr[0];
-    const darkCSS = cws.createLinkElement('stylesheet', cws.getRelativeUrlPath("stylesheets/main-dark.css"))
+    const darkCSS = cws.createLinkElement(cws.getRelativeUrlPath("stylesheets/main-dark.css"), 'stylesheet')
 
     mainCSS.parentNode.insertBefore(darkCSS, mainCSS.nextSibling); // insertion
 

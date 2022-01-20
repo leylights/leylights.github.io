@@ -12,6 +12,7 @@ export class ResumeExperienceItemComponent {
             this.rebuildFn = this.rebuildTable;
         this._mainImageSrc = cws.getRelativeUrlPath(validateUrl(data.mainImageUrl));
         this._darkImageSrc = cws.getRelativeUrlPath(validateUrl(data.darkImageUrl));
+        this._imageAlt = data.imageAlt;
         this._invertDarkImg = data.invertDarkImg || false;
         this.rebuildFn();
         data.parentElement.appendChild(this.container);
@@ -218,6 +219,9 @@ export class ResumeExperienceItemComponent {
                 otherNodes: [{
                         type: 'src',
                         value: me._mainImageSrc
+                    }, {
+                        type: 'alt',
+                        value: me._imageAlt
                     }]
             }), cws.createElement({
                 type: 'img',
@@ -225,6 +229,9 @@ export class ResumeExperienceItemComponent {
                 otherNodes: [{
                         type: 'src',
                         value: me._darkImageSrc
+                    }, {
+                        type: 'alt',
+                        value: me._imageAlt
                     }]
             })];
     }

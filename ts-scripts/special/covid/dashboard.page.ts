@@ -64,7 +64,7 @@ class COVIDDashboardPage {
             }
           });
         } else {
-          document.head.appendChild(cws.createLinkElement('stylesheet', lightLink));
+          document.head.appendChild(cws.createLinkElement(lightLink, 'stylesheet'));
         }
       }
     });

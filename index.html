@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
 
@@ -32,7 +33,7 @@
 
   <link rel="icon" href="siteimages/favicon.png">
   <link id="main-stylesheet" rel="stylesheet" href="stylesheets/main.css">
-  <link rel="stylesheet" href="stylesheets/index.css">
+  <link rel="stylesheet" href="stylesheets/showcase.css">
   <script type="module" src="scripts/cws.js"></script>
   <script type="module" src="scripts/build-page.js"></script>
 
@@ -40,31 +41,23 @@
 
 <body data-gr-c-s-loaded="true">
   <div id="loadingScreen">
-    <img src="siteimages/logo.svg">
+    <img src="siteimages/logo.svg" alt='colestanley.ca'>
   </div>
 
   <div id="main" style="background: none">
-    <div id="showcase">
-      <div id="showcaseImg">
+    <div id="showcase-main-spotlight">
+      <div id="showcase-main-spotlight-image">
       </div>
-      <img id="bigLogo" src="siteimages/logo.svg" />
+      <img id="big-logo" src="siteimages/logo-split-w.svg" alt='colestanley.ca' />
     </div>
 
     <!--   first item - Archive -->
 
-    <div id="baseItem" class="itemSurround" style="clear: both; background-color: #222223;">
-      <div id="item1" class="item" style="background: none; clear: both;">
-        <a href="pages/archive.html"> <img src="siteimages/archivelock.png" class="itemImage"></img>
-          <h2 style="color: white;">
-            Archive of Past Projects
-          </h2>
-          <h3 class=itemDate style="color:white">December 2016 - Present
-          </h3>
-        </a>
-      </div>
+    <div id='showcase-items'>
+      <div id='showcase-secrets'></div>
     </div>
   </div>
-  <script type="module" src="scripts/special/showcase.js?v=1.1"></script>
+  <script type="module" src="scripts/special/showcase/showcase.page.js"></script>
 </body>
 
 </html>
