@@ -145,11 +145,14 @@
 .time-series-range-selectors {
   padding: 1em 1em 0 1em;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .time-series-range-input-container {
   width: 50%;
   padding: 0 1em;
+  min-width: 250px;
+  flex-grow: 1;
 }
 
 .content .time-series-range-input {
