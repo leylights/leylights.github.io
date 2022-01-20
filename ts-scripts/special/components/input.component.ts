@@ -17,8 +17,14 @@ export class InputComponent {
   constructor(data: {
     element: HTMLInputElement;
   }) {
+    const me = this;
+
     this.element = data.element;
     this.id = InputComponent.nextId;
+
+    this.element.addEventListener('change', () => {
+      me.fireChangeListeners('value');
+    });
   }
 
   get classList(): DOMTokenList {

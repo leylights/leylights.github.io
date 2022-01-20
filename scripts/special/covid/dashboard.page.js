@@ -18,10 +18,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import { PageBuilder } from "../../build-page.js";
 import { cws } from "../../cws.js";
 import { Button } from "../components/button.component.js";
-import { LineChartComponent } from "../components/line-chart.component.js";
 import { COVIDCardGrid } from "./components/card-grid.component.js";
 import { COVIDSectionCollection } from "./components/section-collection.component.js";
 import { COVIDSection } from "./components/section.component.js";
+import { COVIDTimeSeriesChart } from "./components/time-series-chart.component.js";
 import { COVIDDataBridge } from "./data-bridge.js";
 import { COVIDHelper } from "./helper.js";
 import { COVIDRegionsController } from "./model/regions.controller.js";
@@ -296,20 +296,24 @@ class COVIDDashboardPage {
             function buildTimeSeriesAnalysis(section, region, includeActiveCases) {
                 const CASES_START = new Date('2020-01-25'), DEATHS_START = new Date('2020-03-08'), TODAY = new Date(Date.now() - Date.now() % (24 * 60 * 60 * 1000)), caseDays = cws.daysBetween(CASES_START, TODAY), deathsDays = cws.daysBetween(DEATHS_START, TODAY);
                 const title = cws.createElement({ type: 'h2', innerText: 'Time-series analysis' });
-                if (section instanceof COVIDSection)
-                    section.appendToBody(title);
-                else
-                    section.appendChild(title);
+                appendToSection(title);
                 const appendableBody = section instanceof COVIDSection ? section.appendableBody : section, typeSelector = new COVIDSectionCollection(appendableBody, { setHeightToMax: true }), wavgSection = new COVIDSection(null, `Average (${averageDays} days)`, [], typeSelector), wavgCollection = new COVIDSectionCollection(wavgSection.appendableBody, { setHeightToMax: true }), rawSection = new COVIDSection(null, 'Raw', [], typeSelector), rawCollection = new COVIDSectionCollection(rawSection.appendableBody, { setHeightToMax: true });
                 buildCharts(rawCollection, 0);
                 buildCharts(wavgCollection, averageDays);
+                typeSelector.selectFirstSection();
+                function appendToSection(el) {
+                    if (section instanceof COVIDSection)
+                        return section.appendToBody(el);
+                    else
+                        return section.appendChild(el);
+                }
                 function resetHeights() {
                     rawCollection.resetHeight();
                     wavgCollection.resetHeight();
                     typeSelector.resetHeight();
                 }
                 function buildCharts(collection, averageDays) {
-                    buildPastNDaysChart(collection, {
+                    new COVIDTimeSeriesChart(collection, {
                         days: caseDays - averageDays,
                         title: 'New cases per day',
                         shortTitle: 'New cases',
@@ -319,7 +323,7 @@ class COVIDDashboardPage {
                         responseTimePropertyName: 'date_report',
                         averageDays: averageDays,
                     }, () => { resetHeights(); });
-                    buildPastNDaysChart(collection, {
+                    new COVIDTimeSeriesChart(collection, {
                         days: deathsDays - averageDays,
                         title: 'Deaths per day',
                         shortTitle: 'Mortality',
@@ -330,7 +334,7 @@ class COVIDDashboardPage {
                         averageDays: averageDays,
                     }, () => { resetHeights(); });
                     if (includeActiveCases)
-                        buildPastNDaysChart(collection, {
+                        new COVIDTimeSeriesChart(collection, {
                             days: caseDays - averageDays,
                             title: 'Active cases per day',
                             shortTitle: 'Active cases',
@@ -342,7 +346,6 @@ class COVIDDashboardPage {
                         }, () => { resetHeights(); });
                     collection.selectFirstSection();
                 }
-                typeSelector.selectFirstSection();
             }
             function buildMainLondonRow(section) {
                 buildMainRow(section, {
@@ -472,79 +475,6 @@ class COVIDDashboardPage {
                             return cws.roundToDecimalPlaces(100 * response.summary[0].cumulative_cases / data.population, 2) + '% ';
                         },
                     }]);
-            }
-            /**
-             * @example buildPastNDaysChart(lineChartsSelector, {
-                days: 28,
-                title: 'New cases per day',
-                shortTitle: 'Cases',
-                timeSeriesURI: 'timeseries?loc=canada&stat=cases&ymd=true',
-                responseArrayName: 'cases',
-                responsePropertyName: 'cases',
-                responseTimePropertyName: 'date_report',
-              });
-             * @requires timeSeriesURI gets dates in YYYY-MM-DD format (ymd=true)
-             */
-            function buildPastNDaysChart(sectionCollection, config, parentResizer) {
-                // sanitize input
-                if (!config.averageDays || config.averageDays === 0)
-                    config.averageDays = 1;
-                // create html
-                const lineChartContainer = cws.createElement({
-                    type: 'div',
-                    classList: 'covid-line-chart-container'
-                });
-                const section = new COVIDSection(null, config.shortTitle, [lineChartContainer], sectionCollection);
-                const chart = new LineChartComponent({
-                    parentElement: lineChartContainer,
-                    title: config.title,
-                    points: []
-                });
-                // get data and parse
-                COVIDDataBridge.get(config.timeSeriesURI)
-                    .then((response) => {
-                    var _a;
-                    const timeSeries = response[config.responseArrayName].map((day) => {
-                        return {
-                            property: day[config.responsePropertyName],
-                            date: day[config.responseTimePropertyName],
-                        };
-                    });
-                    const today = new Date(timeSeries[timeSeries.length - 1].date);
-                    // may be 5 hours off due to time zones; doesn't cause any issues with calculating time difference 
-                    const points = timeSeries
-                        .slice(timeSeries.length - ((_a = config.days) !== null && _a !== void 0 ? _a : timeSeries.length) - config.averageDays + 1)
-                        // .slice(500)
-                        .map((day) => {
-                        var _a;
-                        return {
-                            x: ((_a = config.days) !== null && _a !== void 0 ? _a : timeSeries.length) - cws.daysBetween(today, new Date(day.date)),
-                            y: day.property,
-                            label: day.date,
-                        };
-                    });
-                    const averagedPoints = [];
-                    let currentValue = points
-                        .slice(0, config.averageDays)
-                        .reduce((previous, current) => {
-                        return previous + (current.y / config.averageDays);
-                    }, 0);
-                    averagedPoints[0] = getAvgPt(currentValue, points[config.averageDays - 1]);
-                    for (let i = 1; i < points.length - config.averageDays; i++) {
-                        currentValue -= points[i - 1].y / config.averageDays;
-                        currentValue += points[i + config.averageDays - 1].y / config.averageDays;
-                        averagedPoints[i] = getAvgPt(currentValue, points[i + config.averageDays - 1]);
-                    }
-                    function getAvgPt(newY, oldPoint) {
-                        return {
-                            x: oldPoint.x,
-                            y: newY,
-                            label: oldPoint.label,
-                        };
-                    }
-                    chart.points = averagedPoints;
-                    parentResizer();
-                });
             }
         });
     }
