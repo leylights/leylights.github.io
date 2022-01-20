@@ -10,10 +10,12 @@
 import { PageBuilder } from "../../build-page.js";
 import { cws } from "../../cws.js";
 import { Button } from "../components/button.component.js";
+import { InputComponent } from "../components/input.component.js";
 import { LineChartComponent, LineChartPoint } from "../components/line-chart.component.js";
 import { COVIDCardGrid, COVIDGridCardConfig } from "./components/card-grid.component.js";
 import { COVIDSectionCollection } from "./components/section-collection.component.js";
 import { COVIDSection } from "./components/section.component.js";
+import { COVIDTimeSeriesChart } from "./components/time-series-chart.component.js";
 import { COVIDDataBridge } from "./data-bridge.js";
 import { COVIDHelper } from "./helper.js";
 import { COVIDHealthUnit } from "./model/health-unit.js";
@@ -369,14 +371,11 @@ class COVIDDashboardPage {
       const CASES_START: Date = new Date('2020-01-25'),
         DEATHS_START: Date = new Date('2020-03-08'),
         TODAY: Date = new Date(Date.now() - Date.now() % (24 * 60 * 60 * 1000)),
-        caseDays = cws.daysBetween(CASES_START, TODAY) ,
+        caseDays = cws.daysBetween(CASES_START, TODAY),
         deathsDays = cws.daysBetween(DEATHS_START, TODAY);
 
       const title = cws.createElement({ type: 'h2', innerText: 'Time-series analysis' });
-      if (section instanceof COVIDSection)
-        section.appendToBody(title);
-      else
-        section.appendChild(title);
+      appendToSection(title);
 
       const appendableBody: HTMLElement = section instanceof COVIDSection ? section.appendableBody : section,
         typeSelector: COVIDSectionCollection = new COVIDSectionCollection(appendableBody, { setHeightToMax: true }),
@@ -388,6 +387,15 @@ class COVIDDashboardPage {
       buildCharts(rawCollection, 0);
       buildCharts(wavgCollection, averageDays);
 
+      typeSelector.selectFirstSection();
+
+      function appendToSection(el: HTMLElement) {
+        if (section instanceof COVIDSection)
+          return section.appendToBody(el);
+        else
+          return section.appendChild(el);
+      }
+
       function resetHeights() {
         rawCollection.resetHeight();
         wavgCollection.resetHeight();
@@ -395,7 +403,7 @@ class COVIDDashboardPage {
       }
 
       function buildCharts(collection: COVIDSectionCollection, averageDays: number) {
-        buildPastNDaysChart(collection, {
+        new COVIDTimeSeriesChart(collection, {
           days: caseDays - averageDays,
           title: 'New cases per day',
           shortTitle: 'New cases',
@@ -406,7 +414,7 @@ class COVIDDashboardPage {
           averageDays: averageDays,
         }, () => { resetHeights(); });
 
-        buildPastNDaysChart(collection, {
+        new COVIDTimeSeriesChart(collection, {
           days: deathsDays - averageDays,
           title: 'Deaths per day',
           shortTitle: 'Mortality',
@@ -418,7 +426,7 @@ class COVIDDashboardPage {
         }, () => { resetHeights(); });
 
         if (includeActiveCases)
-          buildPastNDaysChart(collection, {
+          new COVIDTimeSeriesChart(collection, {
             days: caseDays - averageDays,
             title: 'Active cases per day',
             shortTitle: 'Active cases',
@@ -431,8 +439,6 @@ class COVIDDashboardPage {
 
         collection.selectFirstSection();
       }
-
-      typeSelector.selectFirstSection();
     }
 
     function buildMainLondonRow(section: COVIDSection) {
@@ -592,99 +598,6 @@ class COVIDDashboardPage {
           },
         }
         ]);
-    }
-
-    /**
-     * @example buildPastNDaysChart(lineChartsSelector, {
-        days: 28,
-        title: 'New cases per day',
-        shortTitle: 'Cases',
-        timeSeriesURI: 'timeseries?loc=canada&stat=cases&ymd=true',
-        responseArrayName: 'cases',
-        responsePropertyName: 'cases',
-        responseTimePropertyName: 'date_report',
-      });
-     * @requires timeSeriesURI gets dates in YYYY-MM-DD format (ymd=true)
-     */
-    function buildPastNDaysChart(sectionCollection: COVIDSectionCollection, config: {
-      days?: number,
-      title: string,
-      shortTitle: string,
-      timeSeriesURI: string,
-      responseArrayName: string,
-      responsePropertyName: string,
-      responseTimePropertyName: string,
-      averageDays?: number,
-    }, parentResizer?: () => void) {
-      // sanitize input
-
-      if (!config.averageDays || config.averageDays === 0) config.averageDays = 1;
-
-      // create html
-      const lineChartContainer = cws.createElement({
-        type: 'div',
-        classList: 'covid-line-chart-container'
-      });
-
-      const section = new COVIDSection(null, config.shortTitle, [lineChartContainer], sectionCollection);
-
-      const chart: LineChartComponent = new LineChartComponent({
-        parentElement: lineChartContainer,
-        title: config.title,
-        points: []
-      });
-
-      // get data and parse
-      COVIDDataBridge.get(config.timeSeriesURI)
-        .then((response) => {
-          const timeSeries = (response[config.responseArrayName] as any[]).map((day) => {
-            return {
-              property: day[config.responsePropertyName] as number,
-              date: day[config.responseTimePropertyName] as string,
-            }
-          });
-
-          const today: Date = new Date(timeSeries[timeSeries.length - 1].date);
-          // may be 5 hours off due to time zones; doesn't cause any issues with calculating time difference 
-
-          const points: LineChartPoint[] = timeSeries
-            .slice(timeSeries.length - (config.days ?? timeSeries.length) - config.averageDays + 1)
-            // .slice(500)
-            .map((day) => {
-              return {
-                x: (config.days ?? timeSeries.length) - cws.daysBetween(today, new Date(day.date)),
-                y: day.property,
-                label: day.date,
-              }
-            });
-
-          const averagedPoints: LineChartPoint[] = [];
-
-          let currentValue: number = points
-            .slice(0, config.averageDays)
-            .reduce((previous: number, current: LineChartPoint) => {
-              return previous + (current.y / config.averageDays)
-            }, 0);
-
-          averagedPoints[0] = getAvgPt(currentValue, points[config.averageDays - 1]);
-
-          for (let i = 1; i < points.length - config.averageDays; i++) {
-            currentValue -= points[i - 1].y / config.averageDays;
-            currentValue += points[i + config.averageDays - 1].y / config.averageDays;
-            averagedPoints[i] = getAvgPt(currentValue, points[i + config.averageDays - 1]);
-          }
-
-          function getAvgPt(newY: number, oldPoint: LineChartPoint): LineChartPoint {
-            return {
-              x: oldPoint.x,
-              y: newY,
-              label: oldPoint.label,
-            }
-          }
-
-          chart.points = averagedPoints;
-          parentResizer();
-        });
     }
   }
 

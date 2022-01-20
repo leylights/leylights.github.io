@@ -1,8 +1,12 @@
 export class InputComponent {
     constructor(data) {
         this._changeListeners = [];
+        const me = this;
         this.element = data.element;
         this.id = InputComponent.nextId;
+        this.element.addEventListener('change', () => {
+            me.fireChangeListeners('value');
+        });
     }
     get classList() {
         return this.element.classList;

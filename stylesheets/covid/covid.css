@@ -125,7 +125,9 @@
   font-size: 0.8em;
 }
 
-.content select {
+.content select,
+.content input,
+.content option {
   font-size: inherit;
   background-color: var(--secondary-bg-color);
   color: inherit;
@@ -134,19 +136,31 @@
   border: none;
 }
 
-.content option {
-  font-size: inherit;
-  font-family: var(--primary-font);
-  background-color: var(--primary-bg-color);
-  color: var(--text-color);
-  outline: none;
-  border: none;
-}
-
 .covid-region-select {
   margin: 1em auto;
   padding: 8px;
   width: 100%;
+}
+
+.time-series-range-selectors {
+  padding: 1em 1em 0 1em;
+  display: flex;
+}
+
+.time-series-range-input-container {
+  width: 50%;
+  padding: 0 1em;
+}
+
+.content .time-series-range-input {
+  width: calc(100% - 2em);
+  font-size: 1.6em;
+  text-align: center;
+  padding: 1em;
+}
+
+.time-series-range-input-title {
+  text-align: center;
 }
 
 @media only screen and (max-width: 800px) {

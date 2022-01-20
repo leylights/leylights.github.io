@@ -5,6 +5,10 @@
   --covid-card-color: var(--secondary-bg-color);
 }
 
+.content {
+  color: var(--light-text-color);
+}
+
 .display-card {
   box-shadow: 0 0 7px -1px #888 inset;
   background-color: unset;
