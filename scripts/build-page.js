@@ -13,6 +13,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { cws } from "./cws.js";
+import { GoogleAnalyticsController } from "./google-analytics.js";
 import { KeyboardListener } from "./tools/keyboard-listener.js";
 var DarkModeResults;
 (function (DarkModeResults) {
@@ -23,6 +24,7 @@ var DarkModeResults;
 export class PageBuilder {
     static init() {
         const index = window.location.href.search("index.html") !== -1 || window.location.href.split(window.location.origin + '/')[1] === '';
+        PageBuilder.buildHead();
         PageBuilder.buildTop(index);
         PageBuilder.buildBottom();
         const darkModeListener = new KeyboardListener(window);
@@ -96,6 +98,13 @@ export class PageBuilder {
         PageBuilder.darkModeListeners.push(listener);
     }
     /**
+     * Populates the <head> element
+     */
+    static buildHead() {
+        PageBuilder.buildGoogleAnalytics();
+        PageBuilder.doDarkmode(false);
+    }
+    /**
      * Builds the top of a generic page
      */
     static buildTop(index) {
@@ -113,8 +122,6 @@ export class PageBuilder {
                 }, (parseFloat(window.getComputedStyle(document.getElementById("loadingScreen")).transitionDuration) * 1000));
             }
         });
-        // darkmode
-        PageBuilder.doDarkmode(false);
         // header
         let header = document.createElement("header");
         header.setAttributeNode(cws.betterCreateAttr("id", "header"));
@@ -197,6 +204,19 @@ export class PageBuilder {
         poppins.setAttributeNode(cws.betterCreateAttr("rel", "stylesheet"));
         poppins.setAttributeNode(cws.betterCreateAttr("href", "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap"));
         document.head.appendChild(poppins);
+    }
+    static buildGoogleAnalytics() {
+        // exit on dev
+        if (!window.location.origin.includes(PageBuilder.siteURL))
+            return;
+        new GoogleAnalyticsController();
+        document.head.insertAdjacentElement('afterbegin', cws.createElement({
+            type: 'script',
+            otherNodes: [
+                { type: 'async', value: '', },
+                { type: 'src', value: 'https://www.google-analytics.com/analytics.js', },
+            ],
+        }));
     }
     /**
      * Imports scripts at bottom of HTML
@@ -289,5 +309,6 @@ export class PageBuilder {
 }
 PageBuilder.darkModeListeners = [];
 PageBuilder.darkModeStatus = DarkModeResults.NoResponse;
+PageBuilder.siteURL = 'colestanley.ca';
 PageBuilder.init();
 //# sourceMappingURL=build-page.js.map
