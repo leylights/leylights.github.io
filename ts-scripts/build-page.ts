@@ -5,6 +5,7 @@
  */
 
 import { cws } from "./cws.js";
+import { GoogleAnalyticsController } from "./google-analytics.js";
 import { KeyboardListener } from "./tools/keyboard-listener.js";
 
 enum DarkModeResults {
@@ -24,9 +25,12 @@ export class PageBuilder {
   private static darkModeListeners: PageBuilderDarkModeListener[] = [];
   private static darkModeStatus: DarkModeResults = DarkModeResults.NoResponse;
 
+  private static siteURL: string = 'colestanley.ca';
+
   static init(): void {
     const index: boolean = window.location.href.search("index.html") !== -1 || window.location.href.split(window.location.origin + '/')[1] === '';
 
+    PageBuilder.buildHead();
     PageBuilder.buildTop(index);
     PageBuilder.buildBottom();
 
@@ -96,16 +100,25 @@ export class PageBuilder {
   }
 
   /**
+   * Populates the <head> element
+   */
+  private static buildHead() {
+    PageBuilder.buildGoogleAnalytics();
+
+    PageBuilder.doDarkmode(false);
+  }
+
+  /**
    * Builds the top of a generic page
    */
 
-  static buildTop(index: boolean) {
+  private static buildTop(index: boolean) {
     // loading
 
     setTimeout(function () {
       let el = (document.getElementById("loadingScreen").children[0] as HTMLElement);
       el.style.opacity = "1";
-    }, 16)
+    }, 16);
 
     document.addEventListener('readystatechange', function (event) { // remove
       console.log(document.readyState, event);
@@ -117,10 +130,6 @@ export class PageBuilder {
         }, (parseFloat(window.getComputedStyle(document.getElementById("loadingScreen")).transitionDuration) * 1000));
       }
     });
-
-    // darkmode
-
-    PageBuilder.doDarkmode(false);
 
     // header
 
@@ -220,11 +229,26 @@ export class PageBuilder {
     document.head.appendChild(poppins);
   }
 
+  private static buildGoogleAnalytics() {
+    // exit on dev
+    if (!window.location.origin.includes(PageBuilder.siteURL)) return; 
+
+    new GoogleAnalyticsController();
+
+    document.head.insertAdjacentElement('afterbegin', cws.createElement({
+      type: 'script',
+      otherNodes: [
+        { type: 'async', value: '', },
+        { type: 'src', value: 'https://www.google-analytics.com/analytics.js', },
+      ],
+    }));
+  }
+
   /**
    * Imports scripts at bottom of HTML
    */
 
-  static buildBottom() {
+  private static buildBottom() {
     generateScript("scripts/top-menu.js", true);
     generateScript("scripts/side-menu-open-close.js", false);
     generateScript("scripts/side-menu.js", true);
@@ -244,7 +268,7 @@ export class PageBuilder {
    * @param force Forces darkmode to activate no matter the time of day
    */
 
-  static doDarkmode(force?: boolean) {
+  private static doDarkmode(force?: boolean) {
     if (force || cws.isDark) {
       this.enableDarkMode(force);
     } else {
@@ -274,7 +298,7 @@ export class PageBuilder {
   /**
    * Adds the main_dark.css stylesheet and notifies listeners
    */
-  static enableDarkMode(isFromDebug: boolean): void {
+  private static enableDarkMode(isFromDebug: boolean): void {
     // find main.css link
     const mainCSSArr = Array.from(document.getElementsByTagName("link"))
       .filter((x) => { return x.rel == "stylesheet" })
@@ -308,7 +332,7 @@ export class PageBuilder {
   /**
    * Removes the main_dark.css stylesheet and notifies listeners
    */
-  static removeDarkMode(): void {
+  private static removeDarkMode(): void {
     Array.from(document.head.querySelectorAll('link')).forEach((link: HTMLLinkElement) => {
       if (link.href.includes('dark.css'))
         link.remove();
