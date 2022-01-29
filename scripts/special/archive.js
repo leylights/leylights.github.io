@@ -1,5 +1,5 @@
 import { cws } from "../cws.js";
-import { Menu } from "../menu-items.js";
+import { Menu } from "./_services/menu-items.service.js";
 var itemNo = 0;
 // showcase positioning
 window.addEventListener("scroll", parallaxScrolls);

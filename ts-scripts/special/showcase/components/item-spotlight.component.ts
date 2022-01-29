@@ -1,9 +1,5 @@
 import { cws } from "../../../cws.js";
-import { MenuItem } from "../../../menu-items.js";
-import { ShowcaseItem } from "./item.component.js";
-
-const PARALLAX_SLOW = 0.5; // 0 < PARALLAX_SLOW <= 0.5
-const PARALLAX_HEIGHT_SLOW_MULT = 1; // 0 <= PARALLAX_HEIGHT_SLOW_MULT; faster < 1 < slower
+import { MenuItem } from "../../_services/menu-items.service.js";
 
 export class ShowcaseItemSpotlight {
   private static next_id = 0;

@@ -1,6 +1,6 @@
 import { cws } from "../../cws.js";
-import { MenuItem, Menu } from "../../menu-items.js";
 import { KeyboardListener } from "../../tools/keyboard-listener.js";
+import { Menu, MenuItem } from "../_services/menu-items.service.js";
 
 const PARALLAX_SLOW = 0.5; // 0 < PARALLAX_SLOW <= 0.5
 const PARALLAX_HEIGHT_SLOW_MULT = 1; // 0 <= PARALLAX_HEIGHT_SLOW_MULT; faster < 1 < slower

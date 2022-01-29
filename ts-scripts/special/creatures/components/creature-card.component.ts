@@ -1,6 +1,6 @@
 import { cws } from "../../../cws.js";
-import { Button } from "../../components/button.component.js";
-import { ResizingInput } from "../../components/resizing-input.component.js";
+import { Button } from "../../_components/button.component.js";
+import { ResizingInput } from "../../_components/resizing-input.component.js";
 import { SummonsCreature, SummonsCreatureAttack } from "../creature.js";
 import { SummonsCreatureViewComponent } from "./creature-view.component.js";
 

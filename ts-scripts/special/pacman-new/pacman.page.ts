@@ -7,7 +7,7 @@
  */
 
 import { cws } from "../../cws.js";
-import { Canvas } from "../components/canvas.component.js";
+import { Canvas } from "../_components/canvas.component.js";
 import { PacmanCharacter } from "./canvas-components/entities/character.js";
 import { PacmanConstants } from "./canvas-components/constants.js";
 import { PacmanGhost } from "./canvas-components/entities/ghost.js";

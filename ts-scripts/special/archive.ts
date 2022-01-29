@@ -1,5 +1,5 @@
 import { cws } from "../cws.js";
-import { MenuItem, Menu } from "../menu-items.js";
+import { Menu, MenuItem } from "./_services/menu-items.service.js";
 
 var itemNo: number = 0;
 // showcase positioning

@@ -1,6 +1,6 @@
 import { cws } from "../../../cws.js";
-import { InputComponent } from "../../components/input.component.js";
-import { LineChartComponent } from "../../components/line-chart.component.js";
+import { InputComponent } from "../../_components/input.component.js";
+import { LineChartComponent } from "../../_components/line-chart.component.js";
 import { COVIDDataBridge } from "../data-bridge.js";
 import { COVIDSection } from "./section.component.js";
 export class COVIDTimeSeriesChart {

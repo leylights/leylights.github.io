@@ -7,11 +7,12 @@
  * End date: January 2022
  */
 
-import { PageBuilder } from "../../build-page.js";
+
 import { cws } from "../../cws.js";
-import { Button } from "../components/button.component.js";
-import { InputComponent } from "../components/input.component.js";
-import { LineChartComponent, LineChartPoint } from "../components/line-chart.component.js";
+import { Button } from "../_components/button.component.js";
+import { InputComponent } from "../_components/input.component.js";
+import { LineChartComponent, LineChartPoint } from "../_components/line-chart.component.js";
+import { PageBuilder } from "../_services/page-builder.service.js";
 import { COVIDCardGrid, COVIDGridCardConfig } from "./components/card-grid.component.js";
 import { COVIDSectionCollection } from "./components/section-collection.component.js";
 import { COVIDSection } from "./components/section.component.js";

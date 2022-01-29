@@ -1,5 +1,5 @@
 import { cws } from "../../../../cws.js";
-import { Canvas } from "../../../components/canvas.component.js";
+import { Canvas } from "../../../_components/canvas.component.js";
 import { PacmanEntityEnum, PacmanDirectionEnum, PacmanStateEnum } from "../../helper.js";
 import { PacmanConstants } from "../constants.js";
 import { PacmanEntity } from "./entity.js";

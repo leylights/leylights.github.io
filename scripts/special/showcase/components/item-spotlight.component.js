@@ -1,6 +1,4 @@
 import { cws } from "../../../cws.js";
-const PARALLAX_SLOW = 0.5; // 0 < PARALLAX_SLOW <= 0.5
-const PARALLAX_HEIGHT_SLOW_MULT = 1; // 0 <= PARALLAX_HEIGHT_SLOW_MULT; faster < 1 < slower
 export class ShowcaseItemSpotlight {
     constructor(item, parentElement) {
         this._id = ShowcaseItemSpotlight.next_id++;

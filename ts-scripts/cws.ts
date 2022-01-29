@@ -649,7 +649,7 @@ export class cws {
      * Replaces Object.values
      */
 
-    values: function <T>(obj: Record<string, T>): T[] {
+    values: function <T>(obj: Record<string | number | symbol, T>): T[] {
       let keys = Object.keys(obj);
       let values = [];
 

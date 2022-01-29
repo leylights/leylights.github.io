@@ -15,9 +15,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { PageBuilder } from "../../build-page.js";
 import { cws } from "../../cws.js";
-import { Button } from "../components/button.component.js";
+import { Button } from "../_components/button.component.js";
+import { PageBuilder } from "../_services/page-builder.service.js";
 import { COVIDCardGrid } from "./components/card-grid.component.js";
 import { COVIDSectionCollection } from "./components/section-collection.component.js";
 import { COVIDSection } from "./components/section.component.js";

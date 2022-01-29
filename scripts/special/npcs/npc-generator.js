@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 var _a;
 import { cws } from "../../cws.js";
-import { Button } from "../components/button.component.js";
+import { Button } from "../_components/button.component.js";
 import { KeyboardListener } from "../../tools/keyboard-listener.js";
 import { NPCsCharacterData } from "./core/character-data.js";
 import { NPCsClass } from "./core/class.js";

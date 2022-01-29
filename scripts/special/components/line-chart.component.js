@@ -1,4 +1,4 @@
-import { PageBuilder } from "../../build-page.js";
+
 import { cws } from "../../cws.js";
 import { Canvas } from "./canvas.component.js";
 ;
