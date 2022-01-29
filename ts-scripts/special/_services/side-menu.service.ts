@@ -8,9 +8,9 @@
  * Last updated: August 2021
  */
 
-import { cws } from "./cws.js";
-import { Menu, MenuItem } from "./menu-items.js";
-import { Button } from "./special/components/button.component.js";
+import { cws } from "../../cws.js";
+import { Button } from "../_components/button.component.js";
+import { Menu, MenuItem } from "./menu-items.service.js";
 
 var itemNo = 0;
 

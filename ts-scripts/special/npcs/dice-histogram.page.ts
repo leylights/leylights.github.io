@@ -1,7 +1,7 @@
 import { cws } from "../../cws.js";
-import { Button } from "../components/button.component.js";
-import { InputComponent } from "../components/input.component.js";
-import { LineChartComponent, LineChartPoint } from "../components/line-chart.component.js";
+import { Button } from "../_components/button.component.js";
+import { InputComponent } from "../_components/input.component.js";
+import { LineChartComponent, LineChartPoint } from "../_components/line-chart.component.js";
 import { BadInput } from "../errors/bad-input.error.js";
 import { NPCsSignedDice } from "./helper-repository/histogram/signed-dice.js";
 

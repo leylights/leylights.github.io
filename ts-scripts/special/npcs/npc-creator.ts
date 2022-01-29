@@ -1,6 +1,6 @@
 import { cws } from "../../cws.js";
-import { Button } from "../components/button.component.js";
-import { ResizingInput } from "../components/resizing-input.component.js";
+import { Button } from "../_components/button.component.js";
+import { ResizingInput } from "../_components/resizing-input.component.js";
 import { NPCsReplacerSpan } from "./components/npcs-creator-replacer-span.component.js";
 import { NPCsMemorySaveBarComponent } from "./components/npcs-memory-save-bar.component.js";
 import { NPCsCharacterData, NPCsCharacterDataCreationData } from "./core/character-data.js";

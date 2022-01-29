@@ -7,8 +7,9 @@
  * Last Update: June 2021
  */
 
-import { cws } from "./cws.js";
-import { Menu, MenuItem } from "./menu-items.js";
+import { cws } from "../../cws.js";
+import { Menu, MenuItem } from "./menu-items.service.js";
+
 
 /**
  * Creates a menu item on any csca page

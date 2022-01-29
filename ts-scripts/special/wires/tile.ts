@@ -1,4 +1,4 @@
-import { Canvas } from "../components/canvas.component.js";
+import { Canvas } from "../_components/canvas.component.js";
 import { WiresState } from "./state.js";
 
 export class WiresTile {

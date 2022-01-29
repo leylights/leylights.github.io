@@ -2,7 +2,7 @@
  * Provides menu items to the rest of the website
  */
 
-import { cws } from "./cws.js";
+import { cws } from "../../cws.js";
 
 // NOTE: showcase ordering is determined by order in this array
 
@@ -10,7 +10,6 @@ interface CoreMenuItem {
   name: string,
   type: "Game" | "Tool" | "Dropdown",
   date: string,
-  description: string,
   links: {
     href: string,
     thumbnail?: string,
@@ -19,6 +18,7 @@ interface CoreMenuItem {
 }
 
 export interface MenuItem extends CoreMenuItem {
+  description: string,
   shortName: string,
   showcase: boolean,
   links: {
@@ -34,41 +34,25 @@ export interface MenuItem extends CoreMenuItem {
   showInSmallMenus: boolean,
   isSecret: boolean,
   isExternalLink: boolean,
+  showDate: boolean,
+
+  noindex: boolean,
 }
 
 type MixedMenuItem = CoreMenuItem | MenuItem;
-interface MenuItemList {
-  infectionModel: MixedMenuItem;
-  emWaves: MixedMenuItem;
-  matrices: MixedMenuItem;
-  daydream: MixedMenuItem;
-  vectors: MixedMenuItem;
-  wiresV2: MixedMenuItem;
-  npcNames: MixedMenuItem;
-  pacManV2: MixedMenuItem;
-  npcSummons: MixedMenuItem;
-  diceHistogram: MixedMenuItem;
-  npcGenerator: MixedMenuItem;
-  npcInitiative: MixedMenuItem;
-  algebra: MixedMenuItem;
-  escape: MixedMenuItem;
-  dice: MixedMenuItem;
-  ticTacToe: MixedMenuItem;
-  kittenAndCrypt: MixedMenuItem;
-  luigi: MixedMenuItem;
-  wiresV1: MixedMenuItem;
-  complexCalculator: MixedMenuItem;
-  lunarDefense: MixedMenuItem;
-  quadraticCalc: MixedMenuItem;
-  pacManV1: MixedMenuItem;
-  eightBall: MixedMenuItem;
-  npcCreator: MixedMenuItem;
-  covidDashboard: MixedMenuItem;
-  archive: MixedMenuItem;
-  resume: MixedMenuItem;
-}
 
-const MENU_ITEMS: MenuItemList = {
+const PRESENT_MONTH: string = new Date(Date.now()).toLocaleDateString('en-GB', { year: 'numeric', month: 'long' });
+const MENU_ITEMS = <{ [name: string | symbol]: MixedMenuItem }>{
+  index: {
+    name: "Home",
+    shortName: "Home",
+    type: "Tool",
+    date: PRESENT_MONTH,
+    links: {
+      href: "",
+    },
+    showDate: false,
+  },
   infectionModel: {
     name: "Infection Model",
     type: "Tool",
@@ -389,7 +373,6 @@ const MENU_ITEMS: MenuItemList = {
     shortName: "Archive",
     type: "Tool",
     date: "December 2016 - Present",
-    description: "",
     links: {
       thumbnail: "siteimages/archivelock.png",
       href: "pages/archive.html",
@@ -398,12 +381,61 @@ const MENU_ITEMS: MenuItemList = {
   resume: {
     name: "Resume",
     shortName: "Resume",
-    type: "Game",
-    date: new Date(Date.now()).toLocaleDateString('en-GB', { year: 'numeric', month: 'long' }),
-    description: "",
+    type: "Tool",
+    date: PRESENT_MONTH,
     links: {
       href: "pages/resume.html",
     },
+  },
+  overwatchHome: {
+    name: "Overwatch Impacts - Home",
+    shortName: "Overwatch - Home",
+    type: "Tool",
+    date: 'December 2016',
+    links: {
+      href: "overwatchimpacts/home.html",
+    },
+    noindex: true,
+  },
+  overwatchCommunity: {
+    name: "Overwatch Impacts - Community",
+    shortName: "Overwatch - Community",
+    type: "Tool",
+    date: 'December 2016',
+    links: {
+      href: "overwatchimpacts/community.html",
+    },
+    noindex: true,
+  },
+  overwatchDevelopment: {
+    name: "Overwatch Impacts - Development",
+    shortName: "Overwatch - Development",
+    type: "Tool",
+    date: 'December 2016',
+    links: {
+      href: "overwatchimpacts/development.html",
+    },
+    noindex: true,
+  },
+  overwatchGameplay: {
+    name: "Overwatch Impacts - Gameplay",
+    shortName: "Overwatch - Gameplay",
+    type: "Tool",
+    date: 'December 2016',
+    links: {
+      href: "overwatchimpacts/gameplay.html",
+    },
+    noindex: true,
+  },
+  overwatchSociety: {
+    name: "Overwatch Impacts - Society",
+    shortName: "Overwatch - Society",
+    type: "Tool",
+    date: 'December 2016',
+    links: {
+      href: "overwatchimpacts/society.html",
+    },
+    noindex: true,
   },
 };
 
@@ -437,7 +469,7 @@ const archiveMenuConfig = [
   MENU_ITEMS.lunarDefense,
   MENU_ITEMS.quadraticCalc,
   MENU_ITEMS.pacManV1,
-  MENU_ITEMS.eightBall
+  MENU_ITEMS.eightBall,
 ];
 
 const topMenuConfig = {
@@ -527,13 +559,14 @@ class MenuOps {
         name: item.name,
         type: item.type,
         date: item.date,
-        description: item.description,
+        showDate: !(item.showDate === false),
+        description: item.description || "",
         links: {
           href: item.links.hrefIsExternal
             ? item.links.href
             : (item.links.href
               ? cws.getRelativeUrlPath(item.links.href)
-              : null),
+              : item.links.href === '' ? '' : null),
           hrefIsExternal: item.links.hrefIsExternal || false,
 
           // non-core links:
@@ -550,6 +583,7 @@ class MenuOps {
         showInSmallMenus: item.showInSmallMenus ?? true,
         isSecret: item.isSecret || false,
         isExternalLink: item.isExternalLink || false,
+        noindex: item.noindex || false,
       };
 
       formattedOutput.push(newItem);
@@ -587,11 +621,17 @@ class MenuOps {
       showInSmallMenus: item.showInSmallMenus,
       isSecret: item.isSecret,
       isExternalLink: item.isExternalLink,
+      noindex: item.noindex,
+      showDate: item.showDate,
     }
   }
 }
 
 export class Menu {
+  static getAll(): MenuItem[] {
+    return MenuOps.mapItems(cws.Object.values(MENU_ITEMS));
+  }
+
   static getMainMenu = function (): MenuItem[] {
     return MenuOps
       .getMainMenu()

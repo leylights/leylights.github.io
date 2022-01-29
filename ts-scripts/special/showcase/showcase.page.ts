@@ -1,7 +1,6 @@
-import { PageBuilder } from "../../build-page.js";
-import { cws } from "../../cws.js";
-import { Menu, MenuItem } from "../../menu-items.js";
 import { KeyboardListener } from "../../tools/keyboard-listener.js";
+import { Menu, MenuItem } from "../_services/menu-items.service.js";
+import { PageBuilder } from "../_services/page-builder.service.js";
 import { ShowcaseItemSpotlight } from "./components/item-spotlight.component.js";
 import { ShowcaseItem } from "./components/item.component.js";
 import { SpotlightHeader } from "./spotlight-header.js";

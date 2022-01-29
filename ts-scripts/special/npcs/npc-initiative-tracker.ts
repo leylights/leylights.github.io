@@ -1,8 +1,8 @@
-import { PageBuilder } from "../../build-page.js";
+
 import { cws } from "../../cws.js";
-import { Button } from "../components/button.component.js";
-import { BASE_TEMP_HIGHLIGHT_TIME } from "../components/general.js";
-import { ResizingInput } from "../components/resizing-input.component.js";
+import { Button } from "../_components/button.component.js";
+import { BASE_TEMP_HIGHLIGHT_TIME } from "../_components/general.js";
+import { ResizingInput } from "../_components/resizing-input.component.js";
 import { NPCsRace } from "./core/race.js";
 import { NPCsDice } from "./helper-repository/general.js";
 import { NPCsInitiativeTrackerCombatant } from "./helper-repository/initiative-tracker-combatant.js";

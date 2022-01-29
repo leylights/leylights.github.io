@@ -49,10 +49,6 @@ function complexNumber(irealPt, iimaginaryPt) {
         return Math.acos(this.getRe() / this.getModulus());
     };
 }
-function init() {
-}
-;
-init();
 // .----------------.  .----------------.  .----------------. 
 // | .--------------. || .--------------. || .--------------. |
 // | |  ________    | || |     ____     | || | ____    ____ | |

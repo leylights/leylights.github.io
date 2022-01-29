@@ -1,5 +1,5 @@
 import { cws } from "../../../cws.js";
-import { Button } from "../../components/button.component.js";
+import { Button } from "../../_components/button.component.js";
 import { NPCsMemorySaveBarComponent } from "../components/npcs-memory-save-bar.component.js";
 import { NPCsCharacterData } from "./character-data.js";
 import { NPCsClassicCard } from "./classic-card.js";

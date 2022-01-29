@@ -1,5 +1,5 @@
-import { PageBuilder } from "../../build-page.js";
 import { cws } from "../../cws.js";
+import { PageBuilder } from "../_services/page-builder.service.js";
 import { Canvas, CanvasCreationData } from "./canvas.component.js";
 
 export interface LineChartPoint {

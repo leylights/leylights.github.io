@@ -1,5 +1,5 @@
 import { MathVector } from "../../../tools/math/vector.js";
-import { Canvas } from "../../components/canvas.component.js";
+import { Canvas } from "../../_components/canvas.component.js";
 import { PacmanDirectionEnum, PacmanHelper } from "../helper.js";
 import { PacmanCharacter } from "./entities/character.js";
 import { PacmanConstants } from "./constants.js";

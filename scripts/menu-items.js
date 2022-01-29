@@ -2,7 +2,17 @@
  * Provides menu items to the rest of the website
  */
 import { cws } from "./cws.js";
+const PRESENT_MONTH = new Date(Date.now()).toLocaleDateString('en-GB', { year: 'numeric', month: 'long' });
 const MENU_ITEMS = {
+    index: {
+        name: "Home",
+        shortName: "Home",
+        type: "Tool",
+        date: PRESENT_MONTH,
+        links: {
+            href: "",
+        },
+    },
     infectionModel: {
         name: "Infection Model",
         type: "Tool",
@@ -323,7 +333,6 @@ const MENU_ITEMS = {
         shortName: "Archive",
         type: "Tool",
         date: "December 2016 - Present",
-        description: "",
         links: {
             thumbnail: "siteimages/archivelock.png",
             href: "pages/archive.html",
@@ -332,12 +341,61 @@ const MENU_ITEMS = {
     resume: {
         name: "Resume",
         shortName: "Resume",
-        type: "Game",
-        date: new Date(Date.now()).toLocaleDateString('en-GB', { year: 'numeric', month: 'long' }),
-        description: "",
+        type: "Tool",
+        date: PRESENT_MONTH,
         links: {
             href: "pages/resume.html",
         },
+    },
+    overwatchHome: {
+        name: "Overwatch Impacts - Home",
+        shortName: "Overwatch - Home",
+        type: "Tool",
+        date: 'December 2016',
+        links: {
+            href: "overwatchimpacts/home.html",
+        },
+        noindex: true,
+    },
+    overwatchCommunity: {
+        name: "Overwatch Impacts - Community",
+        shortName: "Overwatch - Community",
+        type: "Tool",
+        date: 'December 2016',
+        links: {
+            href: "overwatchimpacts/community.html",
+        },
+        noindex: true,
+    },
+    overwatchDevelopment: {
+        name: "Overwatch Impacts - Development",
+        shortName: "Overwatch - Development",
+        type: "Tool",
+        date: 'December 2016',
+        links: {
+            href: "overwatchimpacts/development.html",
+        },
+        noindex: true,
+    },
+    overwatchGameplay: {
+        name: "Overwatch Impacts - Gameplay",
+        shortName: "Overwatch - Gameplay",
+        type: "Tool",
+        date: 'December 2016',
+        links: {
+            href: "overwatchimpacts/gameplay.html",
+        },
+        noindex: true,
+    },
+    overwatchSociety: {
+        name: "Overwatch Impacts - Society",
+        shortName: "Overwatch - Society",
+        type: "Tool",
+        date: 'December 2016',
+        links: {
+            href: "overwatchimpacts/society.html",
+        },
+        noindex: true,
     },
 };
 const mainMenuConfig = [
@@ -369,7 +427,7 @@ const archiveMenuConfig = [
     MENU_ITEMS.lunarDefense,
     MENU_ITEMS.quadraticCalc,
     MENU_ITEMS.pacManV1,
-    MENU_ITEMS.eightBall
+    MENU_ITEMS.eightBall,
 ];
 const topMenuConfig = {
     games: [
@@ -445,13 +503,13 @@ class MenuOps {
                 name: item.name,
                 type: item.type,
                 date: item.date,
-                description: item.description,
+                description: item.description || "",
                 links: {
                     href: item.links.hrefIsExternal
                         ? item.links.href
                         : (item.links.href
                             ? cws.getRelativeUrlPath(item.links.href)
-                            : null),
+                            : item.links.href === '' ? '' : null),
                     hrefIsExternal: item.links.hrefIsExternal || false,
                     // non-core links:
                     showcase: item.links.showcase ? cws.getRelativeUrlPath(item.links.showcase) : null,
@@ -466,6 +524,7 @@ class MenuOps {
                 showInSmallMenus: (_a = item.showInSmallMenus) !== null && _a !== void 0 ? _a : true,
                 isSecret: item.isSecret || false,
                 isExternalLink: item.isExternalLink || false,
+                noindex: item.noindex || false,
             };
             formattedOutput.push(newItem);
         }
@@ -501,10 +560,14 @@ class MenuOps {
             showInSmallMenus: item.showInSmallMenus,
             isSecret: item.isSecret,
             isExternalLink: item.isExternalLink,
+            noindex: item.noindex,
         };
     }
 }
 export class Menu {
+    static getAll() {
+        return MenuOps.mapItems(cws.Object.values(MENU_ITEMS));
+    }
 }
 Menu.getMainMenu = function () {
     return MenuOps
