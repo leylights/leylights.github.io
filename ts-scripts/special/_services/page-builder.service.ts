@@ -108,6 +108,16 @@ export class PageBuilder {
   }
 
   /**
+   * Adds the given stylesheet to the <head>
+   */
+  static loadCSSFile(absolutePath: string) {
+    const path: string = cws.getRelativeUrlPath(absolutePath);
+    if (document.head.querySelector(`link[rel=stylesheet][href="${path}"  ]`)) return; // don't double-load
+
+    document.head.appendChild(cws.createLinkElement(path, 'stylesheet'));
+  }
+
+  /**
    * Populates the <head> element
    */
   private static buildHead() {

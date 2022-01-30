@@ -3,14 +3,16 @@ import { Menu, MenuItem } from "../_services/menu-items.service.js";
 import { PageBuilder } from "../_services/page-builder.service.js";
 import { ShowcaseItemSpotlight } from "./components/item-spotlight.component.js";
 import { ShowcaseItem } from "./components/item.component.js";
-import { SpotlightHeader } from "./spotlight-header.js";
+import { SpotlightHeader } from "./components/spotlight-header.component.js";
 
-class ShowcasePage {
+export class ShowcasePage {
   items: ShowcaseItem[] = [];
   spotlights: ShowcaseItemSpotlight[] = [];
 
-  private menuItems: MenuItem[] = Menu.getMainMenu();
+  private menuItems: MenuItem[];
   private secretsCreated: boolean = false;
+
+  private static isInitialized = false;
 
   private elements = {
     mainSpotlight: document.getElementById('showcase-main-spotlight'),
@@ -19,11 +21,14 @@ class ShowcasePage {
     secretItemsContainer: document.getElementById('showcase-secrets'),
   }
 
-  constructor() {
+  constructor(items: MenuItem[]) {
     const me = this;
 
+    PageBuilder.loadCSSFile('stylesheets/showcase.css');
+
     // Create items
-    me.createItems(Menu.getMainMenu());
+    me.menuItems = items;
+    me.createItems(me.menuItems);
 
     // Enable parallax behaviour
     me.enableParallaxScrolling();
@@ -81,6 +86,16 @@ class ShowcasePage {
       });
     });
   }
+
+  static init() {
+    if (ShowcasePage.isInitialized) return;
+    else ShowcasePage.isInitialized = true;
+
+    if (window.location.pathname.includes('archive'))
+      return new ShowcasePage(Menu.getArchiveMenu());
+    else
+      return new ShowcasePage(Menu.getMainMenu());
+  }
 }
 
-new ShowcasePage();
+ShowcasePage.init();
