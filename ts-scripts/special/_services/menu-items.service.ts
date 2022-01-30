@@ -98,8 +98,8 @@ const MENU_ITEMS = <{ [name: string | symbol]: MixedMenuItem }>{
     links: {
       href: "https://drive.google.com/open?id=1MlW4gyXsaFHNxZFwPfi4f-45UrGY9k6w",
       "hrefIsExternal": true,
-      thumbnail: "siteimages/java/daydreamIcon.png",
-      showcase: "siteimages/java/daydreamshowcase.png"
+      thumbnail: "siteimages/java/daydream-icon.png",
+      showcase: "siteimages/java/daydream-showcase.png"
     },
     "isExternalLink": true
   },
@@ -145,7 +145,7 @@ const MENU_ITEMS = <{ [name: string | symbol]: MixedMenuItem }>{
     links: {
       href: "https://drive.google.com/open?id=1YBHmeOboxp6Vb6JGg8EoS4n8ri_PbSkK",
       "hrefIsExternal": true,
-      thumbnail: "siteimages/java/ticTacIcon.png"
+      thumbnail: "siteimages/java/tic-tac-icon.png"
     },
     "invertOnDark": true,
     "isExternalLink": true
@@ -181,8 +181,8 @@ const MENU_ITEMS = <{ [name: string | symbol]: MixedMenuItem }>{
     links: {
       href: "https://drive.google.com/open?id=1nYmU7NLD6Ip7YVuD8M3xtqJ0o6QF6mJL",
       "hrefIsExternal": true,
-      thumbnail: "siteimages/java/kittenIcon.png",
-      showcase: "siteimages/java/kittenSc.png"
+      thumbnail: "siteimages/java/kitten-icon.png",
+      showcase: "siteimages/java/kitten-sc.png"
     },
     "isExternalLink": true
   },
