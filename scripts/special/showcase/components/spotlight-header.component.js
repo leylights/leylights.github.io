@@ -44,9 +44,8 @@ export class SpotlightHeader {
         }
     }
     rebuild(replacedTarget) {
-        var _a;
-        const me = this, image = this.getSpotlightImage(), logoSource = ((_a = document.body.querySelector('#showcase-main-spotlight')) === null || _a === void 0 ? void 0 : _a.querySelector('#big-logo'))
-            .src.replace(window.location.origin + '/', '') || 'siteimages/logo-split-w.svg', logo = cws.createElement({
+        var _a, _b;
+        const me = this, image = this.getSpotlightImage(), logoSource = ((_b = (_a = document.body.querySelector('#showcase-main-spotlight')) === null || _a === void 0 ? void 0 : _a.querySelector('#big-logo')) === null || _b === void 0 ? void 0 : _b.src.replace(window.location.origin + '/', '')) || 'siteimages/logo-split-w.svg', logo = cws.createElement({
             type: 'img',
             id: 'big-logo',
             otherNodes: [{
