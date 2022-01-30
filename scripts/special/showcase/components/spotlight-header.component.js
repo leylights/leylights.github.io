@@ -1,4 +1,4 @@
-import { cws } from "../../cws.js";
+import { cws } from "../../../cws.js";
 export class SpotlightHeader {
     constructor(replacedTarget) {
         this.logoPaddingVh = 10;
@@ -44,12 +44,14 @@ export class SpotlightHeader {
         }
     }
     rebuild(replacedTarget) {
-        const me = this, image = this.getSpotlightImage(), logo = cws.createElement({
+        var _a;
+        const me = this, image = this.getSpotlightImage(), logoSource = ((_a = document.body.querySelector('#showcase-main-spotlight')) === null || _a === void 0 ? void 0 : _a.querySelector('#big-logo'))
+            .src.replace(window.location.origin + '/', '') || 'siteimages/logo-split-w.svg', logo = cws.createElement({
             type: 'img',
             id: 'big-logo',
             otherNodes: [{
                     type: 'src',
-                    value: cws.getRelativeUrlPath('siteimages/logo-split-w.svg')
+                    value: cws.getRelativeUrlPath(logoSource)
                 }, {
                     type: 'alt',
                     value: 'colestanley.ca'
@@ -79,4 +81,4 @@ SpotlightHeader.SPOTLIGHT_IMAGES = {
     summer: ['river_cliff.jpg', 'river_deep.jpg', 'river_sun.jpg', 'trees.jpg'],
     winter: ['crossroadsmini.jpg', 'field.jpg', 'branch.jpg', 'sunset.jpg']
 };
-//# sourceMappingURL=spotlight-header.js.map
+//# sourceMappingURL=spotlight-header.component.js.map

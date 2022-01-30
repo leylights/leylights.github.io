@@ -1,4 +1,4 @@
-import { cws } from "../../cws.js";
+import { cws } from "../../../cws.js";
 
 type Season = 'fall' | 'winter' | 'spring' | 'summer';
 interface SpotlightHeaderElements {
@@ -57,12 +57,15 @@ export class SpotlightHeader {
   private rebuild(this: SpotlightHeader, replacedTarget: HTMLElement) {
     const me = this,
       image: HTMLElement = this.getSpotlightImage(),
+      logoSource: string = (document.body.querySelector('#showcase-main-spotlight')
+        ?.querySelector('#big-logo') as HTMLImageElement)
+        .src.replace(window.location.origin + '/', '') || 'siteimages/logo-split-w.svg',
       logo: HTMLImageElement = cws.createElement({
         type: 'img',
         id: 'big-logo',
         otherNodes: [{
           type: 'src',
-          value: cws.getRelativeUrlPath('siteimages/logo-split-w.svg')
+          value: cws.getRelativeUrlPath(logoSource)
         }, {
           type: 'alt',
           value: 'colestanley.ca'

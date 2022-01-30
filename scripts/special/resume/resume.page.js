@@ -1,4 +1,4 @@
-import { SpotlightHeader } from "../showcase/spotlight-header.js";
+import { SpotlightHeader } from "../showcase/components/spotlight-header.component.js";
 import { ResumeExperienceItemComponent } from "./components/experience-item.component.js";
 import { ResumeLanguageComponent } from "./components/language-item.component.js";
 import { ResumeOccupationItemComponent } from "./components/occupation-item.component.js";
