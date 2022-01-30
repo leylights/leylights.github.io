@@ -349,13 +349,16 @@ const MENU_ITEMS = {
         },
     },
     overwatchHome: {
-        name: "Overwatch Impacts - Home",
+        name: "Overwatch Impacts",
         shortName: "Overwatch - Home",
+        description: 'The first web project I wrote (working with a friend), giving an analysis of the video game Overwatch.',
         type: "Tool",
         date: 'December 2016',
         links: {
-            href: "overwatchimpacts/home.html",
+            href: "pages/overwatchimpacts/home.html",
+            thumbnail: "siteimages/archive/owithumbnail.png",
         },
+        archive: true,
         noindex: true,
     },
     overwatchCommunity: {
@@ -364,7 +367,7 @@ const MENU_ITEMS = {
         type: "Tool",
         date: 'December 2016',
         links: {
-            href: "overwatchimpacts/community.html",
+            href: "pages/overwatchimpacts/community.html",
         },
         noindex: true,
     },
@@ -374,7 +377,7 @@ const MENU_ITEMS = {
         type: "Tool",
         date: 'December 2016',
         links: {
-            href: "overwatchimpacts/development.html",
+            href: "pages/overwatchimpacts/development.html",
         },
         noindex: true,
     },
@@ -384,7 +387,7 @@ const MENU_ITEMS = {
         type: "Tool",
         date: 'December 2016',
         links: {
-            href: "overwatchimpacts/gameplay.html",
+            href: "pages/overwatchimpacts/gameplay.html",
         },
         noindex: true,
     },
@@ -394,7 +397,7 @@ const MENU_ITEMS = {
         type: "Tool",
         date: 'December 2016',
         links: {
-            href: "overwatchimpacts/society.html",
+            href: "pages/overwatchimpacts/society.html",
         },
         noindex: true,
     },
@@ -429,6 +432,7 @@ const archiveMenuConfig = [
     MENU_ITEMS.quadraticCalc,
     MENU_ITEMS.pacManV1,
     MENU_ITEMS.eightBall,
+    MENU_ITEMS.overwatchHome,
 ];
 const topMenuConfig = {
     games: [
@@ -526,7 +530,7 @@ class MenuOps {
                 showInSmallMenus: (_a = item.showInSmallMenus) !== null && _a !== void 0 ? _a : true,
                 isSecret: item.isSecret || false,
                 isExternalLink: item.isExternalLink || false,
-                noindex: item.noindex || false,
+                noindex: item.noindex || item.isSecret,
             };
             formattedOutput.push(newItem);
         }

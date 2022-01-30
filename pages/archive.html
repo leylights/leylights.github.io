@@ -23,36 +23,31 @@
 
   <div id="loadingScreen">
     <img src="../siteimages/logo.svg" alt="colestanley.ca">
-  </div>  
+  </div>
 
   <div id="main" style="background: none">
-    <div id="showcase">
-      <div id="showcaseImg"> </div>
-      <div id="showcaseBox" style="background-color: black">
-        <h2 id="showcaseTitle">Archived Projects</h2>
-        <h3 id="showcaseDesc">These projects have been archived for bug infestations or simplicity, and do not reflect
-          my current talent nor are part of my portfolio; they are a simple reminder of how much I have learned and how
-          far I have come.</h3>
+    <div id="showcase-main-spotlight">
+      <div id="showcase-main-spotlight-image">
       </div>
+      <img id="big-logo" src="../siteimages/archive/archive-logo.svg" alt='Archive' />
     </div>
 
-    <!--   first item - OW Impacts-->
-    <div id="baseItem" class="itemSurround" style="background-color: black; color: white;">
-      <div style="color: white; padding-top: 0.125em; padding-bottom: 0.125em;">
-        <div class="item" style="background-color: black; color: white;">
-          <a href="../overwatchimpacts/Home.html">
-            <img src="../siteimages/archive/owithumbnail.png" class="itemImage">
-            <h2 style="color: white;">Website - Overwatch Impacts</h2>
-            <h3 style="color: white;" class="itemDate">December 2016</h3>
-          </a>
-          <h3>Analysing the significance of the popular video game
-            Overwatch</h3>
+    <div class="showcase-item-container no-hover" id='items-preface'>
+      <div class="showcase-item">
+        <div class="showcase-item-content">
+          <div class="showcase-item-text-container">
+            <h2 class="showcase-item-title">Archived Projects</h2>
+            <p class="showcase-item-description">These projects have been archived for bug infestations or simplicity, and do not reflect
+              my current talent nor are part of my portfolio; they are a simple reminder of how much I have learned and how
+              far I have come.</p>
+          </div>
         </div>
       </div>
     </div>
+    <div id='showcase-items'></div>
   </div>
 
-  
+
 
   <script type="module" src="../scripts/special/archive.js?v=1.1"></script>
 

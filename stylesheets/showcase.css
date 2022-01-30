@@ -1,6 +1,8 @@
 :root {
   --showcase-shadow-colour: #888b;
   --showcase-spotlight-height: 510px;
+
+  --item-header-colour: var(--primary-accent-color);
 }
 
 #showcase-items {
@@ -32,6 +34,10 @@
   background-repeat: repeat-x;
   background-attachment: scroll;
   background-size: cover;
+}
+
+.showcase-items-preface {
+  background-color: var(--primary-bg-color);
 }
 
 .showcase-item-container {
@@ -67,6 +73,12 @@
 .showcase-item-text-container:hover h2,
 .showcase-item-text-container:hover h3 {
   color: var(--text-color);
+}
+
+
+.showcase-item-container.no-hover .showcase-item-text-container:hover h2,
+.showcase-item-container.no-hover .showcase-item-text-container:hover h3 {
+  color: var(--item-header-colour);
 }
 
 .showcase-item a {
@@ -112,7 +124,7 @@
 
 .showcase-item-title,
 .showcase-item-date {
-  color: var(--primary-accent-color);
+  color: var(--item-header-colour);
 }
 
 .showcase-item-description {
@@ -159,11 +171,11 @@
   .showcase-item-container.showcase-item-top-shadow {
     box-shadow: none;
   }
-  
+
   .showcase-item-container.showcase-item-bottom-shadow {
     box-shadow: none;
   }
-  
+
   .showcase-item-container.showcase-item-both-shadow {
     box-shadow: none;
   }

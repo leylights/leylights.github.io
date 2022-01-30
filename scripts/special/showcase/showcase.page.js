@@ -3,12 +3,11 @@ import { Menu } from "../_services/menu-items.service.js";
 import { PageBuilder } from "../_services/page-builder.service.js";
 import { ShowcaseItemSpotlight } from "./components/item-spotlight.component.js";
 import { ShowcaseItem } from "./components/item.component.js";
-import { SpotlightHeader } from "./spotlight-header.js";
-class ShowcasePage {
-    constructor() {
+import { SpotlightHeader } from "./components/spotlight-header.component.js";
+export class ShowcasePage {
+    constructor(items) {
         this.items = [];
         this.spotlights = [];
-        this.menuItems = Menu.getMainMenu();
         this.secretsCreated = false;
         this.elements = {
             mainSpotlight: document.getElementById('showcase-main-spotlight'),
@@ -17,8 +16,10 @@ class ShowcasePage {
             secretItemsContainer: document.getElementById('showcase-secrets'),
         };
         const me = this;
+        PageBuilder.loadCSSFile('stylesheets/showcase.css');
         // Create items
-        me.createItems(Menu.getMainMenu());
+        me.menuItems = items;
+        me.createItems(me.menuItems);
         // Enable parallax behaviour
         me.enableParallaxScrolling();
         // Secret menu builder
@@ -71,6 +72,17 @@ class ShowcasePage {
             });
         });
     }
+    static init() {
+        if (ShowcasePage.isInitialized)
+            return;
+        else
+            ShowcasePage.isInitialized = true;
+        if (window.location.pathname.includes('archive'))
+            return new ShowcasePage(Menu.getArchiveMenu());
+        else
+            return new ShowcasePage(Menu.getMainMenu());
+    }
 }
-new ShowcasePage();
+ShowcasePage.isInitialized = false;
+ShowcasePage.init();
 //# sourceMappingURL=showcase.page.js.map
