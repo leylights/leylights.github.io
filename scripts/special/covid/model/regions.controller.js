@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { cws } from "../../../cws.js";
-import { COVIDDataBridge } from "../data-bridge.js";
+import { COVIDDataBridge } from "../covid-data-bridge.js";
 import { COVIDHealthUnit } from "./health-unit.js";
 import { COVIDProvince } from "./province.js";
 export class COVIDRegionsController {
@@ -23,7 +23,7 @@ export class COVIDRegionsController {
     }
     init() {
         return __awaiter(this, void 0, void 0, function* () {
-            const me = this, data = yield COVIDDataBridge.get('other');
+            const me = this, data = (yield COVIDDataBridge.getSupplementaryData()).OPENCOVID;
             // Health units
             data.hr.forEach(configuration => {
                 if (!cws.Array.includes(me.SKIPPED_HEALTH_UNITS, configuration.HR_UID)) {

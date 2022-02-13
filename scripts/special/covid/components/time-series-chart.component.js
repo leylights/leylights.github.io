@@ -1,7 +1,7 @@
 import { cws } from "../../../cws.js";
 import { InputComponent } from "../../_components/input.component.js";
 import { LineChartComponent } from "../../_components/line-chart.component.js";
-import { COVIDDataBridge } from "../data-bridge.js";
+import { COVIDDataBridge } from "../covid-data-bridge.js";
 import { COVIDSection } from "./section.component.js";
 export class COVIDTimeSeriesChart {
     /**
@@ -36,7 +36,7 @@ export class COVIDTimeSeriesChart {
             points: []
         });
         // get data and parse
-        COVIDDataBridge.get(config.timeSeriesURI)
+        COVIDDataBridge.getTimeSeries(config.timeSeries.type, config.timeSeries.location)
             .then((response) => { me.handleResponse(response); });
     }
     buildTimeRangeInputs() {
@@ -82,7 +82,7 @@ export class COVIDTimeSeriesChart {
     handleResponse(response) {
         var _a;
         const me = this;
-        me.fullTimeSeries = response[me.config.responseArrayName].map((day) => {
+        me.fullTimeSeries = response.map((day) => {
             return {
                 property: day[me.config.responsePropertyName],
                 date: day[me.config.responseTimePropertyName],

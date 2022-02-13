@@ -1,7 +1,7 @@
 import { cws } from "../../../cws.js";
 import { InputComponent } from "../../_components/input.component.js";
 import { LineChartComponent, LineChartPoint } from "../../_components/line-chart.component.js";
-import { COVIDDataBridge } from "../data-bridge.js";
+import { COVIDDataBridge } from "../covid-data-bridge.js";
 import { COVIDSectionCollection } from "./section-collection.component.js";
 import { COVIDSection } from "./section.component.js";
 
@@ -9,8 +9,10 @@ interface COVIDTimeSeriesChartConfig {
   days?: number,
   title: string,
   shortTitle: string,
-  timeSeriesURI: string,
-  responseArrayName: string,
+  timeSeries: {
+    type: 'cases' | 'mortality' | 'active',
+    location: string,
+  },
   responsePropertyName: string,
   responseTimePropertyName: string,
   averageDays?: number,
@@ -68,7 +70,7 @@ export class COVIDTimeSeriesChart {
     });
 
     // get data and parse
-    COVIDDataBridge.get(config.timeSeriesURI)
+    COVIDDataBridge.getTimeSeries(config.timeSeries.type, config.timeSeries.location)
       .then((response: any) => { me.handleResponse(response) });
   }
 
@@ -118,9 +120,9 @@ export class COVIDTimeSeriesChart {
     }
   }
 
-  private handleResponse(this: COVIDTimeSeriesChart, response: any) {
+  private handleResponse(this: COVIDTimeSeriesChart, response: any[]) {
     const me = this;
-    me.fullTimeSeries = (response[me.config.responseArrayName] as any[]).map((day) => {
+    me.fullTimeSeries = response.map((day) => {
       return {
         property: day[me.config.responsePropertyName] as number,
         date: day[me.config.responseTimePropertyName] as string,
