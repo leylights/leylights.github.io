@@ -13,9 +13,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { cws } from "../../cws.js";
-import { GoogleAnalyticsController } from "./google-analytics.service.js";
+import { GoogleAnalyticsController } from "./google-analytics-controller.service.js";
 import { KeyboardListener } from "../../tools/keyboard-listener.js";
 import { Menu } from "./menu-items.service.js";
+import { CookieInterface } from "./cookie-interface.service.js";
 var DarkModeResults;
 (function (DarkModeResults) {
     DarkModeResults[DarkModeResults["Dark"] = 0] = "Dark";
@@ -50,8 +51,10 @@ export class PageBuilder {
         function checkForDarkMode(listener) {
             return __awaiter(this, void 0, void 0, function* () {
                 return checkForPasscode().then((validResponse) => __awaiter(this, void 0, void 0, function* () {
-                    if (validResponse)
+                    if (validResponse) {
+                        CookieInterface.setCookie(GoogleAnalyticsController.HIDE_COOKIE, 'true');
                         return yield checkForDark();
+                    }
                     else
                         return DarkModeResults.NoResponse;
                 }));
@@ -105,7 +108,7 @@ export class PageBuilder {
      */
     static loadCSSFile(absolutePath) {
         const path = cws.getRelativeUrlPath(absolutePath);
-        if (document.head.querySelector(`link[rel=stylesheet][href="${path}"  ]`))
+        if (document.head.querySelector(`link[rel=stylesheet][href="${path}"]`))
             return; // don't double-load
         document.head.appendChild(cws.createLinkElement(path, 'stylesheet'));
     }
@@ -228,6 +231,8 @@ export class PageBuilder {
     static buildGoogleAnalytics() {
         // exit on dev
         if (!window.location.origin.includes(PageBuilder.siteURL))
+            return;
+        if (CookieInterface.getCookieValue(GoogleAnalyticsController.HIDE_COOKIE))
             return;
         new GoogleAnalyticsController();
         document.head.insertAdjacentElement('afterbegin', cws.createElement({

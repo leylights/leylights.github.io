@@ -8,7 +8,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { cws } from "../../../cws.js";
-import { COVIDDataBridge } from "../data-bridge.js";
 import { COVIDHelper } from "../helper.js";
 import { COVIDDisplayCard } from "./display-card.component.js";
 import { COVIDSection } from "./section.component.js";
@@ -30,13 +29,10 @@ export class COVIDCardGrid {
         // Set up the card grid
         this.grid = this.element.querySelector(`.${gridClass}`);
         cardData.forEach((card) => {
-            const HTMLCard = new COVIDDisplayCard(card.title.toUpperCase(), card.noRequest ? card.url : '...', me.grid);
+            const HTMLCard = new COVIDDisplayCard(card.title.toUpperCase(), card.noRequestCardText || '...', me.grid);
             me.cards.push(HTMLCard);
             if (!card.noRequest) {
-                COVIDDataBridge
-                    .get(card.url)
-                    .then((response) => __awaiter(this, void 0, void 0, function* () {
-                    const result = yield card.responseGetter(response);
+                card.responseGetter().then((result) => __awaiter(this, void 0, void 0, function* () {
                     // set result
                     if (card.valueAsPercentage && typeof result === 'number') {
                         HTMLCard.value = COVIDHelper.formatAsPercentage(result);

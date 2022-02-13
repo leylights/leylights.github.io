@@ -65,7 +65,7 @@ export class cws {
   }
 
   static Array = {
-    contains: function <T>(arr: T[], el: any, comparatorFn?: (a: T, b: T) => boolean): boolean {
+    contains: function <T, U>(arr: T[], el: U, comparatorFn?: (a: T, b: U) => boolean): boolean {
       if (!comparatorFn)
         comparatorFn = (a: any, b: any) => { return a === b };
 
@@ -146,7 +146,7 @@ export class cws {
       }
     },
 
-    includes: function <T>(arr: T[], el: any, comparatorFn?: (a: T, b: T) => boolean): boolean {
+    includes: function <T, U>(arr: T[], el: U, comparatorFn?: (a: T, b: U) => boolean): boolean {
       return cws.Array.contains(arr, el, comparatorFn);
     },
 

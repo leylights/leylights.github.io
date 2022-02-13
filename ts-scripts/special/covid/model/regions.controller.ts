@@ -1,5 +1,5 @@
 import { cws } from "../../../cws.js";
-import { COVIDDataBridge } from "../data-bridge.js";
+import { COVIDDataBridge } from "../covid-data-bridge.js";
 import { COVIDHealthUnit } from "./health-unit.js";
 import { COVIDProvince } from "./province.js";
 
@@ -27,7 +27,7 @@ export class COVIDRegionsController {
 
   async init(this: COVIDRegionsController) {
     const me = this,
-      data: RegionsRepsonse = await COVIDDataBridge.get('other');
+      data: RegionsRepsonse = (await COVIDDataBridge.getSupplementaryData()).OPENCOVID;
 
     // Health units
     data.hr.forEach(configuration => {
