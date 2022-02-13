@@ -2,7 +2,7 @@
 export class GoogleAnalyticsController {
   static HIDE_COOKIE = 'hideFromAnalytics';
 
-  constructor() {
+  static init() {
     (<any>window).ga = (<any>window).ga || function () {
       (ga.q = ga.q || []).push(arguments);
     };
