@@ -1,6 +1,6 @@
 //@ts-nocheck
 export class GoogleAnalyticsController {
-    constructor() {
+    static init() {
         window.ga = window.ga || function () {
             (ga.q = ga.q || []).push(arguments);
         };

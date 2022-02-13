@@ -230,11 +230,15 @@ export class PageBuilder {
     }
     static buildGoogleAnalytics() {
         // exit on dev
-        if (!window.location.origin.includes(PageBuilder.siteURL))
+        if (!window.location.origin.includes(PageBuilder.siteURL)) {
+            console.log('Hidden from google analytics: on development environment.');
             return;
-        if (CookieInterface.getCookieValue(GoogleAnalyticsController.HIDE_COOKIE))
+        }
+        else if (CookieInterface.getCookieValue(GoogleAnalyticsController.HIDE_COOKIE)) {
+            console.log('Hidden from google analytics: cookie set.');
             return;
-        new GoogleAnalyticsController();
+        }
+        GoogleAnalyticsController.init();
         document.head.insertAdjacentElement('afterbegin', cws.createElement({
             type: 'script',
             otherNodes: [
