@@ -155,7 +155,7 @@ export class cws {
      * @example arrayToN(5) => [1,2,3,4,5]
      */
     toN: function (n: number): number[] {
-      let output: number[] = [];
+      const output: number[] = [];
       for (let i = 0; i < n; i++)
         output.push(i);
       return output;
@@ -163,7 +163,7 @@ export class cws {
   }
 
   static betterCreateAttr = function (type: string, value: string): Attr {
-    var attr: Attr = document.createAttribute(type);
+    const attr: Attr = document.createAttribute(type);
     attr.value = value;
     return attr;
   }
@@ -176,7 +176,7 @@ export class cws {
    */
 
   static buildElement<ElementsType extends keyof HTMLElementTagNameMap>(type: ElementsType, attributes: string[][]): HTMLElementTagNameMap[ElementsType] {
-    let el = document.createElement(type);
+    const el = document.createElement(type);
 
     for (let i = 0; i < attributes.length; i++) {
       if (attributes[i].length !== 2)
@@ -230,9 +230,11 @@ export class cws {
         element.appendChild(childEl);
       });
     if (data.otherNodes)
-      data.otherNodes.forEach((nodeData) => {
-        element.setAttribute(nodeData.type, nodeData.value);
-      });
+      data.otherNodes
+        .filter((node) => node) // filter out nulls
+        .forEach((nodeData) => {
+          element.setAttribute(nodeData.type, nodeData.value);
+        });
 
     return element;
   }
@@ -358,7 +360,7 @@ export class cws {
   static drawText = function (text: string, x: number, y: number, colour: string, centered: boolean, size: number | null, type: string | null, surface: CanvasRenderingContext2D): void {
     surface.fillStyle = colour;
     if (size !== null) {
-      let search = surface.font.search("px");
+      const search = surface.font.search("px");
 
       if (type == undefined || type == null) {
         type = "";
@@ -367,7 +369,7 @@ export class cws {
       if (search == -1) {
         surface.font = size + "px " + type;
       } else {
-        let family = surface.font.substring(surface.font.search("px") + 2);
+        const family = surface.font.substring(surface.font.search("px") + 2);
         surface.font = size + "px " + type + family;
       }
     }
@@ -414,7 +416,7 @@ export class cws {
    */
 
   static fillTriangle = function (x: number, y: number, w: number, h: number, colour: string, center: boolean, angle: number, canvas: any) {
-    let ctx = canvas;
+    const ctx = canvas;
     angle = angle / 180 * Math.PI;
 
     ctx.beginPath();
@@ -422,9 +424,9 @@ export class cws {
     ctx.strokeStyle = colour;
 
     if (center) {
-      let a = { x: x - w / 2, y: y + h / 2 };
-      let b = { x: x, y: y - h / 2 };
-      let c = { x: x + w / 2, y: y + h / 2 };
+      const a = { x: x - w / 2, y: y + h / 2 };
+      const b = { x: x, y: y - h / 2 };
+      const c = { x: x + w / 2, y: y + h / 2 };
 
       if (!isNaN(angle) && angle !== 0) {
         ctx.translate(x, y);
@@ -521,7 +523,7 @@ export class cws {
    * @requires The sought-after input element is, in fact, an input element 
    */
   static getInputElementById = function (id: string): HTMLInputElement {
-    let el = document.getElementById(id);
+    const el = document.getElementById(id);
     if (el instanceof HTMLInputElement) {
       return (el as HTMLInputElement);
     } else {
@@ -557,8 +559,8 @@ export class cws {
   static getSuperscriptOrdinal(n: number) {
     n = Math.abs(n); // negativity unimportant
 
-    let s: string = n + '';
-    let lastNum = parseInt(s.charAt(s.length - 1));
+    const s: string = n + '';
+    const lastNum = parseInt(s.charAt(s.length - 1));
 
     // special cases
     switch (n) {
@@ -600,11 +602,11 @@ export class cws {
     return dd.dusk <= hour || hour <= dd.dawn;
 
     function getDuskDawn() {
-      let now = new Date();
-      let seasonOffset = Math.abs(now.getMonth() + 1 - 6) / 1.5;
+      const now = new Date();
+      const seasonOffset = Math.abs(now.getMonth() + 1 - 6) / 1.5;
 
-      let dawn = 5 + seasonOffset; // 5:00 AM
-      let dusk = 21 - seasonOffset; // 9:00 PM
+      const dawn = 5 + seasonOffset; // 5:00 AM
+      const dusk = 21 - seasonOffset; // 9:00 PM
 
       return { dusk: dusk, dawn: dawn };
     }
@@ -631,8 +633,8 @@ export class cws {
      */
 
     entries: function <K extends string | number | symbol, T>(obj: Record<K, T>): ([K, T])[] {
-      let keys = Object.keys(obj);
-      let values = [];
+      const keys = Object.keys(obj);
+      const values = [];
 
       for (let i = 0; i < keys.length; i++) {
         values.push([keys[i], obj[keys[i]]]);
@@ -650,8 +652,8 @@ export class cws {
      */
 
     values: function <T>(obj: Record<string | number | symbol, T>): T[] {
-      let keys = Object.keys(obj);
-      let values = [];
+      const keys = Object.keys(obj);
+      const values = [];
 
       for (let i = 0; i < keys.length; i++) {
         values.push(obj[keys[i]]);
@@ -683,7 +685,7 @@ export class cws {
       throw new Error("invalid input: " + n);
     }
 
-    let exponent = Math.log(Math.abs(x)) / n;
+    const exponent = Math.log(Math.abs(x)) / n;
 
     if (x < 0)
       return -cws.roundToDecimalPlaces(Math.pow(Math.E, exponent), 9);
@@ -715,7 +717,7 @@ export class cws {
   /**
    * A function used with Array.sort to randomly sort the array
    */
-  static jumbleSort(a: any, b: any): number {
+  static jumbleSort(a, b): number {
     return Math.random() < 0.5 ? -1 : 1;
   }
 
@@ -743,7 +745,7 @@ export class cws {
       if (n === 0)
         return result.trim();
 
-      let thisPart = n % 1000;
+      const thisPart = n % 1000;
       result += absThousandToString(thisPart) + ' ' + blockNames[partIndex];
       n -= thisPart;
       n /= 1000;
@@ -812,16 +814,17 @@ export class cws {
           return "eighty";
         case 90:
           return "ninety";
-        default:
-          let onesDigit = m % 10;
-          let tensDigit = ((m - onesDigit) % 100) / 10;
-          let hundredsDigit = (m - tensDigit) / 100;
+        default: {
+          const onesDigit = m % 10;
+          const tensDigit = ((m - onesDigit) % 100) / 10;
+          const hundredsDigit = (m - tensDigit) / 100;
 
           let hundredsText = '';
           if (hundredsDigit !== 0)
             hundredsText = absThousandToString(hundredsDigit) + ' hundred ';
 
           return hundredsText + absThousandToString(tensDigit * 10) + " " + absThousandToString(onesDigit);
+        }
       }
     }
   }

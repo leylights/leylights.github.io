@@ -29,7 +29,7 @@ export class cws {
      * @returns {HTMLElement} The completed element
      */
     static buildElement(type, attributes) {
-        let el = document.createElement(type);
+        const el = document.createElement(type);
         for (let i = 0; i < attributes.length; i++) {
             if (attributes[i].length !== 2)
                 console.error("invalid attributes list provided - list is wrong size:", attributes[i]);
@@ -81,7 +81,9 @@ export class cws {
                 element.appendChild(childEl);
             });
         if (data.otherNodes)
-            data.otherNodes.forEach((nodeData) => {
+            data.otherNodes
+                .filter((node) => node) // filter out nulls
+                .forEach((nodeData) => {
                 element.setAttribute(nodeData.type, nodeData.value);
             });
         return element;
@@ -224,8 +226,8 @@ export class cws {
      */
     static getSuperscriptOrdinal(n) {
         n = Math.abs(n); // negativity unimportant
-        let s = n + '';
-        let lastNum = parseInt(s.charAt(s.length - 1));
+        const s = n + '';
+        const lastNum = parseInt(s.charAt(s.length - 1));
         // special cases
         switch (n) {
             case 11:
@@ -258,10 +260,10 @@ export class cws {
         const dd = getDuskDawn(), now = new Date(), hour = now.getHours() + (now.getMinutes() / 60);
         return dd.dusk <= hour || hour <= dd.dawn;
         function getDuskDawn() {
-            let now = new Date();
-            let seasonOffset = Math.abs(now.getMonth() + 1 - 6) / 1.5;
-            let dawn = 5 + seasonOffset; // 5:00 AM
-            let dusk = 21 - seasonOffset; // 9:00 PM
+            const now = new Date();
+            const seasonOffset = Math.abs(now.getMonth() + 1 - 6) / 1.5;
+            const dawn = 5 + seasonOffset; // 5:00 AM
+            const dusk = 21 - seasonOffset; // 9:00 PM
             return { dusk: dusk, dawn: dawn };
         }
     }
@@ -285,7 +287,7 @@ export class cws {
         if (n <= 0) {
             throw new Error("invalid input: " + n);
         }
-        let exponent = Math.log(Math.abs(x)) / n;
+        const exponent = Math.log(Math.abs(x)) / n;
         if (x < 0)
             return -cws.roundToDecimalPlaces(Math.pow(Math.E, exponent), 9);
         else
@@ -332,7 +334,7 @@ export class cws {
         while (partIndex < blockNames.length) {
             if (n === 0)
                 return result.trim();
-            let thisPart = n % 1000;
+            const thisPart = n % 1000;
             result += absThousandToString(thisPart) + ' ' + blockNames[partIndex];
             n -= thisPart;
             n /= 1000;
@@ -397,14 +399,15 @@ export class cws {
                     return "eighty";
                 case 90:
                     return "ninety";
-                default:
-                    let onesDigit = m % 10;
-                    let tensDigit = ((m - onesDigit) % 100) / 10;
-                    let hundredsDigit = (m - tensDigit) / 100;
+                default: {
+                    const onesDigit = m % 10;
+                    const tensDigit = ((m - onesDigit) % 100) / 10;
+                    const hundredsDigit = (m - tensDigit) / 100;
                     let hundredsText = '';
                     if (hundredsDigit !== 0)
                         hundredsText = absThousandToString(hundredsDigit) + ' hundred ';
                     return hundredsText + absThousandToString(tensDigit * 10) + " " + absThousandToString(onesDigit);
+                }
             }
         }
     }
@@ -589,14 +592,14 @@ cws.Array = {
      * @example arrayToN(5) => [1,2,3,4,5]
      */
     toN: function (n) {
-        let output = [];
+        const output = [];
         for (let i = 0; i < n; i++)
             output.push(i);
         return output;
     }
 };
 cws.betterCreateAttr = function (type, value) {
-    var attr = document.createAttribute(type);
+    const attr = document.createAttribute(type);
     attr.value = value;
     return attr;
 };
@@ -647,7 +650,7 @@ cws.drawLine = function (x1, y1, x2, y2, colour, width, surface) {
 cws.drawText = function (text, x, y, colour, centered, size, type, surface) {
     surface.fillStyle = colour;
     if (size !== null) {
-        let search = surface.font.search("px");
+        const search = surface.font.search("px");
         if (type == undefined || type == null) {
             type = "";
         }
@@ -655,7 +658,7 @@ cws.drawText = function (text, x, y, colour, centered, size, type, surface) {
             surface.font = size + "px " + type;
         }
         else {
-            let family = surface.font.substring(surface.font.search("px") + 2);
+            const family = surface.font.substring(surface.font.search("px") + 2);
             surface.font = size + "px " + type + family;
         }
     }
@@ -701,15 +704,15 @@ cws.fillCircle = function (x, y, r, colour, centered, surface) {
  * @deprecated use Canvas object instead
  */
 cws.fillTriangle = function (x, y, w, h, colour, center, angle, canvas) {
-    let ctx = canvas;
+    const ctx = canvas;
     angle = angle / 180 * Math.PI;
     ctx.beginPath();
     ctx.fillStyle = colour;
     ctx.strokeStyle = colour;
     if (center) {
-        let a = { x: x - w / 2, y: y + h / 2 };
-        let b = { x: x, y: y - h / 2 };
-        let c = { x: x + w / 2, y: y + h / 2 };
+        const a = { x: x - w / 2, y: y + h / 2 };
+        const b = { x: x, y: y - h / 2 };
+        const c = { x: x + w / 2, y: y + h / 2 };
         if (!isNaN(angle) && angle !== 0) {
             ctx.translate(x, y);
             ctx.rotate(angle);
@@ -740,7 +743,7 @@ cws.fillTriangle = function (x, y, w, h, colour, center, angle, canvas) {
  * @requires The sought-after input element is, in fact, an input element
  */
 cws.getInputElementById = function (id) {
-    let el = document.getElementById(id);
+    const el = document.getElementById(id);
     if (el instanceof HTMLInputElement) {
         return el;
     }
@@ -761,8 +764,8 @@ cws.Object = {
      * Replaces Object.entries
      */
     entries: function (obj) {
-        let keys = Object.keys(obj);
-        let values = [];
+        const keys = Object.keys(obj);
+        const values = [];
         for (let i = 0; i < keys.length; i++) {
             values.push([keys[i], obj[keys[i]]]);
         }
@@ -775,8 +778,8 @@ cws.Object = {
      * Replaces Object.values
      */
     values: function (obj) {
-        let keys = Object.keys(obj);
-        let values = [];
+        const keys = Object.keys(obj);
+        const values = [];
         for (let i = 0; i < keys.length; i++) {
             values.push(obj[keys[i]]);
         }

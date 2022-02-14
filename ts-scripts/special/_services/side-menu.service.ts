@@ -1,119 +1,143 @@
 /**
- * ham_menu.js
+ * SideMenuService
  * 
  * Handles the mobile menu
  * 
  * @author Cole Stanley
  * Created: 2017
- * Last updated: August 2021
+ * Last updated: February 2022
  */
 
 import { cws } from "../../cws.js";
 import { Button } from "../_components/button.component.js";
 import { Menu, MenuItem } from "./menu-items.service.js";
 
-var itemNo = 0;
+export class SideMenuService {
+  private static itemNo = 0;
 
-// menu title
+  static build() {
+    const menu: HTMLElement = document.getElementById("hamMenu");
 
-document.getElementById("hamMenu").children[0].children[0].setAttributeNode(cws.betterCreateAttr("onclick", "closeHam()"));
+    SideMenuService.generateMenu();
 
-/**
- * Creates a menu item on any csca page 
- */
+    const categories: HTMLElement[] = [
+      menu.querySelector("#games-dropdown-category"),
+      menu.querySelector("#tools-dropdown-category"),
+      menu.querySelector("#misc-dropdown-category"),
+    ];
 
-function createHamItem(
-  item: MenuItem,
-  parent?: HTMLElement | null
-): void {
+    categories.forEach((category) => {
+      Button.createByAttachment(category, (event: PointerEvent) => {
+        const path = event.composedPath();
 
-  let newItem = document.createElement('div');
-  newItem.classList.add('lowerHam');
-  newItem.id = `menuItem${itemNo}`;
-  newItem.innerHTML = `<a ${getLink()}>${item.shortName}</a>`;
+        // If a dropdown was clicked, don't display anything
+        for (let i = 0; i < path.length; i++) {
+          if (path[i] instanceof HTMLBodyElement) break;
+          else if ((path[i] as HTMLElement).classList.contains('dropdown')) return;
+        }
 
-  if (!parent)
-    switch (item.type) {
-      case 'Game':
-        parent = document.getElementById("gamesMenuItem");
-        break;
-      case 'Dropdown':
-      case 'Tool':
-        parent = document.getElementById("sitesMenuItem");
-    }
-
-  parent.appendChild(newItem);
-
-  if (item.children) {
-    newItem.classList.add('dropdown');
-    const subMenu = document.createElement('div');
-    subMenu.classList.add('side-menu-dropdown');
-    newItem.appendChild(subMenu);
-
-    Button.createByAttachment(newItem, () => {
-      if (subMenu.style.display !== '')
-        subMenu.style.display = '';
-      else
-        subMenu.style.display = 'block';
+        SideMenuService.displayMenuItems(category);
+      });
     });
 
-    item.children.forEach((child: MenuItem) => {
-      createHamItem(child, subMenu);
-    });
-    return;
+    document.getElementById("hamMenu").querySelector('#side-menu-end-button').addEventListener('click', () => { SideMenuService.closeMenu(); });
   }
 
-  itemNo++;
+  private static createMenuItem(
+    item: MenuItem,
+    parent?: HTMLElement | null
+  ): void {
+    const newItem = document.createElement('div');
+    newItem.classList.add('side-menu-item');
+    newItem.id = `menu-item-${SideMenuService.itemNo}`;
+    newItem.appendChild(cws.createElement({
+      type: 'a',
+      innerText: item.shortName,
+      otherNodes: [getLink()],
+    }));
 
-  function getLink() {
-    if (item.links.href) {
-      if (location.href.split("/").slice(-1)[0] === 'index.html' || item.links.href.substring(0, 4) == "http")
-        return `href = ${item.links.href}`;
-      else
-        return `href = ../${item.links.href}`;
-    } else
-      return '';
-  }
-}
+    if (!parent)
+      switch (item.type) {
+        case 'Game':
+          parent = document.getElementById("games-dropdown-category");
+          break;
+        case 'Dropdown':
+        case 'Tool':
+          parent = document.getElementById("tools-dropdown-category");
+      }
 
-function displayMenuItems(row: number) {
-  let buttons = document.getElementsByClassName("secretDropdownContainer")[row].getElementsByClassName("lowerham");
+    parent.appendChild(newItem);
 
-  for (let i = 0; i < buttons.length; i++) {
-    let button = buttons[i] as HTMLElement;
-    if (button.style.display !== "block")
-      button.style.display = "block";
-    else
-      button.style.display = "none";
-  }
-}
+    if (item.children) {
+      newItem.classList.add('dropdown');
+      const subMenu = document.createElement('div');
+      subMenu.classList.add('side-menu-dropdown');
+      newItem.appendChild(subMenu);
 
-function generateMenu() {
-  let menuItems = Menu.getTopMenu()
+      Button.createByAttachment(newItem, () => {
+        if (subMenu.style.display !== '')
+          subMenu.style.display = '';
+        else
+          subMenu.style.display = 'block';
+      });
 
-  menuItems.games.forEach((item) => { createHamItem(item) });
-  menuItems.tools.forEach((item) => { createHamItem(item) });
-}
-
-function init() {
-  let menu: HTMLElement = document.getElementById("hamMenu");
-
-  generateMenu();
-
-  Button.createByAttachment(menu.querySelector("#gamesMenuItem"), () => { displayMenuItems(0); });
-  Button.createByAttachment(menu.querySelector("#sitesMenuItem"), (event: PointerEvent) => {
-    const path = event.composedPath();
-   
-    for (let i = 0; i < path.length; i++) {
-      if (path[i] instanceof HTMLBodyElement)
-        break;
-      else if ((path[i] as HTMLElement).classList.contains('dropdown'))
-        return;
+      item.children.forEach((child: MenuItem) => {
+        SideMenuService.createMenuItem(child, subMenu);
+      });
+      return;
     }
 
-    displayMenuItems(1);
-  });
-  Button.createByAttachment(menu.querySelector("#miscMenuItem"), () => { displayMenuItems(2); });
-}
+    SideMenuService.itemNo++;
 
-init();
+    function getLink() {
+      if (!item.links.href) return null;
+
+      let link: string;
+      if (item.links.href.includes('https')) link = item.links.href;
+      else link = `/${item.links.href}`;
+
+      return { type: 'href', value: link };
+    }
+  }
+
+  static closeMenu(): void {
+    document.getElementById("hamMenu").style.width = "0%";
+    document.getElementById("hamImage").style.opacity = "1";
+    document.getElementById("hamMenu").style.minWidth = "0";
+
+    for (let i = 0; i < document.getElementsByClassName("side-menu-item").length; i++)
+      (document.getElementsByClassName("side-menu-item")[i] as HTMLElement).style.display = "none";
+  }
+
+  private static displayMenuItems(category: HTMLElement) {
+    const buttons = category.querySelectorAll(".side-menu-item");
+
+    buttons.forEach((button: HTMLElement) => {
+      if (button.style.display !== "block")
+        button.style.display = "block";
+      else
+        button.style.display = "none";
+    });
+  }
+
+  private static generateMenu() {
+    const menuItems = Menu.getTopMenu()
+
+    menuItems.games.forEach((item) => { SideMenuService.createMenuItem(item); });
+    menuItems.tools.forEach((item) => { SideMenuService.createMenuItem(item); });
+  }
+
+  static openMenu(): void {
+    if (document.body.clientWidth < 700) {
+      document.getElementById("hamMenu").style.width = "100%";
+    } else {
+      let menuW = Math.round(window.innerWidth * 0.15);
+      if (menuW < 200)
+        menuW = 200;
+
+      document.getElementById("hamMenu").style.width = menuW + "px";
+      document.getElementById("header").style.width = (100 - menuW) + "px";
+    }
+    document.getElementById("hamImage").style.opacity = "0";
+  }
+}

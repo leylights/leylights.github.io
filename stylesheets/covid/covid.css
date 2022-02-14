@@ -16,6 +16,14 @@
   text-align: center;
 }
 
+#update-warning {
+  font-style: italic;
+}
+
+#update-warning.hidden-warning {
+  display: none;
+}
+
 .covid-tabs-container {
   margin: auto;
   padding-bottom: 0.5em;

@@ -65,29 +65,29 @@ header {
 
 /* Ham */
 
-.upperham:hover {
+.side-menu-category-button:hover {
   background-color: var(--accent-bg-color-hover);
 }
 
-.upperHam {
+.side-menu-category-button {
   background-color: var(--accent-bg-color);
   /* background-color: var(--secondary-accent-color); */
   color: white;
 }
 
-.upperHam.active {
+.side-menu-category-button.active {
   background-color: var(--accent-bg-color-hover);
 }
 
-.lowerHam {
+.side-menu-item {
   background-color: white;
 }
 
-.lowerHam a, .lowerHam a:visited, .lowerHam a:link {
+.side-menu-item a, .side-menu-item a:visited, .side-menu-item a:link {
   color: var(--invert-text-color);
 }
 
-.lowerHam a:hover {
+.side-menu-item a:hover {
   /* color: #ffbb00; */
   color: var(--tertiary-accent-color);
 }
@@ -213,7 +213,7 @@ input {
   filter: invert(1);
 }
 
-.side-menu-end-button {
+#side-menu-end-button {
   filter: invert(1);
 }
 

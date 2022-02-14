@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { cws } from "../../../cws.js";
-import { COVIDDataBridge } from "../covid-data-bridge.js";
+import { COVIDDataBridge } from "./covid-data-bridge.js";
 import { COVIDHealthUnit } from "./health-unit.js";
 import { COVIDProvince } from "./province.js";
 export class COVIDRegionsController {

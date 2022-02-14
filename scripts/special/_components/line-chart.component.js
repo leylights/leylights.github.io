@@ -1,7 +1,6 @@
 import { cws } from "../../cws.js";
 import { PageBuilder } from "../_services/page-builder.service.js";
 import { Canvas } from "./canvas.component.js";
-;
 const MAX_UNIQUE_X_VALUES = 24;
 const MAX_UNIQUE_Y_VALUES = 12;
 export class LineChartComponent {
@@ -29,6 +28,116 @@ export class LineChartComponent {
         this.xAxisHeight = 40;
         this.yAxisWidth = 60;
         this._isInitialized = false;
+        this.axisDataGeneratorHelpers = {
+            areAllValuesIntegers(values) {
+                for (let i = 0; i < values.length; i++) {
+                    if (!cws.isInteger(values[i]))
+                        return false;
+                }
+                return true;
+            },
+            generateNewDivisions(me, min, max, divisors, labelDivisions, pointAttribute) {
+                const initialMax = max;
+                let space = -1;
+                // find an integer spacing that creates a reasonable number of divisors
+                if (me.axisDataGeneratorHelpers.areAllValuesIntegers(me._points.map(p => p[pointAttribute]))) {
+                    let success = false;
+                    while (!success) {
+                        for (let i = 0; i < divisors.length; i++) {
+                            if (cws.isInteger((max - min) / divisors[i])) {
+                                space = (max - min) / divisors[i];
+                                success = true;
+                                break;
+                            }
+                        }
+                        max++;
+                    }
+                }
+                else {
+                    space = (max - min) / divisors[Math.floor(divisors.length / 2)];
+                }
+                const values = [];
+                // generate divisors
+                for (let x = min; x <= initialMax; x += space) {
+                    values.push(x);
+                    if (space === 0)
+                        break;
+                }
+                // round divisors
+                const roundingDigit = values.length > 0 ? Math.round(values[values.length - 1]).toString().length - 3 : 0;
+                const output = [];
+                values.forEach((n) => {
+                    n = cws.roundToNthDigit(n, roundingDigit);
+                    output.push({
+                        label: labelDivisions
+                            ? me.axisDataGeneratorHelpers.findLabelFor(me, n, pointAttribute)
+                            : cws.numberToPrettyNumber(n),
+                        value: n,
+                    });
+                });
+                return output;
+            },
+            findLabelFor(me, value, pointAttribute) {
+                for (let i = 0; i < me._points.length; i++) {
+                    if (me._points[i][pointAttribute] == value) {
+                        if (me._points[i].label) {
+                            return me._points[i].label;
+                        }
+                        else {
+                            return cws.numberToPrettyNumber(value);
+                        }
+                    }
+                }
+                return value + '';
+            },
+            getUniqueValues(me, pointAttribute, maximumPoints) {
+                const uniqueValues = [];
+                let fail = false;
+                me._points.forEach((point) => {
+                    if (!cws.Array.contains(uniqueValues, point, (a, b) => {
+                        return a[pointAttribute] === b[pointAttribute];
+                    })) {
+                        if (uniqueValues.length >= maximumPoints) {
+                            fail = true;
+                        }
+                        else if (uniqueValues.length < maximumPoints)
+                            uniqueValues.push(point);
+                    }
+                });
+                return !fail ? uniqueValues : null;
+            },
+            generateFewXDivisions(values, limits) {
+                return values.filter((value) => {
+                    return limits.x.min <= value.x && value.x <= limits.x.max;
+                }).map((value) => {
+                    const output = {
+                        label: value.label,
+                        value: value.x,
+                    };
+                    return output;
+                }).sort((a, b) => {
+                    return a.value - b.value;
+                });
+            }
+        };
+        this.rebuildHelpers = {
+            generateXAxis(me, limit, xAxis) {
+                const xAxisData = me.generateXAxisData(limit);
+                xAxis.innerHTML = '';
+                xAxisData.divisions.forEach((division) => {
+                    const next = cws.createElement({
+                        type: 'div',
+                        classList: LineChartComponent.DIVISION_CLASS_NAMES.x,
+                        children: [cws.createElement({
+                                type: 'span',
+                                innerText: division.label
+                            })],
+                        style: `left: ${((division.value - xAxisData.limits.x.min) / (xAxisData.limits.x.max - xAxisData.limits.x.min)) * 100}%`
+                    });
+                    xAxis.appendChild(next);
+                });
+            }
+        };
         const me = this;
         this.parentElement = data.parentElement;
         this._points = data.points.sort((a, b) => {
@@ -104,114 +213,32 @@ export class LineChartComponent {
         return result;
     }
     generateGenericAxisData(pointAttribute, maximumPoints, axisTitle) {
-        const me = this, uniqueValues = [], allLimits = this.getLimits(), trueLimits = this.getTrueLimits();
+        const me = this, allLimits = this.getLimits(), trueLimits = this.getTrueLimits();
+        let uniqueValues;
         let shouldGenerateDivisions = false;
-        if (pointAttribute == 'x' && (trueLimits.minX > allLimits.minX || trueLimits.maxX < allLimits.maxX)) {
+        if (pointAttribute == 'x' && (trueLimits.x.min > allLimits.x.min || trueLimits.x.max < allLimits.x.max)) {
             shouldGenerateDivisions = true;
         }
         if (!shouldGenerateDivisions)
-            this._points.forEach((point) => {
-                if (!cws.Array.contains(uniqueValues, point[pointAttribute])) {
-                    if (uniqueValues.length >= maximumPoints) {
-                        shouldGenerateDivisions = true;
-                    }
-                    else if (uniqueValues.length < maximumPoints)
-                        uniqueValues.push(point[pointAttribute]);
-                }
-            });
+            uniqueValues = me.axisDataGeneratorHelpers.getUniqueValues(me, pointAttribute, maximumPoints);
+        if (!uniqueValues)
+            shouldGenerateDivisions = true;
         let divisions;
         if (this._points.length == 0) {
             divisions = [];
         }
         else if (pointAttribute == 'x') {
             if (shouldGenerateDivisions)
-                divisions = generateNewDiv(allLimits.minX, allLimits.maxX, [10, 11, 12, 13, 14], true);
+                divisions = me.axisDataGeneratorHelpers.generateNewDivisions(me, allLimits.x.min, allLimits.x.max, [10, 11, 12, 13, 14], true, pointAttribute);
             else {
-                divisions = uniqueValues.filter((value) => {
-                    return allLimits.minX <= value && value <= allLimits.maxX;
-                }).map((value) => {
-                    const output = {
-                        label: value + '',
-                        value: value,
-                    };
-                    return output;
-                }).sort((a, b) => {
-                    return a.value - b.value;
-                });
+                divisions = me.axisDataGeneratorHelpers.generateFewXDivisions(uniqueValues, allLimits);
             }
         }
         else { // y axis
-            divisions = generateNewDiv(allLimits.minY, allLimits.maxY, [8, 9, 10, 11, 12], false);
-        }
-        function generateNewDiv(min, max, divisors, labelDivisions) {
-            const initialMax = max;
-            let space = -1;
-            let success = false;
-            // find an integer spacing that creates a reasonable number of divisors
-            if (allValuesAreIntegers()) {
-                while (!success) {
-                    for (let i = 0; i < divisors.length; i++) {
-                        if (cws.isInteger((max - min) / divisors[i])) {
-                            space = (max - min) / divisors[i];
-                            success = true;
-                            break;
-                        }
-                    }
-                    max++;
-                }
-            }
-            else {
-                space = (max - min) / divisors[Math.floor(divisors.length / 2)];
-                success = true;
-            }
-            function allValuesAreIntegers() {
-                for (let i = 0; i < me._points.length; i++) {
-                    if (!cws.isInteger(me._points[i][pointAttribute]))
-                        return false;
-                }
-                return true;
-            }
-            const values = [];
-            // generate divisors
-            for (let x = min; x <= initialMax; x += space) {
-                values.push(x);
-                if (space === 0)
-                    break;
-            }
-            // round divisors
-            const roundingDigit = values.length > 0 ? Math.round(values[values.length - 1]).toString().length - 3 : 0;
-            const output = [];
-            values.forEach((n) => {
-                n = cws.roundToNthDigit(n, roundingDigit);
-                output.push({
-                    label: findLabel(n),
-                    value: n,
-                });
-            });
-            function findLabel(x) {
-                if (!labelDivisions)
-                    return cws.numberToPrettyNumber(x);
-                for (let i = 0; i < me._points.length; i++) {
-                    if (me._points[i][pointAttribute] == x) {
-                        if (me._points[i].label) {
-                            return me._points[i].label;
-                        }
-                        else {
-                            return cws.numberToPrettyNumber(x);
-                        }
-                    }
-                }
-                return x + '';
-            }
-            return output;
+            divisions = me.axisDataGeneratorHelpers.generateNewDivisions(me, allLimits.y.min, allLimits.y.max, [8, 9, 10, 11, 12], false, pointAttribute);
         }
         return {
-            limits: {
-                minX: allLimits.minX,
-                minY: allLimits.minY,
-                maxX: allLimits.maxX,
-                maxY: allLimits.maxY,
-            },
+            limits: allLimits,
             title: axisTitle,
             divisions: divisions,
         };
@@ -221,10 +248,10 @@ export class LineChartComponent {
         if (!this._points[0])
             throw new Error("No points");
         const output = this.getTrueLimits();
-        output.minX = (_a = this.limits.x.min) !== null && _a !== void 0 ? _a : output.minX;
-        output.maxX = (_b = this.limits.x.max) !== null && _b !== void 0 ? _b : output.maxX;
-        output.minY = (_c = this.limits.y.min) !== null && _c !== void 0 ? _c : output.minY;
-        output.maxY = (_d = this.limits.y.max) !== null && _d !== void 0 ? _d : output.maxY;
+        output.x.min = (_a = this.limits.x.min) !== null && _a !== void 0 ? _a : output.x.min;
+        output.x.max = (_b = this.limits.x.max) !== null && _b !== void 0 ? _b : output.x.max;
+        output.y.min = (_c = this.limits.y.min) !== null && _c !== void 0 ? _c : output.y.min;
+        output.y.max = (_d = this.limits.y.max) !== null && _d !== void 0 ? _d : output.y.max;
         return output;
     }
     // Returns the true limits of the dataset; not considering client-defined limits
@@ -232,16 +259,20 @@ export class LineChartComponent {
         if (!this._points[0])
             throw new Error("No points");
         const output = {
-            minX: this._points[0].x,
-            minY: this._points[0].y,
-            maxX: this._points[0].x,
-            maxY: this._points[0].y
+            x: {
+                min: this._points[0].x,
+                max: this._points[0].x,
+            },
+            y: {
+                min: this._points[0].y,
+                max: this._points[0].y
+            }
         };
         this._points.forEach((point) => {
-            output.minX = Math.min(point.x, output.minX);
-            output.minY = Math.min(point.y, output.minY);
-            output.maxX = Math.max(point.x, output.maxX);
-            output.maxY = Math.max(point.y, output.maxY);
+            output.x.min = Math.min(point.x, output.x.min);
+            output.x.max = Math.max(point.x, output.x.max);
+            output.y.min = Math.min(point.y, output.y.min);
+            output.y.max = Math.max(point.y, output.y.max);
         });
         return output;
     }
@@ -252,7 +283,7 @@ export class LineChartComponent {
         const me = this, container = cws.createElement({
             type: 'div',
             classList: 'line-chart-container',
-        }), firstTime = !this.canvas, xDivisionClassName = 'line-chart-x-axis-division', yDivisionClassName = 'line-chart-y-axis-division';
+        }), firstTime = !this.canvas;
         if (!firstTime)
             this.canvas.stop();
         // develop HTML
@@ -274,17 +305,17 @@ export class LineChartComponent {
             style: `min-width: ${this.yAxisWidth}`,
         });
         if (this._points.length > 0) {
-            generateXAxis(MAX_UNIQUE_X_VALUES);
+            this.rebuildHelpers.generateXAxis(me, MAX_UNIQUE_X_VALUES, xAxis);
             const yAxisData = this.generateYAxisData();
             yAxisData.divisions.forEach((division) => {
                 const next = cws.createElement({
                     type: 'div',
-                    classList: yDivisionClassName,
+                    classList: LineChartComponent.DIVISION_CLASS_NAMES.y,
                     children: [cws.createElement({
                             type: 'span',
                             innerText: division.label
                         })],
-                    style: `bottom: ${((division.value - yAxisData.limits.minY) / (yAxisData.limits.maxY - yAxisData.limits.minY)) * 100}%`
+                    style: `bottom: ${((division.value - yAxisData.limits.y.min) / (yAxisData.limits.y.max - yAxisData.limits.y.min)) * 100}%`
                 });
                 yAxis.appendChild(next);
             });
@@ -303,15 +334,15 @@ export class LineChartComponent {
         this.canvasConfig.clearColour = 'fromCSS';
         this.canvas = new Canvas(this.canvasConfig);
         // remove overlapping y axis dividers
-        Array.from(yAxis.querySelectorAll(`.${yDivisionClassName}`)).forEach((a) => {
-            Array.from(yAxis.querySelectorAll(`.${yDivisionClassName}`)).forEach((b) => {
+        Array.from(yAxis.querySelectorAll(`.${LineChartComponent.DIVISION_CLASS_NAMES.y}`)).forEach((a) => {
+            Array.from(yAxis.querySelectorAll(`.${LineChartComponent.DIVISION_CLASS_NAMES.y}`)).forEach((b) => {
                 if (!a.isEqualNode(b) && cws.rectanglesCollide(a.getBoundingClientRect(), b.getBoundingClientRect()))
                     b.remove();
             });
         });
         // set y axis width
         let maxYAxisLabelWidth = -1;
-        Array.from(yAxis.querySelectorAll(`.${yDivisionClassName}`)).forEach((divider) => {
+        Array.from(yAxis.querySelectorAll(`.${LineChartComponent.DIVISION_CLASS_NAMES.y}`)).forEach((divider) => {
             maxYAxisLabelWidth = Math.max(maxYAxisLabelWidth, divider.getBoundingClientRect().width);
         });
         yAxis.style.width = Math.max(maxYAxisLabelWidth + 5, this.yAxisWidth) + 'px';
@@ -319,7 +350,7 @@ export class LineChartComponent {
         attemptRotateXAxis();
         // set x axis height
         let maxXAxisLabelHeight = -1;
-        Array.from(xAxis.querySelectorAll(`.${xDivisionClassName}`)).forEach((divider) => {
+        Array.from(xAxis.querySelectorAll(`.${LineChartComponent.DIVISION_CLASS_NAMES.x}`)).forEach((divider) => {
             maxXAxisLabelHeight = Math.max(maxXAxisLabelHeight, divider.getBoundingClientRect().height);
         });
         xAxis.style.height = Math.max(maxXAxisLabelHeight + 5, this.xAxisHeight) + 'px';
@@ -329,7 +360,7 @@ export class LineChartComponent {
             let lastDivision = null;
             let needsRotation = false;
             // Determine if the rotation is necessary
-            const results = Array.from(xAxis.querySelectorAll(`.${xDivisionClassName}`)).sort((a, b) => {
+            const results = Array.from(xAxis.querySelectorAll(`.${LineChartComponent.DIVISION_CLASS_NAMES.x}`)).sort((a, b) => {
                 return a.getBoundingClientRect().x - b.getBoundingClientRect().x;
             });
             for (let i = 0; i < results.length; i++) {
@@ -344,7 +375,8 @@ export class LineChartComponent {
                 else
                     lastDivision = results[i];
             }
-            ;
+            if (results.length > 0 && results[results.length - 1].getBoundingClientRect().right > me.container.getBoundingClientRect().right)
+                needsRotation = true;
             // If rotation is necessary, rotate using css
             if (needsRotation) {
                 results.forEach((divider) => {
@@ -357,23 +389,6 @@ export class LineChartComponent {
                 });
             return needsRotation;
         }
-        function generateXAxis(limit) {
-            // debugger;
-            const xAxisData = me.generateXAxisData(limit);
-            xAxis.innerHTML = '';
-            xAxisData.divisions.forEach((division) => {
-                const next = cws.createElement({
-                    type: 'div',
-                    classList: xDivisionClassName,
-                    children: [cws.createElement({
-                            type: 'span',
-                            innerText: division.label
-                        })],
-                    style: `left: ${((division.value - xAxisData.limits.minX) / (xAxisData.limits.maxX - xAxisData.limits.minX)) * 100}%`
-                });
-                xAxis.appendChild(next);
-            });
-        }
     }
     redraw() {
         const me = this, area = this.innerRect;
@@ -383,24 +398,24 @@ export class LineChartComponent {
             const limits = this.getLimits();
             if (this.showGridlines)
                 drawGridlines();
-            function convertPoint(pt) {
-                const output = {
-                    x: limits.maxX - limits.minX != 0 ? area.x + (pt.x - limits.minX) * (area.width / (limits.maxX - limits.minX)) : area.x + area.width / 2,
-                    y: limits.maxY - limits.minY != 0 ? area.bottom - ((pt.y - limits.minY) * (area.height / (limits.maxY - limits.minY))) : area.top + area.height / 2,
-                    label: pt.label,
-                };
-                return output;
-            }
             for (let i = 1; i < this._points.length; i++) {
-                const start = convertPoint(this._points[i - 1]), end = convertPoint(this._points[i]);
+                const start = convertPoint(this._points[i - 1], limits), end = convertPoint(this._points[i], limits);
                 this.canvas.drawLine(start.x, start.y, end.x, end.y, this.colours.line, 2);
             }
+        }
+        function convertPoint(pt, limits) {
+            const output = {
+                x: limits.x.max - limits.x.min != 0 ? area.x + (pt.x - limits.x.min) * (area.width / (limits.x.max - limits.x.min)) : area.x + area.width / 2,
+                y: limits.y.max - limits.y.min != 0 ? area.bottom - ((pt.y - limits.y.min) * (area.height / (limits.y.max - limits.y.min))) : area.top + area.height / 2,
+                label: pt.label,
+            };
+            return output;
         }
         function drawGridlines() {
             const xData = me.generateXAxisData(), yData = me.generateYAxisData();
             let currentX = 0;
             for (let i = 1; i < xData.divisions.length; i++) {
-                const x = me.canvas.width * ((xData.divisions[i].value - xData.limits.minX) / (xData.limits.maxX - xData.limits.minX));
+                const x = me.canvas.width * ((xData.divisions[i].value - xData.limits.x.min) / (xData.limits.x.max - xData.limits.x.min));
                 const thickness = xData.divisions[i].label == '0' ? me.majorGridlineThickness : 1;
                 if (x < 0)
                     continue;
@@ -411,7 +426,7 @@ export class LineChartComponent {
             }
             let currentY = 0;
             for (let i = 1; i < yData.divisions.length; i++) {
-                const h = me.canvas.height * ((yData.divisions[i].value - yData.limits.minY) / (yData.limits.maxY - yData.limits.minY));
+                const h = me.canvas.height * ((yData.divisions[i].value - yData.limits.y.min) / (yData.limits.y.max - yData.limits.y.min));
                 const thickness = yData.divisions[i].value == 0 ? me.majorGridlineThickness : 1;
                 if (currentY > h || h === me.canvas.height || h === 0)
                     break; // prevent y from going back down
@@ -451,4 +466,8 @@ export class LineChartComponent {
         }
     }
 }
+LineChartComponent.DIVISION_CLASS_NAMES = {
+    x: 'line-chart-x-axis-division',
+    y: 'line-chart-y-axis-division',
+};
 //# sourceMappingURL=line-chart.component.js.map

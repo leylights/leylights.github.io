@@ -17,6 +17,7 @@ import { GoogleAnalyticsController } from "./google-analytics-controller.service
 import { KeyboardListener } from "../../tools/keyboard-listener.js";
 import { Menu } from "./menu-items.service.js";
 import { CookieInterface } from "./cookie-interface.service.js";
+import { SideMenuService } from "./side-menu.service.js";
 var DarkModeResults;
 (function (DarkModeResults) {
     DarkModeResults[DarkModeResults["Dark"] = 0] = "Dark";
@@ -29,6 +30,7 @@ export class PageBuilder {
         PageBuilder.buildHead();
         if (buildElements) {
             PageBuilder.buildTop(index);
+            SideMenuService.build();
             PageBuilder.buildBottom();
             const darkModeListener = new KeyboardListener(window);
             darkModeListener.addEventListener((listener) => __awaiter(this, void 0, void 0, function* () {
@@ -133,8 +135,7 @@ export class PageBuilder {
     static buildTop(index) {
         // loading
         setTimeout(function () {
-            let el = document.getElementById("loadingScreen").children[0];
-            el.style.opacity = "1";
+            document.getElementById("loadingScreen").children[0].style.opacity = "1";
         }, 16);
         document.addEventListener('readystatechange', function (event) {
             console.log(document.readyState, event);
@@ -146,7 +147,7 @@ export class PageBuilder {
             }
         });
         // header
-        let header = document.createElement("header");
+        const header = document.createElement("header");
         header.setAttributeNode(cws.betterCreateAttr("id", "header"));
         let headerContent = `<div id='homeHead'> 
            <div id='headerBounds'> 
@@ -176,54 +177,56 @@ export class PageBuilder {
              </div> 
            </div> 
            <img id='hamImage' 
-              src='${cws.getRelativeUrlPath('siteimages/menuicon.png')}' onclick='openHam();'> 
+              src='${cws.getRelativeUrlPath('siteimages/menuicon.png')}'> 
          </div>`;
         if (index) // removing ../ from URLs
             headerContent = headerContent.replace(/\.\.\//g, "");
         header.innerHTML = headerContent;
+        header.querySelector('#hamImage').addEventListener('click', SideMenuService.openMenu);
         document.body.appendChild(header);
         // menu
-        let hamMenu = document.createElement("div");
+        const hamMenu = document.createElement("div");
         hamMenu.id = "hamMenu";
         let menuContent = `<div id = 'side-menu-content'> 
          <div> 
-           <h1 id='menuTitle' onclick='closeHam()'>menu</h1> 
+           <h1 id='menuTitle'>menu</h1> 
          </div> 
-         <div id='gamesMenuItem' class='secretDropdownContainer'>
-           <button class='upperHam'>
+         <div id='games-dropdown-category' class='side-menu-dropdown-category'>
+           <button class='side-menu-category-button'>
              <div>Games</div>
            </button> 
          </div> 
-         <div id='sitesMenuItem' class='secretDropdownContainer'>
-           <button class='upperHam'>
-             <div>Gadgets &amp; Tools</div>
+         <div id='tools-dropdown-category' class='side-menu-dropdown-category'>
+           <button class='side-menu-category-button'>
+             <div>Tools</div>
            </button> 
          </div> 
-         <div id='miscMenuItem' class='secretDropdownContainer'> 
-           <button class='upperHam'>
+         <div id='misc-dropdown-category' class='side-menu-dropdown-category'> 
+           <button class='side-menu-category-button'>
              <div>Miscellaneous</div>
            </button> 
-           <div class='lowerHam' style='display: none;'>
+           <div class='side-menu-item' style='display: none;'>
              <a href='${cws.getRelativeUrlPath('pages/resume.html')}'>Resume</a>
            </div> 
-           <div class='lowerHam' style='display: none;'>
+           <div class='side-menu-item' style='display: none;'>
              <a href='${cws.getRelativeUrlPath('pages/archive.html')}'>Project Archive</a>
            </div> 
          </div>
          <img  
-         class='side-menu-end-button' 
-         src='${cws.getRelativeUrlPath('siteimages/closebutton.png')}' onclick='closeHam()'>
+         id='side-menu-end-button' 
+         src='${cws.getRelativeUrlPath('siteimages/closebutton.png')}'>
        <\div>`;
         if (index)
             menuContent = menuContent.replace(/\.\.\//g, "");
         hamMenu.innerHTML = menuContent;
+        hamMenu.querySelector('#side-menu-end-button').addEventListener('click', SideMenuService.closeMenu);
         document.body.appendChild(hamMenu);
         // links
-        let gFontsLoad = document.createElement("link");
+        const gFontsLoad = document.createElement("link");
         gFontsLoad.setAttributeNode(cws.betterCreateAttr("rel", "preconnect"));
         gFontsLoad.setAttributeNode(cws.betterCreateAttr("href", "https://fonts.gstatic.com"));
         document.head.appendChild(gFontsLoad);
-        let poppins = document.createElement("link");
+        const poppins = document.createElement("link");
         poppins.setAttributeNode(cws.betterCreateAttr("rel", "stylesheet"));
         poppins.setAttributeNode(cws.betterCreateAttr("href", "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap"));
         document.head.appendChild(poppins);
@@ -252,10 +255,8 @@ export class PageBuilder {
      */
     static buildBottom() {
         generateScript("scripts/special/_services/top-menu.service.js", true);
-        generateScript("scripts/special/_services/side-menu-open-close.service.js", false);
-        generateScript("scripts/special/_services/side-menu.service.js", true);
         function generateScript(name, isModule) {
-            let out = document.createElement("script");
+            const out = document.createElement("script");
             if (isModule)
                 out.setAttributeNode(cws.betterCreateAttr("type", "module"));
             out.setAttributeNode(cws.betterCreateAttr("src", cws.getRelativeUrlPath(name)));

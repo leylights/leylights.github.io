@@ -15,7 +15,7 @@ import { COVIDCardGrid, COVIDGridCardConfig } from "./components/card-grid.compo
 import { COVIDSectionCollection } from "./components/section-collection.component.js";
 import { COVIDSection } from "./components/section.component.js";
 import { COVIDTimeSeriesChart } from "./components/time-series-chart.component.js";
-import { COVIDDataBridge } from "./covid-data-bridge.js";
+import { COVIDDataBridge, COVIDSummaryType } from "./model/covid-data-bridge.js";
 import { COVIDHelper } from "./helper.js";
 import { COVIDHealthUnit } from "./model/health-unit.js";
 import { COVIDProvince } from "./model/province.js";
@@ -25,8 +25,10 @@ import { COVIDRegionsController } from "./model/regions.controller.js";
 class COVIDDashboardPage {
   private elements: {
     lastUpdate: HTMLSpanElement;
+    updateWarning: HTMLElement;
   } = {
       lastUpdate: document.getElementById('last-update'),
+      updateWarning: document.getElementById('update-warning'),
     }
 
   private regionsController: COVIDRegionsController = new COVIDRegionsController();
@@ -73,6 +75,7 @@ class COVIDDashboardPage {
     const me = this;
     const averageDays: number = 7;
 
+    if (new Date().getHours() === 21) this.elements.updateWarning.classList.remove('hidden-warning');
     this.elements.lastUpdate.innerText = (await COVIDDataBridge.getLastUpdate()).OPENCOVID.version;
 
     await this.regionsController.init();
@@ -87,10 +90,14 @@ class COVIDDashboardPage {
     this.sections.home.select();
 
     function buildHomeDashboard() {
-      async function getCaseCount(location: string) {
-        const cases = await COVIDDataBridge.getSummary('cases', location);
-        return cws.numberToPrettyNumber(cases);
+      async function getCaseCount(location: string): Promise<string> {
+        return await getCount('cases', location);
       }
+      async function getCount(statistic: COVIDSummaryType, location: string): Promise<string> {
+        const count = await COVIDDataBridge.getSummary(statistic, location);
+        return cws.numberToPrettyNumber(count);
+      }
+
       // Daily case counts
       me.createGrid(
         me.sections.home,
