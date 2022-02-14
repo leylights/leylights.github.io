@@ -98,7 +98,7 @@ export class DataBridge {
             this.addToQueue(path);
         const result = new Promise((resolve, reject) => {
             const requestCheckInterval = setInterval(() => {
-                if (!!me.cache[path]) { // result is in cache
+                if (me.cache[path]) { // result is in cache
                     clearInterval(requestCheckInterval); // stop checking for result
                     me.queue.splice(me.queueURLs.indexOf(path), 1); // remove from query from queue
                     resolve(me.cache[path]);

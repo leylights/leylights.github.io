@@ -227,13 +227,13 @@ input {
 
 /* Ham */
 
-.secretDropdownContainer {
+.side-menu-dropdown-category {
   position: relative;
-  display: inline-block;
+  display: block;
   width: 100%;
 }
 
-.upperHam {
+.side-menu-category-button {
   margin: auto;
   padding: 0 1em 0 24px;
   width: 100%;
@@ -250,16 +250,16 @@ input {
   padding-right: 20px;
 }
 
-.upperHam>div {
+.side-menu-category-button>div {
   padding: 0.5em 0 0.5em 0;
   border-bottom: 2px solid var(--primary-accent-color);
 }
 
-.upperHam.active {
+.side-menu-category-button.active {
   background-color: rgba(25, 25, 175, 1);
 }
 
-.lowerHam {
+.side-menu-item {
   display: none;
   position: relative;
   width: 100%;
@@ -272,7 +272,7 @@ input {
   text-decoration: none;
 }
 
-.lowerHam a {
+.side-menu-item a {
   display: block;
   padding: 0.7em;
   text-decoration: none;
@@ -284,11 +284,11 @@ input {
   padding-right: 20px;
 }
 
-.lowerHam a:hover {
+.side-menu-item a:hover {
   color: var(--primary-accent-color);
 }
 
-.lowerHam a:visited, a:link {
+.side-menu-item a:visited, a:link {
   color: var(--text-color);
 }
 
@@ -505,7 +505,7 @@ td.cell-reject {
   display: none;
 }
 
-.side-menu-end-button {
+#side-menu-end-button {
   margin: auto;
   margin-top: 10px;
   display: block;

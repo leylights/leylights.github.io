@@ -1,7 +1,7 @@
 import { cws } from "../../../cws.js";
 import { InputComponent } from "../../_components/input.component.js";
 import { LineChartComponent, LineChartPoint } from "../../_components/line-chart.component.js";
-import { COVIDDataBridge } from "../covid-data-bridge.js";
+import { COVIDDataBridge } from "../model/covid-data-bridge.js";
 import { COVIDSectionCollection } from "./section-collection.component.js";
 import { COVIDSection } from "./section.component.js";
 
@@ -212,7 +212,7 @@ export class COVIDTimeSeriesChart {
       if (splitValue[0].length !== 4) return reject();
       if (splitValue[1].length !== 2) return reject();
       if (splitValue[2].length !== 2) return reject();
-      if (date.match(/[^0-9\-]/g)) return reject(); // bad character
+      if (date.match(/[^0-9-]/g)) return reject(); // bad character
 
       const givenDate: Date = new Date(date);
       if (isNaN(givenDate.getTime())) return reject(); // not a real date

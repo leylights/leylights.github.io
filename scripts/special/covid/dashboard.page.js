@@ -22,13 +22,14 @@ import { COVIDCardGrid } from "./components/card-grid.component.js";
 import { COVIDSectionCollection } from "./components/section-collection.component.js";
 import { COVIDSection } from "./components/section.component.js";
 import { COVIDTimeSeriesChart } from "./components/time-series-chart.component.js";
-import { COVIDDataBridge } from "./covid-data-bridge.js";
+import { COVIDDataBridge } from "./model/covid-data-bridge.js";
 import { COVIDHelper } from "./helper.js";
 import { COVIDRegionsController } from "./model/regions.controller.js";
 class COVIDDashboardPage {
     constructor() {
         this.elements = {
             lastUpdate: document.getElementById('last-update'),
+            updateWarning: document.getElementById('update-warning'),
         };
         this.regionsController = new COVIDRegionsController();
         this.grids = [];
@@ -64,6 +65,8 @@ class COVIDDashboardPage {
         return __awaiter(this, void 0, void 0, function* () {
             const me = this;
             const averageDays = 7;
+            if (new Date().getHours() === 21)
+                this.elements.updateWarning.classList.remove('hidden-warning');
             this.elements.lastUpdate.innerText = (yield COVIDDataBridge.getLastUpdate()).OPENCOVID.version;
             yield this.regionsController.init();
             buildHomeDashboard();
@@ -76,8 +79,13 @@ class COVIDDashboardPage {
             function buildHomeDashboard() {
                 function getCaseCount(location) {
                     return __awaiter(this, void 0, void 0, function* () {
-                        const cases = yield COVIDDataBridge.getSummary('cases', location);
-                        return cws.numberToPrettyNumber(cases);
+                        return yield getCount('cases', location);
+                    });
+                }
+                function getCount(statistic, location) {
+                    return __awaiter(this, void 0, void 0, function* () {
+                        const count = yield COVIDDataBridge.getSummary(statistic, location);
+                        return cws.numberToPrettyNumber(count);
                     });
                 }
                 // Daily case counts

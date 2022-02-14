@@ -1,5 +1,5 @@
 import { cws } from "../../../cws.js";
-import { COVIDDataBridge } from "../covid-data-bridge.js";
+import { COVIDDataBridge } from "./covid-data-bridge.js";
 import { COVIDHealthUnit } from "./health-unit.js";
 import { COVIDProvince } from "./province.js";
 
