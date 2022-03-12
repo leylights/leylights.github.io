@@ -117,9 +117,9 @@ export class cws {
        */
       sum: function (arr: number[], start?: number, length?: number): number {
         let total = 0;
-        if (start == undefined)
+        if (!start)
           start = 0;
-        if (length == undefined)
+        if (!length)
           length = arr.length - start;
 
         for (let i = start; i < start + length; i++)
@@ -233,7 +233,8 @@ export class cws {
       data.otherNodes
         .filter((node) => node) // filter out nulls
         .forEach((nodeData) => {
-          element.setAttribute(nodeData.type, nodeData.value);
+          if (nodeData.type && nodeData.value !== undefined)
+            element.setAttribute(nodeData.type, nodeData.value);
         });
 
     return element;
