@@ -14,11 +14,11 @@ input {
   margin-bottom: 1em;
 }
 
-.chart-limit-grid{
+.chart-limit-grid {
   padding: 8px 0;
 }
 
-.chart-limit-grid>div {
+.chart-limit-grid > div {
   padding: 0 16px;
   font-size: 1em;
 }

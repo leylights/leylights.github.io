@@ -1,0 +1,187 @@
+:root {
+  --covid-card-color: var(--secondary-bg-color);
+  --covid-tab-colour: var(--primary-accent-color);
+  --covid-selected-tab-colour: var(--tertiary-accent-color);
+}
+
+#title-bar h1,
+#title-bar h6 {
+  text-align: center;
+}
+
+#main h6 {
+  font-size: 0.95em;
+  font-weight: normal;
+  margin: 0;
+  text-align: center;
+}
+
+#update-warning {
+  font-style: italic;
+}
+
+#update-warning.hidden-warning {
+  display: none;
+}
+
+.covid-tabs-container {
+  margin: auto;
+  padding-bottom: 0.5em;
+  text-align: center;
+}
+
+.covid-tab {
+  border-bottom: 1px solid var(--covid-tab-colour);
+  display: inline-block;
+  cursor: pointer;
+  margin: 0 4px;
+  padding: 0 0.5em;
+  vertical-align: bottom;
+  transition: var(--hover-color-transition);
+}
+
+.covid-tab.selected,
+.covid-tab:hover {
+  border-bottom: 1px solid var(--covid-selected-tab-colour);
+}
+
+.covid-tab:hover {
+  padding-bottom: 5px;
+}
+
+.covid-tab-spacer {
+  display: inline-block;
+  padding-bottom: calc(5px + 2px);
+}
+
+.covid-sections-container {
+  position: relative;
+}
+
+.covid-section {
+  opacity: 0;
+  position: absolute;
+  transition: var(--hover-color-transition);
+  width: 100%;
+  z-index: -1;
+}
+
+.covid-section.selected {
+  opacity: 1;
+  z-index: 0;
+}
+
+.covid-section h2 {
+  margin-bottom: 0;
+}
+
+.grid-section {
+  margin-top: 1em;
+}
+
+.card-grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.display-card {
+  background-color: var(--covid-card-color);
+  margin: 1em;
+  min-width: calc(33.3% - 2em - 2px);
+  flex-grow: 1;
+  border: 1px solid #0000;
+}
+
+.display-card.success-card {
+  border: 1px solid var(--success-color);
+}
+
+.display-card.fail-card {
+  border: 1px solid var(--reject-color);
+}
+
+.display-card.neutral-card {
+  border: 1px solid var(--accent-color);
+}
+
+.card-grid.max-two-across .display-card {
+  min-width: calc(50% - 2em - 2px);
+}
+
+.display-card h2,
+.display-card h4 {
+  text-align: center;
+}
+
+.covid-line-chart-container {
+  display: table-cell;
+  padding: 0 1em;
+  width: 100%;
+}
+
+#main h6.data-source {
+  text-align: right;
+}
+
+.footer {
+  padding-bottom: 1em;
+}
+
+.covid-line-chart-container .line-chart-x-axis-division {
+  font-size: 0.8em;
+}
+
+.content select,
+.content input,
+.content option {
+  font-size: inherit;
+  background-color: var(--secondary-bg-color);
+  color: inherit;
+  font-family: var(--primary-font);
+  outline: none;
+  border: none;
+}
+
+.covid-region-select {
+  margin: 1em auto;
+  padding: 8px;
+  width: 100%;
+}
+
+.time-series-range-selectors {
+  padding: 1em 1em 0 1em;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.time-series-range-input-container {
+  width: 50%;
+  padding: 0 1em;
+  min-width: 250px;
+  flex-grow: 1;
+}
+
+.content .time-series-range-input {
+  width: calc(100% - 2em);
+  font-size: 1.6em;
+  text-align: center;
+  padding: 1em;
+}
+
+.time-series-range-input-title {
+  text-align: center;
+}
+
+@media only screen and (max-width: 800px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .card-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

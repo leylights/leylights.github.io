@@ -15,6 +15,7 @@ export class COVIDRegionsController {
     constructor() {
         this.provinces = [];
         this.healthUnits = [];
+        this._waterloo = null;
         this._london = null;
         this._ontario = null;
         this._canada = null;
@@ -31,6 +32,8 @@ export class COVIDRegionsController {
                 }
                 if (me.healthUnits[me.healthUnits.length - 1].locationId === COVIDRegionsController.LONDON_CODE)
                     me._london = me.healthUnits[me.healthUnits.length - 1];
+                else if (me.healthUnits[me.healthUnits.length - 1].locationId === COVIDRegionsController.WATERLOO_CODE)
+                    me._waterloo = me.healthUnits[me.healthUnits.length - 1];
             });
             // Provinces
             data.prov.forEach(configuration => {
@@ -62,6 +65,11 @@ export class COVIDRegionsController {
             throw new Error("Not initialized.");
         return this._london;
     }
+    get waterloo() {
+        if (!this._waterloo)
+            throw new Error("Not initialized.");
+        return this._waterloo;
+    }
     get ontario() {
         if (!this._ontario)
             throw new Error("Not initialized.");
@@ -88,6 +96,7 @@ export class COVIDRegionsController {
     }
 }
 COVIDRegionsController.LONDON_CODE = '3544';
+COVIDRegionsController.WATERLOO_CODE = '3565';
 COVIDRegionsController.ONTARIO_CODE = "ON";
 COVIDRegionsController.CANADA_CODE = "canada";
 //# sourceMappingURL=regions.controller.js.map

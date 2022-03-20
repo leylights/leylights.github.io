@@ -1,0 +1,7 @@
+.showcase-item-image-container {
+  .showcase-item-image {
+    &.site-logo {
+      filter: invert(1);
+    }
+  }
+}

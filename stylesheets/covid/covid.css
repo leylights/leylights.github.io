@@ -51,7 +51,7 @@
 
 .covid-tab-spacer {
   display: inline-block;
-  padding-bottom: calc(5px + 2px);
+  padding-bottom: 7px;
 }
 
 .covid-sections-container {
@@ -179,7 +179,6 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
-
 @media only screen and (max-width: 500px) {
   .card-grid {
     grid-template-columns: repeat(1, 1fr);

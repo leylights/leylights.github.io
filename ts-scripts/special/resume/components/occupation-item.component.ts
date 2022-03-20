@@ -33,9 +33,9 @@ export class ResumeOccupationItemComponent extends ResumeExperienceItemComponent
 
   get jobTitle(): string {
     return this.title;
-  };
+  }
 
   get workplaceName(): string {
     return this.subtitle;
-  };
+  }
 }

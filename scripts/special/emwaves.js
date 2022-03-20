@@ -109,9 +109,9 @@ var bgC = 255;
 var bgSwitchTime = 0;
 var doResize = false;
 var lastResize = now;
-var lastMenuSize = document.getElementById("hamMenu").getBoundingClientRect().width;
+var lastMenuSize = document.getElementById("side-menu").getBoundingClientRect().width;
 var consolesLogged = false;
-var myCanvas = {
+const myCanvas = {
     canvas: document.createElement("canvas"),
     context: null,
     keys: null,
@@ -323,9 +323,9 @@ function main() {
         doResize = false;
         lastResize = now + 50;
     }
-    else if (lastMenuSize !== document.getElementById("hamMenu").getBoundingClientRect().width) {
+    else if (lastMenuSize !== document.getElementById("side-menu").getBoundingClientRect().width) {
         resizeCanvas();
-        lastMenuSize = document.getElementById("hamMenu").getBoundingClientRect().width;
+        lastMenuSize = document.getElementById("side-menu").getBoundingClientRect().width;
     }
     if (now > lastResize && lastResize > 0) {
         init(false);

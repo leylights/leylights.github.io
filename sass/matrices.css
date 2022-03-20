@@ -1,0 +1,137 @@
+#tabs-bar ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+#tabs-bar li {
+  display: inline-block;
+  margin: 0 1em 0 0;
+  cursor: pointer;
+  border-bottom: none;
+  font-weight: normal;
+}
+
+#tabs-bar li.active-tab {
+  border-bottom: 1px solid var(--primary-accent-color);
+  font-weight: bold;
+}
+
+.matrixContainer {
+  box-shadow: var(--accent-bg-color) 0 0 8px;
+  border: 4px solid var(--primary-accent-color);
+}
+
+.matrixTable {
+  width: 100%;
+  color: var(--primary-text-color);
+  table-layout: fixed;
+}
+
+.matrixTable td {
+  background-color: var(--secondary-bg-color);
+  /* border: 1px solid var(--accent-bg-color); */
+  padding: 0.25em 0.5em;
+}
+
+.matrixHeader {
+  padding: 4px;
+  position: relative;
+  display: flex;
+  box-shadow: var(--accent-bg-color) 0 1px 3px 0;
+}
+
+.matrixHeader h1 {
+  font-size: 1em;
+  left: 0;
+  display: inline-flex;
+}
+
+.matrixFooter {
+  padding: 4px;
+  position: relative;
+  display: flex;
+}
+
+.matrixFooter p {
+  margin: 0.5em 0;
+}
+
+.matrix-output {
+  font-size: 0.8em;
+  font-style: italic;
+  position: absolute;
+  right: 0;
+  padding: 0.5em 1em;
+}
+
+.matrixButtons {
+  right: 0;
+  display: inline-flex;
+}
+
+.matrixButton {
+  background-color: var(--secondary-bg-color);
+  margin: 3px;
+  display: inline-block;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.25s;
+}
+
+.matrix-errors {
+  color: red;
+}
+
+.matrixButton:hover {
+  background-color: var(--secondary-accent-color);
+  cursor: pointer;
+}
+
+.matrix-footer-buttons {
+  width: 30%;
+}
+
+.matrix-footer-button {
+  margin-left: 0;
+  margin-right: 100%;
+  width: calc(100% - 8px);
+}
+
+.matrix-footer-button-half {
+  width: calc(50% - 8px);
+  margin-right: 0;
+}
+
+.matrix-footer-button-half.footer-input {
+  margin-left: 4px;
+}
+
+.matrix-pair-input-container {
+  display: inline-block;
+  width: 50%;
+}
+
+.matrix-pair-input-container p {
+  text-align: center;
+  width: 100%;
+}
+
+.matrix-pair-input-container input {
+  text-align: center;
+}
+
+#multiplier-sides {
+  display: flex;
+}
+
+#multiplier-sides>div {
+  width: calc(50% - 20px);
+  padding: 0 10px;
+  float: left;
+}
+
+@media only screen and (max-width: 770px) {
+  .matrix-footer-buttons {
+    width: 60%;
+  }
+}

@@ -7,18 +7,14 @@
  * Created: 2017
  * Last updated: February 2022
  */
-import { cws } from "../../cws.js";
-import { Button } from "../_components/button.component.js";
-import { Menu } from "./menu-items.service.js";
+import { cws } from '../../cws.js';
+import { Button } from '../_components/button.component.js';
+import { Menu } from './menu-items.service.js';
 export class SideMenuService {
     static build() {
-        const menu = document.getElementById("hamMenu");
+        SideMenuService.menu = SideMenuService.buildMenuStructure();
         SideMenuService.generateMenu();
-        const categories = [
-            menu.querySelector("#games-dropdown-category"),
-            menu.querySelector("#tools-dropdown-category"),
-            menu.querySelector("#misc-dropdown-category"),
-        ];
+        const categories = Array.from(SideMenuService.menu.querySelectorAll('.side-menu-dropdown-category'));
         categories.forEach((category) => {
             Button.createByAttachment(category, (event) => {
                 const path = event.composedPath();
@@ -32,7 +28,7 @@ export class SideMenuService {
                 SideMenuService.displayMenuItems(category);
             });
         });
-        document.getElementById("hamMenu").querySelector('#side-menu-end-button').addEventListener('click', () => { SideMenuService.closeMenu(); });
+        SideMenuService.menu.querySelector('#side-menu-end-button').addEventListener('click', () => { SideMenuService.closeMenu(); });
     }
     static createMenuItem(item, parent) {
         const newItem = document.createElement('div');
@@ -46,11 +42,11 @@ export class SideMenuService {
         if (!parent)
             switch (item.type) {
                 case 'Game':
-                    parent = document.getElementById("games-dropdown-category");
+                    parent = document.getElementById('games-dropdown-category');
                     break;
                 case 'Dropdown':
                 case 'Tool':
-                    parent = document.getElementById("tools-dropdown-category");
+                    parent = document.getElementById('tools-dropdown-category');
             }
         parent.appendChild(newItem);
         if (item.children) {
@@ -81,20 +77,82 @@ export class SideMenuService {
             return { type: 'href', value: link };
         }
     }
+    static buildMenuStructure() {
+        function createCategory(name, type, content) {
+            return cws.createElement({
+                type: 'div',
+                id: `${type}-dropdown-category`,
+                classList: 'side-menu-dropdown-category side-menu-top-level-item',
+                children: (content || []).concat([cws.createElement({
+                        type: 'button',
+                        classList: 'side-menu-top-level-button',
+                        innerHTML: name,
+                    })]),
+            });
+        }
+        function createTopLevelButton(name, link) {
+            return cws.createElement({
+                type: 'div',
+                classList: 'side-menu-top-level-item',
+                children: [cws.createElement({
+                        type: 'a',
+                        classList: 'side-menu-top-level-button',
+                        otherNodes: [{ type: 'href', value: link }],
+                        innerText: name,
+                    })]
+            });
+        }
+        const sideMenu = cws.createElement({
+            type: 'nav',
+            id: 'side-menu',
+            children: [
+                cws.createElement({
+                    type: 'div',
+                    id: 'side-menu-content',
+                    children: [
+                        cws.createElement({
+                            type: 'div',
+                            id: 'side-menu-title-container',
+                            children: [cws.createElement({
+                                    type: 'h1',
+                                    id: 'side-menu-title',
+                                    innerText: 'menu',
+                                })],
+                        }),
+                        createCategory('Games', 'games'),
+                        createCategory('Tools', 'tools'),
+                        createTopLevelButton('Archive', '/pages/archive.html'),
+                        createTopLevelButton('Resume', '/pages/resume.html'),
+                        cws.createElement({
+                            type: 'button',
+                            id: 'side-menu-end-button',
+                            children: [cws.createElement({
+                                    type: 'img',
+                                    otherNodes: [{ type: 'src', value: '/siteimages/closebutton.png' }],
+                                })]
+                        })
+                    ],
+                }),
+            ]
+        });
+        sideMenu.querySelector('#side-menu-end-button').addEventListener('click', SideMenuService.closeMenu);
+        document.body.appendChild(sideMenu);
+        return sideMenu;
+    }
     static closeMenu() {
-        document.getElementById("hamMenu").style.width = "0%";
-        document.getElementById("hamImage").style.opacity = "1";
-        document.getElementById("hamMenu").style.minWidth = "0";
-        for (let i = 0; i < document.getElementsByClassName("side-menu-item").length; i++)
-            document.getElementsByClassName("side-menu-item")[i].style.display = "none";
+        SideMenuService.menu.style.width = '0%';
+        document.getElementById('side-menu-opener').style.opacity = '1';
+        SideMenuService.menu.style.minWidth = '0';
+        for (let i = 0; i < document.getElementsByClassName('side-menu-item').length; i++)
+            document.getElementsByClassName('side-menu-item')[i].style.display = 'none';
     }
     static displayMenuItems(category) {
-        const buttons = category.querySelectorAll(".side-menu-item");
+        const buttons = category.querySelectorAll('.side-menu-item');
         buttons.forEach((button) => {
-            if (button.style.display !== "block")
-                button.style.display = "block";
+            if (button.style.display !== 'block')
+                button.style.display = 'block';
             else
-                button.style.display = "none";
+                button.style.display = 'none';
         });
     }
     static generateMenu() {
@@ -104,16 +162,16 @@ export class SideMenuService {
     }
     static openMenu() {
         if (document.body.clientWidth < 700) {
-            document.getElementById("hamMenu").style.width = "100%";
+            SideMenuService.menu.style.width = '100%';
         }
         else {
             let menuW = Math.round(window.innerWidth * 0.15);
             if (menuW < 200)
                 menuW = 200;
-            document.getElementById("hamMenu").style.width = menuW + "px";
-            document.getElementById("header").style.width = (100 - menuW) + "px";
+            SideMenuService.menu.style.width = menuW + 'px';
+            document.getElementById('header').style.width = (100 - menuW) + 'px';
         }
-        document.getElementById("hamImage").style.opacity = "0";
+        document.getElementById('side-menu-opener').style.opacity = '0';
     }
 }
 SideMenuService.itemNo = 0;

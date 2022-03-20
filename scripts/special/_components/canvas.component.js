@@ -20,7 +20,7 @@ export class Canvas {
             this.clearColour = data.clearColour;
         else {
             if (cws.isDark) {
-                window.addEventListener('load', (e) => {
+                window.addEventListener('load', () => {
                     setColour();
                 });
             }
@@ -60,8 +60,16 @@ export class Canvas {
         return nextId;
     }
     clear() {
-        const clearColour = this.clearColour === 'fromCSS' ? this.clearColour = window.getComputedStyle(this.element).backgroundColor : this.clearColour;
-        this.fillRect(0, 0, this.width, this.outerHeight, clearColour);
+        const me = this;
+        function getClearColour() {
+            if (me.clearColour)
+                return me.clearColour;
+            if (!me.element.parentElement) {
+                console.warn('clear() called without discernible background colour');
+            }
+            return window.getComputedStyle(me.element).backgroundColor;
+        }
+        this.fillRect(0, 0, this.width, this.outerHeight, getClearColour());
     }
     disableArrowKeyPageMovement() {
         this.keys.addEventListener((listener, e) => {
@@ -69,7 +77,7 @@ export class Canvas {
                 e.preventDefault();
             }
             return false;
-        }, (listener, e) => { null; });
+        }, () => { null; });
     }
     drawCenteredText(text, x, y, colour, size, type) {
         this.context.fillStyle = colour;
@@ -95,9 +103,7 @@ export class Canvas {
                 this.context.font = presetSize + "px " + type + family;
             }
         }
-        if (presetSize == -1) {
-        }
-        else {
+        if (presetSize !== -1) {
             this.context.font = size + "px " + type + family;
         }
     }
@@ -188,15 +194,15 @@ export class Canvas {
      * @param {Object} canvas Object containing a drawable context
      */
     fillTriangle(x, y, w, h, colour, center, angle, canvas) {
-        let ctx = canvas;
+        const ctx = canvas;
         angle = angle / 180 * Math.PI;
         ctx.beginPath();
         ctx.fillStyle = colour;
         ctx.strokeStyle = colour;
         if (center) {
-            let a = { x: x - w / 2, y: y + h / 2 };
-            let b = { x: x, y: y - h / 2 };
-            let c = { x: x + w / 2, y: y + h / 2 };
+            const a = { x: x - w / 2, y: y + h / 2 };
+            const b = { x: x, y: y - h / 2 };
+            const c = { x: x + w / 2, y: y + h / 2 };
             if (!isNaN(angle) && angle !== 0) {
                 ctx.translate(x, y);
                 ctx.rotate(angle);
@@ -251,7 +257,7 @@ export class Canvas {
         });
         this.context.font = window.getComputedStyle(canvas).font;
         // LISTENERS
-        canvas.addEventListener("resize", function (e) {
+        canvas.addEventListener("resize", function () {
             me.element.width = me.element.getBoundingClientRect().width - 2 * parseInt(window.getComputedStyle(me.element).borderWidth);
             me.element.height = me.element.getBoundingClientRect().height - 2 * parseInt(window.getComputedStyle(me.element).borderWidth);
             me.resize();

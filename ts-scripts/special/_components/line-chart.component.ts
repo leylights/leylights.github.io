@@ -138,6 +138,7 @@ export class LineChartComponent {
       },
       listener: (isDark: boolean, styleSheet: CSSStyleSheet) => {
         me.resetColours(styleSheet);
+        if (me.container) me.redraw();
       }
     });
 
@@ -561,6 +562,8 @@ export class LineChartComponent {
     const me = this,
       area = this.innerRect;
 
+    this.resetColours();
+
     this.canvas.clearColour = this.colours.background;
     this.canvas.clear();
 
@@ -593,7 +596,7 @@ export class LineChartComponent {
       let currentX: number = 0;
       for (let i = 1; i < xData.divisions.length; i++) {
         const x = me.canvas.width * ((xData.divisions[i].value - xData.limits.x.min) / (xData.limits.x.max - xData.limits.x.min));
-        const thickness = xData.divisions[i].label == '0' ? me.majorGridlineThickness : 1;
+        const thickness = xData.divisions[i].label === '0' ? me.majorGridlineThickness : 1;
         if (x < 0) continue;
         if (currentX > x || x === me.canvas.width) break; // prevent x from going backwards
         currentX = x;
@@ -627,17 +630,16 @@ export class LineChartComponent {
     }
   }
 
-  resetColours(this: LineChartComponent, styleSheet: CSSStyleSheet) {
+  resetColours(this: LineChartComponent, styleSheet?: CSSStyleSheet) {
     const style = window.getComputedStyle(document.body);
 
     this.colours.line = getColourOrError('--accent-color');
     this.colours.gridlines = getColourOrError('--accent-bg-color');
     this.colours.background = getColourOrError('--secondary-bg-color');
 
-    if (this._isInitialized)
-      this.redraw();
-
     function getColourOrError(name: string): string {
+      if (!styleSheet) return window.getComputedStyle(document.body).getPropertyValue(name);
+
       const root: CSSStyleRule = Array.from(styleSheet.cssRules).filter((rule: CSSStyleRule) => {
         return rule.selectorText == ':root';
       })[0] as CSSStyleRule;

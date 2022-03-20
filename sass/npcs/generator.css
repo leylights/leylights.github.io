@@ -1,0 +1,26 @@
+#main {
+  margin-top: 120px;
+  margin-bottom: 90px;
+  height: unset;
+}
+
+#npcsHead {
+  position: fixed;
+  top: 72px;
+  z-index: 10;
+  width: 100%;
+  border-bottom: 6px solid var(--npcs-red);
+}
+
+#inputCr {
+  width: 100px;
+}
+
+#generateButton {
+  transition: var(--hover-color-transition);
+}
+
+#generateButton:hover {
+  background-color: var(--npcs-red);
+  color: white;
+}

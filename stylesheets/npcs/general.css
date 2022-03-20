@@ -5,9 +5,7 @@
 }
 
 /* Ability Scores */
-
 /* the NPC card */
-
 .monsterCard {
   margin: auto;
   margin-top: 100px;
@@ -17,11 +15,9 @@
   background-color: #fcf1e3;
   font-family: Lucida Sans Unicode;
 }
-
 .monsterCard .name-bar {
   position: relative;
 }
-
 .monsterCard .save-npc {
   width: 16px;
   border: 5px solid var(--npcs-light-gray);
@@ -32,21 +28,18 @@
   border-radius: 50px;
   cursor: pointer;
 }
-
 .monsterCard .save-npc.saved {
   background-color: var(--npcs-red);
   border-color: var(--npcs-red);
 }
-
 .monsterCard .save-npc img {
   margin: 0;
+  display: block;
 }
-
-.monsterCard>.description>.type {
+.monsterCard > .description > .type {
   color: black;
   font-style: italic;
 }
-
 .monsterCard h1 {
   color: var(--npcs-red);
   display: inline-block;
@@ -57,67 +50,58 @@
   min-width: 0;
   box-sizing: border-box;
 }
-
 .monsterCard h1::first-letter {
   font-size: 1.4em;
 }
-
 .monsterCard .nameSpace {
   color: #fcf1e3;
 }
-
 .monsterCard h2 {
   color: var(--npcs-red);
   font-size: 0.9em;
   margin-bottom: 0;
 }
-
 .monsterCard h2::first-letter {
   font-size: 1.4em;
 }
-
 .monsterCard h6 {
   color: var(--npcs-red);
   font-size: 0.8em;
   font-weight: normal;
   margin: 0.05em;
 }
-
 .monsterCard img {
   margin: 0.5em 0;
   width: 100%;
 }
-
 .monsterCard .line {
   background-color: var(--npcs-red);
   height: 2px;
   width: 100%;
 }
-
 .monsterCard p {
   font-size: 0.8em;
   color: var(--npcs-gray);
 }
 
-.asNames>th {
+.asNames > th {
   width: 14%;
   color: var(--npcs-red);
   font-size: 0.8em;
 }
 
-.asValues>td {
+.asValues > td {
   text-align: center;
   color: var(--npcs-red);
   font-size: 0.8em;
 }
 
 /* the menu */
-
 .selector {
   margin: auto;
 }
 
-.selector>* {
+.selector > * {
   margin: auto;
   height: 100%;
   font-family: Lucida Sans Unicode;
@@ -145,7 +129,8 @@
   white-space: nowrap;
 }
 
-.save-icon, #saved-bar-refresh {
+.save-icon,
+#saved-bar-refresh {
   display: inline-block;
   transition: background-color 0.2s, color 0.2s;
   position: relative;
@@ -196,10 +181,12 @@
   .selector {
     padding: 0 5px;
   }
-  .selector>* {
+
+  .selector > * {
     width: 100%;
     margin: 5px 0;
   }
+
   #inputCr {
     width: 100%;
   }

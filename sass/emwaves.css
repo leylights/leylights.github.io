@@ -1,0 +1,138 @@
+#headerName>h1 {
+  font-size: 1.5em;
+}
+
+#controls {
+  min-width: 200px;
+  width: calc(15% - 4px);
+  height: 100%;
+  float: left;
+  border-right: 4px solid var(--primary-accent-color);
+  font-family: Encode Sans;
+  font-size: 0.8em;
+  overflow-x: hidden;
+}
+
+#controls-inner {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#controls h1 {
+  margin: 0;
+  margin-top: 0.5rem;
+  padding: 0.67em 0;
+  color: var(--primary-accent-color);
+  text-align: center;
+  border-bottom: 3px var(--primary-accent-color) solid;
+}
+
+.controlsSubMenu {
+  user-select: none;
+  border-bottom: 2px var(--accent-color) solid;
+}
+
+.controlsSubMenu>h2 {
+  margin: 0;
+  padding: 0.83em 0 0.83em 0.5em;
+  font-size: 1.35em;
+  border-bottom: 1px var(--very-light-text-color) solid;
+}
+
+.controlsSubMenu>h3 {
+  margin: 0;
+  padding: 0.83em 0 0.83em 0.5em;
+  /* border-bottom: 1px #555555 solid; */
+  font-weight: normal;
+}
+
+.controlsSubMenu>h3>input {
+  padding: 0.83em 0 0 0;
+  border: none;
+  background-color: inherit;
+  border-bottom: 1px var(--very-light-text-color) solid;
+  text-align: center;
+}
+
+.controlsSubMenu>h3>p {
+  margin: 0;
+}
+
+.controlsSubMenu>h2:hover {
+  cursor: pointer;
+  color: var(--primary-accent-color);
+}
+
+.controlsSubMenu>h3:hover {
+  cursor: pointer;
+  color: var(--primary-accent-color);
+}
+
+#red>h2:hover {
+  cursor: pointer;
+  color: #ff0000;
+}
+
+#blue>h2:hover {
+  cursor: pointer;
+  color: #0000ff;
+}
+
+#controlsOpener {
+  position: absolute;
+  bottom: 0;
+  width: 1.5em;
+  height: 1.5em;
+  background-color: var(--primary-bg-color);
+  border-top: 4px var(--primary-accent-color) solid;
+  border-right: 4px var(--primary-accent-color) solid;
+  border-top-right-radius: 4px;
+  cursor: pointer;
+  font-size: 2em;
+  color: var(--accent-color);
+  text-align: center;
+}
+
+#controlsOpenerBox {
+  position: relative;
+  bottom: 0;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+/* Customization Tab */
+
+#customPreset>div, .controlsSubMenu>div, .controlsSubMenu>h3 {
+  padding: 0.83em;
+  width: calc(100% - 1.5em);
+}
+
+#customPreset>div input, .controlsSubMenu>div input {
+  width: 100%;
+  border: none;
+  background-color: inherit;
+  border-bottom: 1px #555555 solid;
+  text-align: center;
+}
+
+#customPreset>div span, .controlsSubMenu>div span {
+  margin-right: 0.5em;
+  display: block;
+  overflow: hidden;
+}
+
+#customPreset>div label, .controlsSubMenu>div label {
+  margin: 0;
+  float: left;
+  width: 130px;
+}
+
+#customPreset>div .checkbox {
+  width: unset;
+  float: right;
+}
+
+canvas {
+  height: 100%;
+  float: left;
+}

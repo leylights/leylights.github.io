@@ -33,7 +33,7 @@ export class Canvas {
     if (data.clearColour) this.clearColour = data.clearColour;
     else {
       if (cws.isDark) {
-        window.addEventListener('load', (e: Event) => {
+        window.addEventListener('load', () => {
           setColour();
         });
       } else {
@@ -78,13 +78,24 @@ export class Canvas {
   }
 
   clear(this: Canvas) {
-    const clearColour = this.clearColour === 'fromCSS' ? this.clearColour = window.getComputedStyle(this.element).backgroundColor : this.clearColour;
+    const me = this;
+
+    function getClearColour() {
+      if (me.clearColour) return me.clearColour;
+
+      if (!me.element.parentElement) {
+        console.warn('clear() called without discernible background colour');
+      }
+
+      return window.getComputedStyle(me.element).backgroundColor;
+    }
+
     this.fillRect(
       0,
       0,
       this.width,
       this.outerHeight,
-      clearColour
+      getClearColour()
     );
   }
 
@@ -96,7 +107,7 @@ export class Canvas {
         }
 
         return false;
-      }, (listener, e) => { null; });
+      }, () => { null; });
   }
 
   drawCenteredText(
@@ -136,8 +147,7 @@ export class Canvas {
         this.context.font = presetSize + "px " + type + family;
       }
     }
-    if (presetSize == -1) {
-    } else {
+    if (presetSize !== -1) {
       this.context.font = size + "px " + type + family;
     }
   }
@@ -243,7 +253,7 @@ export class Canvas {
    */
 
   fillTriangle(this: Canvas, x: number, y: number, w: number, h: number, colour: string, center: boolean, angle: number, canvas: any) {
-    let ctx = canvas;
+    const ctx = canvas;
     angle = angle / 180 * Math.PI;
 
     ctx.beginPath();
@@ -251,9 +261,9 @@ export class Canvas {
     ctx.strokeStyle = colour;
 
     if (center) {
-      let a = { x: x - w / 2, y: y + h / 2 };
-      let b = { x: x, y: y - h / 2 };
-      let c = { x: x + w / 2, y: y + h / 2 };
+      const a = { x: x - w / 2, y: y + h / 2 };
+      const b = { x: x, y: y - h / 2 };
+      const c = { x: x + w / 2, y: y + h / 2 };
 
       if (!isNaN(angle) && angle !== 0) {
         ctx.translate(x, y);
@@ -327,7 +337,7 @@ export class Canvas {
 
     // LISTENERS
 
-    canvas.addEventListener("resize", function (e) {
+    canvas.addEventListener("resize", function () {
       me.element.width = me.element.getBoundingClientRect().width - 2 * parseInt(window.getComputedStyle(me.element).borderWidth);
       me.element.height = me.element.getBoundingClientRect().height - 2 * parseInt(window.getComputedStyle(me.element).borderWidth);
       me.resize();

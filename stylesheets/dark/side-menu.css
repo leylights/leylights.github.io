@@ -1,0 +1,16 @@
+nav#side-menu #side-menu-content .side-menu-category-button {
+  background-color: var(--accent-bg-color);
+  color: white;
+}
+nav#side-menu #side-menu-content .side-menu-category-button.active {
+  background-color: var(--accent-bg-color-hover);
+}
+nav#side-menu #side-menu-content .side-menu-category-button:hover {
+  background-color: var(--accent-bg-color-hover);
+}
+nav#side-menu #side-menu-content .side-menu-item a:hover {
+  color: var(--tertiary-accent-color);
+}
+nav#side-menu #side-menu-content #side-menu-end-button > img {
+  filter: invert(10%) saturate(6520%) hue-rotate(247deg) brightness(71%) contrast(135%);
+}

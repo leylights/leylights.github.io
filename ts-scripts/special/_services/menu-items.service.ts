@@ -3,6 +3,7 @@
  */
 
 import { cws } from "../../cws.js";
+import { PageBuilder } from "./page-builder.service.js";
 
 // NOTE: showcase ordering is determined by order in this array
 
@@ -374,9 +375,10 @@ const MENU_ITEMS = <{ [name: string | symbol]: MixedMenuItem }>{
     type: "Tool",
     date: "December 2016 - Present",
     links: {
-      thumbnail: "siteimages/archivelock.png",
+      thumbnail: "siteimages/archive-lock.png",
       href: "pages/archive.html",
     },
+    invertOnDark: true,
   },
   resume: {
     name: "Resume",
@@ -554,12 +556,12 @@ class MenuOps {
   }
 
   static mapItems(items: CoreMenuItem[]): MenuItem[] {
-    let formattedOutput: MenuItem[] = [];
+    const formattedOutput: MenuItem[] = [];
 
     for (const itemIn of items) {
-      let item: MenuItem = itemIn as MenuItem;
+      const item: MenuItem = itemIn as MenuItem;
 
-      let newItem: MenuItem = {
+      const newItem: MenuItem = {
         name: item.name,
         type: item.type,
         date: item.date,
@@ -575,7 +577,7 @@ class MenuOps {
 
           // non-core links:
           showcase: item.links.showcase ? cws.getRelativeUrlPath(item.links.showcase) : null,
-          thumbnail: cws.getRelativeUrlPath(item.links.thumbnail ? item.links.thumbnail : "siteimages/logo.svg"),
+          thumbnail: cws.getRelativeUrlPath(item.links.thumbnail ? item.links.thumbnail : PageBuilder.siteLogoSrc),
         },
 
         // non-core attributes:
@@ -595,7 +597,7 @@ class MenuOps {
 
     function getDefaultInvertOnDark(item: MenuItem) {
       if (!item.links.thumbnail) { // uses logo as thumbnail  
-        return true;
+        return false;
       } else if (item.links.thumbnail && typeof item.invertOnDark === "undefined") { // does not use logo as thumbnail
         return false;
       } else { // item.invertOnDark is defined
@@ -650,7 +652,7 @@ export class Menu {
   }
 
   static getTopMenu = function (): TopMenu {
-    let menu = MenuOps
+    const menu = MenuOps
       .getTopMenu();
 
     menu.games = topMenuFilters(menu.games);
@@ -690,15 +692,7 @@ export class Menu {
         return !item.isSecret;
       })
       .map((item: MenuItem) => {
-        let out: MenuItem = MenuOps.cloneMenuItem(item);
-
-        let linkKeys = Object.keys(out.links);
-
-        linkKeys.forEach((key: string) => {
-          if (out.links[key])
-            out.links[key] = out.links[key];
-        })
-
+        const out: MenuItem = MenuOps.cloneMenuItem(item);
         return out;
       });
   }

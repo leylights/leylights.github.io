@@ -1,0 +1,91 @@
+#infectionCanvas {
+  width: 100%;
+  height: 500px;
+  background-color: #eeeeee;
+  border: 3px solid #cccccc;
+}
+
+#infectionChart {
+  width: 100%;
+  height: 100%;
+  background-color: #eeeeee;
+}
+
+#chartWrapper {
+  margin: 30px 0;
+  height: 400px;
+}
+
+#chartControls {
+  width: calc(200px - 2em);
+  padding: 0 1em;
+  float: left;
+  border: 3px solid #cccccc;
+  overflow: auto;
+  height: 100%;
+}
+
+#controlAccordions td {
+  font-size: 0.8em;
+}
+
+.accordionHead h4 {
+  margin: 0.5em 0 0.25em 0;
+}
+
+.accordionHead:hover {
+  color: var(--primary-accent-color);
+  cursor: pointer;
+}
+
+#chartCanvasWrapper {
+  width: calc(100% - 200px - 6px - 6px);
+  height: 100%;
+  float: right;
+  border: 3px solid #cccccc;
+  overflow-x: scroll;
+}
+
+#infectionStatus {
+  color: var(--primary-accent-color)
+}
+
+.infectionStatusComplete {
+  color: #00aa2b !important;
+}
+
+.inputBottomLine {
+  width: 30px;
+  text-align: center;
+}
+
+.legend {
+  width: 100%;
+}
+
+.legend td {
+  vertical-align: middle;
+  padding: 5px;
+  font-size: 1em;
+}
+
+.legend p {
+  display: inline-block;
+}
+
+.legend .dot {
+  border-radius: 100px;
+  width: 20px;
+  height: 20px;
+  float: left;
+  background-color: black;
+  margin: 20px 10px;
+}
+
+.legend .minidot {
+  border-radius: 100px;
+  width: 67.5%;
+  height: 67.5%;
+  margin: 16.25%;
+  background-color: black;
+}

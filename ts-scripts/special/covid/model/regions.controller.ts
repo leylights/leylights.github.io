@@ -13,11 +13,13 @@ interface RegionsRepsonse {
 export class COVIDRegionsController {
   readonly provinces: COVIDProvince[] = [];
   readonly healthUnits: COVIDHealthUnit[] = [];
-
+  
   private static readonly LONDON_CODE = '3544';
+  private static readonly WATERLOO_CODE = '3565';
   private static readonly ONTARIO_CODE = "ON";
   private static readonly CANADA_CODE = "canada";
 
+  private _waterloo: COVIDHealthUnit = null;
   private _london: COVIDHealthUnit = null;
   private _ontario: COVIDProvince = null;
   private _canada: COVIDProvince = null;
@@ -37,6 +39,8 @@ export class COVIDRegionsController {
 
       if (me.healthUnits[me.healthUnits.length - 1].locationId === COVIDRegionsController.LONDON_CODE)
         me._london = me.healthUnits[me.healthUnits.length - 1];
+      else if (me.healthUnits[me.healthUnits.length - 1].locationId === COVIDRegionsController.WATERLOO_CODE)
+        me._waterloo = me.healthUnits[me.healthUnits.length - 1];
     });
 
     // Provinces
@@ -70,6 +74,11 @@ export class COVIDRegionsController {
   get london(): COVIDHealthUnit {
     if (!this._london) throw new Error("Not initialized.");
     return this._london;
+  }
+
+  get waterloo(): COVIDHealthUnit {
+    if (!this._waterloo) throw new Error("Not initialized.");
+    return this._waterloo;
   }
 
   get ontario(): COVIDProvince {

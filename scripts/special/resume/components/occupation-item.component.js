@@ -17,10 +17,8 @@ export class ResumeOccupationItemComponent extends ResumeExperienceItemComponent
     get jobTitle() {
         return this.title;
     }
-    ;
     get workplaceName() {
         return this.subtitle;
     }
-    ;
 }
 //# sourceMappingURL=occupation-item.component.js.map
