@@ -1,3 +1,5 @@
 import { WordleController } from "./wordle.controller.js";
-new WordleController().build(document.body.querySelector('#wordle-container'));
+const controller = new WordleController();
+controller.build(document.body.querySelector('#wordle-container'));
+controller.init();
 //# sourceMappingURL=wordle.page.js.map

@@ -1,0 +1,93 @@
+:root {
+  --wordle-success-color: #009e00;
+  --wordle-correct-letter-color: #ccb800;
+  --wordle-incorrect-color: #1b1b1b;
+}
+
+#wordle-container .wordle-message-box {
+  display: none;
+  background-color: var(--secondary-bg-color);
+  margin: auto;
+  position: absolute;
+  padding: 1em;
+  left: 50%;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+}
+#wordle-container .wordle-message-box.visible {
+  display: inline-block;
+}
+#wordle-container #wordle-answers-grid {
+  max-width: 300px;
+  width: 100%;
+  margin: 40px auto;
+}
+@media (max-width: 500px) {
+  #wordle-container #wordle-answers-grid {
+    max-width: 70vw;
+  }
+}
+@media (max-width: 780px) {
+  #wordle-container #wordle-answers-grid {
+    max-width: 300px;
+  }
+}
+#wordle-container #wordle-answers-grid td {
+  width: 20%;
+  padding-top: 20%;
+  background-color: var(--accent-bg-color);
+  position: relative;
+}
+#wordle-container #wordle-answers-grid td.success {
+  background-color: var(--wordle-success-color);
+}
+#wordle-container #wordle-answers-grid td.correct-letter {
+  background-color: var(--wordle-correct-letter-color);
+}
+#wordle-container #wordle-answers-grid td.incorrect {
+  background-color: var(--wordle-incorrect-color);
+}
+#wordle-container #wordle-answers-grid td .wordle-letter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2em;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+#wordle-container #wordle-keyboard-container .key-row {
+  display: flex;
+  margin: auto;
+}
+#wordle-container #wordle-keyboard-container .key-row .key-row-interior {
+  margin: auto;
+}
+#wordle-container #wordle-keyboard-container .key-row .key-row-interior .wordle-key {
+  display: inline-flex;
+  text-transform: capitalize;
+  margin: 0.5em;
+  background-color: var(--accent-bg-color);
+  width: 4em;
+  height: 4em;
+  line-height: 100%;
+  text-align: center;
+  max-width: 7vw;
+  max-height: 7vw;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 780px) {
+  #wordle-container #wordle-keyboard-container .key-row .key-row-interior .wordle-key {
+    margin: 2px;
+  }
+}
+#wordle-container #wordle-keyboard-container .key-row .key-row-interior .wordle-key.success {
+  background-color: var(--wordle-success-color);
+}
+#wordle-container #wordle-keyboard-container .key-row .key-row-interior .wordle-key.correct-letter {
+  background-color: var(--wordle-correct-letter-color);
+}
+#wordle-container #wordle-keyboard-container .key-row .key-row-interior .wordle-key.incorrect {
+  background-color: var(--wordle-incorrect-color);
+}

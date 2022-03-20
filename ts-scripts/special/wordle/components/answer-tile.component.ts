@@ -1,14 +1,37 @@
 import { cws } from "../../../cws.js";
 
 export class WordleAnswerTile {
-  background: HTMLElement;
+  element: HTMLElement;
 
-  constructor(parent: HTMLElement) {
-    this.background = cws.createElement({
+  constructor() {
+    this.element = cws.createElement({
       type: 'div',
-      classList: 'tile-background',
+      classList: 'wordle-letter',
     });
+  }
 
-    parent.appendChild(this.background);
+  get letter(): string {
+    return this.element.innerText;
+  }
+
+  set letter(letter: string) {
+    this.element.innerText = letter;
+  }
+
+  setCorrectLetter() {
+    this.changeState('correct-letter');
+  }
+
+  setSuccess() {
+    this.changeState('success');
+  }
+
+  setWrongLetter() {
+    this.changeState('incorrect');
+  }
+
+  private changeState(classList?: string) {
+    if (classList) this.element.parentElement.classList.add(classList);
+    this.element.parentElement.classList.add('flipped');
   }
 }

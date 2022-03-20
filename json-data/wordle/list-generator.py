@@ -1,12 +1,17 @@
 import json
 
-inFile = open("extract.txt", "rt")
-outFile = open("words.json", "wt")
+directory = "json-data/wordle/"
+inFile = open(directory + "extract.txt", "rt")
+outFile = open(directory + "words.json", "wt")
 
 words = []
 
 for line in inFile:
-    words.append(line.split()[2])
+    word = line.split()[2]
+    if (len(word) != 5): continue
+    if (word == 'FALSE'): continue
+
+    words.append(word)
 
 words.sort()
 

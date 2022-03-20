@@ -1,0 +1,117 @@
+@import 'util/mixins/mixins.scss';
+
+:root {
+  --wordle-success-color: #009e00;
+  --wordle-correct-letter-color: #ccb800;
+  --wordle-incorrect-color: #1b1b1b;
+}
+
+#wordle-container {
+  .wordle-message-box {
+    display: none;
+
+    background-color: var(--secondary-bg-color);
+    margin: auto;
+    position: absolute;
+    padding: 1em;
+    left: 50%;
+    z-index: 2;
+    transform: translate(-50%, -50%);
+
+    &.visible {
+      display: inline-block;
+    }
+  }
+
+  #wordle-answers-grid {
+    max-width: 300px;
+    width: 100%;
+    margin: 40px auto;
+
+    @include small-width {
+      max-width: 70vw;
+    }
+
+    @include tablet-width {
+      max-width: 300px;
+    }
+
+    td {
+      width: 20%;
+      padding-top: 20%;
+      background-color: var(--accent-bg-color);
+      position: relative;
+
+      &.success {
+        background-color: var(--wordle-success-color);
+      }
+
+      &.correct-letter {
+        background-color: var(--wordle-correct-letter-color);
+      }
+
+      &.incorrect {
+        background-color: var(--wordle-incorrect-color);
+      }
+
+      .wordle-letter {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 2em;
+        font-weight: bold;
+
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  #wordle-keyboard-container {
+    .key-row {
+      display: flex;
+      margin: auto;
+
+      .key-row-interior {
+        margin: auto;
+
+        .wordle-key {
+          display: inline-flex;
+          text-transform: capitalize;
+          margin: 0.5em;
+
+          @include tablet-width {
+            margin: 2px;
+          }
+
+          background-color: var(--accent-bg-color);
+
+          $size: 4em;
+          width: $size;
+          height: $size;
+          line-height: 100%;
+          text-align: center;
+
+          $max-size: 7vw;
+          max-width: $max-size;
+          max-height: $max-size;
+
+          justify-content: center;
+          align-items: center;
+
+          &.success {
+            background-color: var(--wordle-success-color);
+          }
+
+          &.correct-letter {
+            background-color: var(--wordle-correct-letter-color);
+          }
+
+          &.incorrect {
+            background-color: var(--wordle-incorrect-color);
+          }
+        }
+      }
+    }
+  }
+}

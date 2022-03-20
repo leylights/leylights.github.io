@@ -3,7 +3,7 @@ export class WordleKeyTile {
     constructor(parent, letter) {
         this.background = cws.createElement({
             type: 'div',
-            classList: 'key-background',
+            classList: 'wordle-key',
             innerText: letter,
         });
         parent.appendChild(this.background);
