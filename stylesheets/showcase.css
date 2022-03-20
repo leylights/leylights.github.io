@@ -1,7 +1,6 @@
 :root {
   --showcase-shadow-colour: #888b;
   --showcase-spotlight-height: 510px;
-
   --item-header-colour: var(--primary-accent-color);
 }
 
@@ -44,20 +43,16 @@
   background-color: white;
   position: relative;
   z-index: 2;
-  width: 100%;
-  margin-left: -50px;
+  width: calc(100% - 100px);
   padding: 0 50px;
 }
-
-.showcase-item-container.showcase-item-top-shadow {
+.showcase-item-container .showcase-item-top-shadow {
   box-shadow: 0 -10px 10px 0 var(--showcase-shadow-colour);
 }
-
-.showcase-item-container.showcase-item-bottom-shadow {
+.showcase-item-container .showcase-item-bottom-shadow {
   box-shadow: 0 10px 10px 0 var(--showcase-shadow-colour);
 }
-
-.showcase-item-container.showcase-item-both-shadow {
+.showcase-item-container .showcase-item-both-shadow {
   box-shadow: 0 0 10px 10px var(--showcase-shadow-colour);
 }
 
@@ -74,7 +69,6 @@
 .showcase-item-text-container:hover h3 {
   color: var(--text-color);
 }
-
 
 .showcase-item-container.no-hover .showcase-item-text-container:hover h2,
 .showcase-item-container.no-hover .showcase-item-text-container:hover h3 {
@@ -105,21 +99,21 @@
   float: left;
   text-align: right;
 }
+.showcase-item-image-container .showcase-item-image {
+  width: 225px;
+  max-height: 180px;
+  border-radius: 20px;
+  box-shadow: 0 0 8px 1px #0008;
+  padding: 18px;
+}
 
 .showcase-item-text-container {
   float: right;
 }
 
-
 .showcase-item-image-container,
 .showcase-item-text-container {
   flex-grow: 1;
-}
-
-.showcase-item-image {
-  width: 225px;
-  max-height: 180px;
-  border-radius: 20px;
 }
 
 .showcase-item-title,
@@ -137,7 +131,6 @@
   position: relative;
   width: 100%;
 }
-
 .showcase-spotlight-container img {
   width: 100%;
   position: relative;
@@ -146,24 +139,19 @@
 .right-aligned-item .showcase-item-text-container {
   text-align: right;
 }
-
 .right-aligned-item .showcase-item-image-container {
   text-align: left;
 }
 
-@media only screen and (max-width: 727px) {
+@media (max-width: 780px) {
+  .showcase-item-image-container {
+    display: none;
+  }
+
   #big-logo {
     width: 50%;
   }
-}
 
-@media only screen and (max-width: 500px) {
-  #big-logo {
-    width: 70%;
-  }
-}
-
-@media only screen and (max-width: 727px) {
   .showcase-item-image {
     width: 100px;
   }
@@ -180,11 +168,12 @@
     box-shadow: none;
   }
 
-  .showcase-spotlight-container {
-    display: none;
-  }
-
   .right-aligned-item .showcase-item-text-container {
     text-align: left;
+  }
+}
+@media (max-width: 500px) {
+  #big-logo {
+    width: 70%;
   }
 }

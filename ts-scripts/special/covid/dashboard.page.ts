@@ -40,6 +40,7 @@ class COVIDDashboardPage {
     canada: COVIDSection,
     ontario: COVIDSection,
     london: COVIDSection,
+    waterloo: COVIDSection,
     provinceSelect: COVIDSection,
     regionSelect: COVIDSection,
   } = {
@@ -47,6 +48,7 @@ class COVIDDashboardPage {
       canada: new COVIDSection('Canada', 'Canada', [], this.mainSectionsCollection, true),
       ontario: new COVIDSection('Ontario', 'Ontario', [], this.mainSectionsCollection, true),
       london: new COVIDSection('London', 'London', [], this.mainSectionsCollection, true),
+      waterloo: new COVIDSection('Waterloo', 'Waterloo', [], this.mainSectionsCollection, true),
       provinceSelect: new COVIDSection('Province Select', 'Province Select', [], this.mainSectionsCollection, true),
       regionSelect: new COVIDSection('Region Select', 'Region Select', [], this.mainSectionsCollection, true),
     };
@@ -84,6 +86,7 @@ class COVIDDashboardPage {
     buildCanadaDashboard();
     buildOntarioDashboard();
     buildLondonDashboard();
+    buildWaterlooDashboard();
     buildProvinceSelectorDashboard();
     buildRegionalSelectorDashboard();
 
@@ -170,6 +173,10 @@ class COVIDDashboardPage {
 
     function buildLondonDashboard() {
       buildRegionalDashboard(me.sections.london, me.regionsController.london);
+    }
+
+    function buildWaterlooDashboard() {
+      buildRegionalDashboard(me.sections.waterloo, me.regionsController.waterloo);
     }
 
     function buildRegionalSelectorDashboard() {

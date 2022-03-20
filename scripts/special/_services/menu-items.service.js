@@ -2,6 +2,7 @@
  * Provides menu items to the rest of the website
  */
 import { cws } from "../../cws.js";
+import { PageBuilder } from "./page-builder.service.js";
 const PRESENT_MONTH = new Date(Date.now()).toLocaleDateString('en-GB', { year: 'numeric', month: 'long' });
 const MENU_ITEMS = {
     index: {
@@ -335,9 +336,10 @@ const MENU_ITEMS = {
         type: "Tool",
         date: "December 2016 - Present",
         links: {
-            thumbnail: "siteimages/archivelock.png",
+            thumbnail: "siteimages/archive-lock.png",
             href: "pages/archive.html",
         },
+        invertOnDark: true,
     },
     resume: {
         name: "Resume",
@@ -501,10 +503,10 @@ class MenuOps {
     }
     static mapItems(items) {
         var _a;
-        let formattedOutput = [];
+        const formattedOutput = [];
         for (const itemIn of items) {
-            let item = itemIn;
-            let newItem = {
+            const item = itemIn;
+            const newItem = {
                 name: item.name,
                 type: item.type,
                 date: item.date,
@@ -519,7 +521,7 @@ class MenuOps {
                     hrefIsExternal: item.links.hrefIsExternal || false,
                     // non-core links:
                     showcase: item.links.showcase ? cws.getRelativeUrlPath(item.links.showcase) : null,
-                    thumbnail: cws.getRelativeUrlPath(item.links.thumbnail ? item.links.thumbnail : "siteimages/logo.svg"),
+                    thumbnail: cws.getRelativeUrlPath(item.links.thumbnail ? item.links.thumbnail : PageBuilder.siteLogoSrc),
                 },
                 // non-core attributes:
                 shortName: item.shortName || item.name,
@@ -536,7 +538,7 @@ class MenuOps {
         }
         function getDefaultInvertOnDark(item) {
             if (!item.links.thumbnail) { // uses logo as thumbnail  
-                return true;
+                return false;
             }
             else if (item.links.thumbnail && typeof item.invertOnDark === "undefined") { // does not use logo as thumbnail
                 return false;
@@ -589,7 +591,7 @@ Menu.getMainMenu = function () {
     });
 };
 Menu.getTopMenu = function () {
-    let menu = MenuOps
+    const menu = MenuOps
         .getTopMenu();
     menu.games = topMenuFilters(menu.games);
     menu.tools = topMenuFilters(menu.tools);
@@ -624,12 +626,7 @@ Menu.getArchiveMenu = function () {
         return !item.isSecret;
     })
         .map((item) => {
-        let out = MenuOps.cloneMenuItem(item);
-        let linkKeys = Object.keys(out.links);
-        linkKeys.forEach((key) => {
-            if (out.links[key])
-                out.links[key] = out.links[key];
-        });
+        const out = MenuOps.cloneMenuItem(item);
         return out;
     });
 };

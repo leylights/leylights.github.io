@@ -59,10 +59,12 @@ export class SpotlightHeader {
       image: HTMLElement = this.getSpotlightImage(),
       logoSource: string = (document.body.querySelector('#showcase-main-spotlight')
         ?.querySelector('#big-logo') as HTMLImageElement)
-        ?.src.replace(window.location.origin + '/', '') || 'siteimages/logo-split-w.svg',
+        ?.src.replace(window.location.origin + '/', '') || 'siteimages/logo-w.svg',
+
       logo: HTMLImageElement = cws.createElement({
         type: 'img',
         id: 'big-logo',
+        classList: 'site-logo',
         otherNodes: [{
           type: 'src',
           value: cws.getRelativeUrlPath(logoSource)

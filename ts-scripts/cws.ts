@@ -718,7 +718,7 @@ export class cws {
   /**
    * A function used with Array.sort to randomly sort the array
    */
-  static jumbleSort(a, b): number {
+  static jumbleSort(a: any, b: any): number {
     return Math.random() < 0.5 ? -1 : 1;
   }
 

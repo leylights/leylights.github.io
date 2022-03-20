@@ -45,7 +45,7 @@ var now = Date.now();
 var usePointer = false;
 var doResize = false;
 var lastResize = now; //causes an instant restart, but it fixes the canvas size
-var lastMenuSize = document.getElementById("hamMenu").getBoundingClientRect().width;
+var lastMenuSize = document.getElementById("side-menu").getBoundingClientRect().width;
 var myCanvas = {
     canvas: document.createElement("canvas"),
     keys: [],
@@ -284,9 +284,9 @@ function main() {
         doResize = false;
         lastResize = now + 50;
     }
-    else if (lastMenuSize !== document.getElementById("hamMenu").getBoundingClientRect().width) {
+    else if (lastMenuSize !== document.getElementById("side-menu").getBoundingClientRect().width) {
         resizeCanvas();
-        lastMenuSize = document.getElementById("hamMenu").getBoundingClientRect().width;
+        lastMenuSize = document.getElementById("side-menu").getBoundingClientRect().width;
         init(false, false);
     }
     if (now > lastResize && lastResize > 0) {

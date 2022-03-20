@@ -41,8 +41,8 @@ export class ResumeExperienceItemComponent {
     else
       this.rebuildFn = this.rebuildTable;
 
-    this._mainImageSrc = cws.getRelativeUrlPath(validateUrl(data.mainImageUrl));
-    this._darkImageSrc = cws.getRelativeUrlPath(validateUrl(data.darkImageUrl));
+    this._mainImageSrc = validateUrl(data.mainImageUrl);
+    this._darkImageSrc = validateUrl(data.darkImageUrl);
     this._imageAlt = data.imageAlt;
     this._invertDarkImg = data.invertDarkImg || false;
 
@@ -60,14 +60,10 @@ export class ResumeExperienceItemComponent {
 
   get images(): HTMLImageElement[] {
     return Array.from(this.container.querySelectorAll('img')) as HTMLImageElement[];
-  };
+  }
 
   get experiencePoints(): string[] {
     return this._experiencePoints;
-  }
-
-  get experiencePointElements(): HTMLLIElement[] {
-    return Array.from(this.container.querySelectorAll('li'));
   }
 
   set experiencePoints(newPoints: string[]) {
@@ -75,6 +71,10 @@ export class ResumeExperienceItemComponent {
     this.rebuildFn();
   }
 
+
+  get experiencePointElements(): HTMLLIElement[] {
+    return Array.from(this.container.querySelectorAll('li'));
+  }
   /**
    * Rebuilds this.container
    */
@@ -240,7 +240,7 @@ export class ResumeExperienceItemComponent {
         const classList = ['resume-highlight', 'resume-highlight-language'];
 
         if (tag.includes('term')) {
-          const tagParts = tag.replace(/\<L/g, '').replace(/\>/g, '').trim().replace(/'/g, '').split('=');
+          const tagParts = tag.replace(/<L/g, '').replace(/>/g, '').trim().replace(/'/g, '').split('=');
 
           for (let j = 0; j < tagParts.length; j++) {
             if (tagParts[j] === 'term') {

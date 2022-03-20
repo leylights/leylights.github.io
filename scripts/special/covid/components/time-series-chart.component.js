@@ -33,7 +33,7 @@ export class COVIDTimeSeriesChart {
         this.chart = new LineChartComponent({
             parentElement: lineChartContainer,
             title: config.title,
-            points: []
+            points: [],
         });
         // get data and parse
         COVIDDataBridge.getTimeSeries(config.timeSeries.type, config.timeSeries.location)

@@ -1,0 +1,238 @@
+:root {
+  --button-padding: 0.5em;
+  --line-chart-axis-value-padding: 5px;
+  --header-inner-size: 68px;
+  --primary-font: 'Poppins', Verdana;
+  --hover-color-transition: linear 0.15s;
+}
+
+@import 'general/colours';
+@import 'general/header';
+@import 'general/side-menu';
+
+body {
+  margin: 0;
+  font-family: var(--primary-font);
+}
+
+input {
+  font-family: var(--primary-font);
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+#loadingScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--primary-bg-color);
+  z-index: 90000000;
+  transition: 0.5s;
+}
+
+#loadingScreen img {
+  width: 100px;
+  height: 100px;
+  margin-top: calc(50vh - 50px);
+  margin-left: calc(50vw - 50px);
+  opacity: 0;
+  transition: 0.5s;
+}
+
+#menuTitle {
+  cursor: pointer;
+}
+
+/* Div IDs */
+
+#main {
+  height: calc(100% - 64px);
+  transition: width 0.5s ease;
+  margin-top: calc(64px + 0.5em);
+  color: var(--text-color);
+}
+
+/* GENERAL */
+
+.horizontal-grid {
+  display: grid;
+  grid-auto-flow: column;
+}
+
+.vertical-grid {
+  display: grid;
+  grid-auto-flow: row;
+}
+
+.content {
+  margin: auto;
+  max-width: 980px;
+  padding: 2em 2em 0 2em;
+}
+
+.content h1 {
+  max-width: 980px;
+  margin: auto;
+}
+
+.primary-bg {
+  background-color: var(--primary-bg-color);
+}
+
+.math {
+  font-family: math;
+}
+
+.arial {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.input {
+  background-color: var(--secondary-bg-color);
+  color: var(--text-color);
+}
+
+.inputBottomLine {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-width: 1px;
+  background-color: inherit;
+  border-color: var(--light-text-color);
+  outline: none;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.smallInputBottomLine {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-width: 1px;
+  background-color: inherit;
+  border-color: var(--light-text-color);
+  outline: none;
+  font-size: inherit;
+  font-family: inherit;
+  width: 2em;
+}
+
+.button {
+  margin: auto;
+  width: 120px;
+  min-width: 100px;
+  padding: var(--button-padding);
+  background-color: var(--primary-accent-color);
+  color: var(--invert-text-color);
+  cursor: pointer;
+  transition: var(--hover-color-transition);
+  text-align: center;
+}
+
+.button:hover {
+  background-color: var(--secondary-accent-color);
+  color: var(--text-color);
+}
+
+.button-success {
+  color: white !important;
+  background-color: var(--success-color) !important;
+}
+
+.button-reject {
+  color: white !important;
+  background-color: var(--reject-color) !important;
+}
+
+.button-warn {
+  color: black !important;
+  background-color: var(--warn-color) !important;
+}
+
+.button-disabled,
+.button-disabled:hover {
+  background-color: var(--accent-bg-color) !important;
+  color: var(--light-text-color) !important;
+  cursor: default;
+}
+
+.textButton:hover {
+  cursor: pointer;
+  color: var(--primary-accent-color);
+}
+
+.lightButton {
+  background-color: var(--secondary-bg-color);
+  color: var(--text-color);
+}
+
+.lightButton:hover {
+  cursor: pointer;
+}
+
+.basic-table {
+  width: 100%;
+}
+
+.basic-table td {
+  padding: 1em;
+}
+
+td.cell-reject {
+  border: 1px solid var(--reject-color) !important;
+  /* !important for matrices page */
+}
+
+.text-align-left {
+  text-align: left;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.round-outline {
+  border: 1px solid;
+  border-radius: 20px;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.dark-only {
+  display: none;
+}
+
+.mobile-only {
+  display: none;
+}
+
+.input-reject {
+  border: 1px solid var(--reject-color) !important;
+}
+
+@import 'components/line-chart';
+
+@media only screen and (max-width: 770px) {
+  #hamImage {
+    display: block;
+  }
+
+  .mobile-only {
+    display: inherit;
+  }
+
+  .desktop-only {
+    display: none !important;
+  }
+
+  .horizontal-grid.squash-mobile {
+    display: block;
+  }
+}

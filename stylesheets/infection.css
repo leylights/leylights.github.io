@@ -18,7 +18,6 @@
 
 #chartControls {
   width: calc(200px - 2em);
-  height: 100%;
   padding: 0 1em;
   float: left;
   border: 3px solid #cccccc;
@@ -48,7 +47,7 @@
 }
 
 #infectionStatus {
-  color: var(--primary-accent-color)
+  color: var(--primary-accent-color);
 }
 
 .infectionStatusComplete {

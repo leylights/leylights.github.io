@@ -37,7 +37,7 @@ canvas {
   visibility: hidden;
 }
 
-.pacman-hallway-comparison>div {
+.pacman-hallway-comparison > div {
   padding: 0 2em;
 }
 

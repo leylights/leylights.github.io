@@ -4,7 +4,6 @@ body {
 }
 
 /* Fonts */
-
 h2 {
   color: var(--text-color);
 }
@@ -47,15 +46,15 @@ table.equal-2-col {
   width: 100%;
 }
 
-table.equal-2-col>tbody>tr>td {
+table.equal-2-col > tbody > tr > td {
   width: 50%;
 }
 
-table.top-v-align>tbody>tr>td {
+table.top-v-align > tbody > tr > td {
   vertical-align: top;
 }
 
-table.bot-v-align>tbody>tr>td {
+table.bot-v-align > tbody > tr > td {
   vertical-align: bottom;
 }
 
@@ -68,7 +67,7 @@ table.bot-v-align>tbody>tr>td {
 .resume h2 {
   padding-bottom: 8px;
   border-bottom: 2px solid;
-  border-color: var(--accent-bg-color)
+  border-color: var(--accent-bg-color);
 }
 
 .imageWithContext {
@@ -76,11 +75,11 @@ table.bot-v-align>tbody>tr>td {
   padding: 0 5%;
 }
 
-.imageWithContext>img {
+.imageWithContext > img {
   width: 100%;
 }
 
-.imageWithContext>div {
+.imageWithContext > div {
   text-align: center;
 }
 
@@ -122,14 +121,14 @@ a:hover {
   width: 100%;
 }
 
-.grid2x2>.topLeft {
+.grid2x2 > .topLeft {
   grid-row-start: 1;
   grid-row-end: 1;
   grid-column-start: 1;
   grid-column-end: 1;
 }
 
-.grid2x2>.topRight {
+.grid2x2 > .topRight {
   grid-row-start: 1;
   grid-row-end: 1;
   grid-column-start: 2;
@@ -137,14 +136,14 @@ a:hover {
   text-align: right;
 }
 
-.grid2x2>.bottomLeft {
+.grid2x2 > .bottomLeft {
   grid-row-start: 2;
   grid-row-end: 2;
   grid-column-start: 1;
   grid-column-end: 1;
 }
 
-.grid2x2>.bottomRight {
+.grid2x2 > .bottomRight {
   grid-row-start: 2;
   grid-row-end: 2;
   grid-column-start: 2;
@@ -163,7 +162,7 @@ a:hover {
   position: relative;
   width: 100vw;
   /* height: 200%; */
-  transition: width .5s;
+  transition: width 0.5s;
   filter: opacity(0.8);
 }
 
@@ -203,11 +202,10 @@ a:hover {
 }
 
 .resume-skill:hover {
-  color: var(--primary-accent-color)
+  color: var(--primary-accent-color);
 }
 
 /* Showcase */
-
 #showcase {
   margin: auto;
   margin-top: calc(64px + 0.5em);
@@ -216,7 +214,7 @@ a:hover {
   z-index: -5;
   height: 80%;
   overflow: auto;
-  transition: width .5s;
+  transition: width 0.5s;
 }
 
 #showcaseImg {
@@ -340,11 +338,11 @@ a:hover {
     width: null;
   }
 
-  table.equal-2-col>tbody>tr>td {
+  table.equal-2-col > tbody > tr > td {
     display: contents;
   }
 
-  table.equal-2-col>tbody>tr>td ul {
+  table.equal-2-col > tbody > tr > td ul {
     margin: 0;
   }
 
@@ -431,7 +429,6 @@ a:hover {
     display: none;
   }
 }
-
 @media only screen and (max-width: 1060px) {
   .itemImage {
     display: none;
@@ -446,7 +443,7 @@ a:hover {
     box-shadow: none !important;
   }
 
-  .item>h3:last-child {
+  .item > h3:last-child {
     border-bottom: 1px solid #bbb;
     padding-bottom: 3em;
   }

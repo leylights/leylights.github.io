@@ -4,7 +4,6 @@ body {
 }
 
 /* Fonts */
-
 h2 {
   margin: auto;
   font-size: 2em;
@@ -30,7 +29,6 @@ a:hover {
 }
 
 /* Item */
-
 .itemSurround {
   margin: auto;
   z-index: 10;
@@ -96,7 +94,7 @@ a:hover {
   margin-top: 0;
   position: relative;
   width: 100vw;
-  transition: width .5s;
+  transition: width 0.5s;
   filter: opacity(0.8);
 }
 
@@ -106,7 +104,8 @@ a:hover {
   top: 75%;
   width: 100%;
   overflow: hidden;
-  background-color: #001; /* do not make variable */
+  background-color: #001;
+  /* do not make variable */
   z-index: 0;
 }
 
@@ -118,14 +117,12 @@ a:hover {
 }
 
 /* Div IDs */
-
 #main {
   height: 100%;
-  transition: margin-right .5s;
+  transition: margin-right 0.5s;
 }
 
 /* Showcase */
-
 #showcase {
   margin: auto;
   margin-top: 0;
@@ -134,7 +131,7 @@ a:hover {
   z-index: -5;
   height: 80%;
   overflow: auto;
-  transition: width .5s;
+  transition: width 0.5s;
 }
 
 #showcaseBox {
@@ -151,7 +148,7 @@ a:hover {
   height: fit-content;
   max-width: 850px;
   border-radius: 50px;
-  transition: margin-right .5s;
+  transition: margin-right 0.5s;
 }
 
 #showcaseTitle {
@@ -197,39 +194,47 @@ a:hover {
   .itemImage {
     display: none;
   }
+
   #showcaseBox {
     display: none;
   }
+
   .itemSurround {
     top: 50%;
   }
+
   .rightAlignClass {
     /* float: left; */
     text-align: left;
   }
+
   #CscaTitle {
     width: null;
   }
 }
-
 @media only screen and (max-width: 1060px) {
   .itemImage {
     display: none;
   }
+
   .rightAlignClass {
     /* float: left; */
     text-align: left;
   }
+
   .itemSurround {
     box-shadow: none !important;
   }
-  .item>h3:last-child {
+
+  .item > h3:last-child {
     border-bottom: 1px solid var(--accent-bg-color);
     padding-bottom: 3em;
   }
+
   #CscaTitle {
     width: null;
   }
+
   .lowerShowcaseContainer {
     display: none;
   }

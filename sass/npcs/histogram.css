@@ -1,0 +1,55 @@
+.content {
+  padding-bottom: 2em;
+}
+
+input {
+  width: calc(100% - 16px);
+  background-color: var(--secondary-bg-color);
+  border: none;
+  font-size: 2em;
+  padding: 8px;
+  font-family: var(--primary-font);
+  text-align: center;
+  outline: none;
+  margin-bottom: 1em;
+}
+
+.chart-limit-grid{
+  padding: 8px 0;
+}
+
+.chart-limit-grid>div {
+  padding: 0 16px;
+  font-size: 1em;
+}
+
+.chart-limit-grid td {
+  width: 40%;
+  padding: 16px;
+}
+
+.chart-limit-grid td:nth-child(2) {
+  width: 20%;
+  padding: 0;
+}
+
+.chart-limit-grid input {
+  font-size: 1em;
+  margin: 0;
+}
+
+.chart-limit-grid p {
+  text-align: center;
+  margin: 0;
+  font-size: 1.2em;
+}
+
+#roll-container {
+  margin: 1em 0;
+}
+
+@media only screen and (max-width: 700px) {
+  .horizontal-grid {
+    display: block;
+  }
+}

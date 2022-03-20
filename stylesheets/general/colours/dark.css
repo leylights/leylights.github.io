@@ -1,0 +1,21 @@
+:root {
+  --primary-bg-color: #111;
+  --secondary-bg-color: #222;
+  --accent-bg-color: #444;
+  --accent-bg-color-hover: #555;
+  --accent-color: #fff;
+  --text-color: #fff;
+  --light-text-color: #ddd;
+  --very-light-text-color: #aaa;
+  --invert-text-color: #333;
+  /* primary-accent-color: light */
+  --primary-accent-color: #00eeff;
+  /* secondary-accent-color: dark */
+  --secondary-accent-color: #000;
+  /* tertiary-accent-color: light */
+  --tertiary-accent-color: #ff0077;
+  /* success-color: dark */
+  --success-color: #04af12;
+  /* reject-color: dark */
+  --reject-color: #d10000;
+}

@@ -1,4 +1,5 @@
 import { SpotlightHeader } from "../showcase/components/spotlight-header.component.js";
+import { PageBuilder } from "../_services/page-builder.service.js";
 import { ResumeExperienceItemComponent } from "./components/experience-item.component.js";
 import { ResumeLanguageComponent } from "./components/language-item.component.js";
 import { ResumeOccupationItemComponent } from "./components/occupation-item.component.js";
@@ -14,6 +15,9 @@ export class ResumePage {
     const me = this;
 
     new SpotlightHeader(document.getElementById('showcase'));
+    PageBuilder.riverify();
+
+    document.getElementById('name').innerText = PageBuilder.personalName;
 
     loadExperience();
     loadProjects();
@@ -31,8 +35,8 @@ export class ResumePage {
         workplaceName: 'Uptake Canada',
         jobTitle: 'Full-stack Software Developer',
         dates: ['Summer 2021'],
-        mainImageUrl: 'siteimages/resume/uptake.png',
-        darkImageUrl: 'siteimages/resume/uptake_dark.png',
+        mainImageUrl: '/siteimages/resume/uptake.png',
+        darkImageUrl: '/siteimages/resume/uptake_dark.png',
         experiencePoints: [
           `Independently developed <C><L term=javascript>NestJS</L> RESTful API</C> endpoints and complex <C><L>SQL</L></C> stored procedures to support frontend requirements`,
           `<C>Worked with a team</C> to deploy new features to <C>production environments</C> using the <L term=javascript>Ext JS</L> component framework to meet design specifications`,
@@ -45,8 +49,8 @@ export class ResumePage {
         workplaceName: 'Salus Global',
         jobTitle: 'Software Designer/Developer',
         dates: ['Summer 2019', 'Summer 2020'],
-        mainImageUrl: 'siteimages/resume/salus.png',
-        darkImageUrl: 'siteimages/resume/salus_dark.png',
+        mainImageUrl: '/siteimages/resume/salus.png',
+        darkImageUrl: '/siteimages/resume/salus_dark.png',
         experiencePoints: [
           `Designed and developed a <C>mobile-friendly online eLearning platform</C> for an international client with 2300+ total users, using <L>HTML</L>, <L>CSS</L>, 
         <L>JavaScript</L>, and an internal language.`,
@@ -62,8 +66,8 @@ export class ResumePage {
         workplaceName: 'Western University \u2013 Bit by Bit Computer Camp',
         jobTitle: 'Youth Leader',
         dates: ['Summer 2018', 'Summer 2019'],
-        mainImageUrl: 'siteimages/resume/western.png',
-        darkImageUrl: 'siteimages/resume/western_dark.png',
+        mainImageUrl: '/siteimages/resume/western.png',
+        darkImageUrl: '/siteimages/resume/western_dark.png',
         experiencePoints: [
           `<C>Worked with a team</C> to organize and run a highly-successful educational summer camp for ~80 local youth per week`,
           `<C>Taught engaging lessons</C> on basic fundamentals in <L>Scratch</L>, <L>Photoshop</L>, <L>Python</L>, <L>HTML/CSS</L>, and <L>Unity</L>`,
@@ -78,8 +82,8 @@ export class ResumePage {
         workplaceName: 'Arcane \u2013 Arcane Code Camp',
         jobTitle: 'Instructional Assistant',
         dates: ['Fall 2017, Winter 2018'],
-        mainImageUrl: 'siteimages/resume/arcane.png',
-        darkImageUrl: 'siteimages/resume/arcane_dark.png',
+        mainImageUrl: '/siteimages/resume/arcane.png',
+        darkImageUrl: '/siteimages/resume/arcane_dark.png',
         experiencePoints: [
           `<C>Worked with a team</C> to teach <L>JavaScript</L> fundamentals to local youth`,
           `Led 1-1 lessons with struggling students to reduce drop-out rates`
@@ -101,11 +105,11 @@ export class ResumePage {
 
       me.projects.push(new ResumeExperienceItemComponent({
         parentElement: container,
-        title: 'colestanley.ca',
+        title: PageBuilder.siteName,
         dates: ['Spring 2017 \u2013 Present'],
-        mainImageUrl: 'siteimages/logo.svg',
-        darkImageUrl: 'siteimages/logo.svg',
-        imageAlt: 'colestanley.ca',
+        mainImageUrl: PageBuilder.siteLogoSrc,
+        darkImageUrl: PageBuilder.siteLogoSrc,
+        imageAlt: PageBuilder.siteName,
         experiencePoints: [
           `Developed and maintained a <C>mobile-aware</C> portfolio website, upgrading it as my development and <C>design</C> capabilities grew`,
           `Updated site regularly with new projects, including a <L term='javascript typescript'>COVID-19 infection model</L>, <L term='java'>a machine-learning AI</L>,
@@ -113,7 +117,6 @@ export class ResumePage {
         ],
         flipped: true,
         type: 'grid',
-        invertDarkImg: true,
       }));
     }
 

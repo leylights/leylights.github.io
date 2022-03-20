@@ -38,10 +38,11 @@ export class ShowcaseItem {
         children: [cws.createElement({
           type: 'img',
           classList: ['showcase-item-image']
-            .concat(this.item.invertOnDark ? ['dark-invert-filter'] : []),
+            .concat(this.item.invertOnDark ? ['dark-invert-filter'] : [])
+            .concat(!this.item.links.thumbnail || this.item.links.thumbnail.match(/logo(.*)\.svg/) ? ['site-logo'] : []),
           otherNodes: [
             { type: 'src', value: this.item.links.thumbnail },
-            { type: 'alt', value: this.item.shortName },
+            { type: 'alt', value: "" },
           ]
         })]
       }),

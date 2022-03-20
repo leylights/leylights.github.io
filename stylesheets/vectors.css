@@ -18,14 +18,14 @@
   float: inherit;
 }
 
-#calculations > p{
+#calculations > p {
   color: #666;
   text-align: center;
   padding: 1em;
   margin: 0;
 }
 
-#vectorTabs{
+#vectorTabs {
   overflow-x: hidden;
   overflow-y: scroll;
   border-bottom: 1px solid #000000;
@@ -103,7 +103,7 @@
   border-bottom: 1px solid #000000;
 }
 
-.infoTab>.vectorColour {
+.infoTab > .vectorColour {
   width: 10px;
   height: 10px;
   float: left;
@@ -117,16 +117,16 @@
   cursor: pointer;
 }
 
-.infoTab>.coordinates {
+.infoTab > .coordinates {
   margin-left: 0.5em;
   float: left;
 }
 
-.infoTab>.coordinates>p {
+.infoTab > .coordinates > p {
   margin: 0;
 }
 
-.infoTab>.coordinates input {
+.infoTab > .coordinates input {
   width: 2em;
   border: none;
   outline: none;

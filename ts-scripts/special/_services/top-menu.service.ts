@@ -1,68 +1,177 @@
 
 /**
- * top-menu.js
+ * top-menu.service.js
  * 
  * @author Cole Stanley, 
  * Start Date: January 2021
- * Last Update: June 2021
  */
 
-import { cws } from "../../cws.js";
-import { Menu, MenuItem } from "./menu-items.service.js";
+import { cws } from '../../cws.js';
+import { Menu, MenuItem } from './menu-items.service.js';
+import { PageBuilder } from './page-builder.service.js';
+import { SideMenuService } from './side-menu.service.js';
 
+export class TopMenuService {
+  private static header: HTMLElement;
 
-/**
- * Creates a menu item on any csca page
- */
-
-function createTopItem(item: MenuItem, parent?: HTMLElement) {
-  // determine parent
-  if (!parent)
-    switch (item.type) {
-      case "Game":
-        parent = document.getElementById("gamesMenu");
-        break;
-      case "Dropdown":
-      case "Tool":
-        parent = document.getElementById("toolsMenu");
-        break;
+  public static build() {
+    function getDropdownButton(text: string, menuId: string) {
+      return cws.createElement({
+        type: 'div',
+        classList: 'header-menu-item-container',
+        children: [
+          cws.createElement({
+            type: 'div',
+            classList: 'header-menu-item',
+            children: [
+              cws.createElement({
+                type: 'span',
+                innerText: text,
+              }),
+            ],
+          }),
+          cws.createElement({
+            type: 'div',
+            classList: 'header-dropdown-body',
+            id: menuId,
+          })
+        ],
+      });
     }
 
-  let newItem = document.createElement("a");
-  newItem.innerHTML = item.shortName;
+    function getNoDropdownButton(text: string, link: string, spanId?: string) {
+      return cws.createElement({
+        type: 'div',
+        classList: 'header-menu-item-container',
+        children: [cws.createElement({
+          type: 'div',
+          classList: 'header-menu-item',
+          children: [
+            cws.createElement({
+              type: 'a',
+              classList: 'header-link',
+              otherNodes: [{ type: 'href', value: link }],
+              children: [
+                cws.createElement({
+                  type: 'span',
+                  id: spanId,
+                  innerText: text,
+                }),
+              ]
+            })],
+        }),]
+      });
+    }
 
-  // links need to work on index and child pages
+    TopMenuService.header = cws.createElement({
+      type: 'nav',
+      id: 'desktop-header',
+      children: [
+        cws.createElement({
+          type: 'div',
+          id: 'header-inner-bounds',
+          children: [
+            cws.createElement({
+              type: 'a',
+              otherNodes: [{ type: 'href', value: '/' }],
+              children: [cws.createElement({
+                type: 'img',
+                id: 'header-logo',
+                classList: 'site-logo',
+                otherNodes: [{ type: 'src', value: PageBuilder.siteLogoSrc }],
+              }), cws.createElement({
+                type: 'h1',
+                id: 'header-title',
+                innerText: PageBuilder.siteName,
+              })],
+            }), cws.createElement({
+              type: 'div',
+              id: 'header-menu',
+              children: [
+                getDropdownButton('Games', 'games-menu'),
+                getDropdownButton('Tools', 'tools-menu'),
+                getNoDropdownButton('Archive', '/pages/archive.html'),
+                getNoDropdownButton('Resume', '/pages/resume.html', 'header-resume-button'),
+              ],
+            }),
+          ],
+        }),
+        cws.createElement({
+          type: 'button',
+          id: 'side-menu-opener',
+          children: [
+            cws.createElement({
+              type: 'img',
+              id: 'side-menu-opener-image',
+              otherNodes: [{ type: 'src', value: '/siteimages/menuicon.png' }],
+            }),
+          ],
+        }),
+      ],
+    });
 
-  if (item.links.href) {
-    if ((window.location.href.search("index.html") !== -1 || window.location.href.split("colestanley.ca/")[1] === "") || item.links.href.substring(0, 4) == "http") // on homepage OR linking externally (e.g. Drive)
-      newItem.setAttributeNode(cws.betterCreateAttr("href", item.links.href));
-    else // on child page
-      newItem.setAttributeNode(cws.betterCreateAttr("href", "../" + item.links.href));
+    TopMenuService.header.querySelector('#side-menu-opener').addEventListener('click', SideMenuService.openMenu);
+    TopMenuService.generateMenu();
+
+    document.body.appendChild(TopMenuService.header);
   }
 
-  parent.appendChild(newItem);
+  /**
+   * Creates a menu item on any csca page
+   */
 
-  if (item.type === 'Dropdown') {
-    newItem.classList.add('dropdown');
-    const subMenu = document.createElement('div');
-    subMenu.classList.add('headerDropBody');
-    newItem.appendChild(subMenu)
-    item.children.forEach((child: MenuItem) => {
-      createTopItem(child, subMenu);
+  private static createTopItem(item: MenuItem, parent?: HTMLElement) {
+    // determine parent
+    let type: keyof HTMLElementTagNameMap = 'a';
+    if (!parent)
+      switch (item.type) {
+        case 'Game':
+          parent = TopMenuService.header.querySelector('#games-menu');
+          break;
+        case 'Dropdown':
+          type = 'div';
+        case 'Tool':
+          parent = TopMenuService.header.querySelector('#tools-menu');
+          break;
+      }
+
+    const newItem = cws.createElement({
+      type: type,
+      classList: 'header-item',
+      innerHTML: item.shortName,
+    });
+
+    // links need to work on index and child pages
+
+    if (item.links.href) {
+      if ((window.location.href.search('index.html') !== -1 || window.location.href.split('colestanley.ca/')[1] === '') || item.links.href.substring(0, 4) == 'http') // on homepage OR linking externally (e.g. Drive)
+        newItem.setAttributeNode(cws.betterCreateAttr('href', item.links.href));
+      else // on child page
+        newItem.setAttributeNode(cws.betterCreateAttr('href', '../' + item.links.href));
+    }
+
+    parent.appendChild(newItem);
+
+    if (item.type === 'Dropdown') {
+      newItem.classList.add('dropdown');
+      const subMenu = document.createElement('div');
+      subMenu.classList.add('header-dropdown-body');
+      newItem.appendChild(subMenu)
+      item.children.forEach((child: MenuItem) => {
+        TopMenuService.createTopItem(child, subMenu);
+      });
+    }
+  }
+
+  private static generateMenu(): void {
+    const items = Menu.getTopMenu();
+
+    items.games.forEach((item: MenuItem) => {
+      TopMenuService.createTopItem(item);
+    });
+
+    items.tools.forEach((item: MenuItem) => {
+      TopMenuService.createTopItem(item);
     });
   }
 }
-
-function generateMenu(): void {
-  let items = Menu.getTopMenu();
-
-  items.games.forEach((item: MenuItem) => {
-    createTopItem(item);
-  });
-
-  items.tools.forEach((item: MenuItem) => {
-    createTopItem(item);
-  });
-}
-
-generateMenu();

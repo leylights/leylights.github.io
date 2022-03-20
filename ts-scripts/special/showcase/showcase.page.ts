@@ -47,7 +47,7 @@ export class ShowcasePage {
 
     // Handle dark mode
     PageBuilder.addDarkModeListener({
-      listener: (isDark: boolean, styleSheet?: CSSStyleSheet) => {
+      listener: (isDark: boolean) => {
         let newColour: string;
         if (isDark) {
           newColour = '#000b';

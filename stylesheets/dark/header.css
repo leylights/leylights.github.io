@@ -1,0 +1,16 @@
+nav#desktop-header {
+  color: var(--accent-color);
+  background-color: var(--primary-bg-color);
+}
+nav#desktop-header a:hover {
+  text-decoration-color: white;
+}
+nav#desktop-header #header-logo {
+  filter: invert(1);
+}
+nav#desktop-header #header-resume-button {
+  border: 1px solid var(--primary-accent-color);
+}
+nav#desktop-header #header-title {
+  color: var(--text-color);
+}
