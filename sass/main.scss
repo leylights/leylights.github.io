@@ -6,6 +6,7 @@
   --hover-color-transition: linear 0.15s;
 }
 
+@import 'util/mixins/mixins.scss';
 @import 'general/colours';
 @import 'general/header';
 @import 'general/side-menu';
@@ -73,6 +74,10 @@ a {
   margin: auto;
   max-width: 980px;
   padding: 2em 2em 0 2em;
+
+  @include small-width {
+    padding: 1em;
+  }
 }
 
 .content h1 {

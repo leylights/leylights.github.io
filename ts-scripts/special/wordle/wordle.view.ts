@@ -23,6 +23,8 @@ export class WordleView {
       rows: []
     }
 
+  private submitFn: () => void = null;
+
   private readonly WORD_LENGTH = 5;
 
   private currentWordAttempt: string[] = [];
@@ -31,10 +33,12 @@ export class WordleView {
   constructor(creator: WordleController) {
     const me = this;
 
+    this.submitFn = () => me.submitWord(creator);
+
     window.addEventListener('keydown', (event) => {
       if (me.isValidLetter(event.key)) me.addLetter(event.key);
       else if (event.key === 'Backspace') me.deleteLetter();
-      else if (event.key === 'Enter' && me.currentWordAttempt.length === 5) me.submitWord(creator);
+      else if (event.key === 'Enter' && me.currentWordAttempt.length === 5) me.submitFn();
     });
   }
 
@@ -46,7 +50,7 @@ export class WordleView {
     const currentRow = this.currentRow;
 
     for (let i = 0; i < currentRow.length; i++) {
-      if (currentRow[i].letter === '')
+      if (!currentRow[i].letter)
         return currentRow[i - 1];
     }
 
@@ -57,7 +61,7 @@ export class WordleView {
     const currentRow = this.currentRow;
 
     for (let i = 0; i < currentRow.length; i++) {
-      if (currentRow[i].letter === '')
+      if (!currentRow[i].letter)
         return currentRow[i];
     }
 
@@ -96,6 +100,8 @@ export class WordleView {
   }
 
   rebuild(this: WordleView, container: HTMLElement) {
+    const me = this;
+
     // alert message
     this.alertMessageBox = cws.createElement({
       type: 'div',
@@ -112,7 +118,7 @@ export class WordleView {
       this.grid.rows.push([]);
 
       for (let j = 0; j < 5; j++) {
-        const tile = new WordleAnswerTile();
+        const tile = new WordleAnswerTile(j);
 
         this.grid.rows[i].push(tile);
         row.push(tile.element);
@@ -138,30 +144,41 @@ export class WordleView {
       'zxcvbnm'
     ].map(s => s.split(''));
 
+    keys[2].unshift('←');
+    keys[2].push('ENTER');
+
     const keyboardContainer = cws.createElement({
       type: 'div',
       id: 'wordle-keyboard-container'
     });
 
     keys.forEach(rowData => {
-      const interior: HTMLElement = cws.createElement({
-        type: 'div',
-        classList: 'key-row-interior',
-      });
-      const row: HTMLElement = cws.createElement({
-        type: 'div',
-        classList: 'key-row',
-        children: [interior],
-      });
-
+      const keyElements: HTMLElement[] = [];
       const rowKeys: WordleKeyTile[] = [];
 
       rowData.forEach(letter => {
-        rowKeys.push(new WordleKeyTile(interior, letter));
+        const tile = new WordleKeyTile(letter, () => {
+          me.addLetter(letter);
+        });
+
+        rowKeys.push(tile);
+        keyElements.push(tile.element);
+      });
+
+      const row = cws.createTable({
+        body: [keyElements],
+        classList: ['key-row']
       });
 
       keyboardContainer.appendChild(row);
       this.keyboard.rows.push(rowKeys);
+    });
+
+    this.keyboard.rows[2][0].overrideAction('wordle-delete-key', () => {
+      me.deleteLetter();
+    });
+    this.keyboard.rows[2][this.keyboard.rows[2].length - 1].overrideAction('wordle-enter-key', () => {
+      me.submitFn();
     });
 
     if (this.keyboard.container) this.keyboard.container.replaceWith(keyboardContainer);

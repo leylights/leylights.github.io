@@ -17,6 +17,59 @@
 #wordle-container .wordle-message-box.visible {
   display: inline-block;
 }
+#wordle-container .wordle-tile {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-size: 2em;
+  font-weight: bold;
+  text-transform: capitalize;
+  text-transform: uppercase;
+}
+#wordle-container .wordle-tile.flipped .inner {
+  transform: rotateY(180deg);
+}
+#wordle-container .wordle-tile .inner {
+  position: relative;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+  width: 100%;
+  height: 100%;
+}
+#wordle-container .wordle-tile .inner .front {
+  background-color: var(--accent-bg-color);
+}
+#wordle-container .wordle-tile .inner .front,
+#wordle-container .wordle-tile .inner .back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  line-height: 100%;
+  text-align: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+#wordle-container .wordle-tile .inner .front .letter-text,
+#wordle-container .wordle-tile .inner .back .letter-text {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+#wordle-container .wordle-tile .inner .back {
+  transform: rotateY(180deg);
+}
+#wordle-container .wordle-tile.success .back {
+  background-color: var(--wordle-success-color);
+}
+#wordle-container .wordle-tile.correct-letter .back {
+  background-color: var(--wordle-correct-letter-color);
+}
+#wordle-container .wordle-tile.incorrect .back {
+  background-color: var(--wordle-incorrect-color);
+}
 #wordle-container #wordle-answers-grid {
   max-width: 300px;
   width: 100%;
@@ -35,59 +88,51 @@
 #wordle-container #wordle-answers-grid td {
   width: 20%;
   padding-top: 20%;
-  background-color: var(--accent-bg-color);
   position: relative;
 }
-#wordle-container #wordle-answers-grid td.success {
-  background-color: var(--wordle-success-color);
-}
-#wordle-container #wordle-answers-grid td.correct-letter {
-  background-color: var(--wordle-correct-letter-color);
-}
-#wordle-container #wordle-answers-grid td.incorrect {
-  background-color: var(--wordle-incorrect-color);
-}
-#wordle-container #wordle-answers-grid td .wordle-letter {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 2em;
-  font-weight: bold;
-  text-transform: uppercase;
-}
 #wordle-container #wordle-keyboard-container .key-row {
-  display: flex;
   margin: auto;
+  position: relative;
 }
-#wordle-container #wordle-keyboard-container .key-row .key-row-interior {
-  margin: auto;
+#wordle-container #wordle-keyboard-container .key-row td {
+  position: relative;
 }
-#wordle-container #wordle-keyboard-container .key-row .key-row-interior .wordle-key {
+#wordle-container #wordle-keyboard-container .key-row td .wordle-key {
   display: inline-flex;
-  text-transform: capitalize;
-  margin: 0.5em;
-  background-color: var(--accent-bg-color);
+  position: relative;
+  margin: 6px;
+  cursor: pointer;
+  transition: var(--hover-color-transition);
   width: 4em;
   height: 4em;
   line-height: 100%;
-  text-align: center;
-  max-width: 7vw;
-  max-height: 7vw;
-  justify-content: center;
-  align-items: center;
+  max-width: 52px;
+  max-height: 52px;
+}
+#wordle-container #wordle-keyboard-container .key-row td .wordle-key:hover {
+  box-shadow: 0 0 8px 0px var(--primary-accent-color);
 }
 @media (max-width: 780px) {
-  #wordle-container #wordle-keyboard-container .key-row .key-row-interior .wordle-key {
+  #wordle-container #wordle-keyboard-container .key-row td .wordle-key {
     margin: 2px;
+    font-size: 24px;
+    max-width: 40px;
+    max-height: 40px;
   }
 }
-#wordle-container #wordle-keyboard-container .key-row .key-row-interior .wordle-key.success {
-  background-color: var(--wordle-success-color);
+@media (max-width: 500px) {
+  #wordle-container #wordle-keyboard-container .key-row td .wordle-key {
+    font-size: 16px;
+    max-width: 20px;
+    max-height: 20px;
+  }
 }
-#wordle-container #wordle-keyboard-container .key-row .key-row-interior .wordle-key.correct-letter {
-  background-color: var(--wordle-correct-letter-color);
+#wordle-container #wordle-keyboard-container #wordle-enter-key {
+  max-width: unset;
+  width: 130px;
 }
-#wordle-container #wordle-keyboard-container .key-row .key-row-interior .wordle-key.incorrect {
-  background-color: var(--wordle-incorrect-color);
+@media (max-width: 780px) {
+  #wordle-container #wordle-keyboard-container #wordle-enter-key {
+    width: 100px;
+  }
 }

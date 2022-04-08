@@ -1,33 +1,24 @@
-import { cws } from "../../../cws.js";
 
-export class WordleKeyTile {
-  letter: string;
+import { WordleTile } from "./wordle-tile.component.js";
+
+export class WordleKeyTile extends WordleTile {
   tile: HTMLElement;
+  clickAction: () => void;
 
-  constructor(parent: HTMLElement, letter: string) {
-    this.letter = letter;
-    this.tile = cws.createElement({
-      type: 'div',
-      classList: 'wordle-key',
-      innerText: this.letter,
+  constructor(letter: string, clickAction: () => void) {
+    super(0, 'wordle-key');
+
+    const me = this;
+    this.element.addEventListener('click', () => {
+      me.clickAction();
     });
 
-    parent.appendChild(this.tile);
+    this.letter = letter;
+    this.clickAction = clickAction;
   }
 
-  setCorrectLetter() {
-    this.changeState('correct-letter');
-  }
-
-  setSuccess() {
-    this.changeState('success');
-  }
-
-  setWrongLetter() {
-    this.changeState('incorrect');
-  }
-
-  private changeState(classList?: string) {
-    if (classList) this.tile.classList.add(classList);
+  overrideAction(keyId: string, action: () => void) {
+    this.element.id = keyId;
+    this.clickAction = action;
   }
 }

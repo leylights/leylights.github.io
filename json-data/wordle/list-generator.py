@@ -13,7 +13,7 @@ for line in inFile:
 
     words.append(word)
 
-words.sort()
+# words.sort()
 
 outFile.write(json.dumps(words))
 
