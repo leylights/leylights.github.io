@@ -31,6 +31,8 @@ export class DataBridge {
         this.consecutiveEmptySends = 0;
         this.cache = {};
         this.queue = [];
+        if (hostname[hostname.length - 1] == '/')
+            hostname = hostname.slice(0, -1);
         this.APIHostname = hostname;
     }
     get queueURLs() {
