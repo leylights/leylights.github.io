@@ -14,7 +14,7 @@ export class COVIDDataBridge {
     static getLastUpdate() {
         return __awaiter(this, void 0, void 0, function* () {
             return {
-                OPENCOVID: yield COVIDDataBridge.apis.OPENCOVID.get('version'),
+                OPENCOVID: yield COVIDDataBridge.apis.OPENCOVID.get('/version'),
             };
         });
     }
@@ -75,14 +75,14 @@ export class COVIDDataBridge {
     static getSupplementaryData() {
         return __awaiter(this, void 0, void 0, function* () {
             return {
-                OPENCOVID: yield COVIDDataBridge.apis.OPENCOVID.get('other'),
+                OPENCOVID: yield COVIDDataBridge.apis.OPENCOVID.get('/other'),
             };
         });
     }
 }
 _a = COVIDDataBridge;
 COVIDDataBridge.apis = {
-    OPENCOVID: new DataBridge('https://api.opencovid.ca/'),
+    OPENCOVID: new DataBridge('https://api.opencovid.ca'),
     COVID_19_TRACKER: new DataBridge('https://api.covid19tracker.ca'),
 };
 COVIDDataBridge.summaryHelper = {

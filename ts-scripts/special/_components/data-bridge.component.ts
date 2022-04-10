@@ -41,6 +41,7 @@ export class DataBridge {
   private static readonly QUEUE_PROMISE_CHECK_INTERVAL = this.QUEUE_BUILDUP_DELAY_MS + 50;
 
   constructor(hostname: string) {
+    if (hostname[hostname.length - 1] == '/') hostname = hostname.slice(0, -1);
     this.APIHostname = hostname;
   }
 

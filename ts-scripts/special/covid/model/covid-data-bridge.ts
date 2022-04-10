@@ -21,13 +21,13 @@ export type COVIDTimeSeriesType = 'cases'
 
 export class COVIDDataBridge {
   private static readonly apis = {
-    OPENCOVID: new DataBridge('https://api.opencovid.ca/'),
+    OPENCOVID: new DataBridge('https://api.opencovid.ca'),
     COVID_19_TRACKER: new DataBridge('https://api.covid19tracker.ca'),
   }
 
   static async getLastUpdate() {
     return {
-      OPENCOVID: await COVIDDataBridge.apis.OPENCOVID.get('version'),
+      OPENCOVID: await COVIDDataBridge.apis.OPENCOVID.get('/version'),
     }
   }
 
@@ -96,7 +96,7 @@ export class COVIDDataBridge {
 
   static async getSupplementaryData() {
     return {
-      OPENCOVID: await COVIDDataBridge.apis.OPENCOVID.get('other'),
+      OPENCOVID: await COVIDDataBridge.apis.OPENCOVID.get('/other'),
     }
   }
 }
