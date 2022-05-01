@@ -21,7 +21,7 @@ export class KeyboardListener {
          */
         this.keyDown = function (e) {
             if (e.key.length == 1) {
-                let letterKeycode = e.key.toLowerCase().charCodeAt(0);
+                const letterKeycode = e.key.toLowerCase().charCodeAt(0);
                 if (!isNaN(parseInt(e.key))) {
                     this.numbers[parseInt(e.key)] = true;
                 }
@@ -44,7 +44,7 @@ export class KeyboardListener {
         this.keyUp = function (e) {
             const me = this;
             if (e.key.length == 1) {
-                let letterKeycode = e.key.toLowerCase().charCodeAt(0);
+                const letterKeycode = e.key.toLowerCase().charCodeAt(0);
                 if (!isNaN(parseInt(e.key))) {
                     this.numbers[parseInt(e.key)] = false;
                 }
@@ -77,7 +77,7 @@ export class KeyboardListener {
          */
         this.isKeyDown = function (key) {
             if (key.length == 1) {
-                let letterKeycode = key.toLowerCase().charCodeAt(0);
+                const letterKeycode = key.toLowerCase().charCodeAt(0);
                 if (!isNaN(parseInt(key))) {
                     return this.numbers[parseInt(key)];
                 }
@@ -109,9 +109,9 @@ export class KeyboardListener {
          */
         this.logClicks = function () {
             if (this.loggingListenerId == -1) {
-                this.loggingListenerId = this.addEventListener((keyboardListenerInstance, e) => {
+                this.loggingListenerId = this.addEventListener(() => {
                     return true;
-                }, (keyboardListenerInstance, e) => {
+                }, () => {
                     console.log("Current Keys: " + this.printPressedKeys());
                 });
             }

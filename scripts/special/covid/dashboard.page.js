@@ -17,7 +17,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { cws } from "../../cws.js";
 import { Button } from "../_components/button.component.js";
-import { PageBuilder } from "../_services/page-builder.service.js";
 import { COVIDCardGrid } from "./components/card-grid.component.js";
 import { COVIDSectionCollection } from "./components/section-collection.component.js";
 import { COVIDSection } from "./components/section.component.js";
@@ -25,6 +24,7 @@ import { COVIDTimeSeriesChart } from "./components/time-series-chart.component.j
 import { COVIDDataBridge } from "./model/covid-data-bridge.js";
 import { COVIDHelper } from "./helper.js";
 import { COVIDRegionsController } from "./model/regions.controller.js";
+import { DarkModeService } from "../_services/dark-mode.service.js";
 class COVIDDashboardPage {
     constructor() {
         this.elements = {
@@ -43,7 +43,7 @@ class COVIDDashboardPage {
             provinceSelect: new COVIDSection('Province Select', 'Province Select', [], this.mainSectionsCollection, true),
             regionSelect: new COVIDSection('Region Select', 'Region Select', [], this.mainSectionsCollection, true),
         };
-        PageBuilder.addDarkModeListener({
+        DarkModeService.addDarkModeListener({
             config: {
                 notifyOnDebugToggle: true,
             },

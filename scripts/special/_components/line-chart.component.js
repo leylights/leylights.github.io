@@ -1,5 +1,5 @@
 import { cws } from "../../cws.js";
-import { PageBuilder } from "../_services/page-builder.service.js";
+import { DarkModeService } from "../_services/dark-mode.service.js";
 import { Canvas } from "./canvas.component.js";
 const MAX_UNIQUE_X_VALUES = 24;
 const MAX_UNIQUE_Y_VALUES = 12;
@@ -154,7 +154,7 @@ export class LineChartComponent {
         this.limits.x.max = ((_c = data.limits) === null || _c === void 0 ? void 0 : _c.x) ? data.limits.x.max : null;
         this.limits.y.min = ((_d = data.limits) === null || _d === void 0 ? void 0 : _d.y) ? data.limits.x.min : null;
         this.limits.y.max = ((_e = data.limits) === null || _e === void 0 ? void 0 : _e.y) ? data.limits.x.max : null;
-        PageBuilder.addDarkModeListener({
+        DarkModeService.addDarkModeListener({
             config: {
                 notifyOnDebugToggle: true
             },

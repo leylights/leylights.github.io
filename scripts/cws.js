@@ -11,12 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var LightingModes;
-(function (LightingModes) {
-    LightingModes[LightingModes["dark"] = -1] = "dark";
-    LightingModes[LightingModes["light"] = 1] = "light";
-    LightingModes[LightingModes["none"] = null] = "none";
-})(LightingModes || (LightingModes = {}));
 export class cws {
     /**
      * Determines if any left element is equal to any right element
@@ -89,19 +83,27 @@ export class cws {
             data.children.forEach((childEl) => {
                 element.appendChild(childEl);
             });
-        if (data.otherNodes)
-            data.otherNodes
-                .filter((node) => node) // filter out nulls
-                .forEach((nodeData) => {
-                if (nodeData.type && nodeData.value !== undefined)
-                    element.setAttribute(nodeData.type, nodeData.value);
-            });
+        if (data.otherNodes) {
+            if (Array.isArray(data.otherNodes)) {
+                data.otherNodes
+                    .filter((node) => node) // filter out nulls
+                    .forEach((nodeData) => {
+                    if (nodeData.type && nodeData.value !== undefined)
+                        element.setAttribute(nodeData.type, nodeData.value);
+                });
+            }
+            else {
+                cws.Object.entries(data.otherNodes)
+                    .forEach((nodeData) => {
+                    if (nodeData[0] && nodeData[1] !== undefined)
+                        element.setAttribute(nodeData[0], nodeData[1]);
+                });
+            }
+        }
         return element;
     }
     /**
      * Creates a link element.
-     *
-     * DOES NOT ADD IT TO THE DOM
      */
     static createLinkElement(href, rel) {
         return cws.createElement({
@@ -116,6 +118,18 @@ export class cws {
                     value: href
                 }
             ]
+        });
+    }
+    /**
+     * Creates a stylesheet element.
+     */
+    static createStylesheetElement(href) {
+        return cws.createElement({
+            type: 'link',
+            otherNodes: {
+                rel: 'stylesheet',
+                href: href,
+            }
         });
     }
     static createTable(data) {
@@ -278,26 +292,6 @@ export class cws {
         }
     }
     /**
-     * Returns whether the page should be in dark mode
-     */
-    static get isDark() {
-        if (cws.forcedLightingMode === LightingModes.light)
-            return false;
-        else if (cws.forcedLightingMode === LightingModes.dark)
-            return true;
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
-            return true;
-        const dd = getDuskDawn(), now = new Date(), hour = now.getHours() + (now.getMinutes() / 60);
-        return dd.dusk <= hour || hour <= dd.dawn;
-        function getDuskDawn() {
-            const now = new Date();
-            const seasonOffset = Math.abs(now.getMonth() + 1 - 6) / 1.5;
-            const dawn = 5 + seasonOffset; // 5:00 AM
-            const dusk = 21 - seasonOffset; // 9:00 PM
-            return { dusk: dusk, dawn: dawn };
-        }
-    }
-    /**
      * Returns whether this value is an integer
      */
     static isInteger(n) {
@@ -344,6 +338,7 @@ export class cws {
     /**
      * A function used with Array.sort to randomly sort the array
      */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     static jumbleSort(a, b) {
         return Math.random() < 0.5 ? -1 : 1;
     }
@@ -549,7 +544,6 @@ export class cws {
         }
     }
 }
-cws.forcedLightingMode = LightingModes.none;
 cws.Array = {
     contains: function (arr, el, comparatorFn) {
         if (!comparatorFn)

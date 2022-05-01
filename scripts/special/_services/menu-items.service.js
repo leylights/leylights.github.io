@@ -405,16 +405,18 @@ const MENU_ITEMS = {
     },
     wordle: {
         name: "Wordle",
+        description: 'A rebuild of the popular puzzle game Wordle.',
         type: "Game",
-        date: 'March 2022',
+        date: 'April 2022',
         links: {
             href: "games/wordle.html",
+            thumbnail: "siteimages/wordle/thumb-light.png",
         },
-        noindex: true,
     },
 };
 const mainMenuConfig = [
     MENU_ITEMS.covidDashboard,
+    MENU_ITEMS.wordle,
     MENU_ITEMS.infectionModel,
     MENU_ITEMS.resume,
     MENU_ITEMS.pacManV2,

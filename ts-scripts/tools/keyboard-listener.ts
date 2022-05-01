@@ -38,7 +38,7 @@ export class KeyboardListener {
    */
   keyDown = function (this: KeyboardListener, e: KeyboardEvent): void {
     if (e.key.length == 1) {
-      let letterKeycode = e.key.toLowerCase().charCodeAt(0);
+      const letterKeycode = e.key.toLowerCase().charCodeAt(0);
       if (!isNaN(parseInt(e.key))) {
         this.numbers[parseInt(e.key)] = true;
       } else if (letterKeycode >= 97 && letterKeycode <= 122) {
@@ -61,7 +61,7 @@ export class KeyboardListener {
     const me = this;
 
     if (e.key.length == 1) {
-      let letterKeycode = e.key.toLowerCase().charCodeAt(0);
+      const letterKeycode = e.key.toLowerCase().charCodeAt(0);
       if (!isNaN(parseInt(e.key))) {
         this.numbers[parseInt(e.key)] = false;
       } else if (letterKeycode >= 97 && letterKeycode <= 122) {
@@ -93,7 +93,7 @@ export class KeyboardListener {
    */
   isKeyDown = function (this: KeyboardListener, key: string): boolean {
     if (key.length == 1) {
-      let letterKeycode = key.toLowerCase().charCodeAt(0);
+      const letterKeycode = key.toLowerCase().charCodeAt(0);
       if (!isNaN(parseInt(key))) {
         return this.numbers[parseInt(key)];
       } else if (letterKeycode >= 97 && letterKeycode <= 122) {
@@ -187,9 +187,9 @@ export class KeyboardListener {
    */
   logClicks = function (this: KeyboardListener): void {
     if (this.loggingListenerId == -1) {
-      this.loggingListenerId = this.addEventListener((keyboardListenerInstance: KeyboardListener, e: KeyboardEvent) => {
+      this.loggingListenerId = this.addEventListener(() => {
         return true;
-      }, (keyboardListenerInstance: KeyboardListener, e: KeyboardEvent) => {
+      }, () => {
         console.log("Current Keys: " + this.printPressedKeys());
       });
     } else {

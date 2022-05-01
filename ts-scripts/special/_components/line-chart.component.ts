@@ -1,5 +1,5 @@
 import { cws } from "../../cws.js";
-import { PageBuilder } from "../_services/page-builder.service.js";
+import { DarkModeService } from "../_services/dark-mode.service.js";
 import { Canvas, CanvasCreationData } from "./canvas.component.js";
 
 export interface LineChartPoint {
@@ -132,7 +132,7 @@ export class LineChartComponent {
     this.limits.y.min = data.limits?.y ? data.limits.x.min : null;
     this.limits.y.max = data.limits?.y ? data.limits.x.max : null;
 
-    PageBuilder.addDarkModeListener({
+    DarkModeService.addDarkModeListener({
       config: {
         notifyOnDebugToggle: true
       },
