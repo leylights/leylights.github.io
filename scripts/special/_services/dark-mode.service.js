@@ -39,6 +39,9 @@ export class DarkModeService {
         else
             this.switchTo.lightMode();
     }
+    static get isDark() {
+        return this.darkModeStatus === DarkModeStatus.Dark;
+    }
     /**
      * Registers a function to be called when the darkness of the page is determined,
      * or immediately if it already has been
