@@ -403,6 +403,15 @@ const MENU_ITEMS = {
         },
         noindex: true,
     },
+    wordle: {
+        name: "Wordle",
+        type: "Game",
+        date: 'March 2022',
+        links: {
+            href: "games/wordle.html",
+        },
+        noindex: true,
+    },
 };
 const mainMenuConfig = [
     MENU_ITEMS.covidDashboard,
@@ -438,6 +447,7 @@ const archiveMenuConfig = [
 ];
 const topMenuConfig = {
     games: [
+        MENU_ITEMS.wordle,
         MENU_ITEMS.pacManV2,
         MENU_ITEMS.daydream,
         MENU_ITEMS.wiresV2,

@@ -520,6 +520,26 @@ export class cws {
     return locationParts.join('/') + '/' + urlParts.join('/');
   }
 
+  static async getJSONFile(absPath: string): Promise<any> {
+    const promise = new Promise<string>((resolve, reject) => {
+      const req = new XMLHttpRequest();
+      req.onload = () => {
+        if (req.status === 200) {
+          resolve(req.responseText);
+        } else {
+          reject();
+        }
+      };
+      req.open('GET', absPath);
+      req.send();
+    });
+
+    await promise;
+    const result = JSON.parse(await promise);
+
+    return result;
+  }
+
   /**
    * @requires The sought-after input element is, in fact, an input element 
    */
