@@ -30,16 +30,23 @@ export class WordleView {
   private currentWordAttempt: string[] = [];
   private currentRowIndex = 0;
 
+  private _isGameRunning: boolean = true;
+
   constructor(creator: WordleController) {
     const me = this;
 
     this.submitFn = () => me.submitWord(creator);
 
     window.addEventListener('keydown', (event) => {
+      if (!me.isGameRunning) return;
       if (me.isValidLetter(event.key)) me.addLetter(event.key);
       else if (event.key === 'Backspace') me.deleteLetter();
-      else if (event.key === 'Enter' && me.currentWordAttempt.length === 5) me.submitFn();
+      else if (event.key === 'Enter' && me.currentWordAttempt.length === me.WORD_LENGTH) me.submitFn();
     });
+  }
+
+  public get isGameRunning() {
+    return this._isGameRunning;
   }
 
   private get currentRow(): WordleAnswerTile[] {
@@ -90,7 +97,9 @@ export class WordleView {
   }
 
   private lose(correctWord: string) {
-    alert(`You lose: the correct word was ${correctWord}.`);
+    this.alertMessageBox.innerText = correctWord.toUpperCase();
+    this.alertMessageBox.classList.add('visible');
+    this._isGameRunning = false;
   }
 
   private isValidLetter(this: WordleView, key: string) {
@@ -158,6 +167,7 @@ export class WordleView {
 
       rowData.forEach(letter => {
         const tile = new WordleKeyTile(letter, () => {
+          if (!me.isGameRunning) return;
           me.addLetter(letter);
         });
 
@@ -219,12 +229,12 @@ export class WordleView {
       this.currentWordAttempt = [];
       me.currentRowIndex++;
 
-      if (response.success) me.win(receiver.word);
+      if (response.success) me.win();
       else if (me.currentRowIndex >= me.grid.rows.length) me.lose(receiver.word);
     }
   }
 
-  private win(word: string) {
-    alert(`You win!`);
+  private win() {
+    this._isGameRunning = false;
   }
 }

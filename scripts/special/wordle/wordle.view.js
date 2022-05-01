@@ -25,16 +25,22 @@ export class WordleView {
         this.WORD_LENGTH = 5;
         this.currentWordAttempt = [];
         this.currentRowIndex = 0;
+        this._isGameRunning = true;
         const me = this;
         this.submitFn = () => me.submitWord(creator);
         window.addEventListener('keydown', (event) => {
+            if (!me.isGameRunning)
+                return;
             if (me.isValidLetter(event.key))
                 me.addLetter(event.key);
             else if (event.key === 'Backspace')
                 me.deleteLetter();
-            else if (event.key === 'Enter' && me.currentWordAttempt.length === 5)
+            else if (event.key === 'Enter' && me.currentWordAttempt.length === me.WORD_LENGTH)
                 me.submitFn();
         });
+    }
+    get isGameRunning() {
+        return this._isGameRunning;
     }
     get currentRow() {
         return this.grid.rows[this.currentRowIndex];
@@ -75,7 +81,9 @@ export class WordleView {
         }).filter(rowResult => rowResult)[0];
     }
     lose(correctWord) {
-        alert(`You lose: the correct word was ${correctWord}.`);
+        this.alertMessageBox.innerText = correctWord.toUpperCase();
+        this.alertMessageBox.classList.add('visible');
+        this._isGameRunning = false;
     }
     isValidLetter(key) {
         return ('a'.charCodeAt(0) <= key.toLowerCase().charCodeAt(0) &&
@@ -128,6 +136,8 @@ export class WordleView {
             const rowKeys = [];
             rowData.forEach(letter => {
                 const tile = new WordleKeyTile(letter, () => {
+                    if (!me.isGameRunning)
+                        return;
                     me.addLetter(letter);
                 });
                 rowKeys.push(tile);
@@ -182,14 +192,14 @@ export class WordleView {
                 this.currentWordAttempt = [];
                 me.currentRowIndex++;
                 if (response.success)
-                    me.win(receiver.word);
+                    me.win();
                 else if (me.currentRowIndex >= me.grid.rows.length)
                     me.lose(receiver.word);
             }
         });
     }
-    win(word) {
-        alert(`You win!`);
+    win() {
+        this._isGameRunning = false;
     }
 }
 //# sourceMappingURL=wordle.view.js.map

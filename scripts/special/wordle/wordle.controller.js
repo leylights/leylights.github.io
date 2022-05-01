@@ -75,7 +75,9 @@ export class WordleController {
     }
     selectWord() {
         return __awaiter(this, void 0, void 0, function* () {
-            return cws.Array.get.randomElement((yield cws.getJSONFile('/json-data/wordle/words.json')).splice(0, 2300)).toLowerCase();
+            const upperSelectionLimit = 2300;
+            const today = Math.floor((Date.now() - new Date().getTimezoneOffset() * 60 * 1000) / (1000 * 60 * 60 * 24));
+            return (yield cws.getJSONFile('/json-data/wordle/words.json')).splice(0, 2300)[today % upperSelectionLimit].toLowerCase();
         });
     }
     validateWord(word) {
