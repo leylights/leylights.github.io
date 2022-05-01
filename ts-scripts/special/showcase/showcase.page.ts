@@ -1,4 +1,5 @@
 import { KeyboardListener } from "../../tools/keyboard-listener.js";
+import { DarkModeService } from "../_services/dark-mode.service.js";
 import { Menu, MenuItem } from "../_services/menu-items.service.js";
 import { PageBuilder } from "../_services/page-builder.service.js";
 import { ShowcaseItemSpotlight } from "./components/item-spotlight.component.js";
@@ -46,7 +47,7 @@ export class ShowcasePage {
     });
 
     // Handle dark mode
-    PageBuilder.addDarkModeListener({
+    DarkModeService.addDarkModeListener({
       listener: (isDark: boolean) => {
         let newColour: string;
         if (isDark) {

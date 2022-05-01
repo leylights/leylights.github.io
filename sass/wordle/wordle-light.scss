@@ -1,0 +1,20 @@
+:root {
+  --wordle-success-color: #009e00;
+  --wordle-correct-letter-color: #b58e02;
+  --wordle-incorrect-color: #666;
+  --wordle-bg-color: #444;
+}
+
+#wordle-container {
+  .wordle-tile {
+    color: var(--invert-text-color);
+  }
+
+  .wordle-tile.incorrect,
+  .wordle-tile.correct-letter,
+  .wordle-tile.success {
+    .back {
+      color: var(--invert-text-color);
+    }
+  }
+}

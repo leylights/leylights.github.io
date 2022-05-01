@@ -23,7 +23,7 @@ interface ElementCreationData<ElementsType> {
   innerText?: string,
   children?: HTMLElement[],
   listeners?: ListenerCreationData<keyof HTMLElementEventMap>[],
-  otherNodes?: { type: string, value: string }[]
+  otherNodes?: { type: string, value: string }[] | Record<string, string>
 }
 
 interface CreateTableCreationData {
@@ -35,12 +35,6 @@ interface CreateTableCreationData {
   otherNodes?: { type: string, value: string }[];
 }
 
-enum LightingModes {
-  dark = -1,
-  light = 1,
-  none = null,
-}
-
 type Rectangle = {
   x: number;
   y: number;
@@ -49,8 +43,6 @@ type Rectangle = {
 }
 
 export class cws {
-  static forcedLightingMode: LightingModes = LightingModes.none;
-
   /**
    * Determines if any left element is equal to any right element
    * Time: O(n*m)
@@ -229,21 +221,28 @@ export class cws {
       data.children.forEach((childEl: HTMLElement) => {
         element.appendChild(childEl);
       });
-    if (data.otherNodes)
-      data.otherNodes
-        .filter((node) => node) // filter out nulls
-        .forEach((nodeData) => {
-          if (nodeData.type && nodeData.value !== undefined)
-            element.setAttribute(nodeData.type, nodeData.value);
-        });
+    if (data.otherNodes) {
+      if (Array.isArray(data.otherNodes)) {
+        data.otherNodes
+          .filter((node) => node) // filter out nulls
+          .forEach((nodeData) => {
+            if (nodeData.type && nodeData.value !== undefined)
+              element.setAttribute(nodeData.type, nodeData.value);
+          });
+      } else {
+        cws.Object.entries(data.otherNodes)
+          .forEach((nodeData) => {
+            if (nodeData[0] && nodeData[1] !== undefined)
+              element.setAttribute(nodeData[0], nodeData[1]);
+          });
+      }
+    }
 
     return element;
   }
 
   /**
    * Creates a link element.
-   * 
-   * DOES NOT ADD IT TO THE DOM
    */
   static createLinkElement(href: string, rel: string): HTMLLinkElement {
     return cws.createElement({
@@ -258,6 +257,19 @@ export class cws {
           value: href
         }
       ]
+    });
+  }
+
+  /**
+   * Creates a stylesheet element.
+   */
+  static createStylesheetElement(href: string): HTMLLinkElement {
+    return cws.createElement({
+      type: 'link',
+      otherNodes: {
+        rel: 'stylesheet',
+        href: href,
+      }
     });
   }
 
@@ -605,35 +617,6 @@ export class cws {
   }
 
   /**
-   * Returns whether the page should be in dark mode
-   */
-  static get isDark(): boolean {
-    if (cws.forcedLightingMode === LightingModes.light)
-      return false;
-    else if (cws.forcedLightingMode === LightingModes.dark)
-      return true;
-
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
-      return true;
-
-    const dd = getDuskDawn(),
-      now = new Date(),
-      hour = now.getHours() + (now.getMinutes() / 60);
-
-    return dd.dusk <= hour || hour <= dd.dawn;
-
-    function getDuskDawn() {
-      const now = new Date();
-      const seasonOffset = Math.abs(now.getMonth() + 1 - 6) / 1.5;
-
-      const dawn = 5 + seasonOffset; // 5:00 AM
-      const dusk = 21 - seasonOffset; // 9:00 PM
-
-      return { dusk: dusk, dawn: dawn };
-    }
-  }
-
-  /**
    * Returns whether this value is an integer
    */
   static isInteger(n: number): boolean {
@@ -738,6 +721,7 @@ export class cws {
   /**
    * A function used with Array.sort to randomly sort the array
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   static jumbleSort(a: any, b: any): number {
     return Math.random() < 0.5 ? -1 : 1;
   }
