@@ -1,5 +1,6 @@
 import { cws } from "../../cws.js";
 import { KeyboardListener } from "../../tools/keyboard-listener.js";
+import { DarkModeService } from "../_services/dark-mode.service.js";
 
 type EventListenerData = {
   type: keyof GlobalEventHandlersEventMap;
@@ -32,7 +33,7 @@ export class Canvas {
 
     if (data.clearColour) this.clearColour = data.clearColour;
     else {
-      if (cws.isDark) {
+      if (DarkModeService.isDark) {
         window.addEventListener('load', () => {
           setColour();
         });

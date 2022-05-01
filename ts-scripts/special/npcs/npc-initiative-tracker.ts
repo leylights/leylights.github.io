@@ -3,6 +3,7 @@ import { cws } from "../../cws.js";
 import { Button } from "../_components/button.component.js";
 import { BASE_TEMP_HIGHLIGHT_TIME } from "../_components/general.js";
 import { ResizingInput } from "../_components/resizing-input.component.js";
+import { DarkModeService } from "../_services/dark-mode.service.js";
 import { NPCsRace } from "./core/race.js";
 import { NPCsDice } from "./helper-repository/general.js";
 import { NPCsInitiativeTrackerCombatant } from "./helper-repository/initiative-tracker-combatant.js";
@@ -71,7 +72,7 @@ export class NPCsInitiativeTracker {
   static FILL_INPUT = false;
 
   constructor() {
-    if (cws.isDark)
+    if (DarkModeService.isDark)
       document.body.style.setProperty('--npcs-red', '#FFD700');
 
     this.loadInitialHTML();
@@ -162,7 +163,7 @@ export class NPCsInitiativeTracker {
         isNPCBody.classList.remove('selected');
 
         isNPCBody.classList.add('transition-to-deselected');
-        const transitionTime = parseFloat(window.getComputedStyle(document.body).getPropertyValue('--hover-color-transition').match(/[0-9\.]/g).join('')) * 1000;
+        const transitionTime = parseFloat(window.getComputedStyle(document.body).getPropertyValue('--hover-color-transition').match(/[0-9.]/g).join('')) * 1000;
         if (isNaN(transitionTime)) throw new Error('Cannot get --hover-color-transition time');
         setTimeout(() => {
           isNPCBody.classList.remove('transition-to-deselected');
@@ -228,7 +229,9 @@ export class NPCsInitiativeTracker {
         alternateRowToDelete.remove();
       else try {
         row.remove();
-      } catch (e) { }
+      } catch (e) {
+        //
+      }
   }
 
   tableExpansionListener(this: NPCsInitiativeTracker): void {

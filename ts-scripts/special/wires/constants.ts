@@ -1,11 +1,11 @@
-import { cws } from "../../cws.js";
+import { DarkModeService } from "../_services/dark-mode.service.js";
 
 export class WiresConstants {
   static readonly TOP_TILE_WIDTH: number = 35;
   static readonly TOP_TILE_COLOUR: string = "#111122";
   static readonly HIGH_SCORE_WIDTH: number = 95;
   static readonly HIGH_SCORE_HEIGHT: number = 45;
-  private static readonly _isDark = cws.isDark;
+  private static readonly _isDark = DarkModeService.isDark;
 
   static readonly COLOURS = {
     POWER: "#00F5F5",

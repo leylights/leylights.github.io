@@ -1,11 +1,11 @@
-import { cws } from "../../cws.js";
+import { DarkModeService } from "../_services/dark-mode.service.js";
 export class WiresConstants {
 }
 WiresConstants.TOP_TILE_WIDTH = 35;
 WiresConstants.TOP_TILE_COLOUR = "#111122";
 WiresConstants.HIGH_SCORE_WIDTH = 95;
 WiresConstants.HIGH_SCORE_HEIGHT = 45;
-WiresConstants._isDark = cws.isDark;
+WiresConstants._isDark = DarkModeService.isDark;
 WiresConstants.COLOURS = {
     POWER: "#00F5F5",
     ORANGE: "#FF8800",
