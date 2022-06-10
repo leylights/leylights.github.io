@@ -1,21 +1,14 @@
 import { cws } from "../../../cws.js";
-import { COVIDDataBridge } from "./covid-data-bridge.js";
+import { COVIDDataInterface } from "./covid-data-interface.js";
 import { COVIDHealthUnit } from "./health-unit.js";
 import { COVIDProvince } from "./province.js";
-
-interface RegionsRepsonse {
-  age_cases: any[];
-  age_mortality: any[];
-  hr: any[];
-  prov: any[];
-}
 
 export class COVIDRegionsController {
   readonly provinces: COVIDProvince[] = [];
   readonly healthUnits: COVIDHealthUnit[] = [];
-  
-  private static readonly LONDON_CODE = '3544';
-  private static readonly WATERLOO_CODE = '3565';
+
+  private static readonly LONDON_CODE = '3546';
+  private static readonly WATERLOO_CODE = '3568';
   private static readonly ONTARIO_CODE = "ON";
   private static readonly CANADA_CODE = "canada";
 
@@ -27,13 +20,32 @@ export class COVIDRegionsController {
   private readonly SKIPPED_HEALTH_UNITS: number[] = [9999];
   private readonly SKIPPED_PROVINCES: string[] = ["RP"];
 
-  async init(this: COVIDRegionsController) {
-    const me = this,
-      data: RegionsRepsonse = (await COVIDDataBridge.getSupplementaryData()).OPENCOVID;
+  private readonly provincialPopulations = {
+    "NL": 522453,
+    "PE": 166331,
+    "NS": 1002586,
+    "NB": 797102,
+    "QC": 8639642,
+    "ON": 14951825,
+    "MB": 1390249,
+    "SK": 1183269,
+    "AB": 4480486,
+    "BC": 5264485,
+    "YT": 42982,
+    "NT": 45640,
+    "NU": 39710,
+  }
 
+  async init(this: COVIDRegionsController) {
+    const me = this;
+    const healthRegions = await COVIDDataInterface.getRegionsInfoMap();
+    const provinces = await COVIDDataInterface.getProvincesInfoMap();
+
+    console.log(healthRegions);
+    
     // Health units
-    data.hr.forEach(configuration => {
-      if (!cws.Array.includes(me.SKIPPED_HEALTH_UNITS, configuration.HR_UID)) {
+    healthRegions.forEach(configuration => {
+      if (!cws.Array.includes(me.SKIPPED_HEALTH_UNITS, configuration.id)) {
         me.healthUnits.push(new COVIDHealthUnit(configuration));
       }
 
@@ -44,9 +56,14 @@ export class COVIDRegionsController {
     });
 
     // Provinces
-    data.prov.forEach(configuration => {
-      if (!cws.Array.includes(me.SKIPPED_PROVINCES, configuration.province_short)) {
-        me.provinces.push(new COVIDProvince(configuration));
+    provinces.forEach(configuration => {
+      if (!cws.Array.includes(me.SKIPPED_PROVINCES, configuration.shortName)) {
+        me.provinces.push(new COVIDProvince({
+          pop: me.provincialPopulations[configuration.shortName],
+          province: configuration.fullName,
+          province_full: configuration.fullName,
+          province_short: configuration.shortName,          
+        }));
       }
 
       const end = me.provinces[me.provinces.length - 1];

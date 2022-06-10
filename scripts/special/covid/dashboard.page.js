@@ -21,10 +21,11 @@ import { COVIDCardGrid } from "./components/card-grid.component.js";
 import { COVIDSectionCollection } from "./components/section-collection.component.js";
 import { COVIDSection } from "./components/section.component.js";
 import { COVIDTimeSeriesChart } from "./components/time-series-chart.component.js";
-import { COVIDDataBridge } from "./model/covid-data-bridge.js";
+import { COVIDDataBridge, COVIDRegionLevel } from "./model/covid-data-bridge.js";
 import { COVIDHelper } from "./helper.js";
 import { COVIDRegionsController } from "./model/regions.controller.js";
 import { DarkModeService } from "../_services/dark-mode.service.js";
+import { COVIDDataInterface } from "./model/covid-data-interface.js";
 class COVIDDashboardPage {
     constructor() {
         this.elements = {
@@ -68,7 +69,7 @@ class COVIDDashboardPage {
             const averageDays = 7;
             if (new Date().getHours() === 21)
                 this.elements.updateWarning.classList.remove('hidden-warning');
-            this.elements.lastUpdate.innerText = (yield COVIDDataBridge.getLastUpdate()).OPENCOVID.version;
+            this.elements.lastUpdate.innerText = yield COVIDDataInterface.getLastUpdate();
             yield this.regionsController.init();
             buildHomeDashboard();
             buildCanadaDashboard();
@@ -79,68 +80,75 @@ class COVIDDashboardPage {
             buildRegionalSelectorDashboard();
             this.sections.home.select();
             function buildHomeDashboard() {
-                function getCaseCount(location) {
+                function getCaseCount(location, region) {
                     return __awaiter(this, void 0, void 0, function* () {
-                        return yield getCount('cases', location);
+                        return yield getCount('cases_daily', location, region);
                     });
                 }
-                function getCount(statistic, location) {
+                function getCount(statistic, location, region) {
                     return __awaiter(this, void 0, void 0, function* () {
-                        const count = yield COVIDDataBridge.getSummary(statistic, location);
+                        const count = yield COVIDDataBridge.getSummary(statistic, location, region);
                         return cws.numberToPrettyNumber(count);
                     });
                 }
                 // Daily case counts
                 me.createGrid(me.sections.home, 'Daily new cases', [{
                         title: "CANADA",
-                        responseGetter: () => __awaiter(this, void 0, void 0, function* () { return getCaseCount('canada'); }),
+                        responseGetter: () => __awaiter(this, void 0, void 0, function* () { return getCaseCount('can', COVIDRegionLevel.national); }),
                     }, {
                         title: "ONTARIO",
-                        responseGetter: () => __awaiter(this, void 0, void 0, function* () { return getCaseCount('ON'); }),
+                        responseGetter: () => __awaiter(this, void 0, void 0, function* () { return getCaseCount('ON', COVIDRegionLevel.provincial); }),
                     }, {
                         title: "MIDDLESEX-LONDON",
-                        responseGetter: () => __awaiter(this, void 0, void 0, function* () { return getCaseCount('3544'); }),
+                        responseGetter: () => __awaiter(this, void 0, void 0, function* () { return getCaseCount('3544', COVIDRegionLevel.regional); }),
                     },]);
                 buildMainLondonRow(me.sections.home);
                 buildMainOntarioRow(me.sections.home);
                 buildMainCanadaRow(me.sections.home);
             }
             function buildCanadaDashboard() {
-                buildProvincialDashboard(me.sections.canada, me.regionsController.canada, false);
+                buildMacroRegionalDashboard(me.sections.canada, me.regionsController.canada, COVIDRegionLevel.national);
             }
             function buildOntarioDashboard() {
-                buildProvincialDashboard(me.sections.ontario, me.regionsController.ontario, true);
+                buildMacroRegionalDashboard(me.sections.ontario, me.regionsController.ontario, COVIDRegionLevel.provincial);
             }
-            function buildProvincialDashboard(section, province, compareToCanada) {
+            function buildMacroRegionalDashboard(section, province, level) {
                 // daily totals
-                buildDailyTotalsRow(section, province, true);
+                buildDailyTotalsRow(section, province, level);
                 // wavg per day
-                buildWavgDailyTotalsRow(section, province, true);
+                buildWavgDailyTotalsRow(section, province, level);
                 // cumulative totals
-                buildCumulativeRow(section, province, true);
+                buildCumulativeRow(section, province, level);
                 // comparison
-                if (compareToCanada)
-                    buildComparisonToCanada(section, province);
+                if (level !== COVIDRegionLevel.national)
+                    buildComparisonToCanada(section, province, level);
                 // line charts
-                buildTimeSeriesAnalysis(section, province, true);
+                buildTimeSeriesAnalysis(section, province, level);
                 // vaccines    
                 me.createGrid(section, 'Vaccination', [{
                         title: "Vaccine doses administered",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
-                            const doses = yield COVIDDataBridge.getSummary('vaccine-doses', province.locationId);
+                            const doses = yield COVIDDataBridge.getSummary('vaccine_administration_total_doses', province.locationId, level);
                             return cws.numberToPrettyNumber(doses);
                         }),
                     }, {
                         title: "Double-vaccinations completed",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
-                            const vaccinated = yield COVIDDataBridge.getSummary('vaccine-completions', province.locationId);
-                            return cws.numberToPrettyNumber(vaccinated);
+                            const doses = yield COVIDDataBridge.getSummary('vaccine_administration_dose_2', province.locationId, level);
+                            return cws.numberToPrettyNumber(doses);
+                        }),
+                    }]);
+                me.createGrid(section, 'Vaccination', [{
+                        title: "Population double vaccinated",
+                        responseGetter: () => __awaiter(this, void 0, void 0, function* () {
+                            const coverage = yield COVIDDataBridge.getSummary('vaccine_coverage_dose_2', province.locationId, level);
+                            return COVIDHelper.formatAsPercentage(coverage / 100);
                         }),
                     }, {
-                        title: "Population fully vaccinated",
+                        title: "Population triple vaccinated",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
-                            const vaccinated = yield COVIDDataBridge.getSummary('vaccine-completions', province.locationId);
-                            return COVIDHelper.formatAsPercentage(vaccinated / province.population);
+                            const coverage = yield COVIDDataBridge.getSummary('vaccine_coverage_dose_3', province.locationId, level);
+                            return COVIDHelper.formatAsPercentage(coverage / 100);
                         }),
                     }]);
             }
@@ -167,7 +175,7 @@ class COVIDDashboardPage {
                 }));
                 me.regionsController.healthUnits.map((r) => {
                     return {
-                        name: r.province + ': ' + r.name,
+                        name: r.provinceCode + ': ' + r.name,
                         value: r.locationId,
                     };
                 }).sort((a, b) => { return a.name < b.name ? -1 : 1; }).forEach((unit) => {
@@ -225,31 +233,32 @@ class COVIDDashboardPage {
                 // button
                 Button.createByAppending(me.sections.provinceSelect.appendableBody, () => {
                     Array.from(body.children).forEach((child) => { child.remove(); });
-                    buildProvincialDashboard(body, me.regionsController.getProvinceByCode(selector.value), true);
+                    buildMacroRegionalDashboard(body, me.regionsController.getProvinceByCode(selector.value), COVIDRegionLevel.provincial);
                 }, 'Load', true);
                 me.sections.provinceSelect.appendToBody(body);
                 me.sections.provinceSelect.appendToBody(cws.createElement({ type: 'br' }));
             }
             function buildRegionalDashboard(section, region) {
                 // daily totals
-                buildDailyTotalsRow(section, region, false);
+                buildDailyTotalsRow(section, region, COVIDRegionLevel.regional);
                 // wavg per day
-                buildWavgDailyTotalsRow(section, region, false);
+                buildWavgDailyTotalsRow(section, region, COVIDRegionLevel.regional);
                 // cumulative totals
-                buildCumulativeRow(section, region, false);
+                buildCumulativeRow(section, region, COVIDRegionLevel.regional);
                 // comparison
-                buildComparisonToProvince(section, region);
-                buildComparisonToCanada(section, region);
+                // @todo Fix if population data is re-added en masse.
+                // buildComparisonToProvince(section, region);
+                // buildComparisonToCanada(section, region, COVIDRegionLevel.regional);
                 // line charts
-                buildTimeSeriesAnalysis(section, region, false);
+                buildTimeSeriesAnalysis(section, region, COVIDRegionLevel.regional);
             }
             function buildComparisonToProvince(section, region) {
-                return buildComparisonToRegion(section, region, me.regionsController.getProvinceByCode(region.provinceCode));
+                return buildComparisonToRegion(section, region, COVIDRegionLevel.regional, me.regionsController.getProvinceByCode(region.provinceCode), COVIDRegionLevel.provincial);
             }
-            function buildComparisonToCanada(section, region) {
-                return buildComparisonToRegion(section, region, me.regionsController.canada);
+            function buildComparisonToCanada(section, region, level) {
+                return buildComparisonToRegion(section, region, level, me.regionsController.canada, COVIDRegionLevel.national);
             }
-            function buildComparisonToRegion(section, region, comparator) {
+            function buildComparisonToRegion(section, region, level, comparator, comparatorLevel) {
                 /**
                  * Returns the multiplier of the local proportion of the value and the provincial proportion by population
                  * such that local * (getProportionalDifference(...) + 1) = provincial
@@ -266,8 +275,8 @@ class COVIDDashboardPage {
                 }
                 function compareDailyStat(stat) {
                     return __awaiter(this, void 0, void 0, function* () {
-                        const regionalCases = yield COVIDDataBridge.getSummary(stat, region.locationId);
-                        const provincialCases = yield COVIDDataBridge.getSummary(stat, comparator.locationId);
+                        const regionalCases = yield COVIDDataBridge.getSummary(stat, region.locationId, level);
+                        const provincialCases = yield COVIDDataBridge.getSummary(stat, comparator.locationId, comparatorLevel);
                         return getProportionalDifference(regionalCases, provincialCases);
                     });
                 }
@@ -286,9 +295,9 @@ class COVIDDashboardPage {
                     }, {
                         title: `Average daily new cases (${averageDays} days)`,
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
-                            const regionalCases = yield COVIDDataBridge.getTimeSeries('cases', region.locationId);
-                            const provincialCases = yield COVIDDataBridge.getTimeSeries('cases', comparator.locationId);
-                            return getProportionalDifference(COVIDDashboardPage.getTimeSeriesAverage(regionalCases, averageDays, (entry) => { return entry.cases; }), COVIDDashboardPage.getTimeSeriesAverage(provincialCases, averageDays, (entry) => { return entry.cases; }));
+                            const regionalCases = yield COVIDDataBridge.getTimeSeries('cases', region.locationId, level);
+                            const provincialCases = yield COVIDDataBridge.getTimeSeries('cases', comparator.locationId, comparatorLevel);
+                            return getProportionalDifference(COVIDDashboardPage.getTimeSeriesAverage(regionalCases, averageDays, true), COVIDDashboardPage.getTimeSeriesAverage(provincialCases, averageDays, true));
                         }),
                         isSuccess: (response) => { return parseFloat(response) < 0; },
                         isFailure: (response) => { return parseFloat(response) > 0; },
@@ -296,9 +305,9 @@ class COVIDDashboardPage {
                     }, {
                         title: `Average daily deaths (${averageDays} days)`,
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
-                            const regionalDeaths = yield COVIDDataBridge.getTimeSeries('deaths', region.locationId);
-                            const provincialDeaths = yield COVIDDataBridge.getTimeSeries('deaths', comparator.locationId);
-                            return getProportionalDifference(COVIDDashboardPage.getTimeSeriesAverage(regionalDeaths, averageDays, (entry) => { return entry.deaths; }), COVIDDashboardPage.getTimeSeriesAverage(provincialDeaths, averageDays, (entry) => { return entry.deaths; }));
+                            const regionalDeaths = yield COVIDDataBridge.getTimeSeries('deaths', region.locationId, level);
+                            const provincialDeaths = yield COVIDDataBridge.getTimeSeries('deaths', comparator.locationId, comparatorLevel);
+                            return getProportionalDifference(COVIDDashboardPage.getTimeSeriesAverage(regionalDeaths, averageDays, true), COVIDDashboardPage.getTimeSeriesAverage(provincialDeaths, averageDays, true));
                         }),
                         isSuccess: (response) => { return parseFloat(response) < 0; },
                         isFailure: (response) => { return parseFloat(response) > 0; },
@@ -307,7 +316,7 @@ class COVIDDashboardPage {
                     maxTwoAcross: true,
                 });
             }
-            function buildTimeSeriesAnalysis(section, region, includeActiveCases) {
+            function buildTimeSeriesAnalysis(section, region, level) {
                 const CASES_START = new Date('2020-01-25'), DEATHS_START = new Date('2020-03-08'), TODAY = new Date(Date.now() - Date.now() % (24 * 60 * 60 * 1000)), caseDays = cws.daysBetween(CASES_START, TODAY), deathsDays = cws.daysBetween(DEATHS_START, TODAY);
                 const title = cws.createElement({ type: 'h2', innerText: 'Time-series analysis' });
                 appendToSection(title);
@@ -326,44 +335,68 @@ class COVIDDashboardPage {
                     wavgCollection.resetHeight();
                     typeSelector.resetHeight();
                 }
-                function buildCharts(collection, averageDays) {
-                    new COVIDTimeSeriesChart(collection, {
-                        days: caseDays - averageDays,
+                function buildCharts(collection, baseAverageDays) {
+                    createChart({
+                        days: caseDays,
                         title: 'New cases per day',
-                        shortTitle: 'New cases',
-                        timeSeries: {
-                            type: 'cases',
-                            location: region.locationId,
-                        },
-                        responsePropertyName: 'cases',
-                        responseTimePropertyName: 'date_report',
-                        averageDays: averageDays,
-                    }, () => { resetHeights(); });
-                    new COVIDTimeSeriesChart(collection, {
-                        days: deathsDays - averageDays,
+                        shortTitle: 'Cases',
+                        type: 'cases',
+                    });
+                    if (level !== COVIDRegionLevel.regional)
+                        createChart({
+                            days: caseDays,
+                            title: 'Hospitalizations per day',
+                            shortTitle: 'Hospitalizations',
+                            type: 'hospitalizations',
+                        });
+                    createChart({
+                        days: deathsDays,
                         title: 'Deaths per day',
-                        shortTitle: 'Mortality',
-                        timeSeries: {
-                            type: 'mortality',
-                            location: region.locationId,
-                        },
-                        responsePropertyName: 'deaths',
-                        responseTimePropertyName: 'date_death_report',
-                        averageDays: averageDays,
-                    }, () => { resetHeights(); });
-                    if (includeActiveCases)
+                        shortTitle: 'Deaths',
+                        type: 'deaths',
+                    });
+                    if (level !== COVIDRegionLevel.regional) {
+                        createChart({
+                            days: caseDays,
+                            title: 'First vaccine administered per day',
+                            shortTitle: 'Vaccine 1',
+                            type: 'vaccine_administration_dose_1',
+                            notDaily: true,
+                            averageDays: 21
+                        });
+                        createChart({
+                            days: caseDays,
+                            title: 'Second vaccine administered per day',
+                            shortTitle: 'Vaccine 2',
+                            type: 'vaccine_administration_dose_2',
+                            notDaily: true,
+                            averageDays: 21
+                        });
+                        createChart({
+                            days: caseDays,
+                            title: 'Third vaccine administered per day',
+                            shortTitle: 'Vaccine 3',
+                            type: 'vaccine_administration_dose_3',
+                            notDaily: true,
+                            averageDays: 21
+                        });
+                    }
+                    function createChart(data) {
+                        const avgDays = data.averageDays && baseAverageDays !== 1 ? data.averageDays : baseAverageDays;
                         new COVIDTimeSeriesChart(collection, {
-                            days: caseDays - averageDays,
-                            title: 'Active cases per day',
-                            shortTitle: 'Active cases',
+                            days: data.days - avgDays,
+                            title: data.title,
+                            shortTitle: data.shortTitle,
                             timeSeries: {
-                                type: 'active',
+                                type: data.type,
                                 location: region.locationId,
+                                level: level,
+                                useDailyValues: data.notDaily === false ? false : true,
+                                valueReformatter: (n) => { return Math.max(n, 0); },
                             },
-                            responsePropertyName: 'active_cases',
-                            responseTimePropertyName: 'date_active',
-                            averageDays: averageDays,
+                            averageDays: avgDays,
                         }, () => { resetHeights(); });
+                    }
                     collection.selectFirstSection();
                 }
             }
@@ -371,108 +404,116 @@ class COVIDDashboardPage {
                 buildMainRow(section, {
                     title: 'Middlesex-London',
                     locationId: '3544',
-                    population: me.regionsController.london.population
+                    population: me.regionsController.london.population,
+                    level: COVIDRegionLevel.regional
                 });
             }
             function buildMainOntarioRow(section) {
                 buildMainRow(section, {
                     title: 'Ontario',
                     locationId: 'ON',
-                    population: me.regionsController.ontario.population
+                    population: me.regionsController.ontario.population,
+                    level: COVIDRegionLevel.provincial
                 });
             }
             function buildMainCanadaRow(section) {
                 buildMainRow(section, {
                     title: 'Canada',
-                    locationId: 'canada',
-                    population: me.regionsController.canada.population
+                    locationId: 'can',
+                    population: me.regionsController.canada.population,
+                    level: COVIDRegionLevel.national
                 });
             }
-            function buildDailyTotalsRow(section, region, includeVaccines) {
+            function buildDailyTotalsRow(section, region, level) {
                 me.createGrid(section, 'Daily totals', [{
                         title: "New cases",
-                        responseGetter: () => __awaiter(this, void 0, void 0, function* () { return COVIDDataBridge.getSummary('cases', region.locationId); }),
+                        responseGetter: () => __awaiter(this, void 0, void 0, function* () { return COVIDDataBridge.getSummary('cases_daily', region.locationId, level); }),
+                    }, level === COVIDRegionLevel.regional ? null : {
+                        title: "Hopsitalizations",
+                        responseGetter: () => __awaiter(this, void 0, void 0, function* () { return COVIDDataBridge.getSummary('hospitalizations_daily', region.locationId, level); }),
                     }, {
                         title: "Deaths",
-                        responseGetter: () => __awaiter(this, void 0, void 0, function* () { return COVIDDataBridge.getSummary('deaths', region.locationId); }),
-                    }, includeVaccines ? {
-                        title: "Vaccines administered",
-                        responseGetter: () => __awaiter(this, void 0, void 0, function* () { return cws.numberToPrettyNumber(yield COVIDDataBridge.getSummary('vaccine-doses', region.locationId)); }),
-                    } : null]);
+                        responseGetter: () => __awaiter(this, void 0, void 0, function* () { return COVIDDataBridge.getSummary('deaths_daily', region.locationId, level); }),
+                    }]);
             }
-            function buildWavgDailyTotalsRow(section, region, includeVaccines) {
+            function buildWavgDailyTotalsRow(section, region, level) {
                 me.createGrid(section, `Average daily total (past ${averageDays} days)`, [{
                         title: "New cases",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
-                            const cases = yield COVIDDataBridge.getTimeSeries('cases', region.locationId);
-                            return cws.numberToPrettyNumber(COVIDDashboardPage.getTimeSeriesAverage(cases, averageDays, (entry) => { return entry.cases; }));
+                            const cases = yield COVIDDataBridge.getTimeSeries('cases', region.locationId, level);
+                            return cws.numberToPrettyNumber(COVIDDashboardPage.getTimeSeriesAverage(cases, averageDays, true));
+                        }),
+                    }, level === COVIDRegionLevel.regional ? null : {
+                        title: "Hospitalizations",
+                        responseGetter: () => __awaiter(this, void 0, void 0, function* () {
+                            const cases = yield COVIDDataBridge.getTimeSeries('hospitalizations', region.locationId, level);
+                            return cws.numberToPrettyNumber(COVIDDashboardPage.getTimeSeriesAverage(cases, averageDays, true));
                         }),
                     }, {
                         title: "Deaths",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
-                            const deaths = yield COVIDDataBridge.getTimeSeries('deaths', region.locationId);
-                            return cws.numberToPrettyNumber(COVIDDashboardPage.getTimeSeriesAverage(deaths, averageDays, (entry) => { return entry.deaths; }));
+                            const deaths = yield COVIDDataBridge.getTimeSeries('deaths', region.locationId, level);
+                            return cws.numberToPrettyNumber(COVIDDashboardPage.getTimeSeriesAverage(deaths, averageDays, true));
                         }),
-                    }, includeVaccines ? {
-                        title: "Vaccines administered",
-                        responseGetter: () => __awaiter(this, void 0, void 0, function* () {
-                            const vaccines = yield COVIDDataBridge.getTimeSeries('vaccine-doses', region.locationId);
-                            return cws.numberToPrettyNumber(COVIDDashboardPage.getTimeSeriesAverage(vaccines, averageDays, (entry) => { return entry.avaccine; }));
-                        }),
-                    } : null]);
+                    }]);
             }
-            function buildCumulativeRow(section, region, includeVaccines) {
+            function buildCumulativeRow(section, region, level) {
                 me.createGrid(section, 'Cumulative totals', [
                     {
                         title: "Cases",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
-                            return cws.numberToPrettyNumber(yield COVIDDataBridge.getSummary('cases', region.locationId));
+                            return cws.numberToPrettyNumber(yield COVIDDataBridge.getSummary('cases', region.locationId, level));
+                        }),
+                    }, level === COVIDRegionLevel.regional ? null : {
+                        title: "Hospitalizations",
+                        responseGetter: () => __awaiter(this, void 0, void 0, function* () {
+                            return cws.numberToPrettyNumber(yield COVIDDataBridge.getSummary('hospitalizations', region.locationId, level));
                         }),
                     }, {
                         title: "Deaths",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
-                            return cws.numberToPrettyNumber(yield COVIDDataBridge.getSummary('deaths', region.locationId));
+                            return cws.numberToPrettyNumber(yield COVIDDataBridge.getSummary('deaths', region.locationId, level));
                         }),
-                    }, includeVaccines ? {
-                        title: "Vaccines administered",
-                        responseGetter: () => __awaiter(this, void 0, void 0, function* () {
-                            return cws.numberToPrettyNumber(yield COVIDDataBridge.getSummary('vaccine-doses', region.locationId));
-                        }),
-                    } : null, {
+                    }
+                ].concat(!region.population ? [] : [{
                         title: "Cases (as % of pop.)",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
-                            const ccases = yield COVIDDataBridge.getSummary('cumulative-cases', region.locationId);
+                            const ccases = yield COVIDDataBridge.getSummary('cases', region.locationId, level);
                             return COVIDHelper.formatAsPercentage(ccases / region.population);
+                        }),
+                    }, level === COVIDRegionLevel.regional ? null : {
+                        title: "Current Hospitalizations (as % of pop.)",
+                        responseGetter: () => __awaiter(this, void 0, void 0, function* () {
+                            const value = yield COVIDDataBridge.getSummary('hospitalizations', region.locationId, level);
+                            return COVIDHelper.formatAsPercentage(value / region.population);
                         }),
                     }, {
                         title: "Deaths (as % of pop.)",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
-                            const cdeaths = yield COVIDDataBridge.getSummary('cumulative-deaths', region.locationId);
+                            const cdeaths = yield COVIDDataBridge.getSummary('deaths', region.locationId, level);
                             return COVIDHelper.formatAsPercentage(cdeaths / region.population);
                         }),
                     }
-                ], includeVaccines
-                    ? null
-                    : { maxTwoAcross: true });
+                ]));
             }
             function buildMainRow(section, data) {
                 me.createGrid(section, data.title, [{
                         title: "AVERAGE CASES (past 7 days)",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
-                            return cws.numberToPrettyNumber(COVIDDashboardPage.getTimeSeriesAverage(yield COVIDDataBridge.getTimeSeries('cases', data.locationId), 7, (entry) => { return entry.cases; }));
+                            return cws.numberToPrettyNumber(COVIDDashboardPage.getTimeSeriesAverage(yield COVIDDataBridge.getTimeSeries('cases', data.locationId, data.level), 7, true));
                         }),
                     }, {
                         title: "DEATHS (past 28 days)",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
-                            const deaths = yield COVIDDataBridge.getTimeSeries('deaths', data.locationId);
+                            const deaths = yield COVIDDataBridge.getTimeSeries('deaths', data.locationId, data.level);
                             const end = deaths.length - 1;
-                            return (deaths[end].cumulative_deaths - deaths[end - 28].cumulative_deaths);
+                            return (deaths[end].value - deaths[end - 28].value);
                         }),
                     },
-                    {
+                    !data.population ? null : {
                         title: "CUMULATIVE CASES AS % OF POP.",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
-                            const ccases = yield COVIDDataBridge.getSummary('cumulative-cases', data.locationId);
+                            const ccases = yield COVIDDataBridge.getSummary('cases', data.locationId, data.level);
                             return cws.roundToDecimalPlaces(100 * ccases / data.population, 2) + '% ';
                         }),
                     }
@@ -490,10 +531,10 @@ class COVIDDashboardPage {
             this.grids.push(new COVIDCardGrid(title, values.filter((a) => { return !!a; }), section, config));
         });
     }
-    static getTimeSeriesAverage(timeseries, days, valueGetter) {
+    static getTimeSeriesAverage(timeseries, days, is_daily) {
         const lastNDays = timeseries.slice(timeseries.length - days);
-        const result = Math.round(lastNDays.reduce((previousValue, currentValue) => {
-            return previousValue + valueGetter(currentValue) / days;
+        const result = Math.round(lastNDays.reduce((previousValue, day) => {
+            return previousValue + day[is_daily ? 'value_daily' : 'value'] / days;
         }, 0));
         return result;
     }

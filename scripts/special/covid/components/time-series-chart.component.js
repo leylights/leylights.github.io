@@ -36,7 +36,7 @@ export class COVIDTimeSeriesChart {
             points: [],
         });
         // get data and parse
-        COVIDDataBridge.getTimeSeries(config.timeSeries.type, config.timeSeries.location)
+        COVIDDataBridge.getTimeSeries(config.timeSeries.type, config.timeSeries.location, config.timeSeries.level)
             .then((response) => { me.handleResponse(response); });
     }
     buildTimeRangeInputs() {
@@ -82,10 +82,12 @@ export class COVIDTimeSeriesChart {
     handleResponse(response) {
         var _a;
         const me = this;
+        const reformatter = this.config.timeSeries.valueReformatter ? this.config.timeSeries.valueReformatter : (n) => n;
         me.fullTimeSeries = response.map((day) => {
+            const value = me.config.timeSeries.useDailyValues ? day.value_daily : day.value;
             return {
-                property: day[me.config.responsePropertyName],
-                date: day[me.config.responseTimePropertyName],
+                property: reformatter(value),
+                date: day.date,
             };
         });
         const today = new Date(me.fullTimeSeries[me.fullTimeSeries.length - 1].date);
