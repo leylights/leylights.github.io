@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { cws } from "../../../cws.js";
-import { COVIDDataBridge } from "./covid-data-bridge.js";
+import { COVIDDataInterface } from "./covid-data-interface.js";
 import { COVIDHealthUnit } from "./health-unit.js";
 import { COVIDProvince } from "./province.js";
 export class COVIDRegionsController {
@@ -21,13 +21,31 @@ export class COVIDRegionsController {
         this._canada = null;
         this.SKIPPED_HEALTH_UNITS = [9999];
         this.SKIPPED_PROVINCES = ["RP"];
+        this.provincialPopulations = {
+            "NL": 522453,
+            "PE": 166331,
+            "NS": 1002586,
+            "NB": 797102,
+            "QC": 8639642,
+            "ON": 14951825,
+            "MB": 1390249,
+            "SK": 1183269,
+            "AB": 4480486,
+            "BC": 5264485,
+            "YT": 42982,
+            "NT": 45640,
+            "NU": 39710,
+        };
     }
     init() {
         return __awaiter(this, void 0, void 0, function* () {
-            const me = this, data = (yield COVIDDataBridge.getSupplementaryData()).OPENCOVID;
+            const me = this;
+            const healthRegions = yield COVIDDataInterface.getRegionsInfoMap();
+            const provinces = yield COVIDDataInterface.getProvincesInfoMap();
+            console.log(healthRegions);
             // Health units
-            data.hr.forEach(configuration => {
-                if (!cws.Array.includes(me.SKIPPED_HEALTH_UNITS, configuration.HR_UID)) {
+            healthRegions.forEach(configuration => {
+                if (!cws.Array.includes(me.SKIPPED_HEALTH_UNITS, configuration.id)) {
                     me.healthUnits.push(new COVIDHealthUnit(configuration));
                 }
                 if (me.healthUnits[me.healthUnits.length - 1].locationId === COVIDRegionsController.LONDON_CODE)
@@ -36,9 +54,14 @@ export class COVIDRegionsController {
                     me._waterloo = me.healthUnits[me.healthUnits.length - 1];
             });
             // Provinces
-            data.prov.forEach(configuration => {
-                if (!cws.Array.includes(me.SKIPPED_PROVINCES, configuration.province_short)) {
-                    me.provinces.push(new COVIDProvince(configuration));
+            provinces.forEach(configuration => {
+                if (!cws.Array.includes(me.SKIPPED_PROVINCES, configuration.shortName)) {
+                    me.provinces.push(new COVIDProvince({
+                        pop: me.provincialPopulations[configuration.shortName],
+                        province: configuration.fullName,
+                        province_full: configuration.fullName,
+                        province_short: configuration.shortName,
+                    }));
                 }
                 const end = me.provinces[me.provinces.length - 1];
                 if (end.locationId === COVIDRegionsController.ONTARIO_CODE)
@@ -95,8 +118,8 @@ export class COVIDRegionsController {
             return results[0];
     }
 }
-COVIDRegionsController.LONDON_CODE = '3544';
-COVIDRegionsController.WATERLOO_CODE = '3565';
+COVIDRegionsController.LONDON_CODE = '3546';
+COVIDRegionsController.WATERLOO_CODE = '3568';
 COVIDRegionsController.ONTARIO_CODE = "ON";
 COVIDRegionsController.CANADA_CODE = "canada";
 //# sourceMappingURL=regions.controller.js.map

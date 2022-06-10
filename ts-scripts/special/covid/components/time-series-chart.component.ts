@@ -1,7 +1,7 @@
 import { cws } from "../../../cws.js";
 import { InputComponent } from "../../_components/input.component.js";
 import { LineChartComponent, LineChartPoint } from "../../_components/line-chart.component.js";
-import { COVIDDataBridge } from "../model/covid-data-bridge.js";
+import { COVIDDataBridge, COVIDRegionLevel, COVIDTimeSeriesDayResponse, COVIDTimeSeriesType } from "../model/covid-data-bridge.js";
 import { COVIDSectionCollection } from "./section-collection.component.js";
 import { COVIDSection } from "./section.component.js";
 
@@ -10,11 +10,12 @@ interface COVIDTimeSeriesChartConfig {
   title: string,
   shortTitle: string,
   timeSeries: {
-    type: 'cases' | 'mortality' | 'active',
+    type: COVIDTimeSeriesType,
     location: string,
+    level: COVIDRegionLevel,
+    useDailyValues: boolean,
+    valueReformatter?: (value: number) => number,
   },
-  responsePropertyName: string,
-  responseTimePropertyName: string,
   averageDays?: number,
 }
 
@@ -70,7 +71,7 @@ export class COVIDTimeSeriesChart {
     });
 
     // get data and parse
-    COVIDDataBridge.getTimeSeries(config.timeSeries.type, config.timeSeries.location)
+    COVIDDataBridge.getTimeSeries(config.timeSeries.type, config.timeSeries.location, config.timeSeries.level)
       .then((response: any) => { me.handleResponse(response) });
   }
 
@@ -120,12 +121,14 @@ export class COVIDTimeSeriesChart {
     }
   }
 
-  private handleResponse(this: COVIDTimeSeriesChart, response: any[]) {
+  private handleResponse(this: COVIDTimeSeriesChart, response: COVIDTimeSeriesDayResponse[]) {
     const me = this;
+    const reformatter = this.config.timeSeries.valueReformatter ? this.config.timeSeries.valueReformatter : (n: number) => n;
     me.fullTimeSeries = response.map((day) => {
+      const value = me.config.timeSeries.useDailyValues ? day.value_daily : day.value;
       return {
-        property: day[me.config.responsePropertyName] as number,
-        date: day[me.config.responseTimePropertyName] as string,
+        property: reformatter(value),
+        date: day.date,
       }
     });
 

@@ -1,102 +1,117 @@
-import { cws } from "../../../cws.js";
 import { DataBridge } from "../../_components/data-bridge.component.js";
 
 /**
  * Handles retrieval of data from the API
  */
-export type COVIDSummaryType = 'cases'
-  | 'mortality'
+export type COVIDTimeSeriesType =
+  'cases'
+  | 'deaths'
   | 'hospitalizations'
-  | 'deaths'
-  | 'vaccine-completions'
-  | 'vaccine-doses'
-  | 'cumulative-cases'
-  | 'cumulative-deaths';
+  | 'icu'
+  | 'tests_completed'
+  | 'vaccine_coverage_dose_1'
+  | 'vaccine_coverage_dose_2'
+  | 'vaccine_coverage_dose_3'
+  | 'vaccine_coverage_dose_4'
+  | 'vaccine_administration_total_doses'
+  | 'vaccine_administration_dose_1'
+  | 'vaccine_administration_dose_2'
+  | 'vaccine_administration_dose_3';
 
-export type COVIDTimeSeriesType = 'cases'
-  | 'mortality'
-  | 'deaths'
-  | 'active'
-  | 'vaccine-doses';
+export enum COVIDRegionLevel {
+  regional = 'hr',
+  provincial = 'pt',
+  national = 'can',
+}
+
+export type COVIDSummaryResponse = {
+  "region": string,
+  "date": string,
+  "cases": number,
+  "cases_daily": number,
+  "deaths": number,
+  "deaths_daily": number,
+  "hospitalizations": number,
+  "hospitalizations_daily": number,
+  "icu": number,
+  "icu_daily": number,
+  "tests_completed": number,
+  "tests_completed_daily": number,
+  "vaccine_coverage_dose_1": number,
+  "vaccine_coverage_dose_1_daily": number,
+  "vaccine_coverage_dose_2": number,
+  "vaccine_coverage_dose_2_daily": number,
+  "vaccine_coverage_dose_3": number,
+  "vaccine_coverage_dose_3_daily": number,
+  "vaccine_coverage_dose_4": number,
+  "vaccine_coverage_dose_4_daily": number,
+  "vaccine_administration_total_doses": number,
+  "vaccine_administration_total_doses_daily": number,
+  "vaccine_administration_dose_1": number,
+  "vaccine_administration_dose_1_daily": number,
+  "vaccine_administration_dose_2": number,
+  "vaccine_administration_dose_2_daily": number,
+  "vaccine_administration_dose_3": number,
+  "vaccine_administration_dose_3_daily": number
+}
+
+export type COVIDTimeSeriesDayResponse = {
+  "name": string,
+  "region": string,
+  "sub_region_1": string,
+  "date": string,
+  "value": number,
+  "value_daily": number
+}
 
 export class COVIDDataBridge {
-  private static readonly apis = {
-    OPENCOVID: new DataBridge('https://api.opencovid.ca'),
-    COVID_19_TRACKER: new DataBridge('https://api.covid19tracker.ca'),
+  private static readonly API = new DataBridge('https://api.opencovid.ca');
+
+  static get(url: string): Promise<any> {
+    return COVIDDataBridge.API.get(url);
   }
 
   static async getLastUpdate() {
-    return {
-      OPENCOVID: await COVIDDataBridge.apis.OPENCOVID.get('/version'),
-    }
+    return await COVIDDataBridge.API.get('/version');
   }
 
   static async getSummary(
-    type: COVIDSummaryType,
-    locationId: string
+    type: keyof COVIDSummaryResponse,
+    locationId: string,
+    region: COVIDRegionLevel
   ) {
-    let internalType: string = type;
-    switch (type) {
-      case 'hospitalizations': internalType = 'total_hospitalizations'; break;
-      case 'mortality': internalType = 'deaths'; break;
-      case 'vaccine-doses': internalType = 'cumulative_avaccine'; break;
-      case 'vaccine-completions': internalType = 'cumulative_cvaccine'; break;
-      case 'cumulative-cases': internalType = 'cumulative_cases'; break;
-      case 'cumulative-deaths': internalType = 'cumulative_deaths'; break;
-    }
-
-    if (cws.Array.includes([
-      'hospitalizations'
-    ], type)) {
-      console.error(`NOTE: the api.covid19tracker.ca API has unfriendly CORS policy, and likely will not work.
-      Do not make requests to it.  This functionality is left here in case their CORS improves.`);
-
-      if (!isNaN(parseInt(locationId))) return await COVIDDataBridge.summaryHelper.covid19Tracker.getRegional(locationId, internalType);
-      else if (locationId.length === 2) return await COVIDDataBridge.summaryHelper.covid19Tracker.getProvincial(locationId, internalType);
-      else return await COVIDDataBridge.summaryHelper.covid19Tracker.getNational(internalType);
-    } else {
-      return (await COVIDDataBridge.apis.OPENCOVID.get(`/summary?loc=${locationId}`)).summary[0][internalType];
-    }
+    return ((await COVIDDataBridge.API.get(`/summary?geo=${region}&loc=${locationId}`)).data[0] as COVIDSummaryResponse)[type] as number;
   }
 
-  private static summaryHelper = {
-    covid19Tracker: {
-      getRegional: async (locationId: string, attribute: string) => {
-        const regions: any[] = (await COVIDDataBridge.apis.COVID_19_TRACKER.get(`/summary/split/hr`)).data,
-          parsedLocationId = parseInt(locationId);
-
-        return regions.find((value) => {
-          return value.hr_uid === parsedLocationId;
-        })[attribute];
-      },
-
-      getProvincial: async (provinceId: string, attribute: string) => {
-        const provinces: any[] = (await COVIDDataBridge.apis.COVID_19_TRACKER.get(`/summary/split/`)).data;
-
-        return provinces.find((value) => {
-          return value.province === provinceId;
-        })[attribute];
-      },
-
-      getNational: async (attribute: string) => {
-        return (await COVIDDataBridge.apis.COVID_19_TRACKER.get(`/summary/`)).data[0][attribute];
-      }
+  static async getProvincialSummaries(config?: { nameType?: 'full' | 'id' | 'short' }): Promise<{ data: any[] }> {
+    let _nameType: string;
+    switch (config?.nameType) {
+      case 'full': _nameType = 'canonical'; break;
+      case 'short': _nameType = 'short'; break;
+      case 'id':
+      default: _nameType = 'pruid'; break;
     }
+
+    return COVIDDataBridge.get(`/summary?geo=pt&pt_names=${_nameType}`) as Promise<{
+      data: any[]
+    }>;
   }
 
-  static async getTimeSeries(type: COVIDTimeSeriesType, locationId: string): Promise<any[]> {
-    let internalType: string = type;
-    switch (type) {
-      case 'deaths': internalType = 'mortality'; break;
-      case 'vaccine-doses': internalType = 'avaccine'; break;
+  static async getRegionalSummaries(config?: { nameType?: 'full' | 'id' | 'short' }): Promise<{ data: any[] }> {
+    let _nameType: string;
+    switch (config?.nameType) {
+      case 'full': _nameType = 'canonical'; break;
+      case 'short': _nameType = 'short'; break;
+      case 'id':
+      default: _nameType = 'hruid'; break;
     }
 
-    return (await COVIDDataBridge.apis.OPENCOVID.get(`/timeseries?loc=${locationId}&stat=${internalType}&ymd=true`))[internalType];
+    return COVIDDataBridge.get(`/summary?geo=hr&hr_names=${_nameType}`) as Promise<{
+      data: any[]
+    }>;
   }
 
-  static async getSupplementaryData() {
-    return {
-      OPENCOVID: await COVIDDataBridge.apis.OPENCOVID.get('/other'),
-    }
+  static async getTimeSeries(type: COVIDTimeSeriesType, locationId: string, level: COVIDRegionLevel): Promise<COVIDTimeSeriesDayResponse[]> {
+    return ((await COVIDDataBridge.API.get(`/timeseries?geo=${level}&loc=${locationId}&stat=${type}&ymd=true`))).data[type] as COVIDTimeSeriesDayResponse[];
   }
 }

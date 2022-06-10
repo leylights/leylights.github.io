@@ -7,101 +7,68 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var _a;
-import { cws } from "../../../cws.js";
 import { DataBridge } from "../../_components/data-bridge.component.js";
+export var COVIDRegionLevel;
+(function (COVIDRegionLevel) {
+    COVIDRegionLevel["regional"] = "hr";
+    COVIDRegionLevel["provincial"] = "pt";
+    COVIDRegionLevel["national"] = "can";
+})(COVIDRegionLevel || (COVIDRegionLevel = {}));
 export class COVIDDataBridge {
+    static get(url) {
+        return COVIDDataBridge.API.get(url);
+    }
     static getLastUpdate() {
         return __awaiter(this, void 0, void 0, function* () {
-            return {
-                OPENCOVID: yield COVIDDataBridge.apis.OPENCOVID.get('/version'),
-            };
+            return yield COVIDDataBridge.API.get('/version');
         });
     }
-    static getSummary(type, locationId) {
+    static getSummary(type, locationId, region) {
         return __awaiter(this, void 0, void 0, function* () {
-            let internalType = type;
-            switch (type) {
-                case 'hospitalizations':
-                    internalType = 'total_hospitalizations';
-                    break;
-                case 'mortality':
-                    internalType = 'deaths';
-                    break;
-                case 'vaccine-doses':
-                    internalType = 'cumulative_avaccine';
-                    break;
-                case 'vaccine-completions':
-                    internalType = 'cumulative_cvaccine';
-                    break;
-                case 'cumulative-cases':
-                    internalType = 'cumulative_cases';
-                    break;
-                case 'cumulative-deaths':
-                    internalType = 'cumulative_deaths';
-                    break;
-            }
-            if (cws.Array.includes([
-                'hospitalizations'
-            ], type)) {
-                console.error(`NOTE: the api.covid19tracker.ca API has unfriendly CORS policy, and likely will not work.
-      Do not make requests to it.  This functionality is left here in case their CORS improves.`);
-                if (!isNaN(parseInt(locationId)))
-                    return yield COVIDDataBridge.summaryHelper.covid19Tracker.getRegional(locationId, internalType);
-                else if (locationId.length === 2)
-                    return yield COVIDDataBridge.summaryHelper.covid19Tracker.getProvincial(locationId, internalType);
-                else
-                    return yield COVIDDataBridge.summaryHelper.covid19Tracker.getNational(internalType);
-            }
-            else {
-                return (yield COVIDDataBridge.apis.OPENCOVID.get(`/summary?loc=${locationId}`)).summary[0][internalType];
-            }
+            return (yield COVIDDataBridge.API.get(`/summary?geo=${region}&loc=${locationId}`)).data[0][type];
         });
     }
-    static getTimeSeries(type, locationId) {
+    static getProvincialSummaries(config) {
         return __awaiter(this, void 0, void 0, function* () {
-            let internalType = type;
-            switch (type) {
-                case 'deaths':
-                    internalType = 'mortality';
+            let _nameType;
+            switch (config === null || config === void 0 ? void 0 : config.nameType) {
+                case 'full':
+                    _nameType = 'canonical';
                     break;
-                case 'vaccine-doses':
-                    internalType = 'avaccine';
+                case 'short':
+                    _nameType = 'short';
+                    break;
+                case 'id':
+                default:
+                    _nameType = 'pruid';
                     break;
             }
-            return (yield COVIDDataBridge.apis.OPENCOVID.get(`/timeseries?loc=${locationId}&stat=${internalType}&ymd=true`))[internalType];
+            return COVIDDataBridge.get(`/summary?geo=pt&pt_names=${_nameType}`);
         });
     }
-    static getSupplementaryData() {
+    static getRegionalSummaries(config) {
         return __awaiter(this, void 0, void 0, function* () {
-            return {
-                OPENCOVID: yield COVIDDataBridge.apis.OPENCOVID.get('/other'),
-            };
+            let _nameType;
+            switch (config === null || config === void 0 ? void 0 : config.nameType) {
+                case 'full':
+                    _nameType = 'canonical';
+                    break;
+                case 'short':
+                    _nameType = 'short';
+                    break;
+                case 'id':
+                default:
+                    _nameType = 'hruid';
+                    break;
+            }
+            return COVIDDataBridge.get(`/summary?geo=hr&hr_names=${_nameType}`);
+        });
+    }
+    static getTimeSeries(type, locationId, level) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return ((yield COVIDDataBridge.API.get(`/timeseries?geo=${level}&loc=${locationId}&stat=${type}&ymd=true`))).data[type];
         });
     }
 }
-_a = COVIDDataBridge;
-COVIDDataBridge.apis = {
-    OPENCOVID: new DataBridge('https://api.opencovid.ca'),
-    COVID_19_TRACKER: new DataBridge('https://api.covid19tracker.ca'),
-};
-COVIDDataBridge.summaryHelper = {
-    covid19Tracker: {
-        getRegional: (locationId, attribute) => __awaiter(void 0, void 0, void 0, function* () {
-            const regions = (yield COVIDDataBridge.apis.COVID_19_TRACKER.get(`/summary/split/hr`)).data, parsedLocationId = parseInt(locationId);
-            return regions.find((value) => {
-                return value.hr_uid === parsedLocationId;
-            })[attribute];
-        }),
-        getProvincial: (provinceId, attribute) => __awaiter(void 0, void 0, void 0, function* () {
-            const provinces = (yield COVIDDataBridge.apis.COVID_19_TRACKER.get(`/summary/split/`)).data;
-            return provinces.find((value) => {
-                return value.province === provinceId;
-            })[attribute];
-        }),
-        getNational: (attribute) => __awaiter(void 0, void 0, void 0, function* () {
-            return (yield COVIDDataBridge.apis.COVID_19_TRACKER.get(`/summary/`)).data[0][attribute];
-        })
-    }
-};
+COVIDDataBridge.API = new DataBridge('https://api.opencovid.ca');
 //# sourceMappingURL=covid-data-bridge.js.map

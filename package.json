@@ -11,7 +11,8 @@
   },
   "scripts": {
     "wipe-sass": "powershell Remove-Item stylesheets/* -Recurse",
-    "dev": "npm-run-all --parallel watch-sass watch-ts",
+    "dev": "npm-run-all --parallel watch-sass watch-ts start",
+    "start": "http-server",
     "watch-sass": "sass --watch sass:stylesheets --no-source-map",
     "watch-ts": "tsc --watch"
   }
