@@ -78,8 +78,12 @@ class COVIDDashboardPage {
     const me = this;
     const averageDays: number = 7;
 
+    COVIDDataBridge.preload();
+
     if (new Date().getHours() === 21) this.elements.updateWarning.classList.remove('hidden-warning');
-    this.elements.lastUpdate.innerText = await COVIDDataInterface.getLastUpdate();
+    COVIDDataInterface.getLastUpdate().then((result) => {
+      me.elements.lastUpdate.innerText = result;
+    });
 
     await this.regionsController.init();
 
@@ -163,12 +167,7 @@ class COVIDDashboardPage {
             const doses = await COVIDDataBridge.getSummary('vaccine_administration_dose_2', province.locationId, level) as number;
             return cws.numberToPrettyNumber(doses);
           },
-        }]);
-
-      me.createGrid(
-        section,
-        'Vaccination',
-        [{
+        },{
           title: "Population double vaccinated",
           responseGetter: async () => {
             const coverage = await COVIDDataBridge.getSummary('vaccine_coverage_dose_2', province.locationId, level) as number;
@@ -442,6 +441,7 @@ class COVIDDashboardPage {
             type: 'hospitalizations',
           });
 
+          // debugger;
         createChart({
           days: deathsDays,
           title: 'Deaths per day',

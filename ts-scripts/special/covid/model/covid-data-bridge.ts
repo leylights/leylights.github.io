@@ -114,4 +114,17 @@ export class COVIDDataBridge {
   static async getTimeSeries(type: COVIDTimeSeriesType, locationId: string, level: COVIDRegionLevel): Promise<COVIDTimeSeriesDayResponse[]> {
     return ((await COVIDDataBridge.API.get(`/timeseries?geo=${level}&loc=${locationId}&stat=${type}&ymd=true`))).data[type] as COVIDTimeSeriesDayResponse[];
   }
+
+  /**
+   * Make some important API calls early so that they can be cached
+   */
+  static async preload(): Promise<void> {
+    this.getLastUpdate();
+    this.getRegionalSummaries({nameType: 'full'});
+    this.getRegionalSummaries({nameType: 'id'});
+    this.getRegionalSummaries({nameType: 'short'});
+    this.getProvincialSummaries({nameType: 'full'});
+    this.getProvincialSummaries({nameType: 'id'});
+    this.getProvincialSummaries({nameType: 'short'});
+  }
 }

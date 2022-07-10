@@ -1,17 +1,12 @@
 :root {
   /* --primary-accent-color: #ad0058; */
   --covid-tab-colour: #444;
-  --covid-selected-tab-colour: var(--primary-accent-color);
+  --covid-selected-tab-colour: #f70174;
   --covid-card-color: var(--secondary-bg-color);
 }
 
 .content {
   color: var(--light-text-color);
-}
-
-.display-card {
-  box-shadow: 0 0 7px -1px #888 inset;
-  background-color: unset;
 }
 
 .line-chart-container {
@@ -22,12 +17,17 @@
   background-color: #fff;
 }
 
-.display-card.success-card {
-  color: var(--success-color);
+.display-card {
+  box-shadow: 0px 0 4px 1px #bbb;
+  background-color: unset;
 }
-
+.display-card.success-card {
+  background-color: var(--success-color);
+  color: white;
+}
 .display-card.fail-card {
-  color: var(--reject-color);
+  background-color: var(--reject-color);
+  color: white;
 }
 
 .covid-tab {

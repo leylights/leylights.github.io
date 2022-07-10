@@ -37,7 +37,9 @@ export class COVIDTimeSeriesChart {
         });
         // get data and parse
         COVIDDataBridge.getTimeSeries(config.timeSeries.type, config.timeSeries.location, config.timeSeries.level)
-            .then((response) => { me.handleResponse(response); });
+            .then((response) => {
+            me.handleResponse(response);
+        });
     }
     buildTimeRangeInputs() {
         const me = this, start = new InputComponent({
@@ -93,8 +95,9 @@ export class COVIDTimeSeriesChart {
         const today = new Date(me.fullTimeSeries[me.fullTimeSeries.length - 1].date);
         // may be 5 hours off due to time zones; doesn't cause any issues with calculating time difference
         //  UTC time is exact 
+        const hiddenFirstDays = Math.max(me.fullTimeSeries.length - ((_a = me.config.days) !== null && _a !== void 0 ? _a : me.fullTimeSeries.length) - me.averageDays + 1, 0);
         const points = me.fullTimeSeries
-            .slice(me.fullTimeSeries.length - ((_a = me.config.days) !== null && _a !== void 0 ? _a : me.fullTimeSeries.length) - me.averageDays + 1)
+            .slice(hiddenFirstDays)
             .map((day) => {
             var _a;
             return {

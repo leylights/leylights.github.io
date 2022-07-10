@@ -62,6 +62,10 @@ export class COVIDSection {
     parent.sectionsContainer.appendChild(this._body);
     parent.tabsContainer.appendChild(this.tab);
     parent.register(this);
+
+    new ResizeObserver((entries) => {
+      me.parent.resetHeight();
+    }).observe(this._body);
   }
 
   get appendableBody(): HTMLElement {
@@ -71,6 +75,10 @@ export class COVIDSection {
   get bodyHeight(): string {
     // return window.getComputedStyle(this._body).height;
     return this._body.getBoundingClientRect().height + 'px';
+  }
+
+  get isSelected(): boolean {
+    return this.tab.classList.contains('selected');
   }
 
   appendChild(this: COVIDSection, child: HTMLElement): HTMLElement {

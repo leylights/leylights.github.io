@@ -72,7 +72,9 @@ export class COVIDTimeSeriesChart {
 
     // get data and parse
     COVIDDataBridge.getTimeSeries(config.timeSeries.type, config.timeSeries.location, config.timeSeries.level)
-      .then((response: any) => { me.handleResponse(response) });
+      .then((response: any) => { 
+        me.handleResponse(response); 
+      });
   }
 
   private buildTimeRangeInputs(this: COVIDTimeSeriesChart) {
@@ -136,8 +138,10 @@ export class COVIDTimeSeriesChart {
     // may be 5 hours off due to time zones; doesn't cause any issues with calculating time difference
     //  UTC time is exact 
 
+    const hiddenFirstDays: number = Math.max(me.fullTimeSeries.length - (me.config.days ?? me.fullTimeSeries.length) - me.averageDays + 1, 0);
+
     const points: LineChartPoint[] = me.fullTimeSeries
-      .slice(me.fullTimeSeries.length - (me.config.days ?? me.fullTimeSeries.length) - me.averageDays + 1)
+      .slice(hiddenFirstDays)
       .map((day) => {
         return {
           x: (me.config.days ?? me.fullTimeSeries.length) - cws.daysBetween(today, new Date(day.date)),
