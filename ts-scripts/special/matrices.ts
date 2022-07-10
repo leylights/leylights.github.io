@@ -55,7 +55,7 @@ const MATRIX_PAIR_INPUT = `<div class="matrix-pair-input-container"><p>(
   <input class="smallInputBottomLine footer-input-col ADDITIONAL_CLASSES_TWO" FOOTER_INPUT_STYLE></input>
 )</p></div>`;
 
-var matrices: Matrix[] = [];
+const matrices: Matrix[] = [];
 
 interface MatrixHTMLInitializationData {
   rows: number;
@@ -189,10 +189,10 @@ class MatrixValues {
       throw new Error('Matrix must be square');
     }
 
-    let clone: MatrixValues = this.clone();
+    const clone: MatrixValues = this.clone();
     clone.solve();
 
-    let baseDeterminant = MathNum.ONE.clone();
+    const baseDeterminant = MathNum.ONE.clone();
 
     for (let i = 0; i < clone.numRows; i++)
       baseDeterminant.multiplyBy(clone.getValueAt(i, i));
@@ -204,7 +204,7 @@ class MatrixValues {
     if (this.determinantMultipliers.length == 0)
       return MathNum.ONE.clone();
 
-    let product = this.determinantMultipliers[0].clone();
+    const product = this.determinantMultipliers[0].clone();
     for (let i = 1; i < this.determinantMultipliers.length; i++)
       product.multiplyBy(this.determinantMultipliers[i]);
 
@@ -224,10 +224,10 @@ class MatrixValues {
   }
 
   clone(this: MatrixValues): MatrixValues {
-    let clonedValues: MathNum[][] = [];
+    const clonedValues: MathNum[][] = [];
 
     this.rows.forEach((row: MatrixRow) => {
-      let rowValues = [];
+      const rowValues = [];
 
       row.values.forEach((value: MathNum) => {
         rowValues.push(value.clone());
@@ -360,7 +360,7 @@ class MatrixValues {
       throw new Error("bad swapped row: " + b);
     }
 
-    let tempRow = this.rows[b];
+    const tempRow = this.rows[b];
     this.rows[b] = this.rows[a];
     this.rows[a] = tempRow;
 
@@ -418,10 +418,10 @@ class MatrixValues {
    * Gets the submatrix of rows [startRow, endRow), [startColumn, endColumn) 
    */
   submatrixBetween(this: MatrixValues, startRow: number, endRow: number, startColumn: number, endColumn: number): MatrixValues {
-    let submatrixValues: MathNum[][] = [];
+    const submatrixValues: MathNum[][] = [];
 
     for (let i = startRow; i < endRow; i++) {
-      let nextRow: MathNum[] = [];
+      const nextRow: MathNum[] = [];
       for (let j = startColumn; j < endColumn; j++) {
         nextRow.push(this.getValueAt(i, j).clone());
       }
@@ -435,13 +435,13 @@ class MatrixValues {
    * Gets the submatrix of this, with removedRow and removedColumn removed
    */
   submatrixByRemoval(this: MatrixValues, removedRow: number, removedColumn: number): MatrixValues {
-    let submatrixValues: MathNum[][] = [];
+    const submatrixValues: MathNum[][] = [];
 
     for (let i = 0; i < this.rows.length; i++) {
       if (i === removedRow)
         continue;
 
-      let nextRow: MathNum[] = [];
+      const nextRow: MathNum[] = [];
 
       for (let j = 0; j < this.rows[0].length; j++) {
         if (j === removedColumn)
@@ -457,7 +457,7 @@ class MatrixValues {
   }
 
   clearPivotColAbove(this: MatrixValues, rowIndex: number): MatrixValues {
-    let pivotCol: number = this.rows[rowIndex].pivotCol;
+    const pivotCol: number = this.rows[rowIndex].pivotCol;
 
     if (pivotCol == -1) { // skip when there's no pivot
       return this;
@@ -475,7 +475,7 @@ class MatrixValues {
   }
 
   clearPivotColBelow(this: MatrixValues, rowIndex: number): MatrixValues {
-    let pivotCol: number = this.rows[rowIndex].pivotCol;
+    const pivotCol: number = this.rows[rowIndex].pivotCol;
 
     if (pivotCol == -1) { // skip when there's no pivot
       return this;
@@ -499,10 +499,10 @@ class MatrixValues {
    * 3 4             3 4 0 1
    */
   static getMatrixAppendedIdentityN(matrix: MatrixValues): MatrixValues {
-    let clone = matrix.clone();
+    const clone = matrix.clone();
 
     for (let i = 0; i < clone.rows.length; i++) {
-      let column: MathNum[] = [];
+      const column: MathNum[] = [];
 
       for (let j = 0; j < clone.rows.length; j++) {
         if (i == j)
@@ -591,12 +591,12 @@ class MatrixRow {
    * Scales this row to unity
    */
   scaleToUnity(this: MatrixRow): MatrixRow {
-    let pivot: number = this.pivotCol;
+    const pivot: number = this.pivotCol;
     if (pivot == -1) {
       return this;
     }
 
-    let multiplier: MathNum = this.values[this.pivotCol].getMultiplicativeInverse();
+    const multiplier: MathNum = this.values[this.pivotCol].getMultiplicativeInverse();
 
     for (let i = 0; i < this.values.length; i++) {
       this.values[i].multiplyBy(multiplier);
@@ -744,14 +744,14 @@ class MatrixHTML {
   }
 
   addRow(this: MatrixHTML): void {
-    let el: HTMLTableElement = this.element;
-    let row: HTMLTableRowElement = el.insertRow();
+    const el: HTMLTableElement = this.element;
+    const row: HTMLTableRowElement = el.insertRow();
     let numCols: number = el.rows[0].children.length;
 
     if (numCols === 0) numCols = 1;
 
     for (let i = 0; i < numCols; i++) {
-      let cell = row.insertCell();
+      const cell = row.insertCell();
 
       if (this.isEditable)
         cell.setAttributeNode(cws.betterCreateAttr('contenteditable', 'true'));
@@ -767,14 +767,14 @@ class MatrixHTML {
   }
 
   addCol(this: MatrixHTML): void {
-    let el: HTMLTableElement = this.element;
+    const el: HTMLTableElement = this.element;
 
     if (el.rows.length == 0) {
       el.insertRow();
     }
 
     for (let i = 0; i < el.rows.length; i++) {
-      let cell = el.rows[i].insertCell();
+      const cell = el.rows[i].insertCell();
       cell.setAttributeNode(cws.betterCreateAttr('contenteditable', 'true'));
     }
 
@@ -782,7 +782,7 @@ class MatrixHTML {
   }
 
   delCol(this: MatrixHTML): void {
-    let el: HTMLTableElement = this.element;
+    const el: HTMLTableElement = this.element;
     if (el.rows.length === 0) {
       this.checkDisplay();
       return;
@@ -810,7 +810,7 @@ class MatrixHTML {
   }
 
   clear(this: MatrixHTML): void {
-    let el: HTMLTableElement = this.element;
+    const el: HTMLTableElement = this.element;
 
     for (let r = 0; r < el.rows.length; r++) {
       for (let c = 0; c < el.rows[r].children.length; c++) {
@@ -833,7 +833,7 @@ class MatrixHTML {
   }
 
   generateMatrixButton(this: MatrixHTML, content: MatrixHTMLButtonsEnum, listenerFn: () => void, errorAction?: () => void, alternateParent?: HTMLElement | null): void {
-    let buttonRow: HTMLElement = alternateParent || this.container.querySelector(".matrixButtons");
+    const buttonRow: HTMLElement = alternateParent || this.container.querySelector(".matrixButtons");
 
     let classNames: string[];
     if (alternateParent != this.footerButtonContainer) {
@@ -845,7 +845,7 @@ class MatrixHTML {
       }
     }
 
-    let newButton: Button = Button.createByAppending(
+    const newButton: Button = Button.createByAppending(
       buttonRow,
       listenerFn,
       content,
@@ -883,7 +883,7 @@ class MatrixHTML {
     }
 
     newButton.errorAction = (e: Error) => {
-      let errorLog: HTMLElement = this.container.querySelector(".matrix-errors");
+      const errorLog: HTMLElement = this.container.querySelector(".matrix-errors");
 
       // setting
       let msg = e.message;
@@ -908,7 +908,7 @@ class MatrixHTML {
     this.buttons.push(newButton);
     MatrixHTML.nextMatrixButtonId++;
 
-    function isHalfButton(maybeHalfButton: MatrixHTMLButtonsEnum): Boolean {
+    function isHalfButton(maybeHalfButton: MatrixHTMLButtonsEnum): boolean {
       return cws.orEquals(maybeHalfButton, [
         MatrixHTMLButtonsEnum.scale,
         MatrixHTMLButtonsEnum.cofactor
@@ -917,14 +917,14 @@ class MatrixHTML {
   }
 
   getMatrix(this: MatrixHTML, emptyToZero?: boolean): MatrixValues {
-    let el: HTMLTableElement = this.element;
-    let values: MathNum[][] = [];
+    const el: HTMLTableElement = this.element;
+    const values: MathNum[][] = [];
 
     for (let r = 0; r < el.rows.length; r++) {
       values[r] = [];
 
       for (let c = 0; c < el.rows[r].children.length; c++) {
-        let innerText = (el.rows[r].children[c] as HTMLElement).innerText;
+        const innerText = (el.rows[r].children[c] as HTMLElement).innerText;
 
         if (emptyToZero && innerText == "") {
           values[r][c] = MathNum.ZERO.clone();
@@ -948,7 +948,7 @@ class MatrixHTML {
   highlightGenericCells(this: MatrixHTML, highlightCondition?: (cell: HTMLTableCellElement) => boolean, clearHighlights?: boolean): void {
     for (let i = 0; i < this.element.rows.length; i++) {
       for (let j = 0; j < this.element.rows[0].children.length; j++) {
-        let cell: HTMLTableCellElement = this.element.rows[i].children[j] as HTMLTableCellElement;
+        const cell: HTMLTableCellElement = this.element.rows[i].children[j] as HTMLTableCellElement;
         if (clearHighlights) {
           if (Date.now() - this.cellHighlightTime >= this.cellHighlightLength)
             cell.className = cell.className.replace(/cell-reject/g, "").trim();
@@ -983,7 +983,7 @@ class MatrixHTML {
   }
 
   setMatrix(this: MatrixHTML, values: MatrixValues): void {
-    let el: HTMLTableElement = this.element;
+    const el: HTMLTableElement = this.element;
     if (this.numRows > 0)
       this.lastState = this.getMatrix(true);
 
@@ -1209,12 +1209,12 @@ class Matrix {
   }
 
   solve(this: Matrix): void {
-    let matrix = this.HTML.getMatrix();
+    const matrix = this.HTML.getMatrix();
     this.HTML.setMatrix(matrix.solve());
   }
 
   scale(this: Matrix): void {
-    let matrix = this.HTML.getMatrix();
+    const matrix = this.HTML.getMatrix();
     this.HTML.setMatrix(
       matrix.scaleAll(
         MathNum.createFromStr(
@@ -1224,19 +1224,19 @@ class Matrix {
 
   static buildMatrix(container: HTMLElement): Matrix {
     function innerHTMLOrNull(querySelectorParam: string, failValue: any) {
-      let result = container.querySelector(querySelectorParam);
+      const result = container.querySelector(querySelectorParam);
       if (result)
         return result.innerHTML;
       else
         return failValue;
     }
 
-    let title: string = innerHTMLOrNull("li.matrix-title", "");
-    let buttons: string[] = innerHTMLOrNull("li.matrix-buttons", "").split(" ");
-    let size: string = innerHTMLOrNull("li.matrix-size", "1 1");
-    let isEditable: boolean = cws.toBoolPipe.to(innerHTMLOrNull("li.matrix-editable", ""));
-    let displayFooterInput: boolean = cws.toBoolPipe.to(innerHTMLOrNull("li.matrix-display-footer", ""));
-    let hideWhenEmpty: boolean = cws.toBoolPipe.to(innerHTMLOrNull("li.matrix-hide-when-empty", "false"));
+    const title: string = innerHTMLOrNull("li.matrix-title", "");
+    const buttons: string[] = innerHTMLOrNull("li.matrix-buttons", "").split(" ");
+    const size: string = innerHTMLOrNull("li.matrix-size", "1 1");
+    const isEditable: boolean = cws.toBoolPipe.to(innerHTMLOrNull("li.matrix-editable", ""));
+    const displayFooterInput: boolean = cws.toBoolPipe.to(innerHTMLOrNull("li.matrix-display-footer", ""));
+    const hideWhenEmpty: boolean = cws.toBoolPipe.to(innerHTMLOrNull("li.matrix-hide-when-empty", "false"));
     let footerInputStyle: string = "";
 
     if (!displayFooterInput) {
@@ -1291,7 +1291,7 @@ class MatrixMultiplication {
    * Attempts to multiply the two matrices
    */
   static attemptMultiply(): void {
-    let reject: boolean = false;
+    const reject: boolean = false;
 
     if (MatrixMultiplication.A.HTML.numCols == MatrixMultiplication.B.HTML.numRows) {
       MatrixMultiplication.multiply();
@@ -1308,9 +1308,9 @@ class MatrixMultiplication {
   }
 
   static getSolutionAt(x: number, y: number): MathNum {
-    let sum = MathNum.ZERO.clone();
-    let matrixA = MatrixMultiplication.A.HTML.getMatrix();
-    let matrixB = MatrixMultiplication.B.HTML.getMatrix();
+    const sum = MathNum.ZERO.clone();
+    const matrixA = MatrixMultiplication.A.HTML.getMatrix();
+    const matrixB = MatrixMultiplication.B.HTML.getMatrix();
 
     for (let i = 0; i < MatrixMultiplication.B.HTML.numRows; i++) {
       sum.add(
@@ -1335,8 +1335,8 @@ class MatrixMultiplication {
     }
 
     // set up solution grid
-    let h: number = MatrixMultiplication.A.HTML.numRows;
-    let w: number = MatrixMultiplication.B.HTML.numCols;
+    const h: number = MatrixMultiplication.A.HTML.numRows;
+    const w: number = MatrixMultiplication.B.HTML.numCols;
 
     for (let y = 0; y < h; y++) {
       MatrixMultiplication.solution.HTML.addRow();
@@ -1346,7 +1346,7 @@ class MatrixMultiplication {
     }
 
     // solve
-    let solutionMatrix = MatrixMultiplication.solution.HTML.getMatrix(true);
+    const solutionMatrix = MatrixMultiplication.solution.HTML.getMatrix(true);
 
     for (let y = 0; y < h; y++) {
       for (let x = 0; x < w; x++) {
@@ -1377,7 +1377,7 @@ function init() {
   ComplexOps.HTML.init();
 
   // create matrices
-  let containers: HTMLCollectionOf<Element> = document.getElementsByClassName("matrixContainer generate");
+  const containers: HTMLCollectionOf<Element> = document.getElementsByClassName("matrixContainer generate");
   for (let i = 0; i < containers.length; i++) {
     matrices.push(Matrix.buildMatrix(containers[i] as HTMLElement));
   }
@@ -1386,8 +1386,8 @@ function init() {
   MatrixMultiplication.init();
 
   // create tabs
-  let tabButtons: NodeListOf<HTMLLIElement> = document.getElementById("tabs-bar").querySelectorAll("li");
-  let tabBodies: HTMLCollectionOf<Element> = document.getElementsByClassName("tab-body");
+  const tabButtons: NodeListOf<HTMLLIElement> = document.getElementById("tabs-bar").querySelectorAll("li");
+  const tabBodies: HTMLCollectionOf<Element> = document.getElementsByClassName("tab-body");
   for (let i = 0; i < tabButtons.length; i++) {
     tabButtons[i].addEventListener("click", () => displayTab(tabButtons[i], tabBodies[i] as HTMLElement));
   }
@@ -1397,8 +1397,8 @@ function init() {
 }
 
 function displayTab(button: HTMLElement, body: HTMLElement): void {
-  let allTabBodies: HTMLCollectionOf<Element> = document.getElementsByClassName("tab-body");
-  let allTabButtons: NodeListOf<HTMLLIElement> = document.getElementById("tabs-bar").querySelectorAll("li");
+  const allTabBodies: HTMLCollectionOf<Element> = document.getElementsByClassName("tab-body");
+  const allTabButtons: NodeListOf<HTMLLIElement> = document.getElementById("tabs-bar").querySelectorAll("li");
   for (let i = 0; i < allTabBodies.length; i++) {
     allTabButtons[i].className = allTabButtons[i].className.replace(/active-tab/g, "");
     (allTabBodies[i] as HTMLElement).style.display = "none";
