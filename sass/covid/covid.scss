@@ -51,11 +51,12 @@
 
 .covid-tab-spacer {
   display: inline-block;
-  padding-bottom: 7px;
+  padding-bottom: calc(5px + 2px);
 }
 
 .covid-sections-container {
   position: relative;
+  overflow: hidden;
 }
 
 .covid-section {
@@ -157,7 +158,6 @@
 }
 
 .time-series-range-input-container {
-  width: 50%;
   padding: 0 1em;
   min-width: 250px;
   flex-grow: 1;
@@ -165,13 +165,14 @@
 
 .content .time-series-range-input {
   width: calc(100% - 2em);
-  font-size: 1.6em;
+  font-size: 1.2em;
   text-align: center;
   padding: 1em;
 }
 
 .time-series-range-input-title {
   text-align: center;
+  margin-bottom: 0;
 }
 
 @media only screen and (max-width: 800px) {
@@ -179,6 +180,7 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
 @media only screen and (max-width: 500px) {
   .card-grid {
     grid-template-columns: repeat(1, 1fr);
