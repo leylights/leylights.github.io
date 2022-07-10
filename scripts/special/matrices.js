@@ -48,7 +48,7 @@ const MATRIX_PAIR_INPUT = `<div class="matrix-pair-input-container"><p>(
   <input class="smallInputBottomLine footer-input-row ADDITIONAL_CLASSES_ONE" FOOTER_INPUT_STYLE></input>,
   <input class="smallInputBottomLine footer-input-col ADDITIONAL_CLASSES_TWO" FOOTER_INPUT_STYLE></input>
 )</p></div>`;
-var matrices = [];
+const matrices = [];
 /**
  * Holds all user-facing operations
  */
@@ -130,9 +130,9 @@ class MatrixValues {
         if (!this.isSquare) {
             throw new Error('Matrix must be square');
         }
-        let clone = this.clone();
+        const clone = this.clone();
         clone.solve();
-        let baseDeterminant = MathNum.ONE.clone();
+        const baseDeterminant = MathNum.ONE.clone();
         for (let i = 0; i < clone.numRows; i++)
             baseDeterminant.multiplyBy(clone.getValueAt(i, i));
         return baseDeterminant.multiplyBy(clone.determinantChangeProduct);
@@ -140,7 +140,7 @@ class MatrixValues {
     get determinantChangeProduct() {
         if (this.determinantMultipliers.length == 0)
             return MathNum.ONE.clone();
-        let product = this.determinantMultipliers[0].clone();
+        const product = this.determinantMultipliers[0].clone();
         for (let i = 1; i < this.determinantMultipliers.length; i++)
             product.multiplyBy(this.determinantMultipliers[i]);
         return product;
@@ -157,9 +157,9 @@ class MatrixValues {
         return rank;
     }
     clone() {
-        let clonedValues = [];
+        const clonedValues = [];
         this.rows.forEach((row) => {
-            let rowValues = [];
+            const rowValues = [];
             row.values.forEach((value) => {
                 rowValues.push(value.clone());
             });
@@ -274,7 +274,7 @@ class MatrixValues {
         else if (b < 0 || b >= this.numRows) {
             throw new Error("bad swapped row: " + b);
         }
-        let tempRow = this.rows[b];
+        const tempRow = this.rows[b];
         this.rows[b] = this.rows[a];
         this.rows[a] = tempRow;
         this.determinantMultipliers.push(MathNum.NEG_ONE);
@@ -323,9 +323,9 @@ class MatrixValues {
      * Gets the submatrix of rows [startRow, endRow), [startColumn, endColumn)
      */
     submatrixBetween(startRow, endRow, startColumn, endColumn) {
-        let submatrixValues = [];
+        const submatrixValues = [];
         for (let i = startRow; i < endRow; i++) {
-            let nextRow = [];
+            const nextRow = [];
             for (let j = startColumn; j < endColumn; j++) {
                 nextRow.push(this.getValueAt(i, j).clone());
             }
@@ -337,11 +337,11 @@ class MatrixValues {
      * Gets the submatrix of this, with removedRow and removedColumn removed
      */
     submatrixByRemoval(removedRow, removedColumn) {
-        let submatrixValues = [];
+        const submatrixValues = [];
         for (let i = 0; i < this.rows.length; i++) {
             if (i === removedRow)
                 continue;
-            let nextRow = [];
+            const nextRow = [];
             for (let j = 0; j < this.rows[0].length; j++) {
                 if (j === removedColumn)
                     continue;
@@ -352,7 +352,7 @@ class MatrixValues {
         return new MatrixValues(submatrixValues);
     }
     clearPivotColAbove(rowIndex) {
-        let pivotCol = this.rows[rowIndex].pivotCol;
+        const pivotCol = this.rows[rowIndex].pivotCol;
         if (pivotCol == -1) { // skip when there's no pivot
             return this;
         }
@@ -362,7 +362,7 @@ class MatrixValues {
         return this;
     }
     clearPivotColBelow(rowIndex) {
-        let pivotCol = this.rows[rowIndex].pivotCol;
+        const pivotCol = this.rows[rowIndex].pivotCol;
         if (pivotCol == -1) { // skip when there's no pivot
             return this;
         }
@@ -378,9 +378,9 @@ class MatrixValues {
      * 3 4             3 4 0 1
      */
     static getMatrixAppendedIdentityN(matrix) {
-        let clone = matrix.clone();
+        const clone = matrix.clone();
         for (let i = 0; i < clone.rows.length; i++) {
-            let column = [];
+            const column = [];
             for (let j = 0; j < clone.rows.length; j++) {
                 if (i == j)
                     column.push(MathNum.ONE.clone());
@@ -450,11 +450,11 @@ class MatrixRow {
      * Scales this row to unity
      */
     scaleToUnity() {
-        let pivot = this.pivotCol;
+        const pivot = this.pivotCol;
         if (pivot == -1) {
             return this;
         }
-        let multiplier = this.values[this.pivotCol].getMultiplicativeInverse();
+        const multiplier = this.values[this.pivotCol].getMultiplicativeInverse();
         for (let i = 0; i < this.values.length; i++) {
             this.values[i].multiplyBy(multiplier);
         }
@@ -559,13 +559,13 @@ class MatrixHTML {
             return this.element.rows[0].cells.length;
     }
     addRow() {
-        let el = this.element;
-        let row = el.insertRow();
+        const el = this.element;
+        const row = el.insertRow();
         let numCols = el.rows[0].children.length;
         if (numCols === 0)
             numCols = 1;
         for (let i = 0; i < numCols; i++) {
-            let cell = row.insertCell();
+            const cell = row.insertCell();
             if (this.isEditable)
                 cell.setAttributeNode(cws.betterCreateAttr('contenteditable', 'true'));
         }
@@ -576,18 +576,18 @@ class MatrixHTML {
         this.checkDisplay();
     }
     addCol() {
-        let el = this.element;
+        const el = this.element;
         if (el.rows.length == 0) {
             el.insertRow();
         }
         for (let i = 0; i < el.rows.length; i++) {
-            let cell = el.rows[i].insertCell();
+            const cell = el.rows[i].insertCell();
             cell.setAttributeNode(cws.betterCreateAttr('contenteditable', 'true'));
         }
         this.checkDisplay();
     }
     delCol() {
-        let el = this.element;
+        const el = this.element;
         if (el.rows.length === 0) {
             this.checkDisplay();
             return;
@@ -610,7 +610,7 @@ class MatrixHTML {
             this.delRow();
     }
     clear() {
-        let el = this.element;
+        const el = this.element;
         for (let r = 0; r < el.rows.length; r++) {
             for (let c = 0; c < el.rows[r].children.length; c++) {
                 el.rows[r].children[c].innerText = "";
@@ -629,7 +629,7 @@ class MatrixHTML {
             this.container.style.display = '';
     }
     generateMatrixButton(content, listenerFn, errorAction, alternateParent) {
-        let buttonRow = alternateParent || this.container.querySelector(".matrixButtons");
+        const buttonRow = alternateParent || this.container.querySelector(".matrixButtons");
         let classNames;
         if (alternateParent != this.footerButtonContainer) {
             classNames = ["matrixButton"];
@@ -640,7 +640,7 @@ class MatrixHTML {
                 classNames.push("matrix-footer-button-half");
             }
         }
-        let newButton = Button.createByAppending(buttonRow, listenerFn, content, false, "matrix-button-" + MatrixHTML.nextMatrixButtonId + "-" + content.toLowerCase().replace(/ /g, "-"), classNames, content);
+        const newButton = Button.createByAppending(buttonRow, listenerFn, content, false, "matrix-button-" + MatrixHTML.nextMatrixButtonId + "-" + content.toLowerCase().replace(/ /g, "-"), classNames, content);
         if (isHalfButton(content)) {
             switch (content) {
                 case "Cofactor" /* cofactor */:
@@ -653,7 +653,7 @@ class MatrixHTML {
             }
         }
         newButton.errorAction = (e) => {
-            let errorLog = this.container.querySelector(".matrix-errors");
+            const errorLog = this.container.querySelector(".matrix-errors");
             // setting
             let msg = e.message;
             if (errorLog.parentElement.querySelector(".matrix-log").innerHTML !== "")
@@ -679,12 +679,12 @@ class MatrixHTML {
         }
     }
     getMatrix(emptyToZero) {
-        let el = this.element;
-        let values = [];
+        const el = this.element;
+        const values = [];
         for (let r = 0; r < el.rows.length; r++) {
             values[r] = [];
             for (let c = 0; c < el.rows[r].children.length; c++) {
-                let innerText = el.rows[r].children[c].innerText;
+                const innerText = el.rows[r].children[c].innerText;
                 if (emptyToZero && innerText == "") {
                     values[r][c] = MathNum.ZERO.clone();
                 }
@@ -706,7 +706,7 @@ class MatrixHTML {
     highlightGenericCells(highlightCondition, clearHighlights) {
         for (let i = 0; i < this.element.rows.length; i++) {
             for (let j = 0; j < this.element.rows[0].children.length; j++) {
-                let cell = this.element.rows[i].children[j];
+                const cell = this.element.rows[i].children[j];
                 if (clearHighlights) {
                     if (Date.now() - this.cellHighlightTime >= this.cellHighlightLength)
                         cell.className = cell.className.replace(/cell-reject/g, "").trim();
@@ -736,7 +736,7 @@ class MatrixHTML {
         this.setMatrix(this.lastState);
     }
     setMatrix(values) {
-        let el = this.element;
+        const el = this.element;
         if (this.numRows > 0)
             this.lastState = this.getMatrix(true);
         for (let r = 0; r < el.rows.length; r++) {
@@ -885,28 +885,28 @@ class Matrix {
         this.HTML.setMatrix(baseMatrix);
     }
     solve() {
-        let matrix = this.HTML.getMatrix();
+        const matrix = this.HTML.getMatrix();
         this.HTML.setMatrix(matrix.solve());
     }
     scale() {
-        let matrix = this.HTML.getMatrix();
+        const matrix = this.HTML.getMatrix();
         this.HTML.setMatrix(matrix.scaleAll(MathNum.createFromStr(this.HTML.container.querySelector('.scale-input')
             .value)));
     }
     static buildMatrix(container) {
         function innerHTMLOrNull(querySelectorParam, failValue) {
-            let result = container.querySelector(querySelectorParam);
+            const result = container.querySelector(querySelectorParam);
             if (result)
                 return result.innerHTML;
             else
                 return failValue;
         }
-        let title = innerHTMLOrNull("li.matrix-title", "");
-        let buttons = innerHTMLOrNull("li.matrix-buttons", "").split(" ");
-        let size = innerHTMLOrNull("li.matrix-size", "1 1");
-        let isEditable = cws.toBoolPipe.to(innerHTMLOrNull("li.matrix-editable", ""));
-        let displayFooterInput = cws.toBoolPipe.to(innerHTMLOrNull("li.matrix-display-footer", ""));
-        let hideWhenEmpty = cws.toBoolPipe.to(innerHTMLOrNull("li.matrix-hide-when-empty", "false"));
+        const title = innerHTMLOrNull("li.matrix-title", "");
+        const buttons = innerHTMLOrNull("li.matrix-buttons", "").split(" ");
+        const size = innerHTMLOrNull("li.matrix-size", "1 1");
+        const isEditable = cws.toBoolPipe.to(innerHTMLOrNull("li.matrix-editable", ""));
+        const displayFooterInput = cws.toBoolPipe.to(innerHTMLOrNull("li.matrix-display-footer", ""));
+        const hideWhenEmpty = cws.toBoolPipe.to(innerHTMLOrNull("li.matrix-hide-when-empty", "false"));
         let footerInputStyle = "";
         if (!displayFooterInput) {
             footerInputStyle = "style = 'display: none'";
@@ -947,7 +947,7 @@ class MatrixMultiplication {
      * Attempts to multiply the two matrices
      */
     static attemptMultiply() {
-        let reject = false;
+        const reject = false;
         if (MatrixMultiplication.A.HTML.numCols == MatrixMultiplication.B.HTML.numRows) {
             MatrixMultiplication.multiply();
         }
@@ -961,9 +961,9 @@ class MatrixMultiplication {
         }
     }
     static getSolutionAt(x, y) {
-        let sum = MathNum.ZERO.clone();
-        let matrixA = MatrixMultiplication.A.HTML.getMatrix();
-        let matrixB = MatrixMultiplication.B.HTML.getMatrix();
+        const sum = MathNum.ZERO.clone();
+        const matrixA = MatrixMultiplication.A.HTML.getMatrix();
+        const matrixB = MatrixMultiplication.B.HTML.getMatrix();
         for (let i = 0; i < MatrixMultiplication.B.HTML.numRows; i++) {
             sum.add(MathNum.multiply(matrixA.getValueAt(y, i), matrixB.getValueAt(i, x)));
         }
@@ -979,8 +979,8 @@ class MatrixMultiplication {
             MatrixMultiplication.solution.HTML.delRow();
         }
         // set up solution grid
-        let h = MatrixMultiplication.A.HTML.numRows;
-        let w = MatrixMultiplication.B.HTML.numCols;
+        const h = MatrixMultiplication.A.HTML.numRows;
+        const w = MatrixMultiplication.B.HTML.numCols;
         for (let y = 0; y < h; y++) {
             MatrixMultiplication.solution.HTML.addRow();
         }
@@ -988,7 +988,7 @@ class MatrixMultiplication {
             MatrixMultiplication.solution.HTML.addCol();
         }
         // solve
-        let solutionMatrix = MatrixMultiplication.solution.HTML.getMatrix(true);
+        const solutionMatrix = MatrixMultiplication.solution.HTML.getMatrix(true);
         for (let y = 0; y < h; y++) {
             for (let x = 0; x < w; x++) {
                 solutionMatrix.setValueAt(y, x, MatrixMultiplication.getSolutionAt(x, y));
@@ -1012,15 +1012,15 @@ class MatrixMultiplication {
 function init() {
     ComplexOps.HTML.init();
     // create matrices
-    let containers = document.getElementsByClassName("matrixContainer generate");
+    const containers = document.getElementsByClassName("matrixContainer generate");
     for (let i = 0; i < containers.length; i++) {
         matrices.push(Matrix.buildMatrix(containers[i]));
     }
     // set up multiplication button
     MatrixMultiplication.init();
     // create tabs
-    let tabButtons = document.getElementById("tabs-bar").querySelectorAll("li");
-    let tabBodies = document.getElementsByClassName("tab-body");
+    const tabButtons = document.getElementById("tabs-bar").querySelectorAll("li");
+    const tabBodies = document.getElementsByClassName("tab-body");
     for (let i = 0; i < tabButtons.length; i++) {
         tabButtons[i].addEventListener("click", () => displayTab(tabButtons[i], tabBodies[i]));
     }
@@ -1028,8 +1028,8 @@ function init() {
     displayTab(tabButtons[0], tabBodies[0]);
 }
 function displayTab(button, body) {
-    let allTabBodies = document.getElementsByClassName("tab-body");
-    let allTabButtons = document.getElementById("tabs-bar").querySelectorAll("li");
+    const allTabBodies = document.getElementsByClassName("tab-body");
+    const allTabButtons = document.getElementById("tabs-bar").querySelectorAll("li");
     for (let i = 0; i < allTabBodies.length; i++) {
         allTabButtons[i].className = allTabButtons[i].className.replace(/active-tab/g, "");
         allTabBodies[i].style.display = "none";
