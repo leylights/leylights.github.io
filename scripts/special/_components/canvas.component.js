@@ -4,6 +4,7 @@ import { DarkModeService } from "../_services/dark-mode.service.js";
 export class Canvas {
     constructor(data) {
         this.eventListeners = [];
+        this.resizeListeners = [];
         this.clearColour = 'black';
         /**
          * Draws a filled rectangle to the canvas
@@ -31,9 +32,10 @@ export class Canvas {
         }
         if (data.disableArrowKeyPageMovement)
             this.disableArrowKeyPageMovement();
+        this.disableAutoResize = data.disableAutoResize;
         function setColour() {
-            var _a;
-            me.clearColour = (_a = window.getComputedStyle(me.element).backgroundColor) !== null && _a !== void 0 ? _a : 'black';
+            var _a, _b;
+            me.clearColour = (_b = (_a = window.getComputedStyle(me.element).backgroundColor) !== null && _a !== void 0 ? _a : window.getComputedStyle(me.element.parentElement).backgroundColor) !== null && _b !== void 0 ? _b : 'white';
             me.clear();
         }
     }
@@ -59,6 +61,9 @@ export class Canvas {
             id: nextId,
         });
         return nextId;
+    }
+    addResizeListener(listener) {
+        this.resizeListeners.push(listener);
     }
     clear() {
         const me = this;
@@ -165,6 +170,48 @@ export class Canvas {
         this.context.fillText(text + '', x, y);
     }
     /**
+     * Draws an isoceles triangle to the canvas
+     * @param {Number} x
+     * @param {Number} y
+     * @param {Number} w
+     * @param {Number} h
+     * @param {Boolean} center Centers the triangle around (x, y)
+     * @param {Number} angle (DEGREES) The angle from vertical at which to draw the triangle.  Only works correctly if center == true.
+     */
+    drawTriangle(x, y, w, h, colour, center, angle) {
+        angle = cws.toRadians(angle);
+        this.context.beginPath();
+        this.context.fillStyle = colour;
+        this.context.strokeStyle = colour;
+        if (center) {
+            const a = { x: x - w / 2, y: y + h / 2 }, b = { x: x, y: y - h / 2 }, c = { x: x + w / 2, y: y + h / 2 };
+            if (!isNaN(angle) && angle !== 0) {
+                this.context.translate(x, y);
+                this.context.rotate(angle);
+                this.context.moveTo(a.x - x, a.y - y);
+                this.context.lineTo(b.x - x, b.y - y);
+                this.context.lineTo(c.x - x, c.y - y);
+                this.context.lineTo(a.x - x, a.y - y);
+                this.context.rotate(-angle);
+                this.context.translate(-x, -y);
+            }
+            else {
+                this.context.moveTo(a.x, a.y);
+                this.context.lineTo(b.x, b.y);
+                this.context.lineTo(c.x, c.y);
+                this.context.lineTo(a.x, a.y);
+            }
+            this.context.fill();
+        }
+        else { // x,y = top left of the triangle
+            this.context.moveTo(x, y + h);
+            this.context.lineTo(x + w / 2, y);
+            this.context.lineTo(x + w, y + h);
+            this.context.lineTo(x, y + h);
+            this.context.fill();
+        }
+    }
+    /**
        * Draws a circle to the canvas
        * @param {Number} x the x coordinate of the circle
        * @param {Number} y the y coordinate of the circle
@@ -258,11 +305,6 @@ export class Canvas {
         });
         this.context.font = window.getComputedStyle(canvas).font;
         // LISTENERS
-        canvas.addEventListener("resize", function () {
-            me.element.width = me.element.getBoundingClientRect().width - 2 * parseInt(window.getComputedStyle(me.element).borderWidth);
-            me.element.height = me.element.getBoundingClientRect().height - 2 * parseInt(window.getComputedStyle(me.element).borderWidth);
-            me.resize();
-        });
         canvas.addEventListener('oncontextmenu', (e) => { e.preventDefault(); return false; });
         // reset key listeners
         const listeners = me.keys ? me.keys.listeners : [];
@@ -281,6 +323,12 @@ export class Canvas {
         this.eventListeners.forEach((listenerData) => {
             canvas.addEventListener(listenerData.type, listenerData.fn);
         });
+        if (!this.disableAutoResize)
+            window.addEventListener('resize', () => {
+                me.element.width = me.element.getBoundingClientRect().width;
+                me.element.height = me.element.getBoundingClientRect().height;
+                me.resizeListeners.forEach((listener) => listener());
+            });
         return this.element;
     }
     /**
@@ -295,9 +343,6 @@ export class Canvas {
             }
         }
         throw new Error('No listner found with id ' + listenerId);
-    }
-    resize() {
-        this.rebuildElement();
     }
     start(mainFn) {
         const me = this;

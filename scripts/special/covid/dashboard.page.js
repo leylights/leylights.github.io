@@ -351,6 +351,7 @@ class COVIDDashboardPage {
                             shortTitle: 'Hospitalizations',
                             type: 'hospitalizations',
                         });
+                    // debugger;
                     createChart({
                         days: deathsDays,
                         title: 'Deaths per day',
