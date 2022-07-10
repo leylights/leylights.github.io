@@ -101,10 +101,10 @@ export class PacmanPage {
      */
     generatePellets() {
         PacmanState.pellets = [];
-        let len = PacmanMapNode.map.length;
+        const len = PacmanMapNode.map.length;
         const pelletlessNodes = ["v", "w", "bp", "x", "y", "z", "ab", "ac", "ad", "bl", "bt", "bo", "bw", "bm", "bn", "bu"];
         for (let i = 0; i < len; i++) {
-            let start = PacmanMapNode.map[i];
+            const start = PacmanMapNode.map[i];
             if (start == undefined) {
                 continue;
             }
@@ -113,7 +113,7 @@ export class PacmanPage {
             }
             PacmanState.pellets.push(generatePellet(start.x + PacmanConstants.HALL_WIDTH / 2 - PacmanPickup.BASE_WIDTH / 2, start.y + PacmanConstants.HALL_WIDTH / 2 - PacmanPickup.BASE_WIDTH / 2));
             for (let j = 0; j < start.exits.length; j++) {
-                let end = PacmanMapNode.getNodeByID(start.exits[j]);
+                const end = PacmanMapNode.getNodeByID(start.exits[j]);
                 if (cws.anyEqual([start.ID, end.ID], pelletlessNodes)) {
                     continue;
                 }
@@ -122,8 +122,8 @@ export class PacmanPage {
                 }
                 let dx = 0;
                 let dy = 0;
-                let totalDistance = start.distanceToNode(end.ID);
-                let direction = start.directionTo(end.ID);
+                const totalDistance = start.distanceToNode(end.ID);
+                const direction = start.directionTo(end.ID);
                 for (let k = 0; k < totalDistance - 1; k += PacmanConstants.DISTANCE_BETWEEN_PELLETS) {
                     if (k > 0)
                         PacmanState.pellets.push(generatePellet(start.x + PacmanConstants.HALL_WIDTH / 2 - PacmanPickup.BASE_WIDTH / 2 + dx, start.y + PacmanConstants.HALL_WIDTH / 2 - PacmanPickup.BASE_WIDTH / 2 + dy));
@@ -269,7 +269,7 @@ export class PacmanPage {
             this.canvas.drawImage(PacmanSprites.spritesTree.getValue(`fruits/${i}.png`), PacmanConstants.NODE_COLS[9] - (i * (PacmanConstants.FRUITS_DISPLAY_WIDTH + PacmanConstants.FRUITS_DISPLAY_SPACING)), PacmanConstants.LIVES_DISPLAY_Y, PacmanConstants.FRUITS_DISPLAY_WIDTH, PacmanConstants.FRUITS_DISPLAY_WIDTH);
         }
         // drawing nodes
-        let nodeColour = "#ddffff";
+        const nodeColour = "#ddffff";
         if (PacmanConstants.DRAW_NODES) {
             PacmanMapNode.map.forEach((node) => {
                 if (node == undefined)
@@ -278,7 +278,7 @@ export class PacmanPage {
                 for (let j = 0; j < node.exits.length; j++) {
                     if (PacmanMapNode.getNodeByID(node.exits[j]) == undefined)
                         continue;
-                    var colour = nodeColour;
+                    const colour = nodeColour;
                     // if (node.canSpawnFruit && PacmanMapNode.getNodeByID(node.exits[j]).canSpawnFruit) colour = 'red';
                     this.canvas.drawLine(node.x + 12, node.y + 12, PacmanMapNode.getNodeByID(node.exits[j]).x + 20, PacmanMapNode.getNodeByID(node.exits[j]).y + 20, colour, 2);
                 }

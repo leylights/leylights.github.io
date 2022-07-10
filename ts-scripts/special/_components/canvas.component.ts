@@ -12,7 +12,9 @@ export type CanvasCreationData = {
   parentElement: HTMLElement;
 
   clearColour?: string | 'fromCSS';
+
   disableArrowKeyPageMovement?: boolean;
+  disableAutoResize?: boolean;
 }
 
 export class Canvas {
@@ -21,8 +23,11 @@ export class Canvas {
   keys: KeyboardListener;
 
   private eventListeners: EventListenerData[] = [];
+  private resizeListeners: (() => void)[] = [];
 
   clearColour: string = 'black';
+
+  disableAutoResize: boolean;
 
   private animator: number;
 
@@ -43,9 +48,12 @@ export class Canvas {
     }
 
     if (data.disableArrowKeyPageMovement) this.disableArrowKeyPageMovement();
+    this.disableAutoResize = data.disableAutoResize;
 
     function setColour(): void {
-      me.clearColour = window.getComputedStyle(me.element).backgroundColor ?? 'black';
+      me.clearColour = window.getComputedStyle(me.element).backgroundColor
+        ?? window.getComputedStyle(me.element.parentElement).backgroundColor
+        ?? 'white';
       me.clear();
     }
   }
@@ -76,6 +84,10 @@ export class Canvas {
     });
 
     return nextId;
+  }
+
+  addResizeListener(listener: () => void) {
+    this.resizeListeners.push(listener);
   }
 
   clear(this: Canvas) {
@@ -213,6 +225,59 @@ export class Canvas {
   }
 
   /**
+   * Draws an isoceles triangle to the canvas
+   * @param {Number} x 
+   * @param {Number} y 
+   * @param {Number} w 
+   * @param {Number} h
+   * @param {Boolean} center Centers the triangle around (x, y)
+   * @param {Number} angle (DEGREES) The angle from vertical at which to draw the triangle.  Only works correctly if center == true.
+   */
+
+  drawTriangle(this: Canvas, x: number, y: number, w: number, h: number, colour: string, center: boolean, angle: number) {
+    angle = cws.toRadians(angle);
+
+    this.context.beginPath();
+    this.context.fillStyle = colour;
+    this.context.strokeStyle = colour;
+
+    if (center) {
+      const a = { x: x - w / 2, y: y + h / 2 },
+        b = { x: x, y: y - h / 2 },
+        c = { x: x + w / 2, y: y + h / 2 };
+
+      if (!isNaN(angle) && angle !== 0) {
+        this.context.translate(x, y);
+        this.context.rotate(
+          angle
+        );
+
+        this.context.moveTo(a.x - x, a.y - y);
+        this.context.lineTo(b.x - x, b.y - y);
+        this.context.lineTo(c.x - x, c.y - y);
+        this.context.lineTo(a.x - x, a.y - y);
+
+        this.context.rotate(
+          -angle
+        );
+        this.context.translate(-x, -y);
+      } else {
+        this.context.moveTo(a.x, a.y);
+        this.context.lineTo(b.x, b.y);
+        this.context.lineTo(c.x, c.y);
+        this.context.lineTo(a.x, a.y);
+      }
+      this.context.fill();
+    } else { // x,y = top left of the triangle
+      this.context.moveTo(x, y + h);
+      this.context.lineTo(x + w / 2, y);
+      this.context.lineTo(x + w, y + h);
+      this.context.lineTo(x, y + h);
+      this.context.fill();
+    }
+  }
+
+  /**
      * Draws a circle to the canvas
      * @param {Number} x the x coordinate of the circle
      * @param {Number} y the y coordinate of the circle
@@ -338,12 +403,6 @@ export class Canvas {
 
     // LISTENERS
 
-    canvas.addEventListener("resize", function () {
-      me.element.width = me.element.getBoundingClientRect().width - 2 * parseInt(window.getComputedStyle(me.element).borderWidth);
-      me.element.height = me.element.getBoundingClientRect().height - 2 * parseInt(window.getComputedStyle(me.element).borderWidth);
-      me.resize();
-    });
-
     canvas.addEventListener('oncontextmenu', (e) => { e.preventDefault(); return false; });
 
     // reset key listeners
@@ -368,6 +427,13 @@ export class Canvas {
       canvas.addEventListener(listenerData.type, listenerData.fn);
     });
 
+    if (!this.disableAutoResize)
+      window.addEventListener('resize', () => {
+        me.element.width = me.element.getBoundingClientRect().width;
+        me.element.height = me.element.getBoundingClientRect().height;
+        me.resizeListeners.forEach((listener) => listener());
+      });
+
     return this.element;
   }
 
@@ -384,10 +450,6 @@ export class Canvas {
     }
 
     throw new Error('No listner found with id ' + listenerId);
-  }
-
-  resize(this: Canvas) {
-    this.rebuildElement();
   }
 
   start(this: Canvas, mainFn: () => void) {
