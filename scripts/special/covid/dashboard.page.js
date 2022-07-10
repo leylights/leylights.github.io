@@ -67,9 +67,12 @@ class COVIDDashboardPage {
         return __awaiter(this, void 0, void 0, function* () {
             const me = this;
             const averageDays = 7;
+            COVIDDataBridge.preload();
             if (new Date().getHours() === 21)
                 this.elements.updateWarning.classList.remove('hidden-warning');
-            this.elements.lastUpdate.innerText = yield COVIDDataInterface.getLastUpdate();
+            COVIDDataInterface.getLastUpdate().then((result) => {
+                me.elements.lastUpdate.innerText = result;
+            });
             yield this.regionsController.init();
             buildHomeDashboard();
             buildCanadaDashboard();
@@ -137,8 +140,7 @@ class COVIDDashboardPage {
                             const doses = yield COVIDDataBridge.getSummary('vaccine_administration_dose_2', province.locationId, level);
                             return cws.numberToPrettyNumber(doses);
                         }),
-                    }]);
-                me.createGrid(section, 'Vaccination', [{
+                    }, {
                         title: "Population double vaccinated",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
                             const coverage = yield COVIDDataBridge.getSummary('vaccine_coverage_dose_2', province.locationId, level);

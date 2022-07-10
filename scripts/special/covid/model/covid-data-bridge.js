@@ -69,6 +69,20 @@ export class COVIDDataBridge {
             return ((yield COVIDDataBridge.API.get(`/timeseries?geo=${level}&loc=${locationId}&stat=${type}&ymd=true`))).data[type];
         });
     }
+    /**
+     * Make some important API calls early so that they can be cached
+     */
+    static preload() {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.getLastUpdate();
+            this.getRegionalSummaries({ nameType: 'full' });
+            this.getRegionalSummaries({ nameType: 'id' });
+            this.getRegionalSummaries({ nameType: 'short' });
+            this.getProvincialSummaries({ nameType: 'full' });
+            this.getProvincialSummaries({ nameType: 'id' });
+            this.getProvincialSummaries({ nameType: 'short' });
+        });
+    }
 }
 COVIDDataBridge.API = new DataBridge('https://api.opencovid.ca');
 //# sourceMappingURL=covid-data-bridge.js.map

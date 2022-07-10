@@ -60,10 +60,9 @@ export class COVIDSectionCollection {
   }
 
   resetHeight(this: COVIDSectionCollection): void {
-    if (this.setHeightToMax)
-      this.sectionsContainer.style.height = this.sections.reduce((prev: number, current: COVIDSection) => {
-        return Math.max(prev, parseFloat(current.bodyHeight.trim()));
-      }, 0) + 'px';
+    const section = this.sections.filter((section) => section.isSelected)[0]
+      ?? this.sections[0];
+    this.sectionsContainer.style.height = section ? section.bodyHeight : '0px';
   }
 
   /**
