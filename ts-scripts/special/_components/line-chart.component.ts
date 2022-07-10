@@ -643,7 +643,6 @@ export class LineChartComponent {
       const root: CSSStyleRule = Array.from(styleSheet.cssRules).filter((rule: CSSStyleRule) => {
         return rule.selectorText == ':root';
       })[0] as CSSStyleRule;
-      // debugger;
       if (root) {
         const definedRules = root.style.cssText.split(';');
         for (let i = 0; i < definedRules.length; i++) {
