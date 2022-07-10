@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { cws } from "../cws.js";
 /**
  * Infection Spread Modeller
@@ -75,7 +76,7 @@ var nextStatUpdate = now;
 var animator;
 var now = Date.now();
 var consolesLogged = false;
-var canvas = {
+const canvas = {
     element: document.getElementById(CANVAS_ID),
     keys: [],
     context: null,
@@ -141,7 +142,7 @@ var canvas = {
         cws.fillRect(0, 0, this.element.width, this.element.height, "white", canvas.context);
     }
 };
-var chart = {
+const chart = {
     element: document.getElementById("infectionChart"),
     context: null,
     start: function () {

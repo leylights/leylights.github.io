@@ -147,7 +147,7 @@ class WiresPage {
         // Set listeners
         if (firstTime) {
             window.addEventListener("resize", () => {
-                me.canvas.resize();
+                // me.canvas.resize();
                 if (this.canvas.width < this.boardOuterRight)
                     me.makeNewPuzzle();
             });

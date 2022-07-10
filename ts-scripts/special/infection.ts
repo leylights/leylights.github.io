@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {cws} from "../cws.js";
 
 /**
@@ -99,7 +100,7 @@ var now = Date.now();
 
 var consolesLogged = false;
 
-var canvas = {
+const canvas = {
   element: document.getElementById(CANVAS_ID),
   keys: [],
 
@@ -190,7 +191,7 @@ var canvas = {
   }
 };
 
-var chart = {
+const chart = {
   element: document.getElementById("infectionChart"),
   context: null,
   start: function () {
@@ -263,17 +264,17 @@ var chart = {
  */
 
 class Cell {
-  x;
-  y;
-  velocity;
-  speed;
-  colour;
+  x: number;
+  y: number;
+  velocity: MathVector;
+  speed: number;
+  colour: string;
   infection;
-  dateOfProgression;
-  permanentAsymptomatic;
-  collidable;
-  ID;
-  isolating;
+  dateOfProgression: number;
+  permanentAsymptomatic: boolean;
+  collidable: boolean;
+  ID: number;
+  isolating: boolean;
 
   /**
    * @param {Number} x Cell x (top-left)
