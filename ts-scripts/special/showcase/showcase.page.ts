@@ -1,5 +1,4 @@
 import { KeyboardListener } from "../../tools/keyboard-listener.js";
-import { DarkModeService } from "../_services/dark-mode.service.js";
 import { MenuItemMulti } from "../_services/menus/menu-item-multi.js";
 import { MenuItemSingle } from "../_services/menus/menu-item-single.js";
 import { MenuItem } from "../_services/menus/menu-item.js";

@@ -49,22 +49,9 @@ export class PageBuilder {
   static riverify(): void {
     if (!CoreDataService.shouldRiverify) return;
 
-    const logos = Array.from(document.querySelectorAll('#big-logo')).concat(
-      Array.from(document.querySelectorAll('.site-logo'))
-    );
-
-    logos.forEach((el: HTMLImageElement) => {
-      el.src = el.src.replace('/logo', '/river-logo');
-      el.classList.add('river-logo');
-    });
-
     // replace title
     document.head.querySelector('title').innerText =
       document.head.querySelector('title').innerText.replace('colestanley.ca', CoreDataService.siteName);
-
-    // replace loading screen
-    const loadingLogo = document.body.querySelector('#loadingScreen')?.querySelector('img');
-    if (loadingLogo) loadingLogo.src = CoreDataService.siteLogoSrc;
   }
 
   /**

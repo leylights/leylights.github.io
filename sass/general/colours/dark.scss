@@ -1,4 +1,6 @@
-:root {
+@import '../../util/mixins/mixins.scss';
+
+@include dark-root {
   --primary-bg-color: #111;
   --secondary-bg-color: #222;
   --accent-bg-color: #444;
@@ -17,5 +19,5 @@
   /* success-color: dark */
   --success-color: #04af12;
   /* reject-color: dark */
-  --reject-color: #d10000;
+  --reject-color: #d10000;  
 }

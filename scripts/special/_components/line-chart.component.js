@@ -158,8 +158,8 @@ export class LineChartComponent {
             config: {
                 notifyOnDebugToggle: true
             },
-            listener: (isDark, styleSheet) => {
-                me.resetColours(styleSheet);
+            listener: () => {
+                me.resetColours();
                 if (me.container)
                     me.redraw();
             }
@@ -441,30 +441,12 @@ export class LineChartComponent {
             }
         }
     }
-    resetColours(styleSheet) {
-        const style = window.getComputedStyle(document.body);
+    resetColours() {
         this.colours.line = getColourOrError('--accent-color');
         this.colours.gridlines = getColourOrError('--accent-bg-color');
         this.colours.background = getColourOrError('--secondary-bg-color');
         function getColourOrError(name) {
-            if (!styleSheet)
-                return window.getComputedStyle(document.body).getPropertyValue(name);
-            const root = Array.from(styleSheet.cssRules).filter((rule) => {
-                return rule.selectorText == ':root';
-            })[0];
-            if (root) {
-                const definedRules = root.style.cssText.split(';');
-                for (let i = 0; i < definedRules.length; i++) {
-                    const split = definedRules[i].split(':');
-                    if (split[0].trim() == name) {
-                        return split[1].trim();
-                    }
-                }
-            }
-            const result = style.getPropertyValue(name);
-            if (result === '')
-                throw new Error('Bad CSS variable name: ' + name);
-            return result;
+            return window.getComputedStyle(document.body).getPropertyValue(name);
         }
     }
 }

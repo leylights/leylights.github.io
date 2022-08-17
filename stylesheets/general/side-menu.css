@@ -14,6 +14,7 @@ nav#side-menu {
 nav#side-menu #side-menu-content {
   position: absolute;
   width: calc(100vw - 1em);
+  font-weight: 300;
 }
 nav#side-menu #side-menu-content h1 {
   margin: auto;
@@ -39,6 +40,7 @@ nav#side-menu #side-menu-content .side-menu-top-level-item .side-menu-top-level-
   border: none;
   outline: none;
   font-size: 1.2em;
+  font-weight: 300;
   font-family: inherit;
   color: var(--primary-accent-color);
   cursor: pointer;
@@ -98,18 +100,26 @@ nav#side-menu #side-menu-content #side-menu-end-button {
   display: block;
   padding: 0;
   background-color: transparent;
-  width: 80px;
-  height: 80px;
   outline: 0;
   position: relative;
-  margin-left: calc(100% - 80px - 15px);
+  padding: 20px 0;
   border: none;
-  bottom: 0;
   cursor: pointer;
   max-width: 100px;
 }
 nav#side-menu #side-menu-content #side-menu-end-button img {
   display: block;
-  height: 100%;
+  max-height: 100px;
   filter: invert(10%) sepia(100%) saturate(6520%) hue-rotate(247deg) brightness(71%) contrast(135%);
+}
+nav#side-menu .dark-mode-container {
+  width: 100%;
+  text-align: center;
+  margin: 40px 0;
+}
+nav#side-menu .dark-mode-container .dark-mode-toggle {
+  margin: auto;
+}
+nav#side-menu.open {
+  width: 100%;
 }

@@ -79,8 +79,9 @@ export class MenuItemSingle extends MenuItem {
     this.setConfigBoolean('noindex', config);
     if (config.isSecret) this.noindex = true;
 
-    if (!config.links.thumbnail) // does not use logo as thumbnail
+    if (config.links.thumbnail) // does not use logo as thumbnail
       this.setConfigBoolean('invertOnDark', config);
+    else this.invertOnDark = true;
 
   }
 } 

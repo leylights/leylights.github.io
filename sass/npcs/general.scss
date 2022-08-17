@@ -1,7 +1,13 @@
+@import '../util/mixins/mixins.scss';
+
 :root {
   --npcs-red: #58180d;
   --npcs-gray: #111;
   --npcs-light-gray: #333;
+}
+
+@include dark-root {
+  --npcs-red: #ffd700;
 }
 
 /* Ability Scores */

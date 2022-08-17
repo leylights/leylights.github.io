@@ -1,18 +1,12 @@
 import { cws } from "../../cws.js";
-import { KeyboardListener } from "../../tools/keyboard-listener.js";
-import { CookieInterface } from "./cookie-interface.service.js";
-import { GoogleAnalyticsController } from "./google-analytics-controller.service.js";
-
-const DEBUG_FORCE_LIGHT_MODE: boolean = false;
 
 enum DarkModeStatus {
   Dark,
-  Light,
-  NoResponse
+  Light
 }
 
 export type DarkModeListener = {
-  listener: (isDark: boolean, styleSheet?: CSSStyleSheet) => void,
+  listener: (isDark: boolean) => void,
   config?: {
     notifyOnDebugToggle?: boolean
   }
@@ -24,40 +18,66 @@ export class DarkModeService {
     light: 'light-mode-stylesheet',
   };
 
+  private static initializations: number = 0;
+
+  static darkModeCookieKey = 'selected-dark-mode';
+
   private static darkModeListeners: DarkModeListener[] = [];
-  private static darkModeStatus: DarkModeStatus = DarkModeStatus.NoResponse;
 
   private static darkModeStylesheets: HTMLLinkElement[] = [];
   private static lightModeStylesheets: HTMLLinkElement[] = [];
-
-  private static mainDarkModeStylesheet: HTMLLinkElement;
 
   /**
    * Sets up the DarkModeService.  Doesn't switch to dark mode unless it should.
    */
   static init() {
-    if (this.darkModeStylesheets.length > 0) throw new Error('DarkModeService initialized twice!');
+    if (this.initializations > 0) throw new Error('DarkModeService initialized twice');
+    this.initializations++;
 
-    // load main-dark.css if necessary
-    const mainStylesheet: HTMLLinkElement = Array.from(
-      document.querySelectorAll('link[rel=stylesheet]') as NodeListOf<HTMLLinkElement>)
-      .filter((el: HTMLLinkElement) => { return el.href.includes('main.css') })[0];
+    if (this.isDark) document.documentElement.classList.toggle('dark');
+    else document.documentElement.classList.toggle('light');
 
-    if (mainStylesheet) {
-      this.darkModeStylesheets.push(cws.createStylesheetElement('/stylesheets/main-dark.css'));
-      this.mainDarkModeStylesheet = this.darkModeStylesheets[0];
-    }
-
-    this.registerDebugListeners();
-
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && !DEBUG_FORCE_LIGHT_MODE) {
+    if ((window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) || localStorage.getItem(DarkModeService.darkModeCookieKey)) {
       this.switchTo.darkMode();
     } else
       this.switchTo.lightMode();
   }
 
+  static get darkModeStatus(): DarkModeStatus {
+    if (localStorage.getItem(DarkModeService.darkModeCookieKey) === 'dark')
+      return DarkModeStatus.Dark;
+    else if (localStorage.getItem(DarkModeService.darkModeCookieKey) === 'light')
+      return DarkModeStatus.Light;
+    else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+      return DarkModeStatus.Dark;
+    else
+      return DarkModeStatus.Light;
+  }
+
   static get isDark(): boolean {
     return this.darkModeStatus === DarkModeStatus.Dark;
+  }
+
+  private static get isDarkByDefault(): boolean {
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+
+  static toggleDarkMode(): void {
+    document.documentElement.classList.toggle('dark');
+    document.documentElement.classList.toggle('light');
+    if (document.documentElement.classList.contains('dark')) {
+      if (DarkModeService.isDarkByDefault) // returned to dark
+        localStorage.removeItem(DarkModeService.darkModeCookieKey);
+      else // moved to dark
+        localStorage.setItem(DarkModeService.darkModeCookieKey, 'dark');
+    } else {
+      if (DarkModeService.isDarkByDefault) // moved to light
+        localStorage.setItem(DarkModeService.darkModeCookieKey, 'light');
+      else // returned to light
+        localStorage.removeItem(DarkModeService.darkModeCookieKey);
+    }
+
+    this.fireDarkModeListeners();
   }
 
   /**
@@ -66,15 +86,23 @@ export class DarkModeService {
    */
   static addDarkModeListener(listener: DarkModeListener) {
     if (DarkModeService.darkModeStatus == DarkModeStatus.Light) {
-      listener.listener(false, DarkModeService.getStyleSheet.light());
+      listener.listener(false);
     } else if (DarkModeService.darkModeStatus == DarkModeStatus.Dark) {
-      listener.listener(true, DarkModeService.getStyleSheet.dark());
+      listener.listener(true);
     }
 
     DarkModeService.darkModeListeners.push(listener);
   }
 
-  private static genericSwitchTo(loadedStyles: HTMLLinkElement[], removedStyles: HTMLLinkElement[], finalStatus: DarkModeStatus) {
+  static fireDarkModeListeners(): void {
+    const isDark: boolean = DarkModeService.darkModeStatus === DarkModeStatus.Dark;
+
+    DarkModeService.darkModeListeners.forEach((listener: DarkModeListener) => {
+      listener.listener(isDark);
+    });
+  }
+
+  private static genericSwitchTo(loadedStyles: HTMLLinkElement[], removedStyles: HTMLLinkElement[]) {
     const tasks: Promise<boolean>[] = loadedStyles.map((ss: HTMLLinkElement) => {
       return new Promise((resolve) => {
         document.head.appendChild(ss);
@@ -93,16 +121,8 @@ export class DarkModeService {
       });
     }));
 
-    // load all dark stylesheets
     Promise.all(tasks).then(() => { // fire all listeners
-      DarkModeService.darkModeStatus = finalStatus;
-
-      const isDark: boolean = finalStatus === DarkModeStatus.Dark;
-
-      const css: CSSStyleSheet = isDark ? DarkModeService.getStyleSheet.dark() : DarkModeService.getStyleSheet.light();
-      DarkModeService.darkModeListeners.forEach((listener: DarkModeListener) => {
-        listener.listener(isDark, css);
-      });
+      DarkModeService.fireDarkModeListeners();
     });
   }
 
@@ -111,7 +131,6 @@ export class DarkModeService {
       return DarkModeService.genericSwitchTo(
         DarkModeService.darkModeStylesheets,
         DarkModeService.lightModeStylesheets,
-        DarkModeStatus.Dark
       );
     },
 
@@ -119,77 +138,11 @@ export class DarkModeService {
       return DarkModeService.genericSwitchTo(
         DarkModeService.lightModeStylesheets,
         DarkModeService.darkModeStylesheets,
-        DarkModeStatus.Light
       );
     }
   }
 
-  private static getStyleSheet = {
-    dark: () => {
-      return DarkModeService.getCSSStylesheet(DarkModeService.mainDarkModeStylesheet);
-    },
-
-    light: () => {
-      const mainStyle: HTMLLinkElement = Array.from(document.head.querySelectorAll('link[rel=stylesheet]') as NodeListOf<HTMLLinkElement>).filter((link) => {
-        return link.href.includes('stylesheets/main.css');
-      })[0];
-      return DarkModeService.getCSSStylesheet(mainStyle);
-    },
-  }
-
-  private static getCSSStylesheet(linkElement: HTMLLinkElement): CSSStyleSheet {
-    return Array.from(document.styleSheets).filter((ss) => { return ss.href === linkElement.href })[0]
-  }
-
-  private static registerDebugListeners() {
-    const darkModeKeyListener = new KeyboardListener(window);
-
-    addKeyboardListener(DarkModeStatus.Dark, 'Dark');
-    addKeyboardListener(DarkModeStatus.Light, 'Light');
-
-    function addKeyboardListener(status: DarkModeStatus, type: string) {
-      darkModeKeyListener.addEventListener(async (listener: KeyboardListener) => {
-        const result = await checkForForcedDarkMode(listener);
-        return (result === status);
-      }, () => {
-        status === DarkModeStatus.Light ? DarkModeService.switchTo.lightMode() : DarkModeService.switchTo.darkMode();
-        DarkModeService.darkModeStatus = status;
-
-        console.info(`${type} mode activated.`);
-      });
-    }
-
-    async function checkForForcedDarkMode(listener: KeyboardListener): Promise<DarkModeStatus> {
-      return new Promise((resolveCheck) => {
-        new Promise((resolvePasswordCheck) => {
-          const pressed: boolean = listener.isWordDown('river');
-          resolvePasswordCheck(pressed);
-        }).then(async (wasPasswordFound: boolean) => {
-          if (!wasPasswordFound) return resolveCheck(DarkModeStatus.NoResponse);
-
-          CookieInterface.setCookie(GoogleAnalyticsController.HIDE_COOKIE, 'true');
-
-          await sleep(1500);
-
-          const darkPressed = listener.isWordDown('dark'),
-            lightPressed = listener.isWordDown('li');
-          
-          if (darkPressed) return resolveCheck(DarkModeStatus.Dark);
-          else if (lightPressed) return resolveCheck(DarkModeStatus.Light);
-          else {
-            console.log('No valid input received');
-            return resolveCheck(DarkModeStatus.NoResponse);
-          }
-        })
-      });
-
-      async function sleep(ms: number): Promise<any> {
-        return new Promise(resolve => setTimeout(resolve, ms));
-      }
-    }
-  }
-
-  static genericRegisterStylesheet(absPath: string, array: HTMLLinkElement[], status: DarkModeStatus) {
+  private static genericRegisterStylesheet(absPath: string, array: HTMLLinkElement[], status: DarkModeStatus) {
     const el: HTMLLinkElement = cws.createStylesheetElement(absPath);
     el.classList.add(status === DarkModeStatus.Light ? this.stylesheetClassnames.light : this.stylesheetClassnames.dark);
 

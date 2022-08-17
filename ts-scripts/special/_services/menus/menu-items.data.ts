@@ -193,7 +193,6 @@ export const MenuItems = {
     description: 'Calculates x-intercepts, so you don\'t have to!',
     links: {
       href: '/pages/quadratic.html',
-      thumbnail: '/siteimages/archive/quadthumb.png'
     },
     'archive': true
   }),
@@ -206,7 +205,7 @@ export const MenuItems = {
     showcase: true,
     links: {
       href: '/games/pacman-v1.html',
-      thumbnail: '/siteimages/pac/thumb-v1.png',
+      thumbnail: '/siteimages/pac/thumb-v2.png',
       showcase: '/siteimages/pac/showcase-v1.png'
     },
     'archive': true

@@ -11,6 +11,7 @@ import { Button } from '../_components/button.component.js';
 import { MenuItemMulti } from './menus/menu-item-multi.js';
 import { MenuItemSingle } from './menus/menu-item-single.js';
 import { MenuLayouts } from './menus/menu-layouts.data.js';
+import { TopMenuService } from './top-menu.service.js';
 export class SideMenuService {
     static build() {
         SideMenuService.menu = SideMenuService.buildMenuStructure();
@@ -29,7 +30,6 @@ export class SideMenuService {
                 SideMenuService.displayMenuItems(category);
             });
         });
-        SideMenuService.menu.querySelector('#side-menu-end-button').addEventListener('click', () => { SideMenuService.closeMenu(); });
     }
     static createMenuItem(item, parent) {
         const newItem = document.createElement('div');
@@ -119,21 +119,25 @@ export class SideMenuService {
                                     type: 'img',
                                     otherNodes: [{ type: 'src', value: '/siteimages/closebutton.png' }],
                                 })]
+                        }),
+                        cws.createElement({
+                            type: 'div',
+                            classList: 'dark-mode-container',
+                            children: [
+                                cws.createElement({
+                                    type: 'span',
+                                    innerText: 'Dark mode'
+                                }),
+                                TopMenuService.createDarkModeToggle('side-menu-dark-toggle'),
+                            ]
                         })
                     ],
                 }),
             ]
         });
-        sideMenu.querySelector('#side-menu-end-button').addEventListener('click', SideMenuService.closeMenu);
+        sideMenu.querySelector('#side-menu-end-button').addEventListener('click', SideMenuService.toggleMenu);
         document.body.appendChild(sideMenu);
         return sideMenu;
-    }
-    static closeMenu() {
-        SideMenuService.menu.style.width = '0%';
-        document.getElementById('side-menu-opener').style.opacity = '1';
-        SideMenuService.menu.style.minWidth = '0';
-        for (let i = 0; i < document.getElementsByClassName('side-menu-item').length; i++)
-            document.getElementsByClassName('side-menu-item')[i].style.display = 'none';
     }
     static displayMenuItems(category) {
         const buttons = category.querySelectorAll('.side-menu-item');
@@ -148,18 +152,9 @@ export class SideMenuService {
         MenuLayouts.TOP_MENU.games.forEach((item) => { SideMenuService.createMenuItem(item); });
         MenuLayouts.TOP_MENU.tools.forEach((item) => { SideMenuService.createMenuItem(item); });
     }
-    static openMenu() {
-        if (document.body.clientWidth < 700) {
-            SideMenuService.menu.style.width = '100%';
-        }
-        else {
-            let menuW = Math.round(window.innerWidth * 0.15);
-            if (menuW < 200)
-                menuW = 200;
-            SideMenuService.menu.style.width = menuW + 'px';
-            document.getElementById('desktop-header').style.width = (100 - menuW) + 'px';
-        }
-        document.getElementById('side-menu-opener').style.opacity = '0';
+    static toggleMenu() {
+        document.getElementById('side-menu-opener').classList.toggle('hidden');
+        document.getElementById('side-menu').classList.toggle('open');
     }
 }
 SideMenuService.itemNo = 0;

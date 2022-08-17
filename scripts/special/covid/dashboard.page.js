@@ -81,7 +81,8 @@ class COVIDDashboardPage {
             buildWaterlooDashboard();
             buildProvinceSelectorDashboard();
             buildRegionalSelectorDashboard();
-            this.sections.home.select();
+            if (cws.Object.values(this.sections).filter((section) => section.isSelected).length === 0)
+                this.sections.home.select();
             function buildHomeDashboard() {
                 function getCaseCount(location, region) {
                     return __awaiter(this, void 0, void 0, function* () {

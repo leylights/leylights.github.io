@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 :root {
   --button-padding: 0.5em;
   --line-chart-axis-value-padding: 5px;
@@ -210,6 +212,49 @@ td.cell-reject {
   visibility: hidden;
 }
 
+div.dark-mode-toggle {
+  $height: 20px;
+
+  width: $height * 2;
+  height: $height;
+  border-radius: math.div($height, 2);
+  appearance: none;
+
+  position: relative;
+
+  background-color: var(--accent-bg-color);
+
+  .slider {
+    background-color: var(--primary-accent-color);
+
+    height: 100%;
+    width: 50%;
+    border-radius: 50%;
+
+    right: 50%;
+    position: absolute;
+
+    transition: 0.25s;
+  }
+
+  >input[type="checkbox"] {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    margin: 0;
+    appearance: none;
+    cursor: pointer;
+    background: none;
+  }
+
+  input:checked ~ .slider {
+    right: 0;
+  }
+}
+
 .dark-only {
   display: none;
 }
@@ -242,4 +287,8 @@ td.cell-reject {
   }
 }
 
-@import './main-dark';
+@include dark-mode {
+  @import './main-dark';
+}
+
+@import 'general/colours/dark';
