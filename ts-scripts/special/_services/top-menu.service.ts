@@ -8,6 +8,7 @@
 
 import { cws } from '../../cws.js';
 import { CoreDataService } from './core-data.service.js';
+import { DarkModeService } from './dark-mode.service.js';
 import { MenuItemMulti } from './menus/menu-item-multi.js';
 import { MenuItemSingle } from './menus/menu-item-single.js';
 import { MenuItem } from './menus/menu-item.js';
@@ -91,6 +92,7 @@ export class TopMenuService {
               type: 'div',
               id: 'header-menu',
               children: [
+                this.createDarkModeToggle('left-nav-toggle'),
                 getDropdownButton('Games', 'games-menu'),
                 getDropdownButton('Tools', 'tools-menu'),
                 getNoDropdownButton('Archive', '/pages/archive.html'),
@@ -110,10 +112,11 @@ export class TopMenuService {
             }),
           ],
         }),
+        this.createDarkModeToggle('right-nav-toggle'),
       ],
     });
 
-    TopMenuService.header.querySelector('#side-menu-opener').addEventListener('click', SideMenuService.openMenu);
+    TopMenuService.header.querySelector('#side-menu-opener').addEventListener('click', SideMenuService.toggleMenu);
     TopMenuService.generateMenu();
 
     document.body.appendChild(TopMenuService.header);
@@ -170,6 +173,36 @@ export class TopMenuService {
         TopMenuService.createTopItem(child, subMenu);
       });
     }
+  }
+
+  static createDarkModeToggle(id: string): HTMLElement {
+    const toggle: HTMLElement = cws.createElement({
+      type: 'div',
+      classList: 'dark-mode-toggle',
+      id: id,
+      children: [
+        cws.createElement({
+          type: 'input',
+          otherNodes: { type: 'checkbox' },
+        }),
+        cws.createElement({
+          type: 'div',
+          classList: 'slider',
+        }),
+      ],
+    });
+
+    if(DarkModeService.isDark) toggle.querySelector('input').checked = true;
+
+    toggle.querySelector('input').addEventListener('click', function () {
+      DarkModeService.toggleDarkMode();
+
+      for (const input of document.querySelectorAll('.dark-mode-toggle input')) {
+        if(input !== this) (input as HTMLInputElement).checked = !(input as HTMLInputElement).checked;
+      }
+    });
+
+    return toggle;
   }
 
   private static generateMenu(): void {

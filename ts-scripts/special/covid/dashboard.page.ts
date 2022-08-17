@@ -95,7 +95,8 @@ class COVIDDashboardPage {
     buildProvinceSelectorDashboard();
     buildRegionalSelectorDashboard();
 
-    this.sections.home.select();
+    if (cws.Object.values(this.sections).filter((section) => section.isSelected).length === 0)
+      this.sections.home.select();
 
     function buildHomeDashboard() {
       async function getCaseCount(location: string, region: COVIDRegionLevel): Promise<string> {
@@ -167,7 +168,7 @@ class COVIDDashboardPage {
             const doses = await COVIDDataBridge.getSummary('vaccine_administration_dose_2', province.locationId, level) as number;
             return cws.numberToPrettyNumber(doses);
           },
-        },{
+        }, {
           title: "Population double vaccinated",
           responseGetter: async () => {
             const coverage = await COVIDDataBridge.getSummary('vaccine_coverage_dose_2', province.locationId, level) as number;
@@ -441,7 +442,7 @@ class COVIDDashboardPage {
             type: 'hospitalizations',
           });
 
-          // debugger;
+        // debugger;
         createChart({
           days: deathsDays,
           title: 'Deaths per day',

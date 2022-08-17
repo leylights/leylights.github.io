@@ -119,6 +119,7 @@ export class ResumePage {
         flipped: true,
         type: 'grid',
       }));
+      me.projects[me.projects.length - 1].container.querySelector('img.dark-only').classList.add('dark-invert-filter');
     }
 
     function loadSkills() {
@@ -136,7 +137,6 @@ export class ResumePage {
           ['TypeScript', true, ['API']],
           ['TypeORM', false, ['API']],
           ['NestJS', false],
-          ['Photo Editing', false],
         ];
 
       skillInfo.forEach((info) => {

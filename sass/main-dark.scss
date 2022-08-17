@@ -1,136 +1,133 @@
-@media (prefers-color-scheme: dark) {
-  @import 'general/colours/dark';
-  @import 'dark/header';
-  @import 'dark/side-menu';
-  @import 'dark/showcase';
+@import 'dark/header';
+@import 'dark/side-menu';
+@import 'dark/showcase';
 
-  html {
-    background-color: var(--primary-bg-color);
-  }
+body {
+  background-color: var(--primary-bg-color);
+}
 
-  a:link {
-    color: var(--primary-accent-color);
-  }
+a:link {
+  color: var(--primary-accent-color);
+}
 
-  a:visited {
-    color: var(--light-text-color);
-  }
-  #main {
+a:visited {
+  color: var(--light-text-color);
+}
+#main {
+  color: var(--text-color);
+}
+
+#side-menu {
+  background-color: var(--secondary-bg-color);
+  color: var(--accent-color);
+
+  h1 {
     color: var(--text-color);
   }
 
-  #side-menu {
-    background-color: var(--secondary-bg-color);
-    color: var(--accent-color);
-
-    h1 {
-      color: var(--text-color);
-    }
-
-    a:hover {
-      text-decoration-color: white;
-    }
+  a:hover {
+    text-decoration-color: white;
   }
+}
 
-  #side-menu-opener > img {
-    filter: brightness(100);
-  }
+#side-menu-opener > img {
+  filter: brightness(100);
+}
 
-  /* HAM MENU & HEADER COMPLETE */
+/* HAM MENU & HEADER COMPLETE */
 
-  /* SPECIFIC - index.html */
+/* SPECIFIC - index.html */
 
-  .showcase-item-container {
-    background-color: var(--secondary-bg-color) !important;
-    color: var(--text-color) !important;
-  }
+.showcase-item-container {
+  background-color: var(--secondary-bg-color) !important;
+  color: var(--text-color) !important;
+}
 
-  .itemSurround a {
-    color: var(--primary-accent-color) !important;
-  }
+.itemSurround a {
+  color: var(--primary-accent-color) !important;
+}
 
-  /* SPECIFIC - Vectors.html */
+/* SPECIFIC - Vectors.html */
 
-  .calculation p.clickable {
-    color: var(--primary-accent-color) !important;
-  }
+.calculation p.clickable {
+  color: var(--primary-accent-color) !important;
+}
 
-  /* GENERAL */
+/* GENERAL */
 
-  .content {
+.content {
+  color: var(--text-color);
+}
+
+.content h1 {
+  max-width: 980px;
+  margin: auto;
+  color: var(--text-color);
+}
+
+.content table td {
+  color: var(--text-color);
+}
+
+#main {
+  background-color: var(--primary-bg-color);
+}
+
+input {
+  background-color: inherit;
+  border-color: var(--accent-color);
+  color: inherit;
+}
+
+.button {
+  color: var(--invert-text-color);
+  background-color: var(--primary-accent-color);
+  border: 1px solid var(--accent-color);
+
+  &:hover {
+    background-color: var(--secondary-accent-color);
     color: var(--text-color);
   }
+}
 
-  .content h1 {
-    max-width: 980px;
-    margin: auto;
-    color: var(--text-color);
+/* General dark inverting */
+
+.dark-invert {
+  color: var(--text-color) !important;
+
+  &:hover {
+    color: var(--secondary-accent-color) !important;
   }
+}
 
-  .content table td {
-    color: var(--text-color);
-  }
+.dark-only {
+  display: unset;
+}
 
-  #main {
-    background-color: var(--primary-bg-color);
-  }
+.dark-none {
+  display: none !important;
+}
 
-  input {
-    background-color: inherit;
-    border-color: var(--accent-color);
-    color: inherit;
-  }
+.dark-invert-filter {
+  filter: invert(1);
+}
 
-  .button {
-    color: var(--invert-text-color);
-    background-color: var(--primary-accent-color);
-    border: 1px solid var(--accent-color);
+#side-menu-end-button {
+  filter: invert(1);
+}
 
-    &:hover {
-      background-color: var(--secondary-accent-color);
-      color: var(--text-color);
-    }
-  }
+.popup-body {
+  box-shadow: 0 0 10000px 10000px #000b !important;
+}
 
-  /* General dark inverting */
+.experience-image.dark-none {
+  display: none;
+}
 
-  .dark-invert {
-    color: var(--text-color) !important;
+.experience-image.dark-only {
+  display: block !important;
+}
 
-    &:hover {
-      color: var(--secondary-accent-color) !important;
-    }
-  }
-
-  .dark-only {
-    display: unset;
-  }
-
-  .dark-none {
-    display: none !important;
-  }
-
-  .dark-invert-filter {
-    filter: invert(1);
-  }
-
-  #side-menu-end-button {
-    filter: invert(1);
-  }
-
-  .popup-body {
-    box-shadow: 0 0 10000px 10000px #000b !important;
-  }
-
-  .experience-image.dark-none {
-    display: none;
-  }
-
-  .experience-image.dark-only {
-    display: block !important;
-  }
-
-  .emwaves-main #electric-field-dropdown:hover {
-    color: #00eeff;
-  }
+.emwaves-main #electric-field-dropdown:hover {
+  color: #00eeff;
 }

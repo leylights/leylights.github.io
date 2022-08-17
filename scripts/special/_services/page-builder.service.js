@@ -35,21 +35,11 @@ export class PageBuilder {
      * River-ifies the page
      */
     static riverify() {
-        var _a;
         if (!CoreDataService.shouldRiverify)
             return;
-        const logos = Array.from(document.querySelectorAll('#big-logo')).concat(Array.from(document.querySelectorAll('.site-logo')));
-        logos.forEach((el) => {
-            el.src = el.src.replace('/logo', '/river-logo');
-            el.classList.add('river-logo');
-        });
         // replace title
         document.head.querySelector('title').innerText =
             document.head.querySelector('title').innerText.replace('colestanley.ca', CoreDataService.siteName);
-        // replace loading screen
-        const loadingLogo = (_a = document.body.querySelector('#loadingScreen')) === null || _a === void 0 ? void 0 : _a.querySelector('img');
-        if (loadingLogo)
-            loadingLogo.src = CoreDataService.siteLogoSrc;
     }
     /**
      * Populates the <head> element

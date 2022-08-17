@@ -13,6 +13,7 @@ import { MenuItemMulti } from './menus/menu-item-multi.js';
 import { MenuItemSingle } from './menus/menu-item-single.js';
 import { MenuItem } from './menus/menu-item.js';
 import { MenuLayouts } from './menus/menu-layouts.data.js';
+import { TopMenuService } from './top-menu.service.js';
 
 export class SideMenuService {
   private static itemNo = 0;
@@ -38,8 +39,6 @@ export class SideMenuService {
         SideMenuService.displayMenuItems(category);
       });
     });
-
-    SideMenuService.menu.querySelector('#side-menu-end-button').addEventListener('click', () => { SideMenuService.closeMenu(); });
   }
 
   private static createMenuItem(
@@ -142,24 +141,26 @@ export class SideMenuService {
                 type: 'img',
                 otherNodes: [{ type: 'src', value: '/siteimages/closebutton.png' }],
               })]
+            }),
+            cws.createElement({
+              type: 'div',
+              classList: 'dark-mode-container',
+              children: [
+                cws.createElement({
+                  type: 'span',
+                  innerText: 'Dark mode'
+                }),
+                TopMenuService.createDarkModeToggle('side-menu-dark-toggle'),
+              ]
             })
           ],
         }),
       ]
     });
 
-    sideMenu.querySelector('#side-menu-end-button').addEventListener('click', SideMenuService.closeMenu);
+    sideMenu.querySelector('#side-menu-end-button').addEventListener('click', SideMenuService.toggleMenu);
     document.body.appendChild(sideMenu);
     return sideMenu;
-  }
-
-  static closeMenu(): void {
-    SideMenuService.menu.style.width = '0%';
-    document.getElementById('side-menu-opener').style.opacity = '1';
-    SideMenuService.menu.style.minWidth = '0';
-
-    for (let i = 0; i < document.getElementsByClassName('side-menu-item').length; i++)
-      (document.getElementsByClassName('side-menu-item')[i] as HTMLElement).style.display = 'none';
   }
 
   private static displayMenuItems(category: HTMLElement) {
@@ -178,17 +179,8 @@ export class SideMenuService {
     MenuLayouts.TOP_MENU.tools.forEach((item) => { SideMenuService.createMenuItem(item); });
   }
 
-  static openMenu(): void {
-    if (document.body.clientWidth < 700) {
-      SideMenuService.menu.style.width = '100%';
-    } else {
-      let menuW = Math.round(window.innerWidth * 0.15);
-      if (menuW < 200)
-        menuW = 200;
-
-      SideMenuService.menu.style.width = menuW + 'px';
-      document.getElementById('desktop-header').style.width = (100 - menuW) + 'px';
-    }
-    document.getElementById('side-menu-opener').style.opacity = '0';
+  static toggleMenu(): void {
+    document.getElementById('side-menu-opener').classList.toggle('hidden');
+    document.getElementById('side-menu').classList.toggle('open');
   }
 }

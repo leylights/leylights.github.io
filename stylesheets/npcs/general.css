@@ -4,6 +4,15 @@
   --npcs-light-gray: #333;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --npcs-red: #ffd700;
+  }
+}
+:root.dark {
+  --npcs-red: #ffd700;
+}
+
 /* Ability Scores */
 /* the NPC card */
 .monsterCard {

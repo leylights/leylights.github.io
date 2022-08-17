@@ -3,7 +3,6 @@ import { cws } from "../../cws.js";
 import { Button } from "../_components/button.component.js";
 import { BASE_TEMP_HIGHLIGHT_TIME } from "../_components/general.js";
 import { ResizingInput } from "../_components/resizing-input.component.js";
-import { DarkModeService } from "../_services/dark-mode.service.js";
 import { NPCsRace } from "./core/race.js";
 import { NPCsDice } from "./helper-repository/general.js";
 import { NPCsInitiativeTrackerCombatant } from "./helper-repository/initiative-tracker-combatant.js";
@@ -72,9 +71,6 @@ export class NPCsInitiativeTracker {
   static FILL_INPUT = false;
 
   constructor() {
-    if (DarkModeService.isDark)
-      document.body.style.setProperty('--npcs-red', '#FFD700');
-
     this.loadInitialHTML();
 
     // temp
