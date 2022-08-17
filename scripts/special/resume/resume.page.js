@@ -1,4 +1,5 @@
 import { SpotlightHeader } from "../showcase/components/spotlight-header.component.js";
+import { CoreDataService } from "../_services/core-data.service.js";
 import { PageBuilder } from "../_services/page-builder.service.js";
 import { ResumeExperienceItemComponent } from "./components/experience-item.component.js";
 import { ResumeLanguageComponent } from "./components/language-item.component.js";
@@ -13,7 +14,7 @@ export class ResumePage {
         const me = this;
         new SpotlightHeader(document.getElementById('showcase'));
         PageBuilder.riverify();
-        document.getElementById('name').innerText = PageBuilder.personalName;
+        document.getElementById('name').innerText = CoreDataService.personalName;
         loadExperience();
         loadProjects();
         loadLanguages();
@@ -89,11 +90,11 @@ export class ResumePage {
             const container = document.getElementById('projects-container');
             me.projects.push(new ResumeExperienceItemComponent({
                 parentElement: container,
-                title: PageBuilder.siteName,
+                title: CoreDataService.siteName,
                 dates: ['Spring 2017 \u2013 Present'],
-                mainImageUrl: PageBuilder.siteLogoSrc,
-                darkImageUrl: PageBuilder.siteLogoSrc,
-                imageAlt: PageBuilder.siteName,
+                mainImageUrl: CoreDataService.siteLogoSrc,
+                darkImageUrl: CoreDataService.siteLogoSrc,
+                imageAlt: CoreDataService.siteName,
                 experiencePoints: [
                     `Developed and maintained a <C>mobile-aware</C> portfolio website, upgrading it as my development and <C>design</C> capabilities grew`,
                     `Updated site regularly with new projects, including a <L term='javascript typescript'>COVID-19 infection model</L>, <L term='java'>a machine-learning AI</L>,
