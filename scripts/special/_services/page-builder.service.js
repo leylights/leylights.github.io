@@ -5,11 +5,12 @@
  */
 import { cws } from '../../cws.js';
 import { GoogleAnalyticsController } from './google-analytics-controller.service.js';
-import { Menu } from './menu-items.service.js';
 import { CookieInterface } from './cookie-interface.service.js';
 import { SideMenuService } from './side-menu.service.js';
 import { TopMenuService } from './top-menu.service.js';
 import { DarkModeService } from './dark-mode.service.js';
+import { CoreDataService } from './core-data.service.js';
+import { MenuLayouts } from './menus/menu-layouts.data.js';
 export class PageBuilder {
     static init(buildElements) {
         PageBuilder.buildHead();
@@ -35,7 +36,7 @@ export class PageBuilder {
      */
     static riverify() {
         var _a;
-        if (!this.shouldRiverify)
+        if (!CoreDataService.shouldRiverify)
             return;
         const logos = Array.from(document.querySelectorAll('#big-logo')).concat(Array.from(document.querySelectorAll('.site-logo')));
         logos.forEach((el) => {
@@ -44,11 +45,11 @@ export class PageBuilder {
         });
         // replace title
         document.head.querySelector('title').innerText =
-            document.head.querySelector('title').innerText.replace('colestanley.ca', PageBuilder.siteName);
+            document.head.querySelector('title').innerText.replace('colestanley.ca', CoreDataService.siteName);
         // replace loading screen
         const loadingLogo = (_a = document.body.querySelector('#loadingScreen')) === null || _a === void 0 ? void 0 : _a.querySelector('img');
         if (loadingLogo)
-            loadingLogo.src = PageBuilder.siteLogoSrc;
+            loadingLogo.src = CoreDataService.siteLogoSrc;
     }
     /**
      * Populates the <head> element
@@ -72,13 +73,17 @@ export class PageBuilder {
         setTimeout(function () {
             document.getElementById('loadingScreen').children[0].style.opacity = '1';
         }, 16);
-        document.addEventListener('readystatechange', function (event) {
-            console.log(document.readyState, event);
+        // remove load listener
+        PageBuilder.registerLoadListener(() => {
+            document.getElementById('loadingScreen').style.opacity = '0';
+            setTimeout(function () {
+                document.getElementById('loadingScreen').outerHTML = '';
+            }, (parseFloat(window.getComputedStyle(document.getElementById('loadingScreen')).transitionDuration) * 1000));
+        });
+        // set up load listener to listen to load
+        document.addEventListener('readystatechange', function () {
             if (document.readyState === 'complete') {
-                document.getElementById('loadingScreen').style.opacity = '0';
-                setTimeout(function () {
-                    document.getElementById('loadingScreen').outerHTML = '';
-                }, (parseFloat(window.getComputedStyle(document.getElementById('loadingScreen')).transitionDuration) * 1000));
+                PageBuilder.loadTarget.dispatchEvent(new Event('load'));
             }
         });
         // links
@@ -101,7 +106,7 @@ export class PageBuilder {
     }
     static buildGoogleAnalytics() {
         // exit on dev
-        if (!window.location.origin.includes(PageBuilder.publicSiteUrl)) {
+        if (!window.location.origin.includes(CoreDataService.publicSiteUrl)) {
             console.log('Hidden from google analytics: on development environment.');
             return;
         }
@@ -120,10 +125,10 @@ export class PageBuilder {
     }
     static getCurrentPageData() {
         const currentPage = transformLink(window.location.pathname);
-        const results = Menu.getAll().filter((item) => {
-            if (currentPage === transformLink('/' + item.links.href))
+        const results = MenuLayouts.ALL.filter((item) => {
+            if (currentPage === transformLink(item.singleLinks.href))
                 return true;
-            else if (currentPage === '/index.html' && transformLink(item.links.href) === '')
+            else if (currentPage === '/index.html' && transformLink(item.singleLinks.href) === '/')
                 return true;
             return false;
         });
@@ -147,13 +152,12 @@ export class PageBuilder {
         else
             document.head.appendChild(metaTag);
     }
+    static registerLoadListener(listener) {
+        this.loadTarget.addEventListener('load', listener);
+    }
 }
-PageBuilder.publicSiteUrl = 'colestanley.ca';
-PageBuilder.shouldRiverify = !window.location.hostname.includes('colestanley');
-PageBuilder.personalName = PageBuilder.shouldRiverify ? 'River Stanley' : 'Cole Stanley';
-PageBuilder.siteName = PageBuilder.shouldRiverify ? 'riverstanley.ca' : 'colestanley.ca';
-PageBuilder.siteLogoSrc = PageBuilder.shouldRiverify ? '/siteimages/river-logo.svg' : '/siteimages/logo.svg';
 PageBuilder.STRUCTURED_DATA = {
-    name: 'Cole Stanley',
+    name: CoreDataService.personalName,
 };
+PageBuilder.loadTarget = new EventTarget();
 //# sourceMappingURL=page-builder.service.js.map
