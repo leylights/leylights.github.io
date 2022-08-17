@@ -1,11 +1,14 @@
 @import 'util/mixins/mixins.scss';
 
 :root {
-  --showcase-shadow-colour: #888b;
+  --showcase-shadow-colour: #8888;
   --showcase-spotlight-height: 510px;
 
   --item-header-colour: var(--primary-accent-color);
 }
+
+$duration: 1.5s;
+$fade-up-distance: 30px;
 
 #showcase-items {
   overflow-x: hidden;
@@ -43,21 +46,23 @@
 }
 
 .showcase-item-container {
+  animation-duration: $duration; // used for JS
+
   background-color: white;
   position: relative;
   z-index: 2;
   width: calc(100% - 100px);
   padding: 0 50px;
 
-  .showcase-item-top-shadow {
+  &.top-shadow {
     box-shadow: 0 -10px 10px 0 var(--showcase-shadow-colour);
   }
 
-  .showcase-item-bottom-shadow {
+  &.bottom-shadow {
     box-shadow: 0 10px 10px 0 var(--showcase-shadow-colour);
   }
 
-  .showcase-item-both-shadow {
+  &.both-shadow {
     box-shadow: 0 0 10px 10px var(--showcase-shadow-colour);
   }
 }
@@ -71,65 +76,179 @@
   padding: 20px;
 }
 
-.showcase-item-text-container:hover h2,
-.showcase-item-text-container:hover h3 {
-  color: var(--text-color);
-}
+$showcase-item-image-margin: 18px;
 
-.showcase-item-container.no-hover .showcase-item-text-container:hover h2,
-.showcase-item-container.no-hover .showcase-item-text-container:hover h3 {
-  color: var(--item-header-colour);
-}
+.showcase-item {
+  $date-padding: 4px;
 
-.showcase-item a {
-  text-decoration: none;
-}
+  a {
+    text-decoration: none;
+  }
 
-.showcase-item h2,
-.showcase-item h3 {
-  font-weight: 400;
-  transition: var(--hover-color-transition);
-}
+  .title,
+  .date {
+    font-weight: 300;
+    transition: var(--hover-color-transition);
 
-.showcase-item h2 {
-  font-size: 1.8em;
-  margin: 0;
-}
+    color: var(--item-header-colour);
+    position: relative;
 
-.showcase-item h3 {
-  font-size: 1.3em;
-  margin-top: 0;
-}
+    padding-bottom: $date-padding;
+  }
+  .title {
+    font-size: 1.8em;
+    margin: 0;
+    top: $date-padding;
+  }
+  .date {
+    font-size: 0.8em;
+    margin-top: 0;
+    text-transform: lowercase;
+    top: 0;
 
-.showcase-item-image-container {
-  float: left;
-  text-align: right;
+    border-bottom: 1px solid var(--very-light-text-color);
+  }
 
-  .showcase-item-image {
-    width: 225px;
-    max-height: 180px;
-    border-radius: 20px;
-    box-shadow: 0 0 8px 1px #0008;
-    padding: 18px;
+  .description {
+    color: var(--text-color);
+
+    position: relative;
+    top: 0;
+    font-weight: 300;
+  }
+
+  .image-container {
+    text-align: right;
+
+    margin-bottom: $fade-up-distance;
+    position: relative;
+
+    $image-border-radius: 20px;
+
+    .image-shadow-container {
+      box-shadow: 0 0 8px 1px #0008;
+      display: inline-flex;
+      flex-direction: row;
+      justify-content: center;
+      border-radius: $image-border-radius;
+
+      padding: 8px;
+
+      position: relative;
+      top: 0;
+      transition: var(--hover-color-transition);
+    }
+
+    .caption {
+      text-align: center;
+    }
+
+    img {
+      width: 225px;
+      max-height: 180px;
+      border-radius: $image-border-radius;
+      margin: auto;
+    }
+  }
+
+  .text-container {
+    position: relative;
+  }
+
+  .image-container,
+  .text-container {
+    flex-grow: 1;
+  }
+
+  .captioned-image {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    top: 0;
+    max-width: 175px;
+
+    transition: var(--hover-color-transition);
+
+    position: relative;
+
+    .caption {
+      padding: 8px 0;
+      top: 0;
+      font-weight: 300;
+
+      span {
+        display: block;
+
+        &.captioned-date {
+          font-size: 0.75em;
+        }
+      }
+    }
+
+    img {
+      width: 100%;
+    }
+
+    &:link,
+    &:visited {
+      color: var(--primary-accent-color);
+    }
+
+    &:hover {
+      color: var(--text-color);
+    }
   }
 }
 
-.showcase-item-text-container {
-  float: right;
+.showcase-item-container.single-item {
+  &:hover {
+    .text-container {
+      .title,
+      .date {
+        color: var(--text-color);
+      }
+    }
+  }
 }
 
-.showcase-item-image-container,
-.showcase-item-text-container {
-  flex-grow: 1;
+.showcase-item-container.multi-item {
+  .images-internal-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 20px;
+    row-gap: 6px;
+
+    .image-shadow-container {
+      height: 100%;
+      img {
+        width: 150px;
+        height: min-content;
+        margin: auto;
+        border-radius: 8px * 1.5;
+      }
+    }
+  }
 }
 
-.showcase-item-title,
-.showcase-item-date {
-  color: var(--item-header-colour);
+.no-opacity {
+  opacity: 0;
 }
 
-.showcase-item-description {
-  color: var(--text-color);
+.showcase-item-container.animation-complete.single-item .image-shadow-container:hover {
+  top: -5px;
+}
+
+.showcase-item-container.animation-complete .captioned-image:hover {
+  top: -5px;
+}
+
+.showcase-item-container.no-hover .text-container:hover {
+  .title,
+  .date {
+    color: var(--item-header-colour);
+  }
 }
 
 .showcase-spotlight-container {
@@ -145,41 +264,36 @@
 }
 
 .right-aligned-item {
-  .showcase-item-text-container {
+  .text-container {
     text-align: right;
   }
 
-  .showcase-item-image-container {
+  .image-container {
     text-align: left;
   }
 }
 
 @include tablet-width {
-  .showcase-item-image-container {
+  .single-item .image-container {
     display: none;
+  }
+  .multi-item .showcase-item-content {
+    display: block;
+
+    .image-container {
+      padding: 8px 0;
+    }
   }
 
   #big-logo {
     width: 50%;
   }
 
-  .showcase-item-image {
+  .image {
     width: 100px;
   }
 
-  .showcase-item-container.showcase-item-top-shadow {
-    box-shadow: none;
-  }
-
-  .showcase-item-container.showcase-item-bottom-shadow {
-    box-shadow: none;
-  }
-
-  .showcase-item-container.showcase-item-both-shadow {
-    box-shadow: none;
-  }
-
-  .right-aligned-item .showcase-item-text-container {
+  .right-aligned-item .text-container {
     text-align: left;
   }
 }
@@ -187,5 +301,43 @@
 @include small-width {
   #big-logo {
     width: 70%;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    top: $fade-up-distance;
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.showcase-item-container.animation-playing {
+  .title,
+  .date,
+  .description {
+    animation: fade-up;
+    animation-duration: $duration;
+  }
+
+  .image-shadow-container,
+  .caption {
+    animation: fade-up;
+    animation-duration: $duration;
+  }
+}
+
+.showcase-item-container.animation-complete {
+  .title,
+  .date,
+  .description {
+    opacity: 1;
+  }
+  .image,
+  .caption {
+    opacity: 1;
   }
 }

@@ -5,12 +5,14 @@
  * 
  * @author Cole Stanley
  * Created: 2017
- * Last updated: February 2022
  */
 
 import { cws } from '../../cws.js';
 import { Button } from '../_components/button.component.js';
-import { Menu, MenuItem } from './menu-items.service.js';
+import { MenuItemMulti } from './menus/menu-item-multi.js';
+import { MenuItemSingle } from './menus/menu-item-single.js';
+import { MenuItem } from './menus/menu-item.js';
+import { MenuLayouts } from './menus/menu-layouts.data.js';
 
 export class SideMenuService {
   private static itemNo = 0;
@@ -47,25 +49,23 @@ export class SideMenuService {
     const newItem = document.createElement('div');
     newItem.classList.add('side-menu-item');
     newItem.id = `menu-item-${SideMenuService.itemNo}`;
-    newItem.appendChild(cws.createElement({
-      type: 'a',
-      innerText: item.shortName,
-      otherNodes: [getLink()],
-    }));
+    if (item instanceof MenuItemSingle)
+      newItem.appendChild(cws.createElement({
+        type: 'a',
+        innerText: item.shortName,
+        otherNodes: { href: item.singleLinks.href },
+      }));
 
-    if (!parent)
-      switch (item.type) {
-        case 'Game':
-          parent = document.getElementById('games-dropdown-category');
-          break;
-        case 'Dropdown':
-        case 'Tool':
-          parent = document.getElementById('tools-dropdown-category');
-      }
+    if (!parent) {
+      if (item instanceof MenuItemSingle && item.type === 'Game')
+        parent = document.getElementById('games-dropdown-category');
+      else
+        parent = document.getElementById('tools-dropdown-category');
+    }
 
     parent.appendChild(newItem);
 
-    if (item.children) {
+    if (item instanceof MenuItemMulti) {
       newItem.classList.add('dropdown');
       const subMenu = document.createElement('div');
       subMenu.classList.add('side-menu-dropdown');
@@ -85,16 +85,6 @@ export class SideMenuService {
     }
 
     SideMenuService.itemNo++;
-
-    function getLink() {
-      if (!item.links.href) return null;
-
-      let link: string;
-      if (item.links.href.includes('https')) link = item.links.href;
-      else link = `/${item.links.href}`;
-
-      return { type: 'href', value: link };
-    }
   }
 
   private static buildMenuStructure(): HTMLElement {
@@ -184,10 +174,8 @@ export class SideMenuService {
   }
 
   private static generateMenu() {
-    const menuItems = Menu.getTopMenu()
-
-    menuItems.games.forEach((item) => { SideMenuService.createMenuItem(item); });
-    menuItems.tools.forEach((item) => { SideMenuService.createMenuItem(item); });
+    MenuLayouts.TOP_MENU.games.forEach((item) => { SideMenuService.createMenuItem(item); });
+    MenuLayouts.TOP_MENU.tools.forEach((item) => { SideMenuService.createMenuItem(item); });
   }
 
   static openMenu(): void {
@@ -199,7 +187,7 @@ export class SideMenuService {
         menuW = 200;
 
       SideMenuService.menu.style.width = menuW + 'px';
-      document.getElementById('header').style.width = (100 - menuW) + 'px';
+      document.getElementById('desktop-header').style.width = (100 - menuW) + 'px';
     }
     document.getElementById('side-menu-opener').style.opacity = '0';
   }

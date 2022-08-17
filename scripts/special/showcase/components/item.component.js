@@ -21,31 +21,39 @@ export class ShowcaseItem {
     rebuild(parent) {
         const isRightAligned = this.item.type == 'Tool', imageContainer = cws.createElement({
             type: 'div',
-            classList: 'showcase-item-image-container',
-            children: [cws.createElement({
-                    type: 'img',
-                    classList: ['showcase-item-image']
-                        .concat(this.item.invertOnDark ? ['dark-invert-filter'] : [])
-                        .concat(!this.item.links.thumbnail || this.item.links.thumbnail.match(/logo(.*)\.svg/) ? ['site-logo'] : []),
-                    otherNodes: [
-                        { type: 'src', value: this.item.links.thumbnail },
-                        { type: 'alt', value: "" },
+            classList: 'image-container',
+            children: [
+                cws.createElement({
+                    type: 'div',
+                    classList: 'image-shadow-container no-opacity',
+                    children: [
+                        cws.createElement({
+                            type: 'img',
+                            classList: [ShowcaseItem.classNames.image]
+                                .concat(this.item.invertOnDark ? ['dark-invert-filter'] : [])
+                                .concat(!this.item.links.thumbnail || this.item.links.thumbnail.match(/logo(.*)\.svg/) ? ['site-logo'] : []),
+                            otherNodes: [
+                                { type: 'src', value: this.item.links.thumbnail },
+                                { type: 'alt', value: "" },
+                            ]
+                        })
                     ]
-                })]
+                })
+            ]
         }), textContainer = cws.createElement({
             type: 'div',
-            classList: 'showcase-item-text-container',
+            classList: 'text-container',
             children: [cws.createElement({
+                    type: 'span',
+                    classList: 'date no-opacity',
+                    innerText: `${this.item.date} / ${this.item.type}`
+                }), cws.createElement({
                     type: 'h2',
-                    classList: 'showcase-item-title',
+                    classList: 'title no-opacity',
                     innerText: this.item.name
                 }), cws.createElement({
-                    type: 'h3',
-                    classList: 'showcase-item-date',
-                    innerText: this.item.date
-                }), cws.createElement({
                     type: 'p',
-                    classList: 'showcase-item-description',
+                    classList: 'description no-opacity',
                     innerHTML: this.item.description
                 })]
         }), container = cws.createElement({
@@ -85,4 +93,7 @@ export class ShowcaseItem {
     }
 }
 ShowcaseItem.next_id = 0;
+ShowcaseItem.classNames = {
+    image: 'image',
+};
 //# sourceMappingURL=item.component.js.map

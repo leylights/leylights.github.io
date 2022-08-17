@@ -6,23 +6,20 @@
 
 import { cws } from '../../cws.js';
 import { GoogleAnalyticsController } from './google-analytics-controller.service.js';
-import { Menu, MenuItem } from './menu-items.service.js';
 import { CookieInterface } from './cookie-interface.service.js';
 import { SideMenuService } from './side-menu.service.js';
 import { TopMenuService } from './top-menu.service.js';
 import { DarkModeService } from './dark-mode.service.js';
+import { CoreDataService } from './core-data.service.js';
+import { MenuLayouts } from './menus/menu-layouts.data.js';
+import { MenuItemSingle } from './menus/menu-item-single.js';
 
 export class PageBuilder {
-  public static publicSiteUrl: string = 'colestanley.ca';
-
-  private static shouldRiverify = !window.location.hostname.includes('colestanley');
-  public static personalName = PageBuilder.shouldRiverify ? 'River Stanley' : 'Cole Stanley';
-  public static siteName: string = PageBuilder.shouldRiverify ? 'riverstanley.ca' : 'colestanley.ca';
-  public static siteLogoSrc: string = PageBuilder.shouldRiverify ? '/siteimages/river-logo.svg' : '/siteimages/logo.svg';
-
   private static readonly STRUCTURED_DATA = {
-    name: 'Cole Stanley',
+    name: CoreDataService.personalName,
   }
+
+  private static loadTarget = new EventTarget();
 
   static init(buildElements: boolean): void {
     PageBuilder.buildHead();
@@ -50,7 +47,7 @@ export class PageBuilder {
    * River-ifies the page
    */
   static riverify(): void {
-    if (!this.shouldRiverify) return;
+    if (!CoreDataService.shouldRiverify) return;
 
     const logos = Array.from(document.querySelectorAll('#big-logo')).concat(
       Array.from(document.querySelectorAll('.site-logo'))
@@ -63,11 +60,11 @@ export class PageBuilder {
 
     // replace title
     document.head.querySelector('title').innerText =
-      document.head.querySelector('title').innerText.replace('colestanley.ca', PageBuilder.siteName);
+      document.head.querySelector('title').innerText.replace('colestanley.ca', CoreDataService.siteName);
 
     // replace loading screen
     const loadingLogo = document.body.querySelector('#loadingScreen')?.querySelector('img');
-    if (loadingLogo) loadingLogo.src = PageBuilder.siteLogoSrc;
+    if (loadingLogo) loadingLogo.src = CoreDataService.siteLogoSrc;
   }
 
   /**
@@ -94,14 +91,18 @@ export class PageBuilder {
       (document.getElementById('loadingScreen').children[0] as HTMLElement).style.opacity = '1';
     }, 16);
 
-    document.addEventListener('readystatechange', function (event) { // remove
-      console.log(document.readyState, event);
+    // remove load listener
+    PageBuilder.registerLoadListener(() => {
+      document.getElementById('loadingScreen').style.opacity = '0';
+      setTimeout(function () {
+        document.getElementById('loadingScreen').outerHTML = '';
+      }, (parseFloat(window.getComputedStyle(document.getElementById('loadingScreen')).transitionDuration) * 1000));
+    });
 
+    // set up load listener to listen to load
+    document.addEventListener('readystatechange', function () {
       if (document.readyState === 'complete') {
-        document.getElementById('loadingScreen').style.opacity = '0';
-        setTimeout(function () {
-          document.getElementById('loadingScreen').outerHTML = '';
-        }, (parseFloat(window.getComputedStyle(document.getElementById('loadingScreen')).transitionDuration) * 1000));
+        PageBuilder.loadTarget.dispatchEvent(new Event('load'));
       }
     });
 
@@ -111,7 +112,7 @@ export class PageBuilder {
       type: 'link',
       otherNodes: {
         rel: 'preconnect',
-        href:  'https://fonts.gstatic.com'
+        href: 'https://fonts.gstatic.com'
       }
     });
     document.head.appendChild(gFontsLoad);
@@ -128,7 +129,7 @@ export class PageBuilder {
 
   private static buildGoogleAnalytics() {
     // exit on dev
-    if (!window.location.origin.includes(PageBuilder.publicSiteUrl)) {
+    if (!window.location.origin.includes(CoreDataService.publicSiteUrl)) {
       console.log('Hidden from google analytics: on development environment.');
       return;
     } else if (CookieInterface.getCookieValue(GoogleAnalyticsController.HIDE_COOKIE)) {
@@ -147,16 +148,16 @@ export class PageBuilder {
     }));
   }
 
-  private static getCurrentPageData(): MenuItem {
+  private static getCurrentPageData(): MenuItemSingle {
     const currentPage = transformLink(window.location.pathname);
-    const results = Menu.getAll().filter((item: MenuItem) => {
-      if (currentPage === transformLink('/' + item.links.href)) return true;
-      else if (currentPage === '/index.html' && transformLink(item.links.href) === '') return true;
+    const results = MenuLayouts.ALL.filter((item) => {
+      if (currentPage === transformLink(item.singleLinks.href)) return true;
+      else if (currentPage === '/index.html' && transformLink(item.singleLinks.href) === '/') return true;
       return false;
     });
 
     if (results.length > 1) throw new Error('getCurrentPageData failed.');
-    return results[0];
+    return results[0] as MenuItemSingle;
 
     function transformLink(link: string): string {
       return link.toLowerCase().replace(/\.\.\//g, '');
@@ -174,5 +175,9 @@ export class PageBuilder {
 
     if (insertAtTop) document.head.insertAdjacentElement('afterbegin', metaTag);
     else document.head.appendChild(metaTag);
+  }
+
+  static registerLoadListener(listener: () => any) {
+    this.loadTarget.addEventListener('load', listener);
   }
 }

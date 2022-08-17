@@ -7,8 +7,11 @@
  */
 
 import { cws } from '../../cws.js';
-import { Menu, MenuItem } from './menu-items.service.js';
-import { PageBuilder } from './page-builder.service.js';
+import { CoreDataService } from './core-data.service.js';
+import { MenuItemMulti } from './menus/menu-item-multi.js';
+import { MenuItemSingle } from './menus/menu-item-single.js';
+import { MenuItem } from './menus/menu-item.js';
+import { MenuLayouts } from './menus/menu-layouts.data.js';
 import { SideMenuService } from './side-menu.service.js';
 
 export class TopMenuService {
@@ -26,7 +29,7 @@ export class TopMenuService {
             children: [
               cws.createElement({
                 type: 'span',
-                innerText: text,
+                innerText: text.toLowerCase(),
               }),
             ],
           }),
@@ -55,7 +58,7 @@ export class TopMenuService {
                 cws.createElement({
                   type: 'span',
                   id: spanId,
-                  innerText: text,
+                  innerText: text.toLowerCase(),
                 }),
               ]
             })],
@@ -78,11 +81,11 @@ export class TopMenuService {
                 type: 'img',
                 id: 'header-logo',
                 classList: 'site-logo',
-                otherNodes: [{ type: 'src', value: PageBuilder.siteLogoSrc }],
+                otherNodes: [{ type: 'src', value: CoreDataService.siteLogoSrc }],
               }), cws.createElement({
                 type: 'h1',
                 id: 'header-title',
-                innerText: PageBuilder.siteName,
+                innerText: CoreDataService.siteName,
               })],
             }), cws.createElement({
               type: 'div',
@@ -123,36 +126,42 @@ export class TopMenuService {
   private static createTopItem(item: MenuItem, parent?: HTMLElement) {
     // determine parent
     let type: keyof HTMLElementTagNameMap = 'a';
-    if (!parent)
-      switch (item.type) {
-        case 'Game':
-          parent = TopMenuService.header.querySelector('#games-menu');
-          break;
-        case 'Dropdown':
-          type = 'div';
-        case 'Tool':
-          parent = TopMenuService.header.querySelector('#tools-menu');
-          break;
+    if (!parent) {
+      if (item instanceof MenuItemSingle)
+        switch (item.type) {
+          case 'Game':
+            parent = TopMenuService.header.querySelector('#games-menu');
+            break;
+          case 'Tool':
+            parent = TopMenuService.header.querySelector('#tools-menu');
+            break;
+        }
+      else {
+        parent = TopMenuService.header.querySelector('#tools-menu');
+        type = 'div';
       }
+    }
 
     const newItem = cws.createElement({
       type: type,
       classList: 'header-item',
-      innerHTML: item.shortName,
+      innerHTML: item instanceof MenuItemSingle && item.isExternalLink
+        ? item.shortName + ' (\u2B73)'
+        : item.shortName,
     });
 
     // links need to work on index and child pages
 
-    if (item.links.href) {
-      if ((window.location.href.search('index.html') !== -1 || window.location.href.split('colestanley.ca/')[1] === '') || item.links.href.substring(0, 4) == 'http') // on homepage OR linking externally (e.g. Drive)
-        newItem.setAttributeNode(cws.betterCreateAttr('href', item.links.href));
+    if (item instanceof MenuItemSingle && item.singleLinks.href) {
+      if ((window.location.href.search('index.html') !== -1 || window.location.href.split('colestanley.ca/')[1] === '') || item.singleLinks.href.substring(0, 4) == 'http') // on homepage OR linking externally (e.g. Drive)
+        newItem.setAttributeNode(cws.betterCreateAttr('href', item.singleLinks.href));
       else // on child page
-        newItem.setAttributeNode(cws.betterCreateAttr('href', '../' + item.links.href));
+        newItem.setAttributeNode(cws.betterCreateAttr('href', item.singleLinks.href));
     }
 
     parent.appendChild(newItem);
 
-    if (item.type === 'Dropdown') {
+    if (item instanceof MenuItemMulti) {
       newItem.classList.add('dropdown');
       const subMenu = document.createElement('div');
       subMenu.classList.add('header-dropdown-body');
@@ -164,7 +173,7 @@ export class TopMenuService {
   }
 
   private static generateMenu(): void {
-    const items = Menu.getTopMenu();
+    const items = MenuLayouts.TOP_MENU;
 
     items.games.forEach((item: MenuItem) => {
       TopMenuService.createTopItem(item);
