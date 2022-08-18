@@ -54,7 +54,7 @@ export class PacmanSprites extends BST<HTMLImageElement> {
   }
 
   /**
-   * Appends a new image element to the page of the given image in ../siteimages/pac, and adds it to the tree
+   * Appends a new image element to the page of the given image in /siteimages/pac, and adds it to the tree
    * @param {string} name 
    */
 

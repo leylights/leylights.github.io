@@ -209,7 +209,7 @@ export class cws {
         return value;
     }
     /**
-     * @example '../siteimages/logo.svg' => 'colestanley.ca/siteimages/logo.svg'
+     * @example '/siteimages/logo.svg' => 'colestanley.ca/siteimages/logo.svg'
      */
     static getFullUrlPath(url) {
         const locationParts = window.location.href.split('/'), urlParts = url.split('/');
@@ -250,7 +250,7 @@ export class cws {
     }
     /**
      * @requires url is relative to the root folder
-     * @example 'siteimages/logo.svg' => '../../siteimages/logo.svg'
+     * @example 'siteimages/logo.svg' => '/siteimages/logo.svg'
      */
     static getRelativeUrlPath(url) {
         const pagePath = window.location.href.replace(window.location.origin, ''), slashCount = pagePath.match(/\//g).length;

@@ -510,7 +510,7 @@ export class cws {
   }
 
   /**
-   * @example '../siteimages/logo.svg' => 'colestanley.ca/siteimages/logo.svg' 
+   * @example '/siteimages/logo.svg' => 'colestanley.ca/siteimages/logo.svg' 
    */
   static getFullUrlPath(url: string): string {
     const locationParts = window.location.href.split('/'),
@@ -566,7 +566,7 @@ export class cws {
 
   /**
    * @requires url is relative to the root folder
-   * @example 'siteimages/logo.svg' => '../../siteimages/logo.svg' 
+   * @example 'siteimages/logo.svg' => '/siteimages/logo.svg' 
    */
   static getRelativeUrlPath(url: string): string {
     const pagePath = window.location.href.replace(window.location.origin, ''),
