@@ -58,7 +58,7 @@ export class ShowcasePage {
     const me = this;
 
     items.forEach((menuItem) => {
-      if (menuItem.showcase) {
+      if (menuItem.displayBanner) {
         me.items[me.items.length - 1].giveShadow('bot');
         me.spotlights.push(new ShowcaseItemSpotlight(menuItem, parent));
       }
@@ -66,7 +66,7 @@ export class ShowcasePage {
       if (menuItem instanceof MenuItemSingle) me.items.push(new ShowcaseSingleItem(menuItem, parent));
       else me.items.push(new ShowcaseMultiItem(menuItem as MenuItemMulti, parent));
 
-      if (menuItem.showcase) me.items[me.items.length - 1].giveShadow('top');
+      if (menuItem.displayBanner) me.items[me.items.length - 1].giveShadow('top');
     });
   }
 

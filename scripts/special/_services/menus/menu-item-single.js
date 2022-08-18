@@ -11,7 +11,7 @@ export class MenuItemSingle extends MenuItem {
             archive: config.archive,
             showInSmallMenus: config.showInSmallMenus,
             isSecret: config.isSecret,
-            showcase: config.showcase,
+            showcaseConfig: config.showcaseConfig,
             links: {
                 showcase: config.links.showcase
             }
@@ -22,23 +22,24 @@ export class MenuItemSingle extends MenuItem {
             hrefIsExternal: false,
         };
         this.invertOnDark = false;
-        this.isExternalLink = false;
         this.showDate = true;
+        this.isCentered = false;
+        this.isExternalLink = false;
         this.noindex = false;
         this.date = config.date;
         this.singleLinks.href = config.links.href;
         this.singleLinks.thumbnail = (_a = config.links.thumbnail) !== null && _a !== void 0 ? _a : CoreDataService.siteLogoSrc;
         this.singleLinks.hrefIsExternal = config.links.hrefIsExternal;
-        this.setConfigBoolean('showcase', config);
         this.setConfigBoolean('archive', config);
         this.setConfigBoolean('showInSmallMenus', config);
         this.setConfigBoolean('isExternalLink', config);
-        this.setConfigBoolean('showDate', config);
+        this.setShowcaseConfigValue('showDate', config);
+        this.setShowcaseConfigValue('isCentered', config);
         this.setConfigBoolean('noindex', config);
         if (config.isSecret)
             this.noindex = true;
         if (config.links.thumbnail) // does not use logo as thumbnail
-            this.setConfigBoolean('invertOnDark', config);
+            this.setShowcaseConfigValue('invertOnDark', config);
         else
             this.invertOnDark = true;
     }

@@ -2,24 +2,62 @@ import { cws } from "../../../cws.js";
 import { MenuItemSingle } from "../../_services/menus/menu-item-single.js";
 import { ShowcaseItem } from "./showcase-item.component.js";
 
+interface ShowcaseSingleItemConfig {
+  unused_config_variable: null;
+}
+
 export class ShowcaseSingleItem extends ShowcaseItem {
   private item: MenuItemSingle;
   protected static className: 'multi-item';
+  private config: ShowcaseSingleItemConfig;
 
-  constructor(item: MenuItemSingle, parentElement: HTMLElement) {
+  constructor(item: MenuItemSingle, parentElement: HTMLElement, config?: ShowcaseSingleItemConfig) {
     super();
     this.item = item;
-    this.rebuild(parentElement);
+    this.config = config;
+    if (this.item.isCentered)
+      this.rebuildCentered(parentElement);
+    else
+      this.rebuildMain(parentElement);
   }
 
-  rebuild(this: ShowcaseSingleItem, parent: HTMLElement): void {
+  private rebuildCentered(this: ShowcaseSingleItem, parent: HTMLElement): void {
+    const children = [
+      cws.createElement({
+        type: 'div',
+        classList: 'title-container',
+        children: [
+          cws.createElement({
+            type: 'h2',
+            classList: 'title',
+            innerText: this.item.name,
+          }),
+        ]
+      }),
+      cws.createElement({
+        type: 'p',
+        classList: 'description',
+        innerText: this.item.description
+      }),
+    ];
+
+    this.rebuildContainer(parent, children, {
+      isLeftAligned: false,
+      isSecret: this.item.isSecret,
+      href: this.item.singleLinks.href,
+      highlightType: this.item.highlightType,
+      classList: ['single-item', 'centered'],
+    });
+  }
+
+  private rebuildMain(this: ShowcaseSingleItem, parent: HTMLElement): void {
     const imageContainer = cws.createElement({
       type: 'div',
       classList: 'image-container',
       children: [
         cws.createElement({
           type: 'div',
-          classList: 'image-shadow-container no-opacity',
+          classList: ['image-shadow-container', 'no-opacity'],
           children: [
             cws.createElement({
               type: 'img',
@@ -53,10 +91,11 @@ export class ShowcaseSingleItem extends ShowcaseItem {
       });
 
     this.rebuildContainer(parent, [imageContainer, textContainer], {
-      isRightAligned: this.item.type == 'Tool',
+      isLeftAligned: this.item.type == 'Game',
       isSecret: this.item.isSecret,
       href: this.item.singleLinks.href,
-      className: 'single-item',
+      highlightType: this.item.highlightType,
+      classList: ['single-item'],
     });
   }
 }

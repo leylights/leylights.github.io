@@ -29,27 +29,30 @@ export class ShowcaseItem {
   }
 
   rebuildContainer(this: ShowcaseItem, parent: HTMLElement, children: HTMLElement[], config: {
-    isRightAligned?: boolean,
+    isLeftAligned?: boolean,
     isSecret?: boolean,
     href?: string,
-    className?: string
+    highlightType?: number,
+    classList?: string[]
   }): void {
     const
       content = cws.createElement({
         type: 'div',
         classList: 'showcase-item-content',
-        children: config.isRightAligned ? children : children.reverse()
+        children: config.isLeftAligned ? children.reverse() : children,
       }),
       container = cws.createElement({
         type: 'div',
-        classList: ['showcase-item-container', config.className],
+        classList: ['showcase-item-container']
+          .concat(config.classList ?? [])
+          .concat(config.highlightType > 0 ? [`highlight`, `highlight-${config.highlightType}`] : []),
         children: [
           cws.createElement({
             type: 'div',
             id: `showcase_item_${this.id}`,
             classList: ['showcase-item']
               .concat(config.isSecret ? ['secret-item'] : [])
-              .concat(config.isRightAligned ? ['right-aligned-item'] : []),
+              .concat(!config.isLeftAligned ? ['right-aligned-item'] : []),
             children: config.href ? [
               cws.createElement({
                 type: 'a',

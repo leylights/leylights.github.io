@@ -1,26 +1,21 @@
 import { CoreDataService } from "../core-data.service.js";
-import { MenuItem, MenuItemType } from "./menu-item.js";
+import { MenuItem, MenuItemConfig } from "./menu-item.js";
 
-interface MenuItemSingleConfig {
-  name: string,
-  type: MenuItemType,
+type MenuItemSingleConfig = MenuItemConfig & {
   date: string,
   links: {
     href: string,
     thumbnail?: string,
     hrefIsExternal?: boolean,
-    showcase?: string,
   },
 
-  description?: string,
-  shortName?: string,
-  showcase?: boolean,
-  archive?: boolean,
-  invertOnDark?: boolean,
-  showInSmallMenus?: boolean,
-  isSecret?: boolean,
   isExternalLink?: boolean,
-  showDate?: boolean,
+
+  showcaseConfig?: {
+    invertOnDark?: boolean,
+    showDate?: boolean,
+    isCentered?: boolean,
+  }
 
   noindex?: boolean,
 }
@@ -41,9 +36,10 @@ export class MenuItemSingle extends MenuItem {
   description: string;
 
   invertOnDark: boolean = false;
+  showDate: boolean = true;
+  isCentered: boolean = false;
 
   isExternalLink: boolean = false;
-  showDate: boolean = true;
   noindex: boolean = false;
 
   constructor(config: MenuItemSingleConfig) {
@@ -56,7 +52,7 @@ export class MenuItemSingle extends MenuItem {
       archive: config.archive,
       showInSmallMenus: config.showInSmallMenus,
       isSecret: config.isSecret,
-      showcase: config.showcase,
+      showcaseConfig: config.showcaseConfig,
       links: {
         showcase: config.links.showcase
       }
@@ -69,18 +65,19 @@ export class MenuItemSingle extends MenuItem {
 
     this.singleLinks.hrefIsExternal = config.links.hrefIsExternal;
 
-    this.setConfigBoolean('showcase', config);
     this.setConfigBoolean('archive', config);
 
     this.setConfigBoolean('showInSmallMenus', config);
     this.setConfigBoolean('isExternalLink', config);
-    this.setConfigBoolean('showDate', config);
+
+    this.setShowcaseConfigValue('showDate', config);
+    this.setShowcaseConfigValue('isCentered', config);
 
     this.setConfigBoolean('noindex', config);
     if (config.isSecret) this.noindex = true;
 
     if (config.links.thumbnail) // does not use logo as thumbnail
-      this.setConfigBoolean('invertOnDark', config);
+      this.setShowcaseConfigValue('invertOnDark', config);
     else this.invertOnDark = true;
 
   }

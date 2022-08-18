@@ -10,6 +10,9 @@ export class MenuLayouts {
       name: 'D&D Tools',
       type: 'Tool',
       description: 'A collection of tools to facilitate fifth edition Dungeons and Dragons',
+      showcaseConfig: {
+        highlightType: 1,
+      },
       children: [
         MenuItems.npcInitiative,
         MenuItems.npcCreator,
@@ -25,25 +28,25 @@ export class MenuLayouts {
 
   static readonly MAIN_MENU: (MenuItemSingle | MenuItemMulti)[] = [
     MenuItems.covidDashboard,
-    MenuItems.wordle,
-    MenuItems.infectionModel,
     MenuItems.resume,
+    MenuItems.infectionModel,
+    MenuItems.wordle,
     MenuItems.pacManV2,
-    MenuLayouts.MULTI_ITEMS.NPCs,
-    MenuItems.emWaves,
-    MenuItems.daydream,
-    MenuItems.vectors,
     MenuItems.wiresV2,
+    MenuItems.emWaves,
+    MenuItems.matrices,
+    MenuItems.vectors,
+    MenuItems.daydream,
+    MenuLayouts.MULTI_ITEMS.NPCs,
     MenuItems.algebra,
     MenuItems.escape,
     MenuItems.ticTacToe,
     MenuItems.kittenAndCrypt,
     MenuItems.luigi,
-    MenuItems.matrices,
     MenuItems.npcNames,
     MenuItems.archive
   ].filter((item: MenuItem) => {
-    return !item.archive && item.showInSmallMenus && !item.isSecret;
+    return !item.archive && !item.isSecret;
   });
 
   static readonly ARCHIVE_MENU: (MenuItemSingle | MenuItemMulti)[] = [

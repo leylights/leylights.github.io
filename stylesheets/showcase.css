@@ -162,6 +162,32 @@
   color: var(--text-color);
 }
 
+.showcase-item-container.single-item.centered .showcase-item-content {
+  flex-flow: column;
+}
+.showcase-item-container.single-item.centered .title-container {
+  border-bottom: 1px solid var(--primary-accent-color);
+}
+.showcase-item-container.single-item.centered .title {
+  position: relative;
+  top: 0;
+}
+.showcase-item-container.single-item.centered .title,
+.showcase-item-container.single-item.centered .description {
+  text-align: center;
+  width: 100%;
+}
+.showcase-item-container.single-item.centered:not(.animation-playing, .animation-complete) .title {
+  opacity: 0;
+}
+.showcase-item-container.single-item.centered.animation-complete:hover .title {
+  top: -5px;
+}
+
+.showcase-item-container.single-item.centered.highlight .title-container {
+  border-color: #fff;
+}
+
 .showcase-item-container.multi-item .images-internal-container {
   display: flex;
   flex-wrap: wrap;
@@ -177,6 +203,42 @@
   height: min-content;
   margin: auto;
   border-radius: 12px;
+}
+
+.showcase-item-container.highlight-1 {
+  background: linear-gradient(132deg, var(--primary-accent-color), #4affde);
+}
+.showcase-item-container.highlight-2 {
+  background: linear-gradient(132deg, #f906db, #ff3b00);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) .showcase-item-container.highlight-1 {
+    background: linear-gradient(132deg, #f700ef, #00c4ff);
+  }
+}
+:root.dark .showcase-item-container.highlight-1 {
+  background: linear-gradient(132deg, #f700ef, #00c4ff);
+}
+
+.showcase-item-container.highlight .title,
+.showcase-item-container.highlight .date,
+.showcase-item-container.highlight .description {
+  color: #fff;
+}
+.showcase-item-container.highlight .date {
+  border-color: #fff;
+}
+.showcase-item-container.highlight .captioned-name,
+.showcase-item-container.highlight .captioned-date {
+  color: #fff;
+}
+.showcase-item-container.highlight .dark-invert-filter {
+  filter: invert(1);
+}
+.showcase-item-container.highlight.single-item:hover .title,
+.showcase-item-container.highlight.single-item:hover .date {
+  color: #fff;
 }
 
 .no-opacity {

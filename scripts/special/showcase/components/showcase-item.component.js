@@ -17,20 +17,23 @@ export class ShowcaseItem {
         return this;
     }
     rebuildContainer(parent, children, config) {
+        var _a;
         const content = cws.createElement({
             type: 'div',
             classList: 'showcase-item-content',
-            children: config.isRightAligned ? children : children.reverse()
+            children: config.isLeftAligned ? children.reverse() : children,
         }), container = cws.createElement({
             type: 'div',
-            classList: ['showcase-item-container', config.className],
+            classList: ['showcase-item-container']
+                .concat((_a = config.classList) !== null && _a !== void 0 ? _a : [])
+                .concat(config.highlightType > 0 ? [`highlight`, `highlight-${config.highlightType}`] : []),
             children: [
                 cws.createElement({
                     type: 'div',
                     id: `showcase_item_${this.id}`,
                     classList: ['showcase-item']
                         .concat(config.isSecret ? ['secret-item'] : [])
-                        .concat(config.isRightAligned ? ['right-aligned-item'] : []),
+                        .concat(!config.isLeftAligned ? ['right-aligned-item'] : []),
                     children: config.href ? [
                         cws.createElement({
                             type: 'a',

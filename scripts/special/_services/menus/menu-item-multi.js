@@ -6,6 +6,7 @@ export class MenuItemMulti extends MenuItem {
             shortName: config.shortName,
             type: config.type,
             description: config.description,
+            showcaseConfig: config.showcaseConfig,
         });
         this.children = config.children;
     }
