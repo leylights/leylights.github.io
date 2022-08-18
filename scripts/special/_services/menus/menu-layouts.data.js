@@ -17,6 +17,9 @@ MenuLayouts.MULTI_ITEMS = {
         name: 'D&D Tools',
         type: 'Tool',
         description: 'A collection of tools to facilitate fifth edition Dungeons and Dragons',
+        showcaseConfig: {
+            highlightType: 1,
+        },
         children: [
             MenuItems.npcInitiative,
             MenuItems.npcCreator,
@@ -30,25 +33,25 @@ MenuLayouts.MULTI_ITEMS = {
 MenuLayouts.ALL = cws.Object.values(MenuItems);
 MenuLayouts.MAIN_MENU = [
     MenuItems.covidDashboard,
-    MenuItems.wordle,
-    MenuItems.infectionModel,
     MenuItems.resume,
+    MenuItems.infectionModel,
+    MenuItems.wordle,
     MenuItems.pacManV2,
-    MenuLayouts.MULTI_ITEMS.NPCs,
-    MenuItems.emWaves,
-    MenuItems.daydream,
-    MenuItems.vectors,
     MenuItems.wiresV2,
+    MenuItems.emWaves,
+    MenuItems.matrices,
+    MenuItems.vectors,
+    MenuItems.daydream,
+    MenuLayouts.MULTI_ITEMS.NPCs,
     MenuItems.algebra,
     MenuItems.escape,
     MenuItems.ticTacToe,
     MenuItems.kittenAndCrypt,
     MenuItems.luigi,
-    MenuItems.matrices,
     MenuItems.npcNames,
     MenuItems.archive
 ].filter((item) => {
-    return !item.archive && item.showInSmallMenus && !item.isSecret;
+    return !item.archive && !item.isSecret;
 });
 MenuLayouts.ARCHIVE_MENU = [
     MenuItems.wiresV1,

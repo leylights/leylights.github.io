@@ -1,19 +1,50 @@
 import { cws } from "../../../cws.js";
 import { ShowcaseItem } from "./showcase-item.component.js";
 export class ShowcaseSingleItem extends ShowcaseItem {
-    constructor(item, parentElement) {
+    constructor(item, parentElement, config) {
         super();
         this.item = item;
-        this.rebuild(parentElement);
+        this.config = config;
+        if (this.item.isCentered)
+            this.rebuildCentered(parentElement);
+        else
+            this.rebuildMain(parentElement);
     }
-    rebuild(parent) {
+    rebuildCentered(parent) {
+        const children = [
+            cws.createElement({
+                type: 'div',
+                classList: 'title-container',
+                children: [
+                    cws.createElement({
+                        type: 'h2',
+                        classList: 'title',
+                        innerText: this.item.name,
+                    }),
+                ]
+            }),
+            cws.createElement({
+                type: 'p',
+                classList: 'description',
+                innerText: this.item.description
+            }),
+        ];
+        this.rebuildContainer(parent, children, {
+            isLeftAligned: false,
+            isSecret: this.item.isSecret,
+            href: this.item.singleLinks.href,
+            highlightType: this.item.highlightType,
+            classList: ['single-item', 'centered'],
+        });
+    }
+    rebuildMain(parent) {
         const imageContainer = cws.createElement({
             type: 'div',
             classList: 'image-container',
             children: [
                 cws.createElement({
                     type: 'div',
-                    classList: 'image-shadow-container no-opacity',
+                    classList: ['image-shadow-container', 'no-opacity'],
                     children: [
                         cws.createElement({
                             type: 'img',
@@ -46,10 +77,11 @@ export class ShowcaseSingleItem extends ShowcaseItem {
                 })]
         });
         this.rebuildContainer(parent, [imageContainer, textContainer], {
-            isRightAligned: this.item.type == 'Tool',
+            isLeftAligned: this.item.type == 'Game',
             isSecret: this.item.isSecret,
             href: this.item.singleLinks.href,
-            className: 'single-item',
+            highlightType: this.item.highlightType,
+            classList: ['single-item'],
         });
     }
 }

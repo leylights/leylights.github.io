@@ -77,9 +77,10 @@ export class ShowcaseMultiItem extends ShowcaseItem {
       });
 
     this.rebuildContainer(this.parent, [imageContainer, textContainer], {
-      isRightAligned: false,
+      isLeftAligned: true,
       isSecret: this.isSecret,
-      className: 'multi-item'
+      classList: ['multi-item'],
+      highlightType: this.item.highlightType
     });
   }
 }

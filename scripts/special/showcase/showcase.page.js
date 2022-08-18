@@ -42,7 +42,7 @@ export class ShowcasePage {
     createItems(items, parent = this.elements.items) {
         const me = this;
         items.forEach((menuItem) => {
-            if (menuItem.showcase) {
+            if (menuItem.displayBanner) {
                 me.items[me.items.length - 1].giveShadow('bot');
                 me.spotlights.push(new ShowcaseItemSpotlight(menuItem, parent));
             }
@@ -50,7 +50,7 @@ export class ShowcasePage {
                 me.items.push(new ShowcaseSingleItem(menuItem, parent));
             else
                 me.items.push(new ShowcaseMultiItem(menuItem, parent));
-            if (menuItem.showcase)
+            if (menuItem.displayBanner)
                 me.items[me.items.length - 1].giveShadow('top');
         });
     }

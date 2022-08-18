@@ -9,7 +9,9 @@ export const MenuItems = {
         links: {
             href: '/',
         },
-        showDate: false,
+        showcaseConfig: {
+            showDate: false,
+        },
     }),
     infectionModel: new MenuItemSingle({
         name: 'Infection Model',
@@ -21,7 +23,10 @@ export const MenuItems = {
             thumbnail: '/siteimages/index/infection.png',
             showcase: '/siteimages/index/infection-spotlight.png',
         },
-        showcase: true,
+        showcaseConfig: {
+            displayBanner: true,
+            highlightType: 2,
+        },
     }),
     emWaves: new MenuItemSingle({
         name: 'The Propagation of Electromagnetic Waves',
@@ -29,7 +34,9 @@ export const MenuItems = {
         type: 'Tool',
         date: 'May 2020',
         description: 'This interactive diagram demonstrates the motion of electromagnetic waves.',
-        showcase: true,
+        showcaseConfig: {
+            displayBanner: true,
+        },
         links: {
             href: '/pages/emwaves.html',
             thumbnail: '/siteimages/index/emwaves.png',
@@ -40,26 +47,27 @@ export const MenuItems = {
         name: 'Matrix Calculator',
         type: 'Tool',
         date: 'June 2021',
-        description: 'This calculator calculates matrix operations.',
+        description: 'This matrix calculator calculates matrix operations on complex and exact values.',
         links: {
             href: '/pages/university/matrices.html'
         },
-        'showInSmallMenus': false,
-        'isSecret': true
+        showInSmallMenus: false,
     }),
     daydream: new MenuItemSingle({
         name: 'Daydream',
         type: 'Game',
         date: 'June 2019',
         description: 'Comb through a grid-based spaceship as you rearrange mirrors to fire a core of the enemy\'s ship. <br/><br/>Downloaded from Google Drive as an executable .jar file.',
-        showcase: true,
+        showcaseConfig: {
+            displayBanner: true,
+        },
         links: {
             href: 'https://drive.google.com/open?id=1MlW4gyXsaFHNxZFwPfi4f-45UrGY9k6w',
             hrefIsExternal: true,
             thumbnail: '/siteimages/java/daydream-icon.png',
             showcase: '/siteimages/java/daydream-showcase.png'
         },
-        'isExternalLink': true
+        isExternalLink: true
     }),
     vectors: new MenuItemSingle({
         name: 'Vector Graphing Calculator',
@@ -78,12 +86,15 @@ export const MenuItems = {
         type: 'Game',
         date: 'October 2021',
         description: 'Reconnect the two ends of a broken circuit in randomly generated puzzles',
-        showcase: true,
+        showcaseConfig: {
+            displayBanner: true,
+            highlightType: 1,
+        },
         links: {
             href: '/games/wires-v2.html',
             thumbnail: '/siteimages/energy/thumb.png',
             showcase: '/siteimages/energy/showcase.png'
-        }
+        },
     }),
     algebra: new MenuItemSingle({
         name: 'Algebraic Calculator',
@@ -105,15 +116,19 @@ export const MenuItems = {
             hrefIsExternal: true,
             thumbnail: '/siteimages/java/tic-tac-icon.png'
         },
-        'invertOnDark': true,
-        'isExternalLink': true
+        showcaseConfig: {
+            'invertOnDark': true,
+        },
+        isExternalLink: true
     }),
     escape: new MenuItemSingle({
         name: 'Starship Escape',
         type: 'Game',
         date: 'July 2018',
         description: 'Survive waves of enemies in this original sidescroller!',
-        showcase: true,
+        showcaseConfig: {
+            displayBanner: true,
+        },
         links: {
             href: '/games/escape.html',
             thumbnail: '/siteimages/escape/thumb.png',
@@ -135,21 +150,25 @@ export const MenuItems = {
         type: 'Game',
         date: 'June 2018',
         description: 'Crawl through a randomly-generated dungeon to retrieve your lost kitten.<br/><br/>Downloaded from Google Drive as an executable .jar file.',
-        showcase: true,
+        showcaseConfig: {
+            displayBanner: true,
+        },
         links: {
             href: 'https://drive.google.com/open?id=1nYmU7NLD6Ip7YVuD8M3xtqJ0o6QF6mJL',
             hrefIsExternal: true,
             thumbnail: '/siteimages/java/kitten-icon.png',
             showcase: '/siteimages/java/kitten-sc.png'
         },
-        'isExternalLink': true
+        isExternalLink: true
     }),
     luigi: new MenuItemSingle({
         name: 'Mario 1-1',
         type: 'Game',
         date: 'Fall 2017',
         description: 'Play a replica of the first level of Mario!',
-        showcase: true,
+        showcaseConfig: {
+            displayBanner: true,
+        },
         links: {
             href: '/games/luigi.html',
             thumbnail: '/siteimages/mario/thumbnail.png',
@@ -167,7 +186,7 @@ export const MenuItems = {
             thumbnail: '/siteimages/archive/complex.png'
         },
         'archive': true,
-        'showInSmallMenus': false
+        showInSmallMenus: false
     }),
     lunarDefense: new MenuItemSingle({
         name: 'Lunar Defense',
@@ -175,7 +194,10 @@ export const MenuItems = {
         type: 'Game',
         date: 'Spring 2017',
         description: 'Defend the moon from an alien attack in a variety of game modes.',
-        showcase: true,
+        showcaseConfig: {
+            displayBanner: true,
+            highlightType: 1,
+        },
         links: {
             href: '/games/lunardefense.html',
             thumbnail: '/siteimages/archive/showcasebg.png',
@@ -200,7 +222,9 @@ export const MenuItems = {
         type: 'Game',
         date: 'June 2018',
         description: 'Play a replica of the Bandai-Namco classic.',
-        showcase: true,
+        showcaseConfig: {
+            displayBanner: true,
+        },
         links: {
             href: '/games/pacman-v1.html',
             thumbnail: '/siteimages/pac/thumb-v2.png',
@@ -214,7 +238,9 @@ export const MenuItems = {
         type: 'Game',
         date: 'September 2021',
         description: 'Play a replica of the Bandai-Namco classic.',
-        showcase: true,
+        showcaseConfig: {
+            displayBanner: true,
+        },
         links: {
             href: '/games/pacman-v2.html',
             thumbnail: '/siteimages/pac/thumb-v2.png',
@@ -243,7 +269,9 @@ export const MenuItems = {
             href: '/pages/npcs/generator.html',
             thumbnail: '/siteimages/npcs/generator-thumbnail.png'
         },
-        'invertOnDark': true
+        showcaseConfig: {
+            'invertOnDark': true
+        },
     }),
     npcCreator: new MenuItemSingle({
         name: 'D&D 5e NPC Creator',
@@ -254,7 +282,10 @@ export const MenuItems = {
         links: {
             href: '/pages/npcs/creator.html',
             thumbnail: '/siteimages/npcs/creator.png'
-        }
+        },
+        showcaseConfig: {
+            invertOnDark: true,
+        },
     }),
     npcInitiative: new MenuItemSingle({
         name: 'D&D 5e Initiative Tracker',
@@ -266,7 +297,9 @@ export const MenuItems = {
             href: '/pages/npcs/initiative-tracker.html',
             thumbnail: '/siteimages/npcs/tracker-thumbnail.png'
         },
-        'invertOnDark': true
+        showcaseConfig: {
+            'invertOnDark': true
+        },
     }),
     npcNames: new MenuItemSingle({
         name: 'D&D 5e NPC Names List',
@@ -300,6 +333,9 @@ export const MenuItems = {
             href: '/pages/npcs/summons.html',
             thumbnail: '/siteimages/creatures/thumbnail.png'
         },
+        showcaseConfig: {
+            invertOnDark: true,
+        },
     }),
     wiresV1: new MenuItemSingle({
         name: 'Broken Wires (Version 1)',
@@ -307,7 +343,9 @@ export const MenuItems = {
         type: 'Game',
         date: 'September 2018',
         description: 'Reconnect the two ends of a broken circuit in randomly generated puzzles.  Built in vanilla JavaScript.',
-        showcase: false,
+        showcaseConfig: {
+            displayBanner: false,
+        },
         links: {
             href: '/games/wires-v1.html',
             thumbnail: '/siteimages/energy/thumb.png',
@@ -335,16 +373,24 @@ export const MenuItems = {
             thumbnail: '/siteimages/archive-lock.png',
             href: '/pages/archive.html',
         },
-        invertOnDark: true,
+        showcaseConfig: {
+            invertOnDark: true,
+        },
     }),
     resume: new MenuItemSingle({
         name: 'Resume',
         shortName: 'Resume',
         type: 'Tool',
+        description: `University of Waterloo candidate for Bachelor's of Computer Science, 2025
+    Wilfrid Laurier University candidate for Bachelor's of Business Administration, 2025`,
         date: PRESENT_MONTH,
         links: {
             href: '/pages/resume.html',
         },
+        showcaseConfig: {
+            isCentered: true,
+            highlightType: 1,
+        }
     }),
     overwatchHome: new MenuItemSingle({
         name: 'Overwatch Impacts',
