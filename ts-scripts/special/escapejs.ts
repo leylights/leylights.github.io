@@ -1132,7 +1132,7 @@ function drawEntry() {
 
 function addSprite(src) {
   var newimg = document.createElement("img");
-  var truesrc = "../siteimages/escape/" + src + ".png";
+  var truesrc = "/siteimages/escape/" + src + ".png";
   newimg.setAttributeNode(cws.betterCreateAttr("src", truesrc));
   newimg.setAttributeNode(cws.betterCreateAttr("id", truesrc));
   document.getElementById("imgs").appendChild(newimg);

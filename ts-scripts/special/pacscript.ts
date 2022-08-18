@@ -34,8 +34,8 @@ var roundWon = false;
 var gameState = "start";
 var ghostCollateral = 0;
 
-var murderImg = document.getElementById("../siteimages/pac/murderpellet.png");
-var transparent = document.getElementById("../siteimages/pac/transparent.png");
+var murderImg = document.getElementById("/siteimages/pac/murderpellet.png");
+var transparent = document.getElementById("/siteimages/pac/transparent.png");
 
 // PAC MAN GAME
 
@@ -1540,7 +1540,7 @@ function drawRotatedImg(img, x, y, w, h, angle) {
 
 function createSprites() {
   sprites[0][0] = document.getElementById(
-    "../siteimages/pac/pacman/default.png"
+    "/siteimages/pac/pacman/default.png"
   );
   for (var i = 0; i < 5; i++) {
     var entity;
@@ -1580,40 +1580,40 @@ function createSprites() {
       }
       if (i === 0)
         sprites[i][j + 1] = document.getElementById(
-          "../siteimages/pac/" + entity + "/" + d + (j % 2 + 1) + ".png"
+          "/siteimages/pac/" + entity + "/" + d + (j % 2 + 1) + ".png"
         );
       else
         sprites[i][j] = document.getElementById(
-          "../siteimages/pac/" + entity + "/" + d + (j % 2 + 1) + ".png"
+          "/siteimages/pac/" + entity + "/" + d + (j % 2 + 1) + ".png"
         );
     }
   }
   for (var i = 0; i < 3; i++) {
     sprites[0][9 + i] = document.getElementById(
-      "../siteimages/pac/pacman/large" + i + ".png"
+      "/siteimages/pac/pacman/large" + i + ".png"
     );
   }
   sprites[0][12] = sprites[0][10];
-  sprites[0][13] = document.getElementById("../siteimages/pac/pacman/s1.png");
+  sprites[0][13] = document.getElementById("/siteimages/pac/pacman/s1.png");
 
-  sprites[5][0] = document.getElementById("../siteimages/pac/chase/b1.png");
-  sprites[5][1] = document.getElementById("../siteimages/pac/chase/b2.png");
-  sprites[5][2] = document.getElementById("../siteimages/pac/chase/w1.png");
-  sprites[5][3] = document.getElementById("../siteimages/pac/chase/w2.png");
-  sprites[5][4] = document.getElementById("../siteimages/pac/death/u.png");
-  sprites[5][7] = document.getElementById("../siteimages/pac/death/r.png");
-  sprites[5][6] = document.getElementById("../siteimages/pac/death/d.png");
-  sprites[5][5] = document.getElementById("../siteimages/pac/death/l.png");
+  sprites[5][0] = document.getElementById("/siteimages/pac/chase/b1.png");
+  sprites[5][1] = document.getElementById("/siteimages/pac/chase/b2.png");
+  sprites[5][2] = document.getElementById("/siteimages/pac/chase/w1.png");
+  sprites[5][3] = document.getElementById("/siteimages/pac/chase/w2.png");
+  sprites[5][4] = document.getElementById("/siteimages/pac/death/u.png");
+  sprites[5][7] = document.getElementById("/siteimages/pac/death/r.png");
+  sprites[5][6] = document.getElementById("/siteimages/pac/death/d.png");
+  sprites[5][5] = document.getElementById("/siteimages/pac/death/l.png");
 
   for (var i = 1; i <= 10; i++) {
     sprites[6][i - 1] = document.getElementById(
-      "../siteimages/pac/pacd/" + i + ".png"
+      "/siteimages/pac/pacd/" + i + ".png"
     );
   }
 
   for (var i = 1; i <= 8; i++) {
     sprites[7][i - 1] = document.getElementById(
-      "../siteimages/pac/fruits/" + i + ".png"
+      "/siteimages/pac/fruits/" + i + ".png"
     );
   }
 }

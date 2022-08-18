@@ -38,7 +38,7 @@ export class PacmanSprites extends BST {
         this.addSprite("precise_map_flash.png");
     }
     /**
-     * Appends a new image element to the page of the given image in ../siteimages/pac, and adds it to the tree
+     * Appends a new image element to the page of the given image in /siteimages/pac, and adds it to the tree
      * @param {string} name
      */
     addSprite(name) {

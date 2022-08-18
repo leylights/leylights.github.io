@@ -4,7 +4,7 @@ html {
 
 #diceIn {
   padding: 50px;
-  width: 100%;
+  width: calc(100% - 100px);
   border: none;
   text-align: center;
   font-size: 4.5em;

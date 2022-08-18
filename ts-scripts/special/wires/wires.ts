@@ -1041,7 +1041,7 @@ class WiresPage {
 
   addSprite(src: string) {
     var newimg = document.createElement("img");
-    var truesrc = "../siteimages/energy/" + src + ".png";
+    var truesrc = "/siteimages/energy/" + src + ".png";
     newimg.setAttributeNode(cws.betterCreateAttr("src", truesrc));
     newimg.setAttributeNode(cws.betterCreateAttr("id", truesrc));
     document.getElementById("imgs").appendChild(newimg);
