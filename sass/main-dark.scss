@@ -6,6 +6,10 @@ body {
   background-color: var(--primary-bg-color);
 }
 
+#loadingScreen img {
+  filter: invert(1);
+}
+
 a:link {
   color: var(--primary-accent-color);
 }
