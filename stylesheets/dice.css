@@ -53,6 +53,7 @@ table.dice-table td span {
   transform: translate(-50%, -50%);
   /* font-family: Encode Sans; */
   cursor: pointer;
+  color: black;
 }
 
 #container {
