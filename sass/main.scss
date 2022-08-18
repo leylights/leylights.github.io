@@ -35,16 +35,23 @@ a {
   height: 100%;
   background-color: var(--primary-bg-color);
   z-index: 90000000;
-  transition: 0.5s;
+  transition: opacity 0.3s, background-color 0.2s;
 }
 
 #loadingScreen img {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 100px;
-  height: 100px;
-  margin-top: calc(50vh - 50px);
-  margin-left: calc(50vw - 50px);
+}
+
+#loadingScreen.hiding {
   opacity: 0;
-  transition: 0.5s;
+}
+
+#loadingScreen.hidden {
+  display: none;
 }
 
 #menuTitle {
@@ -237,7 +244,7 @@ div.dark-mode-toggle {
     transition: 0.25s;
   }
 
-  >input[type="checkbox"] {
+  > input[type='checkbox'] {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -290,5 +297,3 @@ div.dark-mode-toggle {
 @include dark-mode {
   @import './main-dark';
 }
-
-@import 'general/colours/dark';

@@ -74,15 +74,14 @@ export class PageBuilder {
   private static buildTop() {
     // loading
 
-    setTimeout(function () {
-      (document.getElementById('loadingScreen').children[0] as HTMLElement).style.opacity = '1';
-    }, 16);
+    document.getElementById('loadingScreen').querySelector('img').style.opacity = '1';
 
-    // remove load listener
+    // register load listener
     PageBuilder.registerLoadListener(() => {
-      document.getElementById('loadingScreen').style.opacity = '0';
+      document.getElementById('loadingScreen').classList.add('hiding');
       setTimeout(function () {
-        document.getElementById('loadingScreen').outerHTML = '';
+        document.getElementById('loadingScreen').classList.remove('hiding');
+        document.getElementById('loadingScreen').classList.add('hidden');
       }, (parseFloat(window.getComputedStyle(document.getElementById('loadingScreen')).transitionDuration) * 1000));
     });
 
