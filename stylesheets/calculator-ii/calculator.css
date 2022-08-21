@@ -1,0 +1,19 @@
+#formula-input,
+#formula-output {
+  width: 100%;
+  border-radius: 8px;
+  outline: none;
+  border: none;
+  background-color: var(--accent-bg-color);
+  color: var(--text-color);
+  font-size: 1.5em;
+  padding: 6px;
+}
+
+#formula-input {
+  text-align: center;
+}
+
+#formula-output {
+  margin: 1em 0;
+}
