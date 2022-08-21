@@ -1,6 +1,7 @@
 body {
   margin: auto;
   margin-top: 0;
+  font-weight: 300;
 }
 
 /* Fonts */
@@ -8,7 +9,10 @@ h2 {
   color: var(--text-color);
 }
 
-.content h3, h4, h5, h6 {
+.content h3,
+h4,
+h5,
+h6 {
   margin: 0;
 }
 
@@ -21,25 +25,43 @@ h5 {
   margin-top: 73px;
 }
 
-.eduGrid h4 {
-  color: var(--light-text-color);
+#education-degrees {
+  text-align: center;
+  display: flex;
 }
-
-.eduGrid p {
+#education-degrees > div {
+  flex-basis: 50%;
+  display: flex;
+  flex-direction: column;
+}
+#education-degrees .candidate,
+#education-degrees .degree-title,
+#education-degrees .degree-length {
+  display: block;
+}
+#education-degrees .description {
+  font-size: 0.8em;
+}
+#education-degrees .candidate {
+  color: var(--light-text-color);
+  font-style: italic;
+}
+#education-degrees .degree-title {
+  font-size: 1.3em;
+}
+#education-degrees .degree-length {
   margin: 0;
 }
-
-.eduGrid div {
-  text-align: center !important;
+#education-degrees .logos {
+  height: 100%;
+  position: relative;
+  padding: 1em;
 }
-
-.eduGrid img {
+#education-degrees .logos img {
   width: 60%;
-  margin: 1em 20%;
-}
-
-.eduMobile {
-  display: none;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 table.equal-2-col {
@@ -116,41 +138,6 @@ a:hover {
   margin-bottom: 2em;
 }
 
-.grid2x2 {
-  display: grid;
-  width: 100%;
-}
-
-.grid2x2 > .topLeft {
-  grid-row-start: 1;
-  grid-row-end: 1;
-  grid-column-start: 1;
-  grid-column-end: 1;
-}
-
-.grid2x2 > .topRight {
-  grid-row-start: 1;
-  grid-row-end: 1;
-  grid-column-start: 2;
-  grid-column-end: 2;
-  text-align: right;
-}
-
-.grid2x2 > .bottomLeft {
-  grid-row-start: 2;
-  grid-row-end: 2;
-  grid-column-start: 1;
-  grid-column-end: 1;
-}
-
-.grid2x2 > .bottomRight {
-  grid-row-start: 2;
-  grid-row-end: 2;
-  grid-column-start: 2;
-  grid-column-end: 2;
-  text-align: right;
-}
-
 .expList {
   margin: 0.5em 0;
   clear: both;
@@ -181,12 +168,15 @@ a:hover {
   color: var(--primary-accent-color);
   transition: var(--hover-color-transition);
 }
-
-.resume-highlight-language {
-  /* color: var(--light-text-color); */
-  /* color: var(#888); */
-  /* color: var(--tertiary-accent-color); */
-  color: var(--very-light-text-color);
+.resume-highlight:not(.nolink) {
+  cursor: pointer;
+}
+.resume-highlight.language {
+  color: var(--light-text-color);
+}
+.resume-highlight.user-highlighted-skill {
+  font-weight: bold;
+  color: var(--tertiary-accent-color);
 }
 
 #skills-list {
@@ -305,19 +295,33 @@ a:hover {
   color: var(--tertiary-accent-color);
 }
 
-.skill-to-highlight.no-results, .skill-to-highlight.no-results:hover {
+.skill-to-highlight.no-results,
+.skill-to-highlight.no-results:hover {
   color: var(--light-text-color);
-}
-
-.user-highlighted-skill {
-  font-weight: bold;
-  color: var(--tertiary-accent-color);
 }
 
 #languages-list {
   font-weight: bold;
   list-style: none;
   padding-left: 0;
+}
+
+#connect-links {
+  padding-left: 0;
+}
+#connect-links li {
+  list-style-type: none;
+}
+
+.fade-up-pending {
+  position: relative;
+  opacity: 0;
+}
+
+.fade-up-playing {
+  position: relative;
+  animation: fade-up;
+  animation-duration: 1.5s;
 }
 
 @media only screen and (max-width: 770px) {
@@ -334,24 +338,12 @@ a:hover {
     text-align: left;
   }
 
-  #CscaTitle {
-    width: null;
-  }
-
   table.equal-2-col > tbody > tr > td {
     display: contents;
   }
 
   table.equal-2-col > tbody > tr > td ul {
     margin: 0;
-  }
-
-  .grid2x2 {
-    display: block;
-  }
-
-  .grid2x2 .topRight {
-    text-align: left;
   }
 
   .textAccentImage {
@@ -366,23 +358,12 @@ a:hover {
     float: none;
   }
 
-  .eduMobile {
-    display: unset;
-    text-align: center;
+  #education-degrees {
+    flex-direction: column;
   }
-
-  .eduMobile p {
-    margin: 0;
-  }
-
-  .eduMobile img {
-    margin: auto;
-    width: 60%;
-    padding: 2em 20%;
-  }
-
-  .eduDesk {
-    display: none;
+  #education-degrees .logos img {
+    transform: none;
+    top: 0;
   }
 
   #skills-list {
@@ -393,11 +374,13 @@ a:hover {
     display: block;
   }
 
-  .experience-table th, td {
+  .experience-table th,
+td {
     display: block;
   }
 
-  .experience-table .experience-date, .experience-grid .experience-date {
+  .experience-table .experience-date,
+.experience-grid .experience-date {
     text-align: left;
     float: left;
     width: 100%;
@@ -409,7 +392,8 @@ a:hover {
     color: var(--light-text-color);
   }
 
-  .experience-image, .experience-image.reversed {
+  .experience-image,
+.experience-image.reversed {
     display: block;
     float: none;
     margin: auto;
@@ -446,10 +430,6 @@ a:hover {
   .item > h3:last-child {
     border-bottom: 1px solid #bbb;
     padding-bottom: 3em;
-  }
-
-  #CscaTitle {
-    width: null;
   }
 
   .lowerShowcaseContainer {

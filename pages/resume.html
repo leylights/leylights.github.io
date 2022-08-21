@@ -3,7 +3,7 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>colestanley.ca | Resume</title>
+  <title>Resume</title>
   <link href="https://fonts.googleapis.com/css?family=Encode+Sans:400,700" rel="stylesheet">
   <link href="../stylesheets/main.css" rel="stylesheet">
   <link href="../stylesheets/resume.css" rel="stylesheet">
@@ -58,51 +58,33 @@
 
       <h2>Education</h2>
 
-      <div class="grid2x2 eduGrid eduDesk">
-        <div class="topLeft">
-          <img class="dark-none" src="/siteimages/resume/wat_logo.png" alt='University of Waterloo'>
-          <img class="dark-only" src="/siteimages/resume/wat_logo_white.png" alt='University of Waterloo'>
+      <div id="education-degrees">
+        <div id="uwaterloo">
+          <div class="logos">
+            <img class="dark-none" src="/siteimages/resume/wat_logo.png" alt='University of Waterloo'>
+            <img class="dark-only" src="/siteimages/resume/wat_logo_white.png" alt='University of Waterloo'>
+          </div>
+          <div class="description">
+            <span class="candidate">Candidate for</span>
+            <span class="degree-title">Bachelor of Computer Science</span>
+            <span class="degree-length">
+              2020-Present
+            </span>
+          </div>
         </div>
-        <div class="topRight">
-          <img class="dark-none" src="/siteimages/resume/laurier_logo.png" alt='Wilfrid Laurier University'>
-          <img class="dark-only" src="/siteimages/resume/laurier_logo_white.png" alt='Wilfrid Laurier University'>
+        <div id="laurier">
+          <div class="logos">
+            <img class="dark-none" src="/siteimages/resume/laurier_logo.png" alt='Wilfrid Laurier University'>
+            <img class="dark-only" src="/siteimages/resume/laurier_logo_white.png" alt='Wilfrid Laurier University'>
+          </div>
+          <div class="description">
+            <span class="candidate">Candidate for</span>
+            <span class="degree-title">Bachelor of Business Administration</span>
+            <span class="degree-length">
+              2020-Present
+            </span>
+          </div>
         </div>
-        <div class="bottomLeft">
-          <h4>Candidate for</h4>
-          <h3>Bachelor of Computer Science</h3>
-          <p>
-            2020-Present
-          </p>
-        </div>
-        <div class="bottomRight">
-          <h4>Candidate for</h4>
-          <h3>Bachelor of Business Administration</h3>
-          <p>
-            2020-Present
-          </p>
-        </div>
-      </div>
-
-      <div class="eduMobile">
-        <img class="dark-none" src="/siteimages/resume/wat_logo.png" alt='University of Waterloo'>
-        <img class="dark-only" src="/siteimages/resume/wat_logo_white.png" alt='University of Waterloo'>
-
-        <h4>Candidate for</h4>
-        <h3>Bachelor of Computer Science</h3>
-        <p>
-          2020-Present
-        </p>
-
-        <hr>
-
-        <img class="dark-none" src="/siteimages/resume/laurier_logo.png" alt='Wilfrid Laurier University'>
-        <img class="dark-only" src="/siteimages/resume/laurier_logo_white.png" alt='Wilfrid Laurier University'>
-
-        <h4>Candidate for</h4>
-        <h3>Bachelor of Business Administration</h3>
-        <p>
-          2020-Present
-        </p>
       </div>
 
       <br />
@@ -111,9 +93,9 @@
       <h2>Key Skills</h2>
 
       <ul id='skills-list'>
-        <li style="display:none" class="resume-skill skill-emph skill-to-highlight">hidden</li>
-        <li style="display:none; font-weight: 500;">hidden light bold</li>
-        <li style="display:none; font-weight: 600;">hidden semi bold</li>
+        <li style="display:none" class="resume-skill skill-emph skill-to-highlight" data-aliases>hidden</li>
+        <li style="display:none; font-weight: 500;" data-aliases>hidden light bold</li>
+        <li style="display:none; font-weight: 600;" data-aliases>hidden semi bold</li>
       </ul>
 
       <h2>Experience</h2>
@@ -190,8 +172,10 @@
 
       <h2>Connect</h2>
 
-      <p><a target="_blank" href="mailto:me@colestanley.ca">me@colestanley.ca</a></p>
-      <p><a target="_blank" href="http://linkedin.com/in/colestanleyca/">in/colestanleyca</a></p>
+      <ul id="connect-links">
+        <li><a target="_blank" id="email" href=""></a></li>
+        <li><a target="_blank" id="linkedin" href="http://linkedin.com/in/colestanleyca/">in/colestanleyca</a></li>
+      </ul>
 
       <br>
 

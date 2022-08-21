@@ -51,6 +51,9 @@ export const MenuItems = {
         links: {
             href: '/pages/university/matrices.html'
         },
+        showcaseConfig: {
+            highlightType: 2,
+        },
         showInSmallMenus: false,
     }),
     daydream: new MenuItemSingle({

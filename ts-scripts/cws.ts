@@ -60,7 +60,7 @@ export class cws {
     contains: function <T, U>(arr: T[], el: U, comparatorFn?: (a: T, b: U) => boolean): boolean {
       if (!comparatorFn)
         comparatorFn = (a: any, b: any) => { return a === b };
-
+        
       for (let i = 0; i < arr.length; i++) {
         if (comparatorFn(arr[i], el))
           return true;

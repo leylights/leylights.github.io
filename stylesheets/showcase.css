@@ -1,3 +1,13 @@
+@keyframes fade-up {
+  from {
+    top: 30px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
 :root {
   --showcase-shadow-colour: #8888;
   --showcase-spotlight-height: 510px;
@@ -80,7 +90,7 @@
 .showcase-item .title {
   font-size: 1.8em;
   margin: 0;
-  top: 4px;
+  padding-top: 4px;
 }
 .showcase-item .date {
   font-size: 0.8em;
@@ -97,7 +107,6 @@
 }
 .showcase-item .image-container {
   text-align: right;
-  margin-bottom: 30px;
   position: relative;
 }
 .showcase-item .image-container .image-shadow-container {
@@ -305,21 +314,9 @@
     width: 70%;
   }
 }
-@keyframes fade-up {
-  from {
-    top: 30px;
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
 .showcase-item-container.animation-playing .title,
 .showcase-item-container.animation-playing .date,
-.showcase-item-container.animation-playing .description {
-  animation: fade-up;
-  animation-duration: 1.5s;
-}
+.showcase-item-container.animation-playing .description,
 .showcase-item-container.animation-playing .image-shadow-container,
 .showcase-item-container.animation-playing .caption {
   animation: fade-up;
@@ -328,9 +325,7 @@
 
 .showcase-item-container.animation-complete .title,
 .showcase-item-container.animation-complete .date,
-.showcase-item-container.animation-complete .description {
-  opacity: 1;
-}
+.showcase-item-container.animation-complete .description,
 .showcase-item-container.animation-complete .image,
 .showcase-item-container.animation-complete .caption {
   opacity: 1;

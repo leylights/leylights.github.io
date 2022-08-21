@@ -1,3 +1,13 @@
+@keyframes fade-up {
+  from {
+    top: 30px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
 @media (prefers-color-scheme: dark) {
   :root:not(.light) {
     --primary-bg-color: #111;
