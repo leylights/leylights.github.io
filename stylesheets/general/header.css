@@ -1,3 +1,13 @@
+@keyframes fade-up {
+  from {
+    top: 30px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
 nav#desktop-header {
   background-color: var(--primary-bg-color);
   border-bottom: 5px var(--primary-accent-color) solid;

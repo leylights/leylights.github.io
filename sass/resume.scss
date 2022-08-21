@@ -1,6 +1,7 @@
 body {
   margin: auto;
   margin-top: 0;
+  font-weight: 300;
 }
 
 /* Fonts */
@@ -9,7 +10,10 @@ h2 {
   color: var(--text-color);
 }
 
-.content h3, h4, h5, h6 {
+.content h3,
+h4,
+h5,
+h6 {
   margin: 0;
 }
 
@@ -22,40 +26,66 @@ h5 {
   margin-top: 73px;
 }
 
-.eduGrid h4 {
-  color: var(--light-text-color);
-}
+#education-degrees {
+  text-align: center;
+  display: flex;
 
-.eduGrid p {
-  margin: 0;
-}
+  > div {
+    flex-basis: 50%;
 
-.eduGrid div {
-  text-align: center !important;
-}
+    display: flex;
+    flex-direction: column;
+  }
 
-.eduGrid img {
-  width: 60%;
-  margin: 1em 20%;
-}
+  .candidate,
+  .degree-title,
+  .degree-length {
+    display: block;
+  }
 
-.eduMobile {
-  display: none;
+  .description {
+    font-size: 0.8em;
+  }
+
+  .candidate {
+    color: var(--light-text-color);
+    font-style: italic;
+  }
+  .degree-title {
+    font-size: 1.3em;
+  }
+  .degree-length {
+    margin: 0;
+  }
+
+  .logos {
+    height: 100%;
+    position: relative;
+    padding: 1em;
+
+    img {
+      width: 60%;
+
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
 }
 
 table.equal-2-col {
   width: 100%;
 }
 
-table.equal-2-col>tbody>tr>td {
+table.equal-2-col > tbody > tr > td {
   width: 50%;
 }
 
-table.top-v-align>tbody>tr>td {
+table.top-v-align > tbody > tr > td {
   vertical-align: top;
 }
 
-table.bot-v-align>tbody>tr>td {
+table.bot-v-align > tbody > tr > td {
   vertical-align: bottom;
 }
 
@@ -68,7 +98,7 @@ table.bot-v-align>tbody>tr>td {
 .resume h2 {
   padding-bottom: 8px;
   border-bottom: 2px solid;
-  border-color: var(--accent-bg-color)
+  border-color: var(--accent-bg-color);
 }
 
 .imageWithContext {
@@ -76,11 +106,11 @@ table.bot-v-align>tbody>tr>td {
   padding: 0 5%;
 }
 
-.imageWithContext>img {
+.imageWithContext > img {
   width: 100%;
 }
 
-.imageWithContext>div {
+.imageWithContext > div {
   text-align: center;
 }
 
@@ -117,41 +147,6 @@ a:hover {
   margin-bottom: 2em;
 }
 
-.grid2x2 {
-  display: grid;
-  width: 100%;
-}
-
-.grid2x2>.topLeft {
-  grid-row-start: 1;
-  grid-row-end: 1;
-  grid-column-start: 1;
-  grid-column-end: 1;
-}
-
-.grid2x2>.topRight {
-  grid-row-start: 1;
-  grid-row-end: 1;
-  grid-column-start: 2;
-  grid-column-end: 2;
-  text-align: right;
-}
-
-.grid2x2>.bottomLeft {
-  grid-row-start: 2;
-  grid-row-end: 2;
-  grid-column-start: 1;
-  grid-column-end: 1;
-}
-
-.grid2x2>.bottomRight {
-  grid-row-start: 2;
-  grid-row-end: 2;
-  grid-column-start: 2;
-  grid-column-end: 2;
-  text-align: right;
-}
-
 .expList {
   margin: 0.5em 0;
   clear: both;
@@ -163,7 +158,7 @@ a:hover {
   position: relative;
   width: 100vw;
   /* height: 200%; */
-  transition: width .5s;
+  transition: width 0.5s;
   filter: opacity(0.8);
 }
 
@@ -181,13 +176,18 @@ a:hover {
 .resume-highlight {
   color: var(--primary-accent-color);
   transition: var(--hover-color-transition);
-}
 
-.resume-highlight-language {
-  /* color: var(--light-text-color); */
-  /* color: var(#888); */
-  /* color: var(--tertiary-accent-color); */
-  color: var(--very-light-text-color);
+  &:not(.nolink) {
+    cursor: pointer;
+  }
+  &.language {
+    // color: var(--light-text-color);
+    color: var(--light-text-color);
+  }
+  &.user-highlighted-skill {
+    font-weight: bold;
+    color: var(--tertiary-accent-color);
+  }
 }
 
 #skills-list {
@@ -203,7 +203,7 @@ a:hover {
 }
 
 .resume-skill:hover {
-  color: var(--primary-accent-color)
+  color: var(--primary-accent-color);
 }
 
 /* Showcase */
@@ -216,7 +216,7 @@ a:hover {
   z-index: -5;
   height: 80%;
   overflow: auto;
-  transition: width .5s;
+  transition: width 0.5s;
 }
 
 #showcaseImg {
@@ -307,19 +307,34 @@ a:hover {
   color: var(--tertiary-accent-color);
 }
 
-.skill-to-highlight.no-results, .skill-to-highlight.no-results:hover {
+.skill-to-highlight.no-results,
+.skill-to-highlight.no-results:hover {
   color: var(--light-text-color);
-}
-
-.user-highlighted-skill {
-  font-weight: bold;
-  color: var(--tertiary-accent-color);
 }
 
 #languages-list {
   font-weight: bold;
   list-style: none;
   padding-left: 0;
+}
+
+#connect-links {
+  padding-left: 0;
+  li {
+    list-style-type: none;
+  }
+}
+
+.fade-up-pending {
+  position: relative;
+  opacity: 0;
+}
+
+.fade-up-playing {
+  position: relative;
+
+  animation: fade-up;
+  animation-duration: 1.5s;
 }
 
 @media only screen and (max-width: 770px) {
@@ -340,20 +355,12 @@ a:hover {
     width: null;
   }
 
-  table.equal-2-col>tbody>tr>td {
+  table.equal-2-col > tbody > tr > td {
     display: contents;
   }
 
-  table.equal-2-col>tbody>tr>td ul {
+  table.equal-2-col > tbody > tr > td ul {
     margin: 0;
-  }
-
-  .grid2x2 {
-    display: block;
-  }
-
-  .grid2x2 .topRight {
-    text-align: left;
   }
 
   .textAccentImage {
@@ -368,23 +375,13 @@ a:hover {
     float: none;
   }
 
-  .eduMobile {
-    display: unset;
-    text-align: center;
-  }
+  #education-degrees {
+    flex-direction: column;
 
-  .eduMobile p {
-    margin: 0;
-  }
-
-  .eduMobile img {
-    margin: auto;
-    width: 60%;
-    padding: 2em 20%;
-  }
-
-  .eduDesk {
-    display: none;
+    .logos img {
+      transform: none;
+      top: 0;
+    }
   }
 
   #skills-list {
@@ -395,11 +392,13 @@ a:hover {
     display: block;
   }
 
-  .experience-table th, td {
+  .experience-table th,
+  td {
     display: block;
   }
 
-  .experience-table .experience-date, .experience-grid .experience-date {
+  .experience-table .experience-date,
+  .experience-grid .experience-date {
     text-align: left;
     float: left;
     width: 100%;
@@ -411,7 +410,8 @@ a:hover {
     color: var(--light-text-color);
   }
 
-  .experience-image, .experience-image.reversed {
+  .experience-image,
+  .experience-image.reversed {
     display: block;
     float: none;
     margin: auto;
@@ -446,7 +446,7 @@ a:hover {
     box-shadow: none !important;
   }
 
-  .item>h3:last-child {
+  .item > h3:last-child {
     border-bottom: 1px solid #bbb;
     padding-bottom: 3em;
   }

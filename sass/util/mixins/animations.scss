@@ -1,8 +1,11 @@
+$fade-up-distance: 30px;
+
 @keyframes fade-up {
   from {
-    top: 30px;
+    top: $fade-up-distance;
     opacity: 0;
   }
+
   to {
     top: 0;
     opacity: 1;

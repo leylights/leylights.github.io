@@ -1,4 +1,6 @@
 import { cws } from "../../../cws.js";
+import { ResumePage } from "../resume.page.js";
+import { ResumeSkillComponent } from "./skill.component.js";
 
 interface ResumeExperienceItemComponentCreationData {
   parentElement: HTMLElement;
@@ -114,6 +116,18 @@ export class ResumeExperienceItemComponent {
         children: [table],
       });
 
+    ResumePage.setFadeListener(container);
+    container.querySelectorAll('.resume-highlight:not(.nolink)').forEach((highlight: Element) => {
+      highlight.addEventListener(('click'), () => {
+        const terms: string[] = highlight.getAttribute('data-term')
+          ? highlight.getAttribute('data-term').split(' ')
+          : [highlight.innerHTML.trim()];
+
+        ResumeSkillComponent.highlightSkill(terms, {
+          searchForStrictWord: cws.Array.includes(terms, 'Java'),
+        });
+      });
+    });
     if (this.container) {
       this.container.replaceWith(container);
     }
@@ -172,6 +186,18 @@ export class ResumeExperienceItemComponent {
       this.container.replaceWith(container);
     }
 
+    ResumePage.setFadeListener(container);
+    container.querySelectorAll('.resume-highlight:not(.nolink)').forEach((highlight: Element) => {
+      highlight.addEventListener(('click'), () => {
+        const terms: string[] = highlight.getAttribute('data-term')
+          ? highlight.getAttribute('data-term').split(' ')
+          : [highlight.innerHTML.trim()];
+
+        ResumeSkillComponent.highlightSkill(terms, {
+          searchForStrictWord: cws.Array.includes(terms, 'java'),
+        });
+      });
+    });
     this.container = container;
 
     function getGridBody(): HTMLElement[] {
@@ -230,44 +256,30 @@ export class ResumeExperienceItemComponent {
   }
 
   private formatPoint(point: string): string {
-    point = point.replace(/<\/[C, L]>/g, "</span>"); // tag closings
-    point = point.replace(/<C>/g, "<span class='resume-highlight'>"); // tag closings
+    // match the tag and all contents, but no contents can contain the closing </C> or </L>
+    return point.replace(/<([CL])(?:(?!<\/\1>).)*<\/\1>/g, (match, tagName) => {
+      const innerText = match.match(/>(.*)</)[1];
+      // match inner contents
 
-    for (let i = 0; i < point.length; i++) {
-      if (point.substring(i, i + 2) === '<L') {
-        const endTagIndex = getClosing(i);
-        const tag = point.substring(i, endTagIndex);
-        const classList = ['resume-highlight', 'resume-highlight-language'];
+      let output = `<span class="resume-highlight`;
+      if (tagName === 'L') output += ' language';
+      if (match.match('nolink')) output += ' nolink';
+      output += `" data-term="`;
 
-        if (tag.includes('term')) {
-          const tagParts = tag.replace(/<L/g, '').replace(/>/g, '').trim().replace(/'/g, '').split('=');
+      // match contents of term='js'
+      const definedTerms = match.match(/term=['"]([^<]*)['"]/);
+      if (definedTerms) output += definedTerms[1].toLowerCase();
+      else output += innerText.toLowerCase();
+      output += `">`;
 
-          for (let j = 0; j < tagParts.length; j++) {
-            if (tagParts[j] === 'term') {
-              const highlightTerms = tagParts[j + 1].split(' ');
-              highlightTerms.forEach((term: string) => {
-                classList.push(`highlight-as-${term}`);
-              });
-            }
-          }
-        }
+      // if opening <C, <L exists, format innertext
+      if (innerText.match(/<[CL]/)) output += this.formatPoint(innerText);
+      else output += innerText;
 
-        const newResult = point.substring(0, i) + `<span class='${classList.join(' ')}'>` + point.substring(endTagIndex + 1);
-        point = newResult;
-      }
-    }
+      output += '</span>';
 
-    return point;
-
-    function getClosing(i: number): number {
-      for (let j = i; j < point.length; j++) {
-        if (point[j] === '>')
-          return j;
-      }
-
-      console.log(i, point.substring(i));
-      throw new Error('Bad string: ' + point);
-    }
+      return output;
+    });
   }
 
   private getImages(): HTMLImageElement[] {

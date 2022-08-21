@@ -18,7 +18,6 @@ export class PageBuilder {
             PageBuilder.buildTop();
             TopMenuService.build();
             SideMenuService.build();
-            PageBuilder.riverify();
             DarkModeService.init();
         }
     }
@@ -32,19 +31,17 @@ export class PageBuilder {
         document.head.appendChild(cws.createLinkElement(path, 'stylesheet'));
     }
     /**
-     * River-ifies the page
-     */
-    static riverify() {
-        if (!CoreDataService.shouldRiverify)
-            return;
-        // replace title
-        document.head.querySelector('title').innerText =
-            document.head.querySelector('title').innerText.replace('colestanley.ca', CoreDataService.siteName);
-    }
-    /**
      * Populates the <head> element
      */
     static buildHead() {
+        // replace title
+        const titleElement = document.head.querySelector('title');
+        let title = CoreDataService.siteName;
+        if (titleElement.innerHTML.trim() !== '') {
+            title += ' | ' + titleElement.innerHTML.trim();
+        }
+        document.head.querySelector('title').innerText = title;
+        // SEO and analytics
         PageBuilder.buildGoogleAnalytics();
         const currentPage = this.getCurrentPageData();
         if (currentPage.noindex)
