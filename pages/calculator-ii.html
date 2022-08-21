@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>colestanley.ca | Calculator</title>
+  <link href="https://fonts.googleapis.com/css?family=Encode+Sans:400,700" rel="stylesheet">
+  <link href="../stylesheets/main.css" rel="stylesheet" />
+  <link href="../stylesheets/calculator-ii/calculator.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="icon" href="../siteimages/favicon.png">
+  <script src="../scripts/build-page.js" type="module"></script>
+</head>
+
+<body style="margin:0" onresize="doResize = true">
+
+  <div id="loadingScreen">
+    <img src="../siteimages/logo.svg" alt="colestanley.ca">
+  </div>
+
+  
+
+  <div id="main">
+    <div class="content">
+      <input id="formula-input"></input>
+      <textarea id="formula-output" disabled></textarea>
+    </div>
+  </div>
+
+  <script src="../scripts/special/calculator-ii/calculator.page.js" type="module"></script>
+
+</body>
+
+</html>

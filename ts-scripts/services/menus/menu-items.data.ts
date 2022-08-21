@@ -460,4 +460,13 @@ export const MenuItems = {
       thumbnail: '/siteimages/wordle/thumb-light.png',
     },
   }),
+  calculatorii: new MenuItemSingle({
+    name: 'Algebra Calculator',
+    description: 'Algorithmically solves algebraic equations.',
+    type: 'Tool',
+    date: 'August 2022',
+    links: {
+      href: '/pages/calculator-ii.html',
+    },
+  }),
 };
