@@ -1,6 +1,6 @@
 import { SpotlightHeader } from "../showcase/components/spotlight-header.component.js";
-import { CoreDataService } from "../_services/core-data.service.js";
-import { PageBuilder } from "../_services/page-builder.service.js";
+import { CoreDataService } from "../../services/core-data.service.js";
+import { PageBuilder } from "../../services/page-builder.service.js";
 import { ResumeExperienceItemComponent } from "./components/experience-item.component.js";
 import { ResumeLanguageComponent } from "./components/language-item.component.js";
 import { ResumeOccupationItemComponent } from "./components/occupation-item.component.js";

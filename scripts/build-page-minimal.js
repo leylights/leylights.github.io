@@ -1,3 +1,3 @@
-import { PageBuilder } from "./special/_services/page-builder.service.js";
+import { PageBuilder } from "./services/page-builder.service.js";
 PageBuilder.init(false);
 //# sourceMappingURL=build-page-minimal.js.map

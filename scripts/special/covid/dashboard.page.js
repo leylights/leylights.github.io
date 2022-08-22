@@ -16,7 +16,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { cws } from "../../cws.js";
-import { Button } from "../_components/button.component.js";
+import { Button } from "../../components/button.component.js";
 import { COVIDCardGrid } from "./components/card-grid.component.js";
 import { COVIDSectionCollection } from "./components/section-collection.component.js";
 import { COVIDSection } from "./components/section.component.js";
@@ -24,7 +24,7 @@ import { COVIDTimeSeriesChart } from "./components/time-series-chart.component.j
 import { COVIDDataBridge, COVIDRegionLevel } from "./model/covid-data-bridge.js";
 import { COVIDHelper } from "./helper.js";
 import { COVIDRegionsController } from "./model/regions.controller.js";
-import { DarkModeService } from "../_services/dark-mode.service.js";
+import { DarkModeService } from "../../services/dark-mode.service.js";
 import { COVIDDataInterface } from "./model/covid-data-interface.js";
 class COVIDDashboardPage {
     constructor() {

@@ -1,5 +1,5 @@
-import { cws } from "../../cws.js";
-import { DarkModeService } from "../_services/dark-mode.service.js";
+import { cws } from "../cws.js";
+import { DarkModeService } from "../services/dark-mode.service.js";
 import { Canvas, CanvasCreationData } from "./canvas.component.js";
 
 export interface LineChartPoint {

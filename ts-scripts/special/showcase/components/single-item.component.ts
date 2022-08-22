@@ -1,5 +1,5 @@
 import { cws } from "../../../cws.js";
-import { MenuItemSingle } from "../../_services/menus/menu-item-single.js";
+import { MenuItemSingle } from "../../../services/menus/menu-item-single.js";
 import { ShowcaseItem } from "./showcase-item.component.js";
 
 interface ShowcaseSingleItemConfig {

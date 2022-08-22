@@ -1,4 +1,4 @@
-import { cws } from "../../cws.js";
+import { cws } from "../cws.js";
 
 enum DarkModeStatus {
   Dark,

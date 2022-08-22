@@ -3,7 +3,7 @@ import { NPCsAttribute } from "../helper-repository/attribute.js";
 import { CHA, CON, DEX, INT, STR, WIS } from "../helper-repository/general.js";
 import { NPCsCharacterDataBooleanTypes } from "./character-data.js";
 import { NPCsAttack } from "../helper-repository/action-attack.js";
-import { Button } from "../../_components/button.component.js";
+import { Button } from "../../../components/button.component.js";
 import { NPCsMemory } from "./npcs-memory.js";
 const SAVE_CLASS = 'save-npc';
 export class NPCsClassicCard {

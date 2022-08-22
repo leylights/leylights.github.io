@@ -9,7 +9,7 @@
 
 
 import { cws } from "../../cws.js";
-import { Button } from "../_components/button.component.js";
+import { Button } from "../../components/button.component.js";
 import { COVIDCardGrid, COVIDGridCardConfig } from "./components/card-grid.component.js";
 import { COVIDSectionCollection } from "./components/section-collection.component.js";
 import { COVIDSection } from "./components/section.component.js";
@@ -20,7 +20,7 @@ import { COVIDHealthUnit } from "./model/health-unit.js";
 import { COVIDProvince } from "./model/province.js";
 import { COVIDRegion } from "./model/region.js";
 import { COVIDRegionsController } from "./model/regions.controller.js";
-import { DarkModeService } from "../_services/dark-mode.service.js";
+import { DarkModeService } from "../../services/dark-mode.service.js";
 import { COVIDDataInterface } from "./model/covid-data-interface.js";
 
 class COVIDDashboardPage {

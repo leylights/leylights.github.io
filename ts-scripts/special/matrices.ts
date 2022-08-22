@@ -1,7 +1,7 @@
 import { cws } from "../cws.js";
 import { MathNum } from "../tools/math/number.js";
-import { Button } from "./_components/button.component.js";
-import { BASE_TEMP_HIGHLIGHT_TIME } from "./_components/general.js";
+import { Button } from "../components/button.component.js";
+import { BASE_TEMP_HIGHLIGHT_TIME } from "../components/general.js";
 
 /**
  * A program to handle complex number arithmetic.

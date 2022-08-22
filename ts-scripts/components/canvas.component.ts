@@ -1,6 +1,6 @@
-import { cws } from "../../cws.js";
-import { KeyboardListener } from "../../tools/keyboard-listener.js";
-import { DarkModeService } from "../_services/dark-mode.service.js";
+import { cws } from "../cws.js";
+import { KeyboardListener } from "../tools/keyboard-listener.js";
+import { DarkModeService } from "../services/dark-mode.service.js";
 
 type EventListenerData = {
   type: keyof GlobalEventHandlersEventMap;

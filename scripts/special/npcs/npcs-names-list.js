@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { cws } from "../../cws.js";
-import { Button } from "../_components/button.component.js";
+import { Button } from "../../components/button.component.js";
 import { NPCsName } from "./helper-repository/name.js";
 import { NPCsRace } from "./core/race.js";
 export class NPCsNamesList {

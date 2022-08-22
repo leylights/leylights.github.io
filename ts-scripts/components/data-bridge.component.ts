@@ -1,4 +1,4 @@
-import { cws } from "../../cws.js";
+import { cws } from "../cws.js";
 
 /**
  * Handles retrieval of data from the API

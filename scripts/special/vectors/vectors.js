@@ -1,5 +1,5 @@
 import { cws } from "../../cws.js";
-import { Canvas } from "../_components/canvas.component.js";
+import { Canvas } from "../../components/canvas.component.js";
 const ARROW = {
     w: 5,
     h: 8

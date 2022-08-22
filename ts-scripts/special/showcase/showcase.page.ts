@@ -1,9 +1,9 @@
 import { KeyboardListener } from "../../tools/keyboard-listener.js";
-import { MenuItemMulti } from "../_services/menus/menu-item-multi.js";
-import { MenuItemSingle } from "../_services/menus/menu-item-single.js";
-import { MenuItem } from "../_services/menus/menu-item.js";
-import { MenuLayouts } from "../_services/menus/menu-layouts.data.js";
-import { PageBuilder } from "../_services/page-builder.service.js";
+import { MenuItemMulti } from "../../services/menus/menu-item-multi.js";
+import { MenuItemSingle } from "../../services/menus/menu-item-single.js";
+import { MenuItem } from "../../services/menus/menu-item.js";
+import { MenuLayouts } from "../../services/menus/menu-layouts.data.js";
+import { PageBuilder } from "../../services/page-builder.service.js";
 import { ShowcaseItemSpotlight } from "./components/item-spotlight.component.js";
 import { ShowcaseMultiItem } from "./components/multi-item.component.js";
 import { ShowcaseItem } from "./components/showcase-item.component.js";

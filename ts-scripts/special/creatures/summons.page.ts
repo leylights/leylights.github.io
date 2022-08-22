@@ -1,6 +1,6 @@
 import { cws } from "../../cws.js";
-import { Button } from "../_components/button.component.js";
-import { InputComponent } from "../_components/input.component.js";
+import { Button } from "../../components/button.component.js";
+import { InputComponent } from "../../components/input.component.js";
 import { NPCsDice } from "../npcs/helper-repository/general.js";
 import { SummonsCreatureAddButton } from "./components/creature-add-button.component.js";
 import { SummonsCreatureCardComponent } from "./components/creature-card.component.js";

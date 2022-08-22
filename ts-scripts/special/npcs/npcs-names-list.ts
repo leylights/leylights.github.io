@@ -1,5 +1,5 @@
 import { cws } from "../../cws.js";
-import { Button } from "../_components/button.component.js";
+import { Button } from "../../components/button.component.js";
 import { NPCsName } from "./helper-repository/name.js";
 import { NPCsRace, NPCsRaceArchetype } from "./core/race.js";
 

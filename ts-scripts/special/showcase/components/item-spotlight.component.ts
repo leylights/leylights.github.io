@@ -1,5 +1,5 @@
 import { cws } from "../../../cws.js";
-import { MenuItem } from "../../_services/menus/menu-item.js";
+import { MenuItem } from "../../../services/menus/menu-item.js";
 
 export class ShowcaseItemSpotlight {
   private static next_id = 0;
