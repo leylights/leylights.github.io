@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { cws } from "../../cws.js";
 import { MenuItemMulti } from "./menu-item-multi.js";
 import { MenuItemSingle } from "./menu-item-single.js";
 import { MenuItem } from "./menu-item.js";

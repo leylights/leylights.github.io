@@ -7,8 +7,8 @@
  * Created: 2017
  */
 
-import { cws } from '../../cws.js';
-import { Button } from '../_components/button.component.js';
+import { cws } from '../cws.js';
+import { Button } from '../components/button.component.js';
 import { MenuItemMulti } from './menus/menu-item-multi.js';
 import { MenuItemSingle } from './menus/menu-item-single.js';
 import { MenuItem } from './menus/menu-item.js';

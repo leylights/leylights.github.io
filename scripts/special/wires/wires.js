@@ -1,5 +1,5 @@
 import { cws } from "../../cws.js";
-import { Canvas } from "../_components/canvas.component.js";
+import { Canvas } from "../../components/canvas.component.js";
 import { WiresConstants } from "./constants.js";
 import { WiresMenuTile } from "./menu-tile.js";
 import { WiresState, WiresWinStateEnum } from "./state.js";

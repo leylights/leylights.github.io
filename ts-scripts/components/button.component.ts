@@ -1,4 +1,4 @@
-import { cws } from "../../cws.js";
+import { cws } from "../cws.js";
 import { BASE_TEMP_HIGHLIGHT_TIME } from "./general.js";
 
 type ButtonData = {

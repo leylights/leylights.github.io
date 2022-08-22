@@ -1,4 +1,3 @@
-import { cws } from "../../cws.js";
 import { InputComponent } from "./input.component.js";
 
 /**
@@ -12,7 +11,7 @@ export class ResizingInput extends InputComponent {
     const me = this;
 
     this.considerPlaceholder = !this.classList.contains(ResizingInput.onlyToValueClassName);
-    this.addEventListener('input', (e: Event) => {
+    this.addEventListener('input', () => {
       this.resizeToContent();
     });
 
@@ -32,21 +31,19 @@ export class ResizingInput extends InputComponent {
     if (!this.parentNode) return; // not yet in DOM
 
     const textComparator = document.createElement('span');
-    let insertedComparator = this.parentNode.insertBefore(textComparator, null);
-
-    let contentLen: number, placeholderLen: number;
+    const insertedComparator = this.parentNode.insertBefore(textComparator, null);
 
     insertedComparator.innerText = content;
     insertedComparator.style.position = 'absolute';
 
-    contentLen = insertedComparator.getBoundingClientRect().width;
+    const contentLen = insertedComparator.getBoundingClientRect().width;
     if (this.considerPlaceholder) {
       insertedComparator.innerText = placeholder;
     } else {
       insertedComparator.innerText = 'o'; // makes sure the element still has a width
     }
 
-    placeholderLen = insertedComparator.getBoundingClientRect().width;
+    const placeholderLen = insertedComparator.getBoundingClientRect().width;
 
     insertedComparator.remove();
     textComparator.remove();
@@ -102,7 +99,7 @@ export class ResizingInput extends InputComponent {
       if ((document as any).fonts) {
         (document as any).fonts.ready.then(resizeAll)
       } else {
-        window.addEventListener('load', (e: Event) => {
+        window.addEventListener('load', () => {
           resizeAll();
         });
       }

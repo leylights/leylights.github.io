@@ -6,7 +6,7 @@
  * Start Date: January 2021
  */
 
-import { cws } from '../../cws.js';
+import { cws } from '../cws.js';
 import { CoreDataService } from './core-data.service.js';
 import { DarkModeService } from './dark-mode.service.js';
 import { MenuItemMulti } from './menus/menu-item-multi.js';

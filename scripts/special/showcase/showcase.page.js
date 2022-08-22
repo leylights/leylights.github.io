@@ -1,7 +1,7 @@
 import { KeyboardListener } from "../../tools/keyboard-listener.js";
-import { MenuItemSingle } from "../_services/menus/menu-item-single.js";
-import { MenuLayouts } from "../_services/menus/menu-layouts.data.js";
-import { PageBuilder } from "../_services/page-builder.service.js";
+import { MenuItemSingle } from "../../services/menus/menu-item-single.js";
+import { MenuLayouts } from "../../services/menus/menu-layouts.data.js";
+import { PageBuilder } from "../../services/page-builder.service.js";
 import { ShowcaseItemSpotlight } from "./components/item-spotlight.component.js";
 import { ShowcaseMultiItem } from "./components/multi-item.component.js";
 import { ShowcaseSingleItem } from "./components/single-item.component.js";

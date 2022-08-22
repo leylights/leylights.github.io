@@ -1,6 +1,6 @@
 import { cws } from "../../../../cws.js";
 import { MathVector } from "../../../../tools/math/vector.js";
-import { Canvas } from "../../../_components/canvas.component.js";
+import { Canvas } from "../../../../components/canvas.component.js";
 import { PacmanEntityEnum, PacmanDirectionEnum, PacmanHelper, PacmanStateEnum } from "../../helper.js";
 import { PacmanCharacter } from "./character.js";
 import { PacmanConstants } from "../constants.js";

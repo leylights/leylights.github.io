@@ -1,4 +1,4 @@
-import { Canvas } from "../_components/canvas.component.js";
+import { Canvas } from "../../components/canvas.component.js";
 import { WiresConstants } from "./constants.js";
 import { WiresState } from "./state.js";
 import { WiresTile } from "./tile.js";

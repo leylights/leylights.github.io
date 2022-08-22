@@ -1,4 +1,4 @@
-import { DarkModeService } from "../_services/dark-mode.service.js";
+import { DarkModeService } from "../../services/dark-mode.service.js";
 export class WiresConstants {
 }
 WiresConstants.TOP_TILE_WIDTH = 35;

@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { DataBridge } from "../../_components/data-bridge.component.js";
+import { DataBridge } from "../../../components/data-bridge.component.js";
 export var COVIDRegionLevel;
 (function (COVIDRegionLevel) {
     COVIDRegionLevel["regional"] = "hr";

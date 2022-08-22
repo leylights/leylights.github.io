@@ -4,7 +4,7 @@
  * Activates darkmode where and when applicable
  */
 
-import { cws } from '../../cws.js';
+import { cws } from '../cws.js';
 import { GoogleAnalyticsController } from './google-analytics-controller.service.js';
 import { CookieInterface } from './cookie-interface.service.js';
 import { SideMenuService } from './side-menu.service.js';

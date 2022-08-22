@@ -1,5 +1,5 @@
 import { cws } from "../../cws.js";
-import { DarkModeService } from "../_services/dark-mode.service.js";
+import { DarkModeService } from "../services/dark-mode.service.js";
 import { Canvas } from "./canvas.component.js";
 const MAX_UNIQUE_X_VALUES = 24;
 const MAX_UNIQUE_Y_VALUES = 12;

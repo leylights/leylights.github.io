@@ -1,5 +1,5 @@
 import { cws } from "../../../cws.js";
-import { MenuItemMulti } from "../../_services/menus/menu-item-multi.js";
+import { MenuItemMulti } from "../../../services/menus/menu-item-multi.js";
 import { ShowcaseItem } from "./showcase-item.component.js";
 
 export class ShowcaseMultiItem extends ShowcaseItem {
