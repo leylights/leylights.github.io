@@ -20,6 +20,7 @@ export class PageBuilder {
   }
 
   private static loadTarget = new EventTarget();
+  private static initTime: number = Date.now();
 
   static init(buildElements: boolean): void {
     PageBuilder.buildHead();
@@ -83,9 +84,15 @@ export class PageBuilder {
     });
 
     // set up load listener to listen to load
+    const minimumLoadingTime = 500; // required to prevent 'flashbang loading screen' effect
     document.addEventListener('readystatechange', function () {
       if (document.readyState === 'complete') {
-        PageBuilder.loadTarget.dispatchEvent(new Event('load'));
+        console.log(`init: ${PageBuilder.initTime % 100000}, current: ${Date.now() % 100000}, difference: ${Date.now() - PageBuilder.initTime}`);
+        if (Date.now() - PageBuilder.initTime <= minimumLoadingTime)
+          setTimeout(() => {
+            PageBuilder.loadTarget.dispatchEvent(new Event('load'));
+          }, (PageBuilder.initTime + minimumLoadingTime) - Date.now());
+        else PageBuilder.loadTarget.dispatchEvent(new Event('load'));
       }
     });
 

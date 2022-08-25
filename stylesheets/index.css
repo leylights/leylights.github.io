@@ -207,10 +207,6 @@ a:hover {
     /* float: left; */
     text-align: left;
   }
-
-  #CscaTitle {
-    width: null;
-  }
 }
 @media only screen and (max-width: 1060px) {
   .itemImage {
@@ -229,10 +225,6 @@ a:hover {
   .item > h3:last-child {
     border-bottom: 1px solid var(--accent-bg-color);
     padding-bottom: 3em;
-  }
-
-  #CscaTitle {
-    width: null;
   }
 
   .lowerShowcaseContainer {

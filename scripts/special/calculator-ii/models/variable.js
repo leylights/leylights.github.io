@@ -1,9 +1,7 @@
-export class CalculatorVariable {
+import { CalculatorSingular } from "./singular.js";
+export class CalculatorVariable extends CalculatorSingular {
     constructor(name) {
-        this.variableName = name;
-    }
-    print() {
-        return this.variableName;
+        super(name);
     }
 }
 //# sourceMappingURL=variable.js.map

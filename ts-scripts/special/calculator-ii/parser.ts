@@ -3,6 +3,7 @@ import { CalculatorFunction, CalculatorOperator } from "./models/function.js";
 import { CalculatorTerm } from "./models/term.js";
 import { CalculatorValue } from "./models/value.js";
 import { CalculatorVariable } from "./models/variable.js";
+import { CalculatorTester } from "./tester.js";
 
 export class CalculatorParser {
   readonly firstInput: string;
@@ -27,7 +28,7 @@ export class CalculatorParser {
 
   private parse(): CalculatorTerm {
     const input = this.firstInput.trim()
-      .replace(/[\[{]/g, '(')
+      .replace(/[[{]/g, '(')
       .replace(/[\]}]/g, ')')
       .replace(/\s/g, '');
 
@@ -48,7 +49,7 @@ export class CalculatorParser {
 
     if (nextOperatorIndex !== -1) { // term includes an operator
       const operator: CalculatorOperator = input[nextOperatorIndex] as CalculatorOperator;
-      let lhs = input.substring(1, nextOperatorIndex);
+      const lhs = input.substring(1, nextOperatorIndex);
       let rhs = input.substring(nextOperatorIndex + 1);
       rhs = rhs.substring(0, rhs.length - 1);
 
@@ -56,7 +57,7 @@ export class CalculatorParser {
       return new CalculatorFunction(this.parseRecurse(lhs), this.parseRecurse(rhs), operator);
     } else {
       // if only a value, return a value
-      const isOnlyValue: boolean = !input.match(/[^0-9()\-]/g);
+      const isOnlyValue: boolean = !input.match(/[^0-9()-]/g);
 
       const sanitizedValue: string = input.split('').filter((c: string) => !('()'.includes(c))).join('');
       if (isOnlyValue) {
@@ -83,7 +84,7 @@ export class CalculatorParser {
   private static areBracketsSurrounding(input: string): boolean {
     let openParenthesisCount: number = 0;
 
-    for (let c of input) {
+    for (const c of input) {
       if (c === '(') openParenthesisCount++;
       else if (c === ')') openParenthesisCount--;
       else if (openParenthesisCount === 0) return false; // any non-bracket character not surrounded by brackets
@@ -121,9 +122,41 @@ export class CalculatorParser {
     const chars: string[] = input.split('');
     let isLHSNegative: boolean = false;
 
-    for (let i = 1; i < chars.length; i++) {
-      if (chars[i] === '(') openParenthesisCount++;
-      else if (chars[i] === ')') openParenthesisCount--;
+    // for (let i = 1; i < chars.length; i++) {
+    //   if (chars[i] === '(') openParenthesisCount++;
+    //   else if (chars[i] === ')') openParenthesisCount--;
+    //   else if (openParenthesisCount === 0) {
+    //     // negation handling: test against all operators
+    //     if (cws.Array.contains(CalculatorFunction.operators, chars[i]) && chars[i] !== CalculatorOperator.subtract) {
+    //       isLHSNegative = false;
+    //     }
+
+    //     // test against searched-for operators
+    //     if (cws.Array.contains(operators, chars[i])) {
+    //       if (chars[i] === CalculatorOperator.subtract) {
+    //         // '-' is only subtract if its left character is a number or variable or ')'.  Otherwise treat it as negation, UNLESS the LHS is already negated
+    //         if (
+    //           (chars[i - 1] === ')'
+    //             || chars[i - 1].match(/[0-9]/) !== null
+    //             || chars[i - 1].match(CalculatorParser.acceptedVariables) !== null
+    //             || isLHSNegative)
+    //           && (chars[i - 1] !== CalculatorOperator.exponent)) {
+    //           this.log(`Found subtraction symbol ${chars[i]} at ${i} with left char ${chars[i - 1]} and LHS ${isLHSNegative ? 'negative' : 'positive'}`);
+
+    //           return i;
+    //         }
+    //         else {
+    //           isLHSNegative = true;
+    //         }
+    //       } else return i;
+    //     }
+    //   }
+    // }
+
+    for (let i = chars.length - 2; i > 0; i--) {
+      this.log(chars[i]);
+      if (chars[i] === ')') openParenthesisCount++;
+      else if (chars[i] === '(') openParenthesisCount--;
       else if (openParenthesisCount === 0) {
         // negation handling: test against all operators
         if (cws.Array.contains(CalculatorFunction.operators, chars[i]) && chars[i] !== CalculatorOperator.subtract) {
@@ -152,6 +185,7 @@ export class CalculatorParser {
       }
     }
 
+
     return -1;
   }
 
@@ -161,50 +195,39 @@ export class CalculatorParser {
   }
 
   static test() {
-    checkParse('((1))', '1');
+    const tester: CalculatorTester = new CalculatorTester('Parser', (input: string, debug?: boolean) => {
+      return new CalculatorParser(input, { debug: debug }).output.print();
+    });
 
-    checkParse('-2*-4', '(-2 * -4)');
-    checkParse('-2-4-3', '(-2 - (4 - 3))');
-    checkParse('-2-4/3', '(-2 - (4 / 3))');
-    checkParse('5 - -3', '(5 - -3)');
-    checkParse('5--3', '(5 - -3)');
+    tester.test('((1))', '1');
 
-    checkParse('5 - -x', '(5 - -x)');
-    checkParse('x--x', '(x - -x)');
-    checkParse('y*(-x+3/(y+-2))', '(y * (-x + (3 / (y + -2))))');
-    checkParse('2^3', '(2 ^ 3)');
+    tester.test('2*4', '(2 * 4)');
+    tester.test('-2*4', '(-2 * 4)');
+    tester.test('2*-4', '(2 * -4)');
+    tester.test('-2*-4', '(-2 * -4)');
 
-    checkParse('3/2^4+5', '((3 / (2 ^ 4)) + 5)');
-    checkParse('(3/2)^4+5', '(((3 / 2) ^ 4) + 5)');
-    checkParse('(3/2)^4+5/3', '(((3 / 2) ^ 4) + (5 / 3))');
-    checkParse('2^-3', '(2 ^ -3)');
+    tester.test('-2-4-3', '((-2 - 4) - 3)');
+    tester.test('-2-4/3', '(-2 - (4 / 3))');
+    tester.test('5 - -3', '(5 - -3)');
+    tester.test('5--3', '(5 - -3)');
 
-    checkParse('(2)^(-3)', '(2 ^ -3)');
+    tester.test('5 - -x', '(5 - -x)');
+    tester.test('x--x', '(x - -x)');
+    tester.test('y*(-x+3/(y+-2))', '(y * (-x + (3 / (y + -2))))');
+    tester.test('2^3', '(2 ^ 3)');
 
+    tester.test('3/2^4+5', '((3 / (2 ^ 4)) + 5)');
+    tester.test('(3/2)^4+5', '(((3 / 2) ^ 4) + 5)');
+    tester.test('(3/2)^4+5/3', '(((3 / 2) ^ 4) + (5 / 3))');
+    tester.test('2^-3', '(2 ^ -3)');
 
-    function checkParse(input: string, expected: string, message?: string) {
-      try {
-        const actual = new CalculatorParser(input).output.print();
+    tester.test('(2)^(-3)', '(2 ^ -3)');
+    tester.test('3^4^5', '((3 ^ 4) ^ 5)');
+    tester.test('3^(4*5)^6', '((3 ^ (4 * 5)) ^ 6)');
 
-        if (actual !== expected) {
-          const debugActual = new CalculatorParser(input, { debug: true });
-
-          throw new ParserTestError(`\nInput: ${input}\nExpected: ${expected}\nActual: ${debugActual.output.print()}${message ? `\n${message}` : ''}`);
-        }
-      } catch (e) {
-        if (e instanceof ParserTestError) throw e; // actual != expected
-
-        // other errors
-        console.error(`\nInput: ${input}\nProduced error`);
-        const debugActual = new CalculatorParser(input, { debug: true }); // this should throw the error
-        throw new Error('Error not thrown in debug rerun');
-      }
-    }
-  }
-}
-
-class ParserTestError extends Error {
-  constructor(msg: string) {
-    super(msg);
+    tester.test('1+2+3', '((1 + 2) + 3)');
+    tester.test('1-2-3', '((1 - 2) - 3)');
+    tester.test('1-2--3', '((1 - 2) - -3)');
+    tester.test('1/2/2', '((1 / 2) / 2)');
   }
 }

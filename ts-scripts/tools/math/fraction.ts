@@ -3,7 +3,7 @@ import { cws } from "../../cws.js";
 /**
  * A class to handle real fractions
  */
- export class MathFrac {
+export class MathFrac {
   numerator: number;
   denominator: number;
   type: string;
@@ -30,7 +30,7 @@ import { cws } from "../../cws.js";
    * SAFE?: yes
    * IDEMPOTENT?: yes
    */
-  isNegative = function (): boolean {
+  isNegative(): boolean {
     return this.numerator < 0;
   }
 
@@ -39,7 +39,7 @@ import { cws } from "../../cws.js";
    * SAFE?: NO
    * IDEMPOTENT?: NO
    */
-  add = function (frac: MathFrac): MathFrac {
+  add(frac: MathFrac): MathFrac {
     let localClone = frac.clone();
 
     localClone.scale(this.denominator);
@@ -57,7 +57,7 @@ import { cws } from "../../cws.js";
    * SAFE?: NO
    * IDEMPOTENT?: NO
    */
-  subtract = function (frac: MathFrac): MathFrac {
+  subtract(frac: MathFrac): MathFrac {
     let additiveInverse = new MathFrac(-frac.clone().numerator, frac.clone().denominator);
     this.add(additiveInverse);
     additiveInverse = null;
@@ -69,7 +69,7 @@ import { cws } from "../../cws.js";
    * SAFE?: NO
    * IDEMPOTENT?: NO
    */
-  multiplyNoCondense = function (frac: MathFrac): MathFrac {
+  multiplyNoCondense(frac: MathFrac): MathFrac {
     this.numerator *= frac.numerator;
     this.denominator *= frac.denominator;
     return this;
@@ -80,7 +80,7 @@ import { cws } from "../../cws.js";
    * SAFE?: NO
    * IDEMPOTENT?: NO
    */
-  multiplyBy = function (frac: MathFrac): MathFrac {
+  multiplyBy(frac: MathFrac): MathFrac {
     this.multiplyNoCondense(frac);
     this.condense();
     return this;
@@ -91,7 +91,7 @@ import { cws } from "../../cws.js";
    * SAFE?: NO
    * IDEMPOTENT?: NO
    */
-  divideBy = function (frac: MathFrac): MathFrac {
+  divideBy(frac: MathFrac): MathFrac {
     this.assertDefined();
     frac.assertDefined();
 
@@ -108,7 +108,7 @@ import { cws } from "../../cws.js";
    * SAFE?: NO
    * IDEMPOTENT?: NO
    */
-  scale = function (n: number): void {
+  scale(n: number): void {
     this.numerator *= n;
     this.denominator *= n;
   }
@@ -118,7 +118,7 @@ import { cws } from "../../cws.js";
    * SAFE: yes
    * IDEMPOTENT: yes
    */
-  assertDefined = function (): void {
+  assertDefined(): void {
     if (!this.numerator && this.numerator !== 0) {
       console.error("numerator falsy");
       throw new Error("numerator falsy");
@@ -133,7 +133,7 @@ import { cws } from "../../cws.js";
    * SAFE?: yes
    * IDEMPOTENT?: yes
    */
-  clone = function (): MathFrac {
+  clone(): MathFrac {
     return new MathFrac(this.numerator, this.denominator);
   }
 
@@ -141,9 +141,11 @@ import { cws } from "../../cws.js";
    * Simplifies the fraction (e.g. 2/4 => 1/2)
    * SAFE?: NO
    * IDEMPOTENT?: yes
+   * 
+   * Returns the fraction for chaining
    */
-  condense = function (): void {
-    let divisionFactor = Math.abs(cws.gcd(this.numerator, this.denominator));
+  condense(): MathFrac {
+    const divisionFactor = Math.abs(cws.gcd(this.numerator, this.denominator));
 
     this.numerator /= divisionFactor;
     this.denominator /= divisionFactor;
@@ -152,12 +154,14 @@ import { cws } from "../../cws.js";
       this.denominator *= -1;
       this.numerator *= -1;
     }
+
+    return this;
   }
 
   /**
    * Determines if this and another MathFrac are equal
    */
-  isEqualTo = function (other: MathFrac): boolean {
+  isEqualTo(other: MathFrac): boolean {
     if (this.numerator == other.numerator && this.denominator == other.denominator) {
       return true;
     }
@@ -168,7 +172,7 @@ import { cws } from "../../cws.js";
    * SAFE?: yes
    * IDEMPOTENT?: yes
    */
-  prettyPrint = function (): string {
+  prettyPrint(): string {
     if (this.denominator == 1) {
       return this.numerator + "";
     } else {
@@ -184,7 +188,7 @@ import { cws } from "../../cws.js";
    * IDEMPOTENT?: yes
    */
   static add(a: MathFrac, b: MathFrac): MathFrac {
-    let ac: MathFrac = a.clone();
+    const ac: MathFrac = a.clone();
     let bc: MathFrac = b.clone();
 
     ac.add(bc);
@@ -198,7 +202,7 @@ import { cws } from "../../cws.js";
    * IDEMPOTENT?: yes
    */
   static subtract(a: MathFrac, b: MathFrac): MathFrac {
-    let ac: MathFrac = a.clone();
+    const ac: MathFrac = a.clone();
     let bc: MathFrac = b.clone();
 
     ac.subtract(bc);
@@ -212,7 +216,7 @@ import { cws } from "../../cws.js";
    * IDEMPOTENT?: yes
    */
   static multiply(a: MathFrac, b: MathFrac): MathFrac {
-    let ac: MathFrac = a.clone();
+    const ac: MathFrac = a.clone();
     let bc: MathFrac = b.clone();
 
     ac.multiplyBy(bc);
@@ -226,7 +230,7 @@ import { cws } from "../../cws.js";
    * IDEMPOTENT?: yes
    */
   static divide(a: MathFrac, b: MathFrac): MathFrac {
-    let ac: MathFrac = a.clone();
+    const ac: MathFrac = a.clone();
     let bc: MathFrac = b.clone();
 
     ac.divideBy(bc);
@@ -243,7 +247,7 @@ import { cws } from "../../cws.js";
       throw new Error("Bad string");
     }
 
-    let searchIndex = s.search("/");
+    const searchIndex = s.search("/");
 
     if (searchIndex == -1) {
       return MathFrac.createFromInt(parseInt(s));

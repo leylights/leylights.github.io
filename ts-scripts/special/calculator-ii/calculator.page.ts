@@ -1,27 +1,28 @@
-import { InputComponent } from "../_components/input.component.js";
+import { CalculatorCommuter } from "./commuter.js";
+import { CalculatorCore } from "./calculator-core.js";
+import { CalculatorDistributor } from "./distributor.js";
 import { CalculatorParser } from "./parser.js";
+import { CalculatorView } from "./view.js";
+import { CalculatorCollector } from "./collector.js";
 
 const PRINT_DEBUG_LOGS: boolean = true;
 
 class CalculatorPage {
-  private static inputField: InputComponent = new InputComponent({ element: document.getElementById('formula-input') as HTMLInputElement });
-  private static output: HTMLTextAreaElement = document.getElementById('formula-output') as HTMLTextAreaElement;
-
   static init() {
-    CalculatorPage.inputField.addEventListener('change', e => {
+    CalculatorView.registerInputEventListener((inputValue: string) => {
       try {
-        const output: string = new CalculatorParser(CalculatorPage.inputField.value, {
-          debug: PRINT_DEBUG_LOGS,
-        }).output.print();
-        CalculatorPage.output.value = output;
+        CalculatorView.outputFields.main.value = CalculatorCore.calculate(inputValue, PRINT_DEBUG_LOGS);
       } catch (e) {
-        this.inputField.reject();
+        CalculatorView.inputField.reject();
         throw e;
       }
     });
-   
-    CalculatorParser.test();
   }
 }
 
 CalculatorPage.init();
+
+CalculatorParser.test();
+CalculatorDistributor.test();
+CalculatorCommuter.test();
+CalculatorCollector.test();

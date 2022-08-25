@@ -1,13 +1,16 @@
-import { CalculatorTerm } from "./term.js";
+import { MathFrac } from "../../../tools/math/fraction.js";
+import { MathNum } from "../../../tools/math/number.js";
+import { CalculatorSingular } from "./singular.js";
 
-export class CalculatorValue implements CalculatorTerm {
-  value: number;
+export class CalculatorValue extends CalculatorSingular {
+  value: MathNum;
 
-  constructor(value: number) {
-    this.value = value;
+  constructor(value: number | MathNum) {
+    super(value + '');
+    this.value = value instanceof MathNum ? value : new MathNum(MathFrac.createFromInt(value), MathFrac.ZERO);
   }
 
   print(): string {
-    return this.value + '';
+    return this.value.prettyPrint() + '';
   }
 }

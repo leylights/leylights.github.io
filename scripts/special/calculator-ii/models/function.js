@@ -11,6 +11,12 @@ export class CalculatorFunction {
         this.leftTerm = lhs;
         this.rightTerm = rhs;
         this.operator = operator;
+        if (!this.leftTerm && !this.rightTerm)
+            throw new Error(`Bad terms given: lhs ${lhs} and rhs: ${rhs} with operator ${operator}`);
+        if (!this.leftTerm)
+            throw new Error(`Bad left term given: ${lhs}, with rhs ${rhs.print()} and operator ${operator}`);
+        if (!this.rightTerm)
+            throw new Error(`Bad right term given: ${rhs}, with lhs ${lhs.print()} and operator ${operator}`);
     }
     print() {
         return `(${this.leftTerm.print()} ${this.operator} ${this.rightTerm.print()})`;

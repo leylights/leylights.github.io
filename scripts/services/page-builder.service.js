@@ -67,9 +67,16 @@ export class PageBuilder {
             }, (parseFloat(window.getComputedStyle(document.getElementById('loadingScreen')).transitionDuration) * 1000));
         });
         // set up load listener to listen to load
+        const minimumLoadingTime = 500; // required to prevent 'flashbang loading screen' effect
         document.addEventListener('readystatechange', function () {
             if (document.readyState === 'complete') {
-                PageBuilder.loadTarget.dispatchEvent(new Event('load'));
+                console.log(`init: ${PageBuilder.initTime % 100000}, current: ${Date.now() % 100000}, difference: ${Date.now() - PageBuilder.initTime}`);
+                if (Date.now() - PageBuilder.initTime <= minimumLoadingTime)
+                    setTimeout(() => {
+                        PageBuilder.loadTarget.dispatchEvent(new Event('load'));
+                    }, (PageBuilder.initTime + minimumLoadingTime) - Date.now());
+                else
+                    PageBuilder.loadTarget.dispatchEvent(new Event('load'));
             }
         });
         // links
@@ -146,4 +153,5 @@ PageBuilder.STRUCTURED_DATA = {
     name: CoreDataService.personalName,
 };
 PageBuilder.loadTarget = new EventTarget();
+PageBuilder.initTime = Date.now();
 //# sourceMappingURL=page-builder.service.js.map

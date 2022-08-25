@@ -1,13 +1,7 @@
-import { CalculatorTerm } from "./term.js";
+import { CalculatorSingular } from "./singular.js";
 
-export class CalculatorVariable implements CalculatorTerm {
-  variableName: string;
-
+export class CalculatorVariable extends CalculatorSingular {
   constructor(name: string) {
-    this.variableName = name;
-  }
-
-  print(): string {
-    return this.variableName;
+    super(name);
   }
 }
