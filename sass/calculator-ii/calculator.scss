@@ -3,7 +3,8 @@ h3 {
   margin-bottom: 4px;
 }
 
-input, textarea {
+input,
+textarea {
   width: 100%;
   border-radius: 8px;
   outline: none;
@@ -12,8 +13,8 @@ input, textarea {
   color: var(--text-color);
 
   font-size: 1.5em;
-  padding: 6px;  
-} 
+  padding: 6px;
+}
 
 #formula-input {
   text-align: center;
@@ -21,4 +22,11 @@ input, textarea {
 
 #output-steps {
   padding-left: 2em;
+  font-family: monospace;
+
+  #outputs-to-standard-form {
+    display: flex;
+    flex-direction: row;
+    column-gap: 1em;
+  }
 }

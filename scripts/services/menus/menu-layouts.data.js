@@ -83,6 +83,7 @@ MenuLayouts.TOP_MENU = {
         MenuItems.infectionModel,
         MenuItems.vectors,
         MenuItems.algebra,
+        MenuItems.calculatorii,
     ])
 };
 MenuLayouts.SECRET_ITEMS = cws.Object.values(MenuItems).filter((item) => {

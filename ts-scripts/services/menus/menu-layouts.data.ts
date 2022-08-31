@@ -83,6 +83,7 @@ export class MenuLayouts {
         MenuItems.infectionModel,
         MenuItems.vectors,
         MenuItems.algebra,
+        MenuItems.calculatorii,
       ])
     }
 

@@ -1,13 +1,13 @@
-export class CalculatorTester {
+export class CalculatorTester<T> {
   testedClassName: string;
-  testedFunction: (input: any, debug?: boolean) => any;
+  testedFunction: (input: any, debug?: boolean) => T;
 
-  constructor(name: string, testedFunction: (input: string, debug?: boolean) => string) {
+  constructor(name: string, testedFunction: (input: string, debug?: boolean) => T) {
     this.testedClassName = name;
     this.testedFunction = testedFunction;
   }
 
-  test(input: string, expected: string, message?: string) {
+  test(input: string, expected: T, message?: string) {
     try {
       const actual = this.testedFunction(input, false);
 

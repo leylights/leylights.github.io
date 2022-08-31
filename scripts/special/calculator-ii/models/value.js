@@ -6,6 +6,9 @@ export class CalculatorValue extends CalculatorSingular {
         super(value + '');
         this.value = value instanceof MathNum ? value : new MathNum(MathFrac.createFromInt(value), MathFrac.ZERO);
     }
+    equals(other) {
+        return other instanceof CalculatorValue && this.value.isEqualTo(other.value);
+    }
     print() {
         return this.value.prettyPrint() + '';
     }

@@ -1,5 +1,5 @@
+var _a;
 import { InputComponent } from "../../components/input.component.js";
-import { cws } from "../../cws.js";
 export class CalculatorView {
     static registerInputEventListener(listener) {
         CalculatorView.inputField.addEventListener('change', () => {
@@ -8,39 +8,24 @@ export class CalculatorView {
         });
     }
     static reset() {
-        this.outputsToStandardForm.innerHTML = '';
+        this.outputFields.titles.innerHTML = '';
+        this.outputFields.values.innerHTML = '';
     }
-    static logNewDistribution(value) {
-        this.outputsToStandardForm.appendChild(this.generateNewTextArea(value, 'Distribution'));
-    }
-    static logNewEvaluation(value) {
-        this.outputsToStandardForm.appendChild(this.generateNewTextArea(value, 'Evaluation'));
-    }
-    static logNewCommutation(value) {
-        this.outputsToStandardForm.appendChild(this.generateNewTextArea(value, 'Commutation'));
-    }
-    static generateNewTextArea(value, type) {
-        return cws.createElement({
-            type: 'div',
-            classList: `${type.toLowerCase()}-step`,
-            children: [cws.createElement({
-                    type: 'h3',
-                    innerText: type,
-                }), cws.createElement({
-                    type: 'textarea',
-                    otherNodes: {
-                        disabled: 'true',
-                    },
-                    innerText: value,
-                })],
-        });
+    static logStep(value, type, title) {
+        if (this.outputFields.titles.innerText.trim() !== '') {
+            this.outputFields.titles.innerText += '\n';
+            this.outputFields.values.innerText += '\n';
+        }
+        this.outputFields.titles.innerText += `${title ? `${title} ` : ''}${type}:`;
+        this.outputFields.values.innerText += value;
     }
 }
+_a = CalculatorView;
 CalculatorView.inputField = new InputComponent({ element: document.getElementById('formula-input') });
+CalculatorView.outputsToStandardForm = document.getElementById('outputs-to-standard-form');
 CalculatorView.outputFields = {
     main: document.getElementById('formula-output'),
-    parsing: document.getElementById('parser-output'),
-    collect: document.getElementById('collect-output'),
+    titles: _a.outputsToStandardForm.querySelector('.titles'),
+    values: _a.outputsToStandardForm.querySelector('.values'),
 };
-CalculatorView.outputsToStandardForm = document.getElementById('outputs-to-standard-form');
 //# sourceMappingURL=view.js.map

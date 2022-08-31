@@ -1,9 +1,9 @@
-import { CalculatorCommuter } from "./commuter.js";
 import { CalculatorCore } from "./calculator-core.js";
-import { CalculatorDistributor } from "./distributor.js";
 import { CalculatorParser } from "./parser.js";
 import { CalculatorView } from "./view.js";
-import { CalculatorCollector } from "./collector.js";
+import { CalculatorCollector } from "./statement/collector.js";
+import { CalculatorCommuter } from "./statement/commuter.js";
+import { CalculatorDistributor } from "./statement/distributor.js";
 
 const PRINT_DEBUG_LOGS: boolean = true;
 

@@ -1,11 +1,12 @@
-import { CalculatorFunction, CalculatorOperator } from "./models/function.js";
-import { CalculatorTerm } from "./models/term.js";
-import { CalculatorValue } from "./models/value.js";
-import { CalculatorVariable } from "./models/variable.js";
-import { CalculatorParser } from "./parser.js";
-import { CalculatorTester } from "./tester.js";
+import { CalculatorComponent } from "../calculator-component.js";
+import { CalculatorFunction, CalculatorOperator } from "../models/function.js";
+import { CalculatorTerm } from "../models/term.js";
+import { CalculatorValue } from "../models/value.js";
+import { CalculatorVariable } from "../models/variable.js";
+import { CalculatorParser } from "../parser.js";
+import { CalculatorTester } from "../tester.js";
 
-export class CalculatorDistributor {
+export class CalculatorDistributor extends CalculatorComponent {
   static recursiveCalls: number = 0;
   static totalCalls: number = 0;
 
@@ -155,16 +156,11 @@ export class CalculatorDistributor {
             return exitWithoutDistributing();
           }
       }
-      return input;
     }
   }
 
-  static log(debug: boolean, messages: any) {
-    if (debug) console.log(messages);
-  }
-
   static test() {
-    const tester = new CalculatorTester('Distributor', (input: string, debug?: boolean) => {
+    const tester = new CalculatorTester<string>('Distributor', (input: string, debug?: boolean) => {
       return CalculatorDistributor.distribute(new CalculatorParser(input).output, debug).print();
     });
 

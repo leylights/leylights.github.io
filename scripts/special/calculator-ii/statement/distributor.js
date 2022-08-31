@@ -1,9 +1,10 @@
-import { CalculatorFunction, CalculatorOperator } from "./models/function.js";
-import { CalculatorValue } from "./models/value.js";
-import { CalculatorVariable } from "./models/variable.js";
-import { CalculatorParser } from "./parser.js";
-import { CalculatorTester } from "./tester.js";
-export class CalculatorDistributor {
+import { CalculatorComponent } from "../calculator-component.js";
+import { CalculatorFunction, CalculatorOperator } from "../models/function.js";
+import { CalculatorValue } from "../models/value.js";
+import { CalculatorVariable } from "../models/variable.js";
+import { CalculatorParser } from "../parser.js";
+import { CalculatorTester } from "../tester.js";
+export class CalculatorDistributor extends CalculatorComponent {
     static distribute(input, debug) {
         this.totalCalls++;
         if (debug && this.totalCalls > 100)
@@ -118,16 +119,11 @@ export class CalculatorDistributor {
                         return exitWithoutDistributing();
                     }
             }
-            return input;
         }
-    }
-    static log(debug, messages) {
-        if (debug)
-            console.log(messages);
     }
     static test() {
         const tester = new CalculatorTester('Distributor', (input, debug) => {
-            return CalculatorDistributor.distribute(new CalculatorParser(input).leftOutput, debug).print();
+            return CalculatorDistributor.distribute(new CalculatorParser(input).output, debug).print();
         });
         tester.test('5 * (3 + 4)', '((5 * 3) + (5 * 4))');
         tester.test('5 / (3 + 4)', '(5 / (3 + 4))');

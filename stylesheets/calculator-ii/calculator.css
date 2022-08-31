@@ -3,7 +3,8 @@ h3 {
   margin-bottom: 4px;
 }
 
-input, textarea {
+input,
+textarea {
   width: 100%;
   border-radius: 8px;
   outline: none;
@@ -20,4 +21,10 @@ input, textarea {
 
 #output-steps {
   padding-left: 2em;
+  font-family: monospace;
+}
+#output-steps #outputs-to-standard-form {
+  display: flex;
+  flex-direction: row;
+  column-gap: 1em;
 }

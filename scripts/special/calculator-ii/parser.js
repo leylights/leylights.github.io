@@ -1,29 +1,63 @@
 import { cws } from "../../cws.js";
+import { CalculatorComponent } from "./calculator-component.js";
 import { CalculatorFunction, CalculatorOperator } from "./models/function.js";
 import { CalculatorValue } from "./models/value.js";
 import { CalculatorVariable } from "./models/variable.js";
 import { CalculatorTester } from "./tester.js";
-export class CalculatorParser {
+export class CalculatorParser extends CalculatorComponent {
     constructor(input, config) {
+        super(config === null || config === void 0 ? void 0 : config.debug);
         this.firstInput = input;
-        this.config = {
-            debug: config === null || config === void 0 ? void 0 : config.debug
-        };
-        this.output = this.parse();
+        const parts = this.firstInput.split('=');
+        if (parts.length >= 3)
+            throw new Error('Too many equals signs');
+        else if (parts.length === 2) {
+            console.log(parts);
+            this._leftOutput = this.parse(parts[0]);
+            this._rightOutput = this.parse(parts[1]);
+        }
+        else
+            this._leftOutput = this.parse(this.firstInput);
         this.log('------------------');
     }
-    parse() {
-        const input = this.firstInput.trim()
+    get fullOutput() {
+        if (this._rightOutput)
+            return this._leftOutput.print() + '=' + this._rightOutput.print();
+        else
+            return this._leftOutput.print();
+    }
+    get isEquation() {
+        return !!this._rightOutput;
+    }
+    get leftOutput() {
+        if (!this.isEquation)
+            throw new Error('Not an equation');
+        else
+            return this._leftOutput;
+    }
+    get output() {
+        if (this.isEquation)
+            throw new Error('Not a statement');
+        else
+            return this._leftOutput;
+    }
+    get rightOutput() {
+        if (!this.isEquation)
+            throw new Error('Not an equation');
+        else
+            return this._rightOutput;
+    }
+    parse(input) {
+        const formattedInput = input.trim()
             .replace(/[[{]/g, '(')
             .replace(/[\]}]/g, ')')
             .replace(/\s/g, '');
-        if (!CalculatorParser.areBracketsBalanced(this.firstInput))
+        if (!CalculatorParser.areBracketsBalanced(formattedInput))
             throw new Error('Brackets unbalanced');
-        return this.parseRecurse(input);
+        return this.parseRecurse(formattedInput);
     }
     parseRecurse(input) {
-        if (this.config.debug)
-            console.log(input);
+        this.log(input);
         // add in brackets
         if (!CalculatorParser.areBracketsSurrounding(input))
             return this.parseRecurse('(' + input + ')');
@@ -101,34 +135,6 @@ export class CalculatorParser {
         let openParenthesisCount = 0;
         const chars = input.split('');
         let isLHSNegative = false;
-        // for (let i = 1; i < chars.length; i++) {
-        //   if (chars[i] === '(') openParenthesisCount++;
-        //   else if (chars[i] === ')') openParenthesisCount--;
-        //   else if (openParenthesisCount === 0) {
-        //     // negation handling: test against all operators
-        //     if (cws.Array.contains(CalculatorFunction.operators, chars[i]) && chars[i] !== CalculatorOperator.subtract) {
-        //       isLHSNegative = false;
-        //     }
-        //     // test against searched-for operators
-        //     if (cws.Array.contains(operators, chars[i])) {
-        //       if (chars[i] === CalculatorOperator.subtract) {
-        //         // '-' is only subtract if its left character is a number or variable or ')'.  Otherwise treat it as negation, UNLESS the LHS is already negated
-        //         if (
-        //           (chars[i - 1] === ')'
-        //             || chars[i - 1].match(/[0-9]/) !== null
-        //             || chars[i - 1].match(CalculatorParser.acceptedVariables) !== null
-        //             || isLHSNegative)
-        //           && (chars[i - 1] !== CalculatorOperator.exponent)) {
-        //           this.log(`Found subtraction symbol ${chars[i]} at ${i} with left char ${chars[i - 1]} and LHS ${isLHSNegative ? 'negative' : 'positive'}`);
-        //           return i;
-        //         }
-        //         else {
-        //           isLHSNegative = true;
-        //         }
-        //       } else return i;
-        //     }
-        //   }
-        // }
         for (let i = chars.length - 2; i > 0; i--) {
             this.log(chars[i]);
             if (chars[i] === ')')
@@ -163,13 +169,9 @@ export class CalculatorParser {
         }
         return -1;
     }
-    log(message) {
-        if (this.config.debug)
-            console.log(message);
-    }
     static test() {
         const tester = new CalculatorTester('Parser', (input, debug) => {
-            return new CalculatorParser(input, { debug: debug }).output.print();
+            return new CalculatorParser(input, { debug: debug }).fullOutput;
         });
         tester.test('((1))', '1');
         tester.test('2*4', '(2 * 4)');

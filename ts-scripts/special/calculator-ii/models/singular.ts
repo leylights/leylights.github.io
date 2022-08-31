@@ -7,6 +7,10 @@ export class CalculatorSingular implements CalculatorTerm {
     this.displayName = name;
   }
 
+  equals(other: CalculatorTerm): boolean {
+    return undefined;
+  }
+
   print(): string {
     return this.displayName;
   }

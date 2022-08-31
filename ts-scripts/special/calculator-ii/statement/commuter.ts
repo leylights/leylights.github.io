@@ -1,12 +1,13 @@
-import { CalculatorFunction, CalculatorOperator } from "./models/function.js";
-import { CalculatorSingular } from "./models/singular.js";
-import { CalculatorTerm } from "./models/term.js";
-import { CalculatorValue } from "./models/value.js";
-import { CalculatorVariable } from "./models/variable.js";
-import { CalculatorParser } from "./parser.js";
-import { CalculatorTester } from "./tester.js";
+import { CalculatorComponent } from "../calculator-component.js";
+import { CalculatorFunction, CalculatorOperator } from "../models/function.js";
+import { CalculatorSingular } from "../models/singular.js";
+import { CalculatorTerm } from "../models/term.js";
+import { CalculatorValue } from "../models/value.js";
+import { CalculatorVariable } from "../models/variable.js";
+import { CalculatorParser } from "../parser.js";
+import { CalculatorTester } from "../tester.js";
 
-export class CalculatorCommuter {
+export class CalculatorCommuter extends CalculatorComponent {
   /**
    * Pulls all variables to the right side of their disjunctive clause
    */
@@ -57,16 +58,7 @@ export class CalculatorCommuter {
 
     let coreResult: CalculatorTerm;
     if (valuesTerm && variablesTerm) {
-      // if (
-      //   variablesTerm instanceof CalculatorFunction &&
-      //   variablesTerm.leftTerm instanceof CalculatorValue &&
-      //   variablesTerm.leftTerm.value.isEqualTo(MathNum.ONE) &&
-      //   variablesTerm.operator === CalculatorOperator.divide && false
-      // ) {  // variablesTerm: (1 / (...))
-      //   coreResult = new CalculatorFunction(valuesTerm, variablesTerm.rightTerm, CalculatorOperator.divide);
-      // } else {
       coreResult = new CalculatorFunction(valuesTerm, variablesTerm, CalculatorOperator.multiply);
-      // }
     } else if (valuesTerm && !variablesTerm) {
       coreResult = valuesTerm;
     } else if (!valuesTerm && variablesTerm) {
@@ -75,16 +67,7 @@ export class CalculatorCommuter {
 
     if (miscTerm) {
       if (coreResult) {
-        // if (
-        //   miscTerm instanceof CalculatorFunction &&
-        //   miscTerm.leftTerm instanceof CalculatorValue &&
-        //   miscTerm.leftTerm.value.isEqualTo(MathNum.ONE) &&
-        //   miscTerm.operator === CalculatorOperator.divide && false
-        // ) {  // miscTerm: (1 / (...))
-        //   return new CalculatorFunction(coreResult, miscTerm.rightTerm, CalculatorOperator.divide);
-        // } else {
         return new CalculatorFunction(coreResult, miscTerm, CalculatorOperator.multiply);
-        // }
       } else {
         return miscTerm;
       }
@@ -102,12 +85,27 @@ export class CalculatorCommuter {
     if (factors.length === 0) dividend = null;
     else if (factors.length === 1) dividend = factors[0];
     else {
-      let current: CalculatorTerm = new CalculatorFunction(factors[0], factors[1], CalculatorOperator.multiply);
-      factors.forEach((f: CalculatorSingular, index: number) => {
-        if (index < 2) return; // don't duplicate first two terms
+      let variableCounts = {};
 
-        current = new CalculatorFunction(current, f, CalculatorOperator.multiply); // multiply at end of current
-      });
+      for (const f of factors) {
+        if (variableCounts[f.print()]) variableCounts[f.print()]++;
+        else variableCounts[f.print()] = 1;
+      }
+
+      let current: CalculatorTerm = null;
+      for (const f of factors) {
+        if (!variableCounts[f.print()]) continue; // already included
+
+        let nextTerm: CalculatorTerm;
+        if (variableCounts[f.print()] === 1)
+          nextTerm = f;
+        else nextTerm = new CalculatorFunction(f, new CalculatorValue(variableCounts[f.print()]), CalculatorOperator.exponent);
+
+        if (current) current = new CalculatorFunction(current, nextTerm, CalculatorOperator.multiply);
+        else current = nextTerm;
+
+        delete variableCounts[f.print()];
+      }
 
       dividend = current;
     }
@@ -170,7 +168,7 @@ export class CalculatorCommuter {
   }
 
   static test() {
-    const tester: CalculatorTester = new CalculatorTester('Commuter', (input: string, debug?: boolean) => {
+    const tester: CalculatorTester<string> = new CalculatorTester<string>('Commuter', (input: string, debug?: boolean) => {
       return CalculatorCommuter.commute(new CalculatorParser(input).output, debug).print();
     });
 
@@ -199,8 +197,14 @@ export class CalculatorCommuter {
 
     tester.test('1/2^x', '(1 * (1 / (2 ^ x)))');
     tester.test('(3^(4*x*3*(x+4)*4)/(2*3))*5',
-      '((5 / (2 * 3)) * (3 ^ ((((4 * 3) * 4) * x) * (x + 4))))');
+      '((5 / (2 * 3)) * (3 ^ ((((4 ^ 2) * 3) * x) * (x + 4))))');
 
     tester.test('((3 * 4) * x)', '((3 * 4) * x)');
+
+    tester.test('3*(x*x)', '(3 * (x ^ 2))');
+    tester.test('x*((3*x)*4)', '((3 * 4) * (x ^ 2))');
+
+    tester.test('x*x*x', '(x ^ 3)');
+    tester.test('x*((3*x)*4*x)*x', '((3 * 4) * (x ^ 4))');
   }
 }

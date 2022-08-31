@@ -1,11 +1,12 @@
-import { MathNum } from "../../tools/math/number.js";
-import { CalculatorFunction, CalculatorOperator } from "./models/function.js";
-import { CalculatorSingular } from "./models/singular.js";
-import { CalculatorValue } from "./models/value.js";
-import { CalculatorVariable } from "./models/variable.js";
-import { CalculatorParser } from "./parser.js";
-import { CalculatorTester } from "./tester.js";
-export class CalculatorCollector {
+import { MathNum } from "../../../tools/math/number.js";
+import { CalculatorComponent } from "../calculator-component.js";
+import { CalculatorFunction, CalculatorOperator } from "../models/function.js";
+import { CalculatorSingular } from "../models/singular.js";
+import { CalculatorValue } from "../models/value.js";
+import { CalculatorVariable } from "../models/variable.js";
+import { CalculatorParser } from "../parser.js";
+import { CalculatorTester } from "../tester.js";
+export class CalculatorCollector extends CalculatorComponent {
     /**
      * Invariant: input has been commuted
      */
@@ -16,7 +17,7 @@ export class CalculatorCollector {
     static collectRecurse(input, debug) {
         var _a;
         this.log(debug, `collecting recurse: ${input.print()}`);
-        const terms = this.getDisjunctiveTerms(input, debug);
+        const terms = this.getDisjunctiveTerms(input, debug, (input, debug) => { return this.collectAnyDisjunctions(input, debug); });
         this.log(debug, `
     input: ${input.print()},
     + terms: ${terms.positives.map((t) => t.print()).join(', ')};
@@ -95,15 +96,18 @@ export class CalculatorCollector {
             if (input.operator === CalculatorOperator.add || input.operator === CalculatorOperator.subtract)
                 return this.collectRecurse(input, debug);
             else {
-                this.collectAnyDisjunctions(input.leftTerm, debug);
-                this.collectAnyDisjunctions(input.rightTerm, debug);
+                input.leftTerm = this.collectAnyDisjunctions(input.leftTerm, debug);
+                input.rightTerm = this.collectAnyDisjunctions(input.rightTerm, debug);
                 return input;
             }
         }
         else
             return input;
     }
-    static getDisjunctiveTerms(input, debug) {
+    /**
+     * Abstracted for reuse by CalculatorIdentifier
+     */
+    static getDisjunctiveTerms(input, debug, conjunctionProcessor) {
         function exit(pos, neg) {
             return { positives: pos, negatives: neg };
         }
@@ -112,34 +116,30 @@ export class CalculatorCollector {
         else if (input instanceof CalculatorFunction) {
             switch (input.operator) {
                 case CalculatorOperator.add: {
-                    const leftTerms = this.getDisjunctiveTerms(input.leftTerm, debug);
-                    const rightTerms = this.getDisjunctiveTerms(input.rightTerm, debug);
+                    const leftTerms = this.getDisjunctiveTerms(input.leftTerm, debug, conjunctionProcessor);
+                    const rightTerms = this.getDisjunctiveTerms(input.rightTerm, debug, conjunctionProcessor);
                     return exit(leftTerms.positives.concat(rightTerms.positives), leftTerms.negatives.concat(rightTerms.negatives));
                 }
                 case CalculatorOperator.subtract: {
-                    const leftTerms = this.getDisjunctiveTerms(input.leftTerm, debug);
-                    const rightTerms = this.getDisjunctiveTerms(input.rightTerm, debug);
+                    const leftTerms = this.getDisjunctiveTerms(input.leftTerm, debug, conjunctionProcessor);
+                    const rightTerms = this.getDisjunctiveTerms(input.rightTerm, debug, conjunctionProcessor);
                     return exit(leftTerms.positives.concat(rightTerms.negatives), leftTerms.negatives.concat(rightTerms.positives));
                 }
                 case CalculatorOperator.multiply:
                 case CalculatorOperator.divide:
                 case CalculatorOperator.exponent:
                 default:
-                    input.leftTerm = this.collectAnyDisjunctions(input.leftTerm, debug);
-                    input.rightTerm = this.collectAnyDisjunctions(input.rightTerm, debug);
+                    input.leftTerm = conjunctionProcessor(input.leftTerm, debug);
+                    input.rightTerm = conjunctionProcessor(input.rightTerm, debug);
                     return exit([input], []); // multiplied terms are disjunct clauses
             }
         }
         throw new Error(`Bad input: ${input.print()}`);
     }
-    static log(debug, message) {
-        if (debug)
-            console.log(message);
-    }
     static test() {
         const tester = new CalculatorTester('Collector', (input, debug) => {
             var _a, _b;
-            return (_b = (_a = CalculatorCollector.collect(new CalculatorParser(input).leftOutput, debug)) === null || _a === void 0 ? void 0 : _a.print()) !== null && _b !== void 0 ? _b : 'no output';
+            return (_b = (_a = CalculatorCollector.collect(new CalculatorParser(input).output, debug)) === null || _a === void 0 ? void 0 : _a.print()) !== null && _b !== void 0 ? _b : 'no output';
         });
         tester.test('(3 * x)', '(3 * x)');
         tester.test('((3 * x) + (4 * x))', '((3 + 4) * x)');
@@ -153,9 +153,13 @@ export class CalculatorCollector {
         tester.test('(((3 * x) - (4 * y)) + (5 * x))', '(((3 + 5) * x) - (4 * y))');
         tester.test('((3 * 4) * x)', '((3 * 4) * x)');
         tester.test('(1 * (x ^ y))', '(1 * (x ^ y))');
+        tester.test('(x ^ y)', '(1 * (x ^ y))');
         tester.test('(((3 * (x ^ y)) - (5 * (y ^ x))) + (4 * (x ^ y)))', '(((3 + 4) * (x ^ y)) - (5 * (y ^ x)))');
         tester.test('5 + 3*a - 3', '((3 * a) + (5 - 3))');
         tester.test('5 + 3*x - 3', '((3 * x) + (5 - 3))');
+        tester.test('x - x', '((1 - 1) * x)');
+        tester.test('(x - x)^2', '(1 * (((1 - 1) * x) ^ 2))');
+        tester.test('3*(x - x)^2', '(3 * (((1 - 1) * x) ^ 2))');
     }
 }
 //# sourceMappingURL=collector.js.map
