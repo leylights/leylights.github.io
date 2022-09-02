@@ -1,14 +1,17 @@
 export class CalculatorTester {
-    constructor(name, testedFunction) {
+    constructor(name, testedFunction, comparator = (actual, expected) => actual === expected, logger = (value) => value) {
         this.testedClassName = name;
         this.testedFunction = testedFunction;
+        this.comparator = comparator;
+        this.logger = logger;
     }
     test(input, expected, message) {
         try {
-            const actual = this.testedFunction(input, false);
-            if (actual !== expected) {
-                this.testedFunction(input, true); // run with debug logs
-                throw new TestError(`\n${this.testedClassName} error: \nInput: ${input}\nExpected: ${expected}\nActual:   ${actual}${message ? `\n${message}` : ''}`);
+            const actual = this.testedFunction(input, false, false);
+            if (!this.comparator(actual, expected)) {
+                const printedActual = this.testedFunction(input, false, true);
+                this.testedFunction(input, true, true); // run with debug logs
+                throw new TestError(`\n${this.testedClassName} error: \nInput: ${input}\nExpected: ${this.logger(expected)}\nActual:   ${this.logger(printedActual)}${message ? `\n${message}` : ''}`);
             }
         }
         catch (e) {

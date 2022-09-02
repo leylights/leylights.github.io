@@ -6,6 +6,12 @@ export class CalculatorValue extends CalculatorSingular {
         super(value + '');
         this.value = value instanceof MathNum ? value : new MathNum(MathFrac.createFromInt(value), MathFrac.ZERO);
     }
+    clone() {
+        return new CalculatorValue(this.value.clone());
+    }
+    containsVariable() {
+        return false;
+    }
     equals(other) {
         return other instanceof CalculatorValue && this.value.isEqualTo(other.value);
     }

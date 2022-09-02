@@ -85,7 +85,7 @@ export class CalculatorCommuter extends CalculatorComponent {
     if (factors.length === 0) dividend = null;
     else if (factors.length === 1) dividend = factors[0];
     else {
-      let variableCounts = {};
+      const variableCounts = {};
 
       for (const f of factors) {
         if (variableCounts[f.print()]) variableCounts[f.print()]++;

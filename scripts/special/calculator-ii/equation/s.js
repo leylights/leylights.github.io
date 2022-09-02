@@ -1,11 +1,23 @@
 import { CalculatorComponent } from "../calculator-component.js";
-import { CalculatorEquationType } from "../models/equation-type.js";
 import { CalculatorFunction, CalculatorOperator } from "../models/function.js";
 import { CalculatorValue } from "../models/value.js";
 import { CalculatorVariable } from "../models/variable.js";
 import { CalculatorParser } from "../parser.js";
 import { CalculatorUtil } from "../statement/util.js";
 import { CalculatorTester } from "../tester.js";
+var CalculatorEquationType;
+(function (CalculatorEquationType) {
+    CalculatorEquationType[CalculatorEquationType["no_variable"] = 0] = "no_variable";
+    CalculatorEquationType["single_linear_variable"] = "slv";
+    CalculatorEquationType["single_variable_to_number_exponent"] = "x^n";
+    CalculatorEquationType["single_number_to_variable_exponent"] = "b^x";
+    CalculatorEquationType["single_variable_to_variable_exponent"] = "x^x";
+    CalculatorEquationType["linear_diophantine_equation"] = "lde";
+    CalculatorEquationType["quadratic"] = "quad";
+    CalculatorEquationType["multi_variate"] = "mul";
+    CalculatorEquationType["miscellaneous"] = "mis";
+    CalculatorEquationType["reject"] = "rej";
+})(CalculatorEquationType || (CalculatorEquationType = {}));
 export class CalculatorIdentifier extends CalculatorComponent {
     static identify(input, terms, debug) {
         this.log(debug, '-- Identify --');
@@ -17,8 +29,10 @@ export class CalculatorIdentifier extends CalculatorComponent {
         const exit = (type, isolatedVariable, message) => { return { type: type, isolatedVariable: isolatedVariable, message: message }; };
         const variables = [];
         let totalDistinctVariables = 0;
+        let totalVariables = 0;
         for (const key of Object.keys(variableCounts)) {
             totalDistinctVariables++;
+            totalVariables += variableCounts[key];
             variables.push(key);
         }
         this.log(debug, 'Variables found: ' + variables.join(', '));
@@ -206,4 +220,4 @@ export class CalculatorIdentifier extends CalculatorComponent {
         test('(2*x)-(-4*y)+3=0', CalculatorEquationType.linear_diophantine_equation, 'x,y');
     }
 }
-//# sourceMappingURL=identifier.js.map
+//# sourceMappingURL=s.js.map

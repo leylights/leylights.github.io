@@ -18,17 +18,18 @@ export class CalculatorParser extends CalculatorComponent {
     debug?: boolean
   }) {
     super(config?.debug);
+    this.log('-- Parsing --');
+
     this.firstInput = input;
     
     const parts = this.firstInput.split('=');
     if (parts.length >= 3) throw new Error('Too many equals signs');
     else if (parts.length === 2) {
-      console.log(parts);
       this._leftOutput = this.parse(parts[0]);
       this._rightOutput = this.parse(parts[1]);
     } else this._leftOutput = this.parse(this.firstInput);
 
-    this.log('------------------');
+    this.log('-----------');
   }
 
   get fullOutput(): string {

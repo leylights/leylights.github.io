@@ -7,6 +7,15 @@ export class CalculatorSingular implements CalculatorTerm {
     this.displayName = name;
   }
 
+  clone(): CalculatorTerm {
+    return undefined;
+  }
+
+  containsVariable(): boolean {
+    return undefined;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   equals(other: CalculatorTerm): boolean {
     return undefined;
   }

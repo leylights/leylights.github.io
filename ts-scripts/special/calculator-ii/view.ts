@@ -7,8 +7,6 @@ export class CalculatorView {
   static readonly outputsToStandardForm = document.getElementById('outputs-to-standard-form') as HTMLTextAreaElement;
   static readonly outputFields = {
     main: document.getElementById('formula-output') as HTMLTextAreaElement,
-    titles: this.outputsToStandardForm.querySelector('.titles') as HTMLDivElement,
-    values: this.outputsToStandardForm.querySelector('.values') as HTMLDivElement,
   }
 
 
@@ -20,17 +18,13 @@ export class CalculatorView {
   }
 
   static reset() {
-    this.outputFields.titles.innerHTML = '';
-    this.outputFields.values.innerHTML = '';
+    this.outputsToStandardForm.innerHTML = '';
   }
 
-  static logStep(value: string, type: 'commutation' | 'distribution' | 'evaluation' | 'parsing' | 'collection', title?: string) {
-    if (this.outputFields.titles.innerText.trim() !== '') {
-      this.outputFields.titles.innerText += '\n';
-      this.outputFields.values.innerText += '\n';
-    }
+  static logStep(value: string, type: 'commutation' | 'distribution' | 'evaluation' | 'parsing' | 'collection' | 'exponent expansion', title?: string) {
+    const idRoot = type.replace(/\s/g, '-').toLowerCase();
+    this.outputsToStandardForm.appendChild(cws.createElement({ type: 'div', id: idRoot + '-title', innerText: `${title ? `${title} ` : ''}${type}:` }));
+    this.outputsToStandardForm.appendChild(cws.createElement({ type: 'div', id: idRoot + '-value', innerText: value }))
 
-    this.outputFields.titles.innerText += `${title ? `${title} ` : ''}${type}:`;
-    this.outputFields.values.innerText += value;
   }
 }

@@ -18,6 +18,14 @@ export class MathFrac {
         return this.numerator / this.denominator;
     }
     /**
+     * Returns the nearest integer to the number.
+     * @property SAFE?: yes
+     * @property IDEMPOTENT?: yes
+     */
+    get nearestInteger() {
+        return Math.round(this.decimalValue);
+    }
+    /**
      * Determines if this is negative.
      * SAFE?: yes
      * IDEMPOTENT?: yes

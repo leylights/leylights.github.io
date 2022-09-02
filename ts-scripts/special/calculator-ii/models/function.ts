@@ -1,5 +1,4 @@
 import { CalculatorTerm } from "./term.js";
-import { CalculatorVariable } from "./variable.js";
 
 export enum CalculatorOperator {
   add = '+',
@@ -32,15 +31,12 @@ export class CalculatorFunction implements CalculatorTerm {
     if (!this.rightTerm) throw new Error(`Bad right term given: ${rhs}, with lhs ${lhs.print()} and operator ${operator}`);
   }
 
-  containsVariable(): boolean {
-    let left: boolean, right: boolean;
+  clone(): CalculatorTerm {
+    return new CalculatorFunction(this.leftTerm.clone(), this.rightTerm.clone(), this.operator);
+  }
 
-    if (this.leftTerm instanceof CalculatorFunction) left = this.leftTerm.containsVariable();
-    else left = this.leftTerm instanceof CalculatorVariable;
-    if (this.rightTerm instanceof CalculatorFunction) right = this.rightTerm.containsVariable();
-    else right = this.rightTerm instanceof CalculatorVariable;
-
-    return left || right;
+  containsVariable(variable?: string): boolean {
+    return this.leftTerm.containsVariable(variable) || this.rightTerm.containsVariable(variable);
   }
 
   equals(other: CalculatorTerm): boolean {
@@ -49,7 +45,16 @@ export class CalculatorFunction implements CalculatorTerm {
     } else return false;
   }
 
-  print(): string {
-    return `(${this.leftTerm.print()} ${this.operator} ${this.rightTerm.print()})`;
+  print(useClearerBraces?: boolean, depth: number = 0): string {
+    let brackets: { l: string, r: string };
+    if (useClearerBraces)
+      switch (depth % 3) {
+        case 0: brackets = { l: '(', r: ')' }; break;
+        case 1: brackets = { l: '[', r: ']' }; break;
+        case 2: brackets = { l: '{', r: '}' }; break;
+      }
+    else brackets = { l: '(', r: ')' };
+
+    return `${brackets.l}${this.leftTerm.print(useClearerBraces, depth + 1)} ${this.operator} ${this.rightTerm.print(useClearerBraces, depth + 1)}${brackets.r}`;
   }
 }

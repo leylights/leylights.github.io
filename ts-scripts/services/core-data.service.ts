@@ -8,4 +8,8 @@ export class CoreDataService {
   public static favicon: string = '/siteimages/logo-invertible.svg';
 
   public static email: string = CoreDataService.shouldRiverify ? 'river.stanley@uwaterloo.ca' : 'me@colestanley.ca';
+
+  public static get isDev() {
+    return !(window.location.href.includes('.ca') || window.location.href.includes('.io'));
+  }
 }

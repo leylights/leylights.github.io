@@ -11,10 +11,18 @@ export class CalculatorValue extends CalculatorSingular {
     this.value = value instanceof MathNum ? value : new MathNum(MathFrac.createFromInt(value), MathFrac.ZERO);
   }
 
+  clone(): CalculatorTerm {
+    return new CalculatorValue(this.value.clone());
+  }
+
+  containsVariable(): boolean {
+    return false;
+  }
+
   equals(other: CalculatorTerm): boolean {
     return other instanceof CalculatorValue && this.value.isEqualTo(other.value);
   }
-  
+
   print(): string {
     return this.value.prettyPrint() + '';
   }

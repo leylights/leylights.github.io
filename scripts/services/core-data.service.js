@@ -1,4 +1,7 @@
 export class CoreDataService {
+    static get isDev() {
+        return !(window.location.href.includes('.ca') || window.location.href.includes('.io'));
+    }
 }
 CoreDataService.publicSiteUrl = 'colestanley.ca';
 CoreDataService.shouldRiverify = !window.location.hostname.includes('colestanley');

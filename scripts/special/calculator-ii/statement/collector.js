@@ -1,11 +1,11 @@
 import { MathNum } from "../../../tools/math/number.js";
 import { CalculatorComponent } from "../calculator-component.js";
 import { CalculatorFunction, CalculatorOperator } from "../models/function.js";
-import { CalculatorSingular } from "../models/singular.js";
 import { CalculatorValue } from "../models/value.js";
 import { CalculatorVariable } from "../models/variable.js";
 import { CalculatorParser } from "../parser.js";
 import { CalculatorTester } from "../tester.js";
+import { CalculatorUtil } from "./util.js";
 export class CalculatorCollector extends CalculatorComponent {
     /**
      * Invariant: input has been commuted
@@ -17,7 +17,7 @@ export class CalculatorCollector extends CalculatorComponent {
     static collectRecurse(input, debug) {
         var _a;
         this.log(debug, `collecting recurse: ${input.print()}`);
-        const terms = this.getDisjunctiveTerms(input, debug, (input, debug) => { return this.collectAnyDisjunctions(input, debug); });
+        const terms = CalculatorUtil.getDisjunctiveTerms(input, debug, (input, debug) => { return this.collectAnyDisjunctions(input, debug); });
         this.log(debug, `
     input: ${input.print()},
     + terms: ${terms.positives.map((t) => t.print()).join(', ')};
@@ -103,38 +103,6 @@ export class CalculatorCollector extends CalculatorComponent {
         }
         else
             return input;
-    }
-    /**
-     * Abstracted for reuse by CalculatorIdentifier
-     */
-    static getDisjunctiveTerms(input, debug, conjunctionProcessor) {
-        function exit(pos, neg) {
-            return { positives: pos, negatives: neg };
-        }
-        if (input instanceof CalculatorSingular)
-            return exit([input], []);
-        else if (input instanceof CalculatorFunction) {
-            switch (input.operator) {
-                case CalculatorOperator.add: {
-                    const leftTerms = this.getDisjunctiveTerms(input.leftTerm, debug, conjunctionProcessor);
-                    const rightTerms = this.getDisjunctiveTerms(input.rightTerm, debug, conjunctionProcessor);
-                    return exit(leftTerms.positives.concat(rightTerms.positives), leftTerms.negatives.concat(rightTerms.negatives));
-                }
-                case CalculatorOperator.subtract: {
-                    const leftTerms = this.getDisjunctiveTerms(input.leftTerm, debug, conjunctionProcessor);
-                    const rightTerms = this.getDisjunctiveTerms(input.rightTerm, debug, conjunctionProcessor);
-                    return exit(leftTerms.positives.concat(rightTerms.negatives), leftTerms.negatives.concat(rightTerms.positives));
-                }
-                case CalculatorOperator.multiply:
-                case CalculatorOperator.divide:
-                case CalculatorOperator.exponent:
-                default:
-                    input.leftTerm = conjunctionProcessor(input.leftTerm, debug);
-                    input.rightTerm = conjunctionProcessor(input.rightTerm, debug);
-                    return exit([input], []); // multiplied terms are disjunct clauses
-            }
-        }
-        throw new Error(`Bad input: ${input.print()}`);
     }
     static test() {
         const tester = new CalculatorTester('Collector', (input, debug) => {
