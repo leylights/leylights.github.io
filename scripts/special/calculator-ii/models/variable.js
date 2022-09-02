@@ -12,6 +12,9 @@ export class CalculatorVariable extends CalculatorSingular {
         else
             return true;
     }
+    getVariables() {
+        return [this.displayName];
+    }
     equals(other) {
         return other instanceof CalculatorVariable && this.displayName === other.displayName;
     }

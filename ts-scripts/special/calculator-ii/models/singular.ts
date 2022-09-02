@@ -15,6 +15,10 @@ export class CalculatorSingular implements CalculatorTerm {
     return undefined;
   }
 
+  getVariables(): string[] {
+    return undefined;
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   equals(other: CalculatorTerm): boolean {
     return undefined;

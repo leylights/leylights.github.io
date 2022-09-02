@@ -39,6 +39,10 @@ export class CalculatorFunction implements CalculatorTerm {
     return this.leftTerm.containsVariable(variable) || this.rightTerm.containsVariable(variable);
   }
 
+  getVariables(): string[] {
+    return this.leftTerm.getVariables().concat(this.rightTerm.getVariables());
+  }
+
   equals(other: CalculatorTerm): boolean {
     if (other instanceof CalculatorFunction) {
       return this.operator === other.operator && this.leftTerm.equals(other.leftTerm) && this.rightTerm.equals(other.rightTerm);

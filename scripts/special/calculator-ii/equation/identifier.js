@@ -84,8 +84,31 @@ export class CalculatorIdentifier extends CalculatorComponent {
                     throw new Error('One variable detected but no variables in either disjunctive term?');
                 }
             }
+            else if (terms.length === 3) {
+                this.log(debug, `${input.print()} is a quadratic or polynomial`);
+                const testForQuadratic = (a, b) => {
+                    this.log(debug, `a^2?: ${this.isTermXSquared(a)}, a^1?: ${this.isTermLinear(a)}`);
+                    this.log(debug, `b^2?: ${this.isTermXSquared(b)}, b^1?: ${this.isTermLinear(b)}`);
+                    if (this.isTermXSquared(a) && this.isTermLinear(b))
+                        return exit(CalculatorEquationType.quadratic, variables[0]);
+                    if (this.isTermXSquared(b) && this.isTermLinear(a))
+                        return exit(CalculatorEquationType.quadratic, variables[0]);
+                    return exit(CalculatorEquationType.single_variable_polynomial, variables[0]);
+                };
+                this.log(debug, `terms with variables: 
+        0: ${terms[0].containsVariable() ? 't' : 'f'}, 
+        1: ${terms[1].containsVariable() ? 't' : 'f'}, 
+        2: ${terms[2].containsVariable() ? 't' : 'f'}`);
+                if (terms[0].containsVariable() && terms[1].containsVariable() && !terms[2].containsVariable())
+                    return testForQuadratic(terms[0], terms[1]);
+                if (terms[0].containsVariable() && !terms[1].containsVariable() && terms[2].containsVariable())
+                    return testForQuadratic(terms[0], terms[2]);
+                if (!terms[0].containsVariable() && terms[1].containsVariable() && terms[2].containsVariable())
+                    return testForQuadratic(terms[1], terms[2]);
+                return exit(CalculatorEquationType.single_variable_polynomial, variables[0]);
+            }
             else
-                throw new Error(`Too many terms given - collector error?: ${input.print()}`);
+                throw new Error(`Too many terms given - collector error?: ${terms.map(t => t.print()).join(', ')}`);
         }
         else if (totalDistinctVariables === 2) {
             if (terms.length === 1) // x^y=0, x/y=0, x*y=0
@@ -204,6 +227,9 @@ export class CalculatorIdentifier extends CalculatorComponent {
         test('(1*2^x)+4=0', CalculatorEquationType.single_number_to_variable_exponent, 'x');
         test('(2*x)+(4*y)=0', CalculatorEquationType.linear_diophantine_equation, 'x,y');
         test('(2*x)-(-4*y)+3=0', CalculatorEquationType.linear_diophantine_equation, 'x,y');
+        test('[{1 * (x ^ 2)} - {2 * x}] = 0', CalculatorEquationType.quadratic, 'x');
+        test('[{1 * (x ^ 2)} + {2 * x}] = 0', CalculatorEquationType.quadratic, 'x');
+        test('([{1 * (x ^ 2)} + {2 * x}] - 8) = 0', CalculatorEquationType.quadratic, 'x');
     }
 }
 //# sourceMappingURL=identifier.js.map

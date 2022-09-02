@@ -9,6 +9,7 @@ export enum CalculatorEquationType {
 
   linear_diophantine_equation = 'lde',
   quadratic = 'quad',
+  single_variable_polynomial = 'poly',
 
   multi_variate = 'mul',
 

@@ -21,7 +21,7 @@ export class CalculatorView {
     this.outputsToStandardForm.innerHTML = '';
   }
 
-  static logStep(value: string, type: 'commutation' | 'distribution' | 'evaluation' | 'parsing' | 'collection' | 'exponent expansion', title?: string) {
+  static logStep(value: string, type: string, title?: string) {
     const idRoot = type.replace(/\s/g, '-').toLowerCase();
     this.outputsToStandardForm.appendChild(cws.createElement({ type: 'div', id: idRoot + '-title', innerText: `${title ? `${title} ` : ''}${type}:` }));
     this.outputsToStandardForm.appendChild(cws.createElement({ type: 'div', id: idRoot + '-value', innerText: value }))

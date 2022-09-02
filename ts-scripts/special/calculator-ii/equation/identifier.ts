@@ -84,7 +84,35 @@ export class CalculatorIdentifier extends CalculatorComponent {
         } else {
           throw new Error('One variable detected but no variables in either disjunctive term?');
         }
-      } else throw new Error(`Too many terms given - collector error?: ${input.print()}`);
+      } else if (terms.length === 3) {
+        this.log(debug, `${input.print()} is a quadratic or polynomial`);
+
+        const testForQuadratic = (a: CalculatorTerm, b: CalculatorTerm) => {
+          this.log(debug, `a^2?: ${this.isTermXSquared(a)}, a^1?: ${this.isTermLinear(a)}`);
+          this.log(debug, `b^2?: ${this.isTermXSquared(b)}, b^1?: ${this.isTermLinear(b)}`);
+
+          if (this.isTermXSquared(a) && this.isTermLinear(b))
+            return exit(CalculatorEquationType.quadratic, variables[0]);
+          if (this.isTermXSquared(b) && this.isTermLinear(a))
+            return exit(CalculatorEquationType.quadratic, variables[0]);
+
+          return exit(CalculatorEquationType.single_variable_polynomial, variables[0]);
+        }
+
+        this.log(debug, `terms with variables: 
+        0: ${terms[0].containsVariable() ? 't' : 'f'}, 
+        1: ${terms[1].containsVariable() ? 't' : 'f'}, 
+        2: ${terms[2].containsVariable() ? 't' : 'f'}`);
+
+        if (terms[0].containsVariable() && terms[1].containsVariable() && !terms[2].containsVariable())
+          return testForQuadratic(terms[0], terms[1]);
+        if (terms[0].containsVariable() && !terms[1].containsVariable() && terms[2].containsVariable())
+          return testForQuadratic(terms[0], terms[2]);
+        if (!terms[0].containsVariable() && terms[1].containsVariable() && terms[2].containsVariable())
+          return testForQuadratic(terms[1], terms[2]);
+
+        return exit(CalculatorEquationType.single_variable_polynomial, variables[0]);
+      } else throw new Error(`Too many terms given - collector error?: ${terms.map(t => t.print()).join(', ')}`);
     } else if (totalDistinctVariables === 2) {
       if (terms.length === 1) // x^y=0, x/y=0, x*y=0
         return exit(CalculatorEquationType.multi_variate, variables[0]);
@@ -127,7 +155,7 @@ export class CalculatorIdentifier extends CalculatorComponent {
   }
 
   // returns whether the term follows the pattern (a * x)
-  private static isTermLinear(term: CalculatorTerm): boolean {
+  static isTermLinear(term: CalculatorTerm): boolean {
     return (
       term instanceof CalculatorFunction
       && term.leftTerm instanceof CalculatorValue
@@ -136,7 +164,7 @@ export class CalculatorIdentifier extends CalculatorComponent {
   }
 
   // returns whether the term follows the pattern (a * (x ^ 2))
-  private static isTermXSquared(term: CalculatorTerm): boolean {
+  static isTermXSquared(term: CalculatorTerm): boolean {
     return (
       this.isTermVarBaseToValueExponent(term)
       && ((term as CalculatorFunction).rightTerm as CalculatorFunction).rightTerm.equals(new CalculatorValue(2))
@@ -239,5 +267,9 @@ export class CalculatorIdentifier extends CalculatorComponent {
 
     test('(2*x)+(4*y)=0', CalculatorEquationType.linear_diophantine_equation, 'x,y');
     test('(2*x)-(-4*y)+3=0', CalculatorEquationType.linear_diophantine_equation, 'x,y');
+
+    test('[{1 * (x ^ 2)} - {2 * x}] = 0', CalculatorEquationType.quadratic, 'x');
+    test('[{1 * (x ^ 2)} + {2 * x}] = 0', CalculatorEquationType.quadratic, 'x');
+    test('([{1 * (x ^ 2)} + {2 * x}] - 8) = 0', CalculatorEquationType.quadratic, 'x');
   }
 }

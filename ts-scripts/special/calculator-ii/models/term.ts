@@ -3,7 +3,12 @@ export class CalculatorTerm {
     return undefined;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   containsVariable(variable?: string): boolean {
+    return undefined;
+  }
+
+  getVariables(): string[] {
     return undefined;
   }
 

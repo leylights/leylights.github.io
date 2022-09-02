@@ -1,8 +1,8 @@
 import { MathFrac } from "./fraction.js";
 export class MathNum {
     constructor(real, imag) {
-        this.realPart = real;
-        this.imaginaryPart = imag;
+        this.realPart = real instanceof MathFrac ? real : new MathFrac(real, 1);
+        this.imaginaryPart = imag instanceof MathFrac ? imag : new MathFrac(imag, 1);
     }
     get Re() {
         return this.realPart;

@@ -7,9 +7,11 @@ import { CalculatorDistributor } from "./statement/distributor.js";
 import { CalculatorEvaluator } from "./statement/evaluator.js";
 import { CalculatorFunction, CalculatorOperator } from "./models/function.js";
 import { CalculatorExponentExpander } from "./statement/exponent-expansion.js";
+import { CalculatorSolver } from "./equation/solver.js";
 
 interface Config {
   debug: boolean,
+  showSteps: boolean,
   clearPrint: boolean
 }
 
@@ -30,7 +32,9 @@ export class CalculatorCore {
     CalculatorView.logStep(standardizedLeft.print(config.clearPrint), 'parsing', 'left - right');
     standardizedLeft = this.reformatStatement(standardizedLeft, config, true, 'left - right');
 
-    return null;
+    const solution = CalculatorSolver.solve(standardizedLeft, { debug: config.debug, emitSteps: config.showSteps });
+
+    return solution;
   }
 
   private static calculateStatement(input: CalculatorTerm, config: Config): CalculatorTerm {

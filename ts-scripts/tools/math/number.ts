@@ -4,9 +4,9 @@ export class MathNum {
   realPart: MathFrac;
   imaginaryPart: MathFrac;
 
-  constructor(real: MathFrac, imag: MathFrac) {
-    this.realPart = real;
-    this.imaginaryPart = imag;
+  constructor(real: MathFrac | number, imag: MathFrac | number) {
+    this.realPart = real instanceof MathFrac ? real : new MathFrac(real, 1);
+    this.imaginaryPart = imag instanceof MathFrac ? imag : new MathFrac(imag, 1);
   }
 
   get Re() {

@@ -6,6 +6,7 @@ import { CalculatorDistributor } from "./statement/distributor.js";
 import { CalculatorEvaluator } from "./statement/evaluator.js";
 import { CalculatorFunction, CalculatorOperator } from "./models/function.js";
 import { CalculatorExponentExpander } from "./statement/exponent-expansion.js";
+import { CalculatorSolver } from "./equation/solver.js";
 export class CalculatorCore {
     static calculate(input, config) {
         const parser = new CalculatorParser(input, config);
@@ -20,7 +21,8 @@ export class CalculatorCore {
         let standardizedLeft = new CalculatorFunction(leftSide, rightSide, CalculatorOperator.subtract);
         CalculatorView.logStep(standardizedLeft.print(config.clearPrint), 'parsing', 'left - right');
         standardizedLeft = this.reformatStatement(standardizedLeft, config, true, 'left - right');
-        return null;
+        const solution = CalculatorSolver.solve(standardizedLeft, { debug: config.debug, emitSteps: config.showSteps });
+        return solution;
     }
     static calculateStatement(input, config) {
         CalculatorView.logStep(input.print(config.clearPrint), 'parsing');

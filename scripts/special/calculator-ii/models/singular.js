@@ -8,6 +8,9 @@ export class CalculatorSingular {
     containsVariable() {
         return undefined;
     }
+    getVariables() {
+        return undefined;
+    }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     equals(other) {
         return undefined;

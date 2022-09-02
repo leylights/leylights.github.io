@@ -2,7 +2,11 @@ export class CalculatorTerm {
     clone() {
         return undefined;
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     containsVariable(variable) {
+        return undefined;
+    }
+    getVariables() {
         return undefined;
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

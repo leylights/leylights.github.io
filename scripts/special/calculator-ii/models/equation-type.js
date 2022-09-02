@@ -7,6 +7,7 @@ export var CalculatorEquationType;
     CalculatorEquationType["single_variable_to_variable_exponent"] = "x^x";
     CalculatorEquationType["linear_diophantine_equation"] = "lde";
     CalculatorEquationType["quadratic"] = "quad";
+    CalculatorEquationType["single_variable_polynomial"] = "poly";
     CalculatorEquationType["multi_variate"] = "mul";
     CalculatorEquationType["miscellaneous"] = "mis";
     CalculatorEquationType["reject"] = "rej";

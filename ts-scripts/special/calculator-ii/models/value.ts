@@ -11,12 +11,22 @@ export class CalculatorValue extends CalculatorSingular {
     this.value = value instanceof MathNum ? value : new MathNum(MathFrac.createFromInt(value), MathFrac.ZERO);
   }
 
+  get integerValue() {
+    if(!this.value.isRealInteger()) throw new Error(`Not an integer: ${this.value.prettyPrint()}`);
+
+    return this.value.toRealNumber().nearestInteger;
+  }
+
   clone(): CalculatorTerm {
     return new CalculatorValue(this.value.clone());
   }
 
   containsVariable(): boolean {
     return false;
+  }
+
+  getVariables(): string[] {
+    return [];
   }
 
   equals(other: CalculatorTerm): boolean {

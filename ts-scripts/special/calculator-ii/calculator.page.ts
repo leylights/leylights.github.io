@@ -7,6 +7,7 @@ import { CalculatorDistributor } from "./statement/distributor.js";
 import { CalculatorExponentExpander } from "./statement/exponent-expansion.js";
 import { CoreDataService } from "../../services/core-data.service.js";
 import { CalculatorIdentifier } from "./equation/identifier.js";
+import { CalculatorSolver } from "./equation/solver.js";
 
 const PRINT_DEBUG_LOGS: boolean = false;
 
@@ -14,7 +15,7 @@ class CalculatorPage {
   static init() {
     CalculatorView.registerInputEventListener((inputValue: string) => {
       try {
-        CalculatorView.outputFields.main.value = CalculatorCore.calculate(inputValue, { debug: PRINT_DEBUG_LOGS, clearPrint: true });
+        CalculatorView.outputFields.main.value = CalculatorCore.calculate(inputValue, { debug: PRINT_DEBUG_LOGS, clearPrint: true, showSteps: true });
       } catch (e) {
         CalculatorView.inputField.reject();
         throw e;
@@ -34,4 +35,5 @@ if (CoreDataService.isDev) {
   CalculatorCollector.test();
 
   CalculatorIdentifier.test();
+  CalculatorSolver.test();
 }
