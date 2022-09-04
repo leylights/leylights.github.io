@@ -22,4 +22,8 @@ export class CalculatorVariable extends CalculatorSingular {
   equals(other: CalculatorTerm): boolean {
     return other instanceof CalculatorVariable && this.displayName === other.displayName;
   }
+  
+  printHTML(): string {
+    return `<span class="variable">${this.displayName}</span>`;
+  }
 }

@@ -11,3 +11,13 @@ $fade-up-distance: 30px;
     opacity: 1;
   }
 }
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

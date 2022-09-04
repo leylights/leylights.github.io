@@ -66,7 +66,7 @@ export class CalculatorUtil {
    * @returns {}
    */
 
-  static EEA(a: number, b: number): { x: number, y: number, gcd: number } {
+  static EEA(a: number, b: number, stepEmitter?: (s: string) => void): { x: number, y: number, gcd: number } {
     let large: number, small: number;
     (a > b) ? large = a : large = b;
     (a <= b) ? small = a : small = b;
@@ -77,6 +77,10 @@ export class CalculatorUtil {
 
     rows[0] = new EEARow(1, 0, large, null);
     rows[1] = new EEARow(0, 1, small, null);
+    
+    if (stepEmitter) stepEmitter(`Applying the Extended Euclidean Algorithm...`);
+    if (stepEmitter) stepEmitter(`1, 0, ${large}, -`);
+    if (stepEmitter) stepEmitter(`0, 1, ${small}, -`);
 
     // get the last row of the EEA
 
@@ -98,6 +102,8 @@ export class CalculatorUtil {
         break;
       else
         rows[rows.length] = nextRow;
+
+      if (stepEmitter) stepEmitter(`${nextRow.x}, ${nextRow.y}, ${nextRow.r}, ${nextRow.q}`);
 
       if (i === max - 1) {
         console.error("EEA(" + a + ", " + b + ") exceeded maximum iterations");
@@ -125,9 +131,5 @@ class EEARow {
     this.y = y;
     this.r = remainder;
     this.q = q;
-  }
-
-  display(): string {
-    return this.x + " | " + this.y + " | " + this.r + " | " + this.q;
   }
 }

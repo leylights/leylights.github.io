@@ -1,6 +1,7 @@
 import { cws } from "../../cws.js";
 import { CalculatorComponent } from "./calculator-component.js";
 import { CalculatorFunction, CalculatorOperator } from "./models/function.js";
+import { CalculatorUserError } from "./models/user-facing-error.js";
 import { CalculatorValue } from "./models/value.js";
 import { CalculatorVariable } from "./models/variable.js";
 import { CalculatorTester } from "./tester.js";
@@ -11,8 +12,12 @@ export class CalculatorParser extends CalculatorComponent {
         this.firstInput = input;
         const parts = this.firstInput.split('=');
         if (parts.length >= 3)
-            throw new Error('Too many equals signs');
+            throw new CalculatorUserError('Too many equals signs');
         else if (parts.length === 2) {
+            if (parts[0].trim().length === 0)
+                throw new CalculatorUserError('Missing left side of equation');
+            if (parts[1].trim().length === 0)
+                throw new CalculatorUserError('Missing right side of equation');
             this._leftOutput = this.parse(parts[0]);
             this._rightOutput = this.parse(parts[1]);
         }
@@ -53,7 +58,7 @@ export class CalculatorParser extends CalculatorComponent {
             .replace(/[\]}]/g, ')')
             .replace(/\s/g, '');
         if (!CalculatorParser.areBracketsBalanced(formattedInput))
-            throw new Error('Brackets unbalanced');
+            throw new CalculatorUserError('Brackets unbalanced');
         return this.parseRecurse(formattedInput);
     }
     parseRecurse(input) {
@@ -136,7 +141,6 @@ export class CalculatorParser extends CalculatorComponent {
         const chars = input.split('');
         let isLHSNegative = false;
         for (let i = chars.length - 2; i > 0; i--) {
-            this.log(chars[i]);
             if (chars[i] === ')')
                 openParenthesisCount++;
             else if (chars[i] === '(')

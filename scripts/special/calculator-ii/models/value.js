@@ -1,3 +1,4 @@
+import { cws } from "../../../cws.js";
 import { MathFrac } from "../../../tools/math/fraction.js";
 import { MathNum } from "../../../tools/math/number.js";
 import { CalculatorSingular } from "./singular.js";
@@ -24,7 +25,13 @@ export class CalculatorValue extends CalculatorSingular {
         return other instanceof CalculatorValue && this.value.isEqualTo(other.value);
     }
     print() {
-        return this.value.prettyPrint() + '';
+        if (this.value.prettyPrint().length > 25 && this.value.Im.isEqualTo(MathFrac.ZERO))
+            return cws.roundToNthDigit(this.value.Re.decimalValue, -5) + '';
+        else
+            return this.value.prettyPrint() + '';
+    }
+    printHTML() {
+        return `<span class="value">${this.value.prettyPrint()}</span>`;
     }
 }
 //# sourceMappingURL=value.js.map

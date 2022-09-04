@@ -1,5 +1,6 @@
 import { CalculatorComponent } from "../calculator-component.js";
 import { CalculatorFunction, CalculatorOperator } from "../models/function.js";
+import { CalculatorUserError } from "../models/user-facing-error.js";
 import { CalculatorValue } from "../models/value.js";
 import { CalculatorVariable } from "../models/variable.js";
 import { CalculatorParser } from "../parser.js";
@@ -16,7 +17,7 @@ export class CalculatorDistributor extends CalculatorComponent {
     static distributeRecurse(input, debug, depth) {
         this.recursiveCalls++;
         if (this.recursiveCalls > 4000)
-            throw new Error('LOOP.');
+            throw new CalculatorUserError('Distributor overflow: given input has generated too many terms');
         let space = '';
         for (let i = 0; i < depth; i++)
             space += ' ';

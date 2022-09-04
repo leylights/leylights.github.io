@@ -61,7 +61,7 @@ a {
 /* Div IDs */
 
 #main {
-  height: calc(100% - 64px);
+  height: calc(100vh - 73px);
   transition: width 0.5s ease;
   margin-top: calc(64px + 0.5em);
   color: var(--text-color);

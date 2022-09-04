@@ -18,5 +18,8 @@ export class CalculatorSingular {
     print() {
         return this.displayName;
     }
+    printHTML() {
+        return undefined;
+    }
 }
 //# sourceMappingURL=singular.js.map

@@ -17,5 +17,9 @@ export class CalculatorTerm {
     print(useClearerBraces, depth = 0) {
         return undefined;
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    printHTML(depth = 0) {
+        return undefined;
+    }
 }
 //# sourceMappingURL=term.js.map

@@ -1,3 +1,4 @@
+import { cws } from "../../../cws.js";
 import { MathFrac } from "../../../tools/math/fraction.js";
 import { MathNum } from "../../../tools/math/number.js";
 import { CalculatorSingular } from "./singular.js";
@@ -12,7 +13,7 @@ export class CalculatorValue extends CalculatorSingular {
   }
 
   get integerValue() {
-    if(!this.value.isRealInteger()) throw new Error(`Not an integer: ${this.value.prettyPrint()}`);
+    if (!this.value.isRealInteger()) throw new Error(`Not an integer: ${this.value.prettyPrint()}`);
 
     return this.value.toRealNumber().nearestInteger;
   }
@@ -34,6 +35,13 @@ export class CalculatorValue extends CalculatorSingular {
   }
 
   print(): string {
-    return this.value.prettyPrint() + '';
+    if (this.value.prettyPrint().length > 25 && this.value.Im.isEqualTo(MathFrac.ZERO))
+      return cws.roundToNthDigit(this.value.Re.decimalValue, -5) + '';
+    else
+      return this.value.prettyPrint() + '';
+  }
+
+  printHTML(): string {
+    return `<span class="value">${this.value.prettyPrint()}</span>`;
   }
 }

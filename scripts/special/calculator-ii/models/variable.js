@@ -18,5 +18,8 @@ export class CalculatorVariable extends CalculatorSingular {
     equals(other) {
         return other instanceof CalculatorVariable && this.displayName === other.displayName;
     }
+    printHTML() {
+        return `<span class="variable">${this.displayName}</span>`;
+    }
 }
 //# sourceMappingURL=variable.js.map

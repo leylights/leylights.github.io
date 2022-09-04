@@ -21,7 +21,7 @@ export class CalculatorIdentifier extends CalculatorComponent {
             totalDistinctVariables++;
             variables.push(key);
         }
-        this.log(debug, 'Variables found: ' + variables.join(', '));
+        this.log(debug, `${totalDistinctVariables} variables found: ` + variables.join(', '));
         if (totalDistinctVariables === 0)
             return exit(CalculatorEquationType.no_variable, null);
         else if (totalDistinctVariables === 1) {
@@ -108,20 +108,24 @@ export class CalculatorIdentifier extends CalculatorComponent {
                 return exit(CalculatorEquationType.single_variable_polynomial, variables[0]);
             }
             else
-                throw new Error(`Too many terms given - collector error?: ${terms.map(t => t.print()).join(', ')}`);
+                return exit(CalculatorEquationType.single_variable_polynomial, variables[0]);
         }
         else if (totalDistinctVariables === 2) {
             if (terms.length === 1) // x^y=0, x/y=0, x*y=0
                 return exit(CalculatorEquationType.multi_variate, variables[0]);
             else if (terms.length === 2) {
-                if ((terms[0].containsVariable(variables[0]) &&
+                if (((terms[0].containsVariable(variables[0]) &&
                     terms[1].containsVariable(variables[1])) || (terms[0].containsVariable(variables[1]) &&
-                    terms[1].containsVariable(variables[0]))) {
+                    terms[1].containsVariable(variables[0])))
+                    && this.hasIntegerCoefficient(terms[0])
+                    && this.hasIntegerCoefficient(terms[1])) {
                     if (this.isTermLinear(terms[0]) && this.isTermLinear(terms[1]))
                         return exit(CalculatorEquationType.linear_diophantine_equation, variables.join(','));
                     else
                         return exit(CalculatorEquationType.multi_variate, variables.join(','));
                 }
+                else
+                    return exit(CalculatorEquationType.multi_variate, variables.join(','));
             }
             else if (terms.length === 3) { // f(x,y) + g(x,y) + n = 0, f(x,y) + g(x,y) + h(x,y) = 0
                 const variableTerms = terms.filter((term) => term.containsVariable());
@@ -142,6 +146,11 @@ export class CalculatorIdentifier extends CalculatorComponent {
         }
         else if (totalDistinctVariables > 2)
             return exit(CalculatorEquationType.multi_variate, variables[0]);
+    }
+    static hasIntegerCoefficient(term) {
+        return (term instanceof CalculatorFunction
+            && term.leftTerm instanceof CalculatorValue
+            && term.leftTerm.value.isRealInteger());
     }
     // returns whether the term follows the pattern (a * x)
     static isTermLinear(term) {
@@ -230,6 +239,9 @@ export class CalculatorIdentifier extends CalculatorComponent {
         test('[{1 * (x ^ 2)} - {2 * x}] = 0', CalculatorEquationType.quadratic, 'x');
         test('[{1 * (x ^ 2)} + {2 * x}] = 0', CalculatorEquationType.quadratic, 'x');
         test('([{1 * (x ^ 2)} + {2 * x}] - 8) = 0', CalculatorEquationType.quadratic, 'x');
+        test('([{1 * (x ^ 2)} + {2 * x}] - 8) = 0', CalculatorEquationType.quadratic, 'x');
+        test('((1 * (x ^ 3)) - (4 * y)) = 0', CalculatorEquationType.multi_variate, 'x,y');
+        test('(3/2*x)+(1*y)=0', CalculatorEquationType.multi_variate, 'x,y');
     }
 }
 //# sourceMappingURL=identifier.js.map

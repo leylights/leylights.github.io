@@ -20,18 +20,80 @@
   </div>
 
   <div id="main">
-    <div class="content">
-      <h3>Input:</h3>
-      <input id="formula-input"></input>
-      <h3>Output:</h3>
-      <textarea id="formula-output" disabled></textarea>
-      <h3>Steps:</h3>
-      <div id="output-steps">
-        <div id="outputs-to-standard-form">
-          <div class="titles"></div>
-          <div class="values"></div>
-        </div>
+    <header>
+      <!-- change image -->
+      <img id="header-bg" src="/siteimages/showcase/winter/sunset.jpg" alt="">
+      <div id="header-gradient">
       </div>
+      <div id="header-main-content">
+        <h1>Calculator</h1>
+        <h2>Input:</h2>
+        <input id="formula-input" placeholder="(x-3)*(x+4)=260"></input>
+        <h2>Output:</h2>
+        <input id="formula-output" disabled></textarea>
+      </div>
+      <div id="preview-steps">
+        <div style="display: none;" class="step" id="javascript-step"></div>
+      </div>
+    </header>
+    <div class="body">
+      <div class="content">
+        <div id="calc-error-modal">
+          <h3>Error</h3>
+          <span class="error-msg"></span>
+        </div>
+        <h2>Steps</h2>
+        <div id="steps-full" class="open">
+          <i></i>
+          <i>there's nothing to see here yet</i>
+        </div>
+        <h2>How it works</h2>
+        <h3>Data</h3>
+        <p>This program interprets every part of a function as one of three things:</p>
+        <ul>
+          <li>A numerical value</li>
+          <li>A variable</li>
+          <li>
+            <p>A function. Functions can be either unary (such as logarithms), or binary. There are no
+              <math>n</math>-ary
+              functions implemented for <math>n > 2</math>; instead, a term such as <math>1 + 2 + 3</math> is
+              interpreted
+              as two binary functions:
+              first, <math>(1 + 2)</math>, then, <math>((1 + 2) + 3)</math>.
+            </p>
+            <p>For the binary functions, there are five possible operators:
+            <ul>
+              <li>Addition (+)</li>
+              <li>Subtratction (-)</li>
+              <li>Multiplication (*)</li>
+              <li>Division (/)</li>
+              <li>Exponent (^)</li>
+            </ul>
+            </p>
+          </li>
+        </ul>
+        <p>This approach to interpreting all possible reasonably-simple math terms makes the program much easier to
+          write. </p>
+        <h3>Function</h3>
+        <p>This program makes good use of a technique similar to structural induction, where all functions are built on
+          the same pattern derived from the structure of a single term.</p>
+        <p>Any function that get called on the input given by the user is called on the uppermost term. Then, the
+          function has only 8 cases to consider:</p>
+        <ul>
+          <li>What happens when the term is a number?</li>
+          <li>What happens when the term is a variable?</li>
+          <li>What happens when the term is a unary function?</li>
+          <li>What happens when the term is a binary function? Behaviour is generally different for each of the five
+            operators.</li>
+        </ul>
+        <p>In cases where the term is a unary or binary function, the same code function is called on any parameter
+          terms passed to the unary/binary function. Almost all processing of any input works in this pattern: recursion
+          on the structure of a mathematical term.</p>
+        <h2>Libraries</h2>
+        <p>This calculator was developed in TypeScript.</p>
+        <p>No additional libraries were used.</p>
+      </div>
+
     </div>
   </div>
 

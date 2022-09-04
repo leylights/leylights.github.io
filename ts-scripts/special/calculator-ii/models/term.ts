@@ -21,4 +21,9 @@ export class CalculatorTerm {
   print(useClearerBraces?: boolean, depth: number = 0): string {
     return undefined;
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  printHTML(depth: number = 0): string {
+    return undefined;
+  }
 }

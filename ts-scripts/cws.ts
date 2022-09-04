@@ -493,7 +493,7 @@ export class cws {
     if (a % b === 0)
       return b;
     else if (isNaN(a % b)) {
-      throw ("bad gcd input");
+      throw new Error("bad gcd input");
     }
 
     else return cws.gcd(b, a % b);

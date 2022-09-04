@@ -83,8 +83,20 @@ export class CalculatorCollector extends CalculatorComponent {
 
     for (const value of values) {
       let evaluatorTerm: CalculatorTerm = null;
-      for (const p of value.positives) evaluatorTerm = evaluatorTerm ? new CalculatorFunction(evaluatorTerm, p, CalculatorOperator.add) : p;
-      for (const n of value.negatives) evaluatorTerm = evaluatorTerm ? new CalculatorFunction(evaluatorTerm, n, CalculatorOperator.subtract) : n;
+      let firstTermIsNegative: boolean = false;
+      for (const p of value.positives) {
+        if (!evaluatorTerm) {
+          evaluatorTerm = p;
+        } else if (firstTermIsNegative) evaluatorTerm = new CalculatorFunction(evaluatorTerm, p, CalculatorOperator.subtract);
+        else evaluatorTerm = new CalculatorFunction(evaluatorTerm, p, CalculatorOperator.add);
+      }
+      for (const n of value.negatives) {
+        if (!evaluatorTerm) {
+          firstTermIsNegative = true;
+          evaluatorTerm = n;
+        } else if (firstTermIsNegative) evaluatorTerm = new CalculatorFunction(evaluatorTerm, n, CalculatorOperator.add);
+        else evaluatorTerm = new CalculatorFunction(evaluatorTerm, n, CalculatorOperator.subtract);
+      }
 
       if (!evaluatorTerm) continue; // no data for this coefficient (e.g. (x * y) has no data for numerical values)
 
@@ -148,9 +160,11 @@ export class CalculatorCollector extends CalculatorComponent {
 
     tester.test('5 + 3*a - 3', '((3 * a) + (5 - 3))');
     tester.test('5 + 3*x - 3', '((3 * x) + (5 - 3))');
-    
+
     tester.test('x - x', '((1 - 1) * x)');
     tester.test('(x - x)^2', '(1 * (((1 - 1) * x) ^ 2))');
     tester.test('3*(x - x)^2', '(3 * (((1 - 1) * x) ^ 2))');
+
+    tester.test('((((x ^ 2) - (3 * x)) - ((4 * x) - (3 * 4))) - 0)', '(((1 * (x ^ 2)) - ((3 + 4) * x)) + ((3 * 4) - 0))')
   }
 }

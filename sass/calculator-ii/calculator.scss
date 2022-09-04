@@ -1,32 +1,211 @@
-h3 {
-  font-weight: 300;
-  margin-bottom: 4px;
+@import '../util/mixins/mixins.scss';
+
+:root {
+  --depth-0: rgb(0, 110, 255);
+  --depth-1: #c904c9;
+  --depth-2: #129c00;
+  --depth-3: #835500;
+  --depth-4: #c2013b;
 }
 
-input,
-textarea {
-  width: 100%;
-  border-radius: 8px;
-  outline: none;
-  border: none;
-  background-color: var(--accent-bg-color);
-  color: var(--text-color);
-
-  font-size: 1.5em;
-  padding: 6px;
+@include dark-root {
+  --depth-3: #d48b04;
+  --depth-4: #fc004c;
 }
 
-#formula-input {
-  text-align: center;
+$steps-output-height: 80px;
+@keyframes step-fade-up {
+  from {
+    top: $steps-output-height;
+  }
+
+  to {
+    top: 0;
+  }
+}
+@keyframes step-fade-out {
+  from {
+    top: $steps-output-height;
+    opacity: 1;
+  }
+
+  to {
+    top: 0;
+    opacity: 0;
+  }
 }
 
-#output-steps {
-  padding-left: 2em;
-  font-family: monospace;
+#main {
+  padding-bottom: 4em;
 
-  #outputs-to-standard-form {
-    display: grid;
-    column-gap: 1em;
-    grid-template-columns: 1fr 4fr;
+  h2,
+  h3 {
+    font-weight: 300;
+  }
+
+  header {
+    position: relative;
+    height: 500px;
+    overflow: hidden;
+
+    border-bottom: 5px solid var(--primary-accent-color);
+    box-shadow: 0 0 0 -5px #0008;
+
+    h2,
+    h3 {
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    #header-bg {
+      width: 100%;
+    }
+
+    #header-gradient {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      $shadow-spread: 10px;
+
+      background: linear-gradient(58deg, #004ad16b, #9d00ff8c);
+      width: calc(100% + 2 * $shadow-spread);
+      height: 100%;
+
+      box-shadow: 0 0 $shadow-spread 0px #0008 inset;
+
+      margin-left: -$shadow-spread;
+    }
+
+    #header-main-content {
+      color: white;
+
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      translate: -50% 0;
+
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+
+      h1 {
+        text-align: center;
+        font-size: 6em;
+        margin: 0.3em 0 0 0;
+      }
+
+      input {
+        $padding: 6px;
+        $overflow: 50px;
+        width: calc(100% - 2 * $padding + 2 * $overflow);
+        border-radius: 8px;
+        outline: none;
+        border: none;
+        margin-left: -$overflow;
+        box-shadow: 0 0 4px 0 #0004;
+        background-color: #fffd;
+
+        color: #333;
+
+        font-size: 1.5em;
+        padding: $padding;
+        text-align: center;
+      }
+    }
+
+    #preview-steps {
+      position: absolute;
+      bottom: 0;
+
+      padding: 0 1em;
+      width: calc(100% - 2em);
+
+      height: $steps-output-height;
+      overflow-y: hidden;
+
+      // font-family: monospace;
+      font-weight: 300;
+
+      .step {
+        position: absolute;
+        $duration: 1.5s;
+        animation: step-fade-out $duration ease-out, step-fade-up $duration ease-out;
+        animation-duration: 1.5s;
+        opacity: 0;
+      }
+    }
+  }
+
+  #calc-error-modal {
+    $padding-sides: 12px;
+    box-shadow: 0 0 4px 0 var(--reject-color);
+    padding: 8px $padding-sides;
+    border-radius: 8px;
+    width: calc(100% - 2 * $padding-sides);
+    color: var(--reject-color);
+
+    display: none;
+    &.active {
+      display: block;
+    }
+
+    .error-msg {
+      display: block;
+      font-weight: 300;
+    }
+
+    h3 {
+      margin: 0;
+    }
+  }
+
+  .body {
+    padding-bottom: 4em;
+    #steps-full {
+      display: grid;
+      column-gap: 4px;
+      grid-template-columns: 1fr 4fr;
+
+      background-color: #0a0a0a;
+      padding: 1em;
+      border-radius: 8px;
+      margin: 1em 0 1em 1em;
+
+      min-height: 100px;
+    }
+  }
+
+  .function {
+    .parens,
+    .operator {
+      &.d-0 {
+        color: var(--depth-0);
+      }
+      &.d-1 {
+        color: var(--depth-1);
+      }
+      &.d-2 {
+        color: var(--depth-2);
+      }
+      &.d-3 {
+        color: var(--depth-3);
+      }
+      &.d-4 {
+        color: var(--depth-4);
+      }
+    }
+  }
+
+  .variable {
+    font-style: italic;
+  }
+}
+
+@include dark-mode {
+  .content {
+    input {
+      box-shadow: 0 0 6px 0 #fff8;
+    }
   }
 }

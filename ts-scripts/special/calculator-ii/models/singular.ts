@@ -27,4 +27,8 @@ export class CalculatorSingular implements CalculatorTerm {
   print(): string {
     return this.displayName;
   }
+
+  printHTML(): string {
+    return undefined;
+  }
 }

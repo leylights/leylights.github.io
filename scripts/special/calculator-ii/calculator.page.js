@@ -8,14 +8,17 @@ import { CalculatorExponentExpander } from "./statement/exponent-expansion.js";
 import { CoreDataService } from "../../services/core-data.service.js";
 import { CalculatorIdentifier } from "./equation/identifier.js";
 import { CalculatorSolver } from "./equation/solver.js";
+import { CalculatorUserError } from "./models/user-facing-error.js";
 const PRINT_DEBUG_LOGS = false;
 class CalculatorPage {
     static init() {
         CalculatorView.registerInputEventListener((inputValue) => {
             try {
-                CalculatorView.outputFields.main.value = CalculatorCore.calculate(inputValue, { debug: PRINT_DEBUG_LOGS, clearPrint: true, showSteps: true });
+                CalculatorView.emitOutput(CalculatorCore.calculate(inputValue, { debug: PRINT_DEBUG_LOGS, clearPrint: true, showSteps: true }));
             }
             catch (e) {
+                if (e instanceof CalculatorUserError)
+                    CalculatorView.emitError(e);
                 CalculatorView.inputField.reject();
                 throw e;
             }
@@ -32,5 +35,6 @@ if (CoreDataService.isDev) {
     CalculatorCollector.test();
     CalculatorIdentifier.test();
     CalculatorSolver.test();
+    CalculatorCore.test();
 }
 //# sourceMappingURL=calculator.page.js.map

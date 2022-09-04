@@ -52,6 +52,16 @@ export class CalculatorFunction {
             brackets = { l: '(', r: ')' };
         return `${brackets.l}${this.leftTerm.print(useClearerBraces, depth + 1)} ${this.operator} ${this.rightTerm.print(useClearerBraces, depth + 1)}${brackets.r}`;
     }
+    printHTML(depth = 0) {
+        const depthIndex = depth % 5;
+        let output = `<span class="function depth-${depthIndex}">`;
+        output += `<span class="parens d-${depthIndex}">(</span>`;
+        output += this.leftTerm.printHTML(depth + 1);
+        output += `<span class="operator d-${depthIndex}"> ${this.operator} </span>`;
+        output += this.rightTerm.printHTML(depth + 1);
+        output += `<span class="parens d-${depthIndex}">)</span></span>`;
+        return output;
+    }
 }
 CalculatorFunction.operators = [
     CalculatorOperator.add,

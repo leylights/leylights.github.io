@@ -1,30 +1,193 @@
-h3 {
-  font-weight: 300;
-  margin-bottom: 4px;
+@keyframes fade-up {
+  from {
+    top: 30px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+:root {
+  --depth-0: rgb(0, 110, 255);
+  --depth-1: #c904c9;
+  --depth-2: #129c00;
+  --depth-3: #835500;
+  --depth-4: #c2013b;
 }
 
-input,
-textarea {
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --depth-3: #d48b04;
+    --depth-4: #fc004c;
+  }
+}
+:root.dark {
+  --depth-3: #d48b04;
+  --depth-4: #fc004c;
+}
+
+@keyframes step-fade-up {
+  from {
+    top: 80px;
+  }
+  to {
+    top: 0;
+  }
+}
+@keyframes step-fade-out {
+  from {
+    top: 80px;
+    opacity: 1;
+  }
+  to {
+    top: 0;
+    opacity: 0;
+  }
+}
+#main {
+  padding-bottom: 4em;
+}
+#main h2,
+#main h3 {
+  font-weight: 300;
+}
+#main header {
+  position: relative;
+  height: 500px;
+  overflow: hidden;
+  border-bottom: 5px solid var(--primary-accent-color);
+  box-shadow: 0 0 0 -5px #0008;
+}
+#main header h2,
+#main header h3 {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+#main header #header-bg {
   width: 100%;
+}
+#main header #header-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: linear-gradient(58deg, #004ad16b, #9d00ff8c);
+  width: calc(100% + 20px);
+  height: 100%;
+  box-shadow: 0 0 10px 0px #0008 inset;
+  margin-left: -10px;
+}
+#main header #header-main-content {
+  color: white;
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  translate: -50% 0;
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+}
+#main header #header-main-content h1 {
+  text-align: center;
+  font-size: 6em;
+  margin: 0.3em 0 0 0;
+}
+#main header #header-main-content input {
+  width: calc(100% - 12px + 100px);
   border-radius: 8px;
   outline: none;
   border: none;
-  background-color: var(--accent-bg-color);
-  color: var(--text-color);
+  margin-left: -50px;
+  box-shadow: 0 0 4px 0 #0004;
+  background-color: #fffd;
+  color: #333;
   font-size: 1.5em;
   padding: 6px;
-}
-
-#formula-input {
   text-align: center;
 }
-
-#output-steps {
-  padding-left: 2em;
-  font-family: monospace;
+#main header #preview-steps {
+  position: absolute;
+  bottom: 0;
+  padding: 0 1em;
+  width: calc(100% - 2em);
+  height: 80px;
+  overflow-y: hidden;
+  font-weight: 300;
 }
-#output-steps #outputs-to-standard-form {
+#main header #preview-steps .step {
+  position: absolute;
+  animation: step-fade-out 1.5s ease-out, step-fade-up 1.5s ease-out;
+  animation-duration: 1.5s;
+  opacity: 0;
+}
+#main #calc-error-modal {
+  box-shadow: 0 0 4px 0 var(--reject-color);
+  padding: 8px 12px;
+  border-radius: 8px;
+  width: calc(100% - 24px);
+  color: var(--reject-color);
+  display: none;
+}
+#main #calc-error-modal.active {
+  display: block;
+}
+#main #calc-error-modal .error-msg {
+  display: block;
+  font-weight: 300;
+}
+#main #calc-error-modal h3 {
+  margin: 0;
+}
+#main .body {
+  padding-bottom: 4em;
+}
+#main .body #steps-full {
   display: grid;
-  column-gap: 1em;
+  column-gap: 4px;
   grid-template-columns: 1fr 4fr;
+  background-color: #0a0a0a;
+  padding: 1em;
+  border-radius: 8px;
+  margin: 1em 0 1em 1em;
+  min-height: 100px;
+}
+#main .function .parens.d-0,
+#main .function .operator.d-0 {
+  color: var(--depth-0);
+}
+#main .function .parens.d-1,
+#main .function .operator.d-1 {
+  color: var(--depth-1);
+}
+#main .function .parens.d-2,
+#main .function .operator.d-2 {
+  color: var(--depth-2);
+}
+#main .function .parens.d-3,
+#main .function .operator.d-3 {
+  color: var(--depth-3);
+}
+#main .function .parens.d-4,
+#main .function .operator.d-4 {
+  color: var(--depth-4);
+}
+#main .variable {
+  font-style: italic;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) .content input {
+    box-shadow: 0 0 6px 0 #fff8;
+  }
+}
+:root.dark .content input {
+  box-shadow: 0 0 6px 0 #fff8;
 }
