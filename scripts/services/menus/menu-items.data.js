@@ -52,7 +52,7 @@ export const MenuItems = {
             href: '/pages/university/matrices.html'
         },
         showcaseConfig: {
-            highlightType: 2,
+            highlightType: 1,
         },
         showInSmallMenus: false,
     }),
@@ -462,10 +462,13 @@ export const MenuItems = {
         name: 'Algebra Calculator',
         description: 'Algorithmically solves algebraic equations.',
         type: 'Tool',
-        date: 'August 2022',
+        date: 'September 2022',
         links: {
             href: '/pages/calculator-ii.html',
         },
+        showcaseConfig: {
+            highlightType: 2
+        }
     }),
 };
 //# sourceMappingURL=menu-items.data.js.map
