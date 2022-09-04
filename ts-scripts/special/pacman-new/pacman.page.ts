@@ -6,7 +6,7 @@
  * End Date: September 7th, 2021
  */
 
-import { cws } from "../../cws.js";
+import { Leylights } from "../../leylights.js";
 import { Canvas } from "../../components/canvas.component.js";
 import { PacmanCharacter } from "./canvas-components/entities/character.js";
 import { PacmanConstants } from "./canvas-components/constants.js";
@@ -126,7 +126,7 @@ export class PacmanPage {
         continue;
       }
 
-      if (cws.anyEqual([start.ID], pelletlessNodes)) {
+      if (Leylights.anyEqual([start.ID], pelletlessNodes)) {
         continue;
       }
 
@@ -138,7 +138,7 @@ export class PacmanPage {
       for (let j = 0; j < start.exits.length; j++) {
         const end = PacmanMapNode.getNodeByID(start.exits[j]);
 
-        if (cws.anyEqual([start.ID, end.ID], pelletlessNodes)) {
+        if (Leylights.anyEqual([start.ID, end.ID], pelletlessNodes)) {
           continue;
         }
 
@@ -243,7 +243,7 @@ export class PacmanPage {
   }
 
   moveSprites(this: PacmanPage): void {
-    if (cws.Array.includes([PacmanStateEnum.NORMAL, PacmanStateEnum.CHASE], PacmanState.gameState))
+    if (Leylights.Array.includes([PacmanStateEnum.NORMAL, PacmanStateEnum.CHASE], PacmanState.gameState))
       PacmanPlayer.player.move(() => { PacmanPlayer.player.direct() });
 
     PacmanGhost.array.forEach((ghost: PacmanGhost) => {
@@ -301,7 +301,7 @@ export class PacmanPage {
 
     // ready!
 
-    if (cws.Array.includes([PacmanStateEnum.PAUSE_BEFORE_WAITING_FOR_PLAYER, PacmanStateEnum.WAITING_FOR_PLAYER], PacmanState.gameState)) {
+    if (Leylights.Array.includes([PacmanStateEnum.PAUSE_BEFORE_WAITING_FOR_PLAYER, PacmanStateEnum.WAITING_FOR_PLAYER], PacmanState.gameState)) {
       const readyImage: HTMLImageElement = PacmanSprites.spritesTree.getValue("ready.png");
       const topMargin: number = (PacmanConstants.HALL_WIDTH - readyImage.height) / 2;
       this.canvas.drawImage(readyImage, (this.canvas.width / 2) - (readyImage.width / 2), PacmanConstants.NODE_ROWS[5] + topMargin);
@@ -382,7 +382,7 @@ export class PacmanPage {
   }
 
   restartGame(this: PacmanPage, restartType: PacmanRestartTypesEnum) {
-    if (cws.Array.includes([PacmanRestartTypesEnum.FULL, PacmanRestartTypesEnum.LEVEL_UP], restartType)) {
+    if (Leylights.Array.includes([PacmanRestartTypesEnum.FULL, PacmanRestartTypesEnum.LEVEL_UP], restartType)) {
       this.generatePellets();
 
       PacmanGhost.array.forEach((g: PacmanCharacter) => {
@@ -413,7 +413,7 @@ export class PacmanPage {
       PacmanState.next1UpScore = 10000;
     }
 
-    if (cws.Array.includes([PacmanRestartTypesEnum.FULL, PacmanRestartTypesEnum.LEVEL_UP], restartType)) {
+    if (Leylights.Array.includes([PacmanRestartTypesEnum.FULL, PacmanRestartTypesEnum.LEVEL_UP], restartType)) {
       PacmanState.levelStartTime = PacmanState.now;
       PacmanState.hasFruitSpawned = false;
     }

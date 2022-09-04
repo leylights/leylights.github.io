@@ -1,4 +1,4 @@
-import { cws } from "../../cws.js";
+import { Leylights } from "../../leylights.js";
 
 var tiles = [];
 var sprites = [];
@@ -62,7 +62,7 @@ var myCanvas = {
     this.canvas.style.backgroundColor = "white";
     this.canvas.style.transition = "all 0.5s linear";
     this.canvas.setAttributeNode(
-      cws.betterCreateAttr("oncontextmenu", "return false;")
+      Leylights.betterCreateAttr("oncontextmenu", "return false;")
     );
 
     this.isClicking = false;
@@ -151,7 +151,7 @@ var myCanvas = {
   },
 
   clear: function () {
-    cws.fillRect(
+    Leylights.fillRect(
       0,
       0,
       this.canvas.width,
@@ -1386,8 +1386,8 @@ window.addEventListener("resize", resizeCanvas);
 function addSprite(src) {
   var newimg = document.createElement("img");
   var truesrc = "/siteimages/energy/" + src + ".png";
-  newimg.setAttributeNode(cws.betterCreateAttr("src", truesrc));
-  newimg.setAttributeNode(cws.betterCreateAttr("id", truesrc));
+  newimg.setAttributeNode(Leylights.betterCreateAttr("src", truesrc));
+  newimg.setAttributeNode(Leylights.betterCreateAttr("id", truesrc));
   document.getElementById("imgs").appendChild(newimg);
   return newimg;
 }
@@ -1399,11 +1399,11 @@ function addSprite(src) {
 //   }
 
 function drawImg(img, x, y, w, h) {
-  cws.drawImg(img, x, y, w, h, myCanvas.context);
+  Leylights.drawImg(img, x, y, w, h, myCanvas.context);
 }
 
 function drawText(text, x, y, colour, centered, size, type) {
-  cws.drawText(text, x, y, colour, centered, size, type, myCanvas.context);
+  Leylights.drawText(text, x, y, colour, centered, size, type, myCanvas.context);
 }
 
 function isClicked(x, y, w, h) {
@@ -1449,7 +1449,7 @@ function mouseUp() {
 //   }
 
 function rect(x: number, y: number, w: number, h: number, colour: string) {
-  cws.fillRect(x, y, w, h, colour, myCanvas.context);
+  Leylights.fillRect(x, y, w, h, colour, myCanvas.context);
 }
 
 //   function switchToMobile() {

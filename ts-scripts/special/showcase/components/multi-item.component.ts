@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 import { MenuItemMulti } from "../../../services/menus/menu-item-multi.js";
 import { ShowcaseItem } from "./showcase-item.component.js";
 
@@ -25,14 +25,14 @@ export class ShowcaseMultiItem extends ShowcaseItem {
   }
 
   rebuild(this: ShowcaseMultiItem): void {
-    const imageContainer = cws.createElement({
+    const imageContainer = Leylights.createElement({
       type: 'div',
       classList: 'image-container',
-      children: [cws.createElement({
+      children: [Leylights.createElement({
         type: 'div',
         classList: 'images-internal-container',
         children: this.item.children.map((item) => {
-          return cws.createElement({
+          return Leylights.createElement({
             type: 'a',
             classList: 'captioned-image',
             otherNodes: {
@@ -40,14 +40,14 @@ export class ShowcaseMultiItem extends ShowcaseItem {
             },
             children: [
               this.rebuildImage(item),
-              cws.createElement({
+              Leylights.createElement({
                 type: 'div',
                 classList: 'caption',
-                children: [cws.createElement({
+                children: [Leylights.createElement({
                   type: 'span',
                   classList: 'captioned-name',
                   innerText: item.shortName
-                }), cws.createElement({
+                }), Leylights.createElement({
                   type: 'span',
                   classList: 'captioned-date',
                   innerText: item.date
@@ -58,18 +58,18 @@ export class ShowcaseMultiItem extends ShowcaseItem {
         }),
       })],
     }),
-      textContainer = cws.createElement({
+      textContainer = Leylights.createElement({
         type: 'div',
         classList: 'text-container',
-        children: [cws.createElement({
+        children: [Leylights.createElement({
           type: 'span',
           classList: 'date no-opacity',
           innerText: `${this.getDate()} / ${this.item.type}s`
-        }), cws.createElement({
+        }), Leylights.createElement({
           type: 'h2',
           classList: 'title no-opacity',
           innerText: this.item.name
-        }), cws.createElement({
+        }), Leylights.createElement({
           type: 'p',
           classList: 'description no-opacity',
           innerHTML: this.item.description

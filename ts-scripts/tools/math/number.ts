@@ -4,9 +4,12 @@ export class MathNum {
   realPart: MathFrac;
   imaginaryPart: MathFrac;
 
-  constructor(real: MathFrac, imag: MathFrac) {
-    this.realPart = real;
-    this.imaginaryPart = imag;
+  constructor(real: MathFrac | number, imag: MathFrac | number) {
+    if (!real && real !== 0) throw new Error(`Bad real part: ${real}`);
+    if (!imag && imag !== 0) throw new Error(`Bad imaginary part: ${imag}`);
+
+    this.realPart = real instanceof MathFrac ? real : new MathFrac(real, 1);
+    this.imaginaryPart = imag instanceof MathFrac ? imag : new MathFrac(imag, 1);
   }
 
   get Re() {
@@ -17,14 +20,14 @@ export class MathNum {
     return this.imaginaryPart;
   }
 
-  add = function (this: MathNum, z: MathNum): MathNum {
+  add(this: MathNum, z: MathNum): MathNum {
     this.realPart.add(z.realPart);
     this.imaginaryPart.add(z.imaginaryPart);
 
     return this;
   }
 
-  subtract = function (this: MathNum, z: MathNum): MathNum {
+  subtract(this: MathNum, z: MathNum): MathNum {
     this.realPart.subtract(z.realPart);
     this.imaginaryPart.subtract(z.imaginaryPart);
 
@@ -36,8 +39,8 @@ export class MathNum {
    * 
    * IDEMPOTENT?: NO
    */
-  multiplyBy = function (this: MathNum, zInput: MathNum): MathNum {
-    let terms: MathFrac[] = [];
+  multiplyBy(this: MathNum, zInput: MathNum): MathNum {
+    const terms: MathFrac[] = [];
     let z = zInput.clone();
 
     terms[0] = MathFrac.multiply(this.realPart, z.realPart);
@@ -52,7 +55,7 @@ export class MathNum {
     return this;
   }
 
-  divideBy = function (this: MathNum, z: MathNum): MathNum {
+  divideBy(this: MathNum, z: MathNum): MathNum {
     let zc: MathNum = z.clone()
     let inverseDenominator: MathNum = zc.clone().getMultiplicativeInverse();
 
@@ -63,7 +66,7 @@ export class MathNum {
     return this;
   }
 
-  toPower = function (this: MathNum, exp: number): MathNum {
+  toPower(this: MathNum, exp: number): MathNum {
     if (exp % 1 !== 0 || exp < 0)
       throw new Error("Unhandled value: " + exp);
     else
@@ -83,28 +86,36 @@ export class MathNum {
    * Returns the multiplicative inverse of this
 
    */
-  getMultiplicativeInverse = function (this: MathNum): MathNum {
-    let denominator: MathFrac = MathFrac.add(MathFrac.multiply(this.realPart, this.realPart), MathFrac.multiply(this.imaginaryPart, this.imaginaryPart));
-    let re = MathFrac.divide(this.realPart, denominator);
-    let im = MathFrac.divide(MathFrac.multiply(this.imaginaryPart, MathFrac.createFromInt(-1)), denominator);
+  getMultiplicativeInverse(this: MathNum): MathNum {
+    const denominator: MathFrac = MathFrac.add(MathFrac.multiply(this.realPart, this.realPart), MathFrac.multiply(this.imaginaryPart, this.imaginaryPart));
+    const re = MathFrac.divide(this.realPart, denominator);
+    const im = MathFrac.divide(MathFrac.multiply(this.imaginaryPart, MathFrac.createFromInt(-1)), denominator);
 
-    let output = new MathNum(re, im);
+    const output = new MathNum(re, im);
     return output;
   }
 
-  clone = function (this: MathNum): MathNum {
+  clone(this: MathNum): MathNum {
     return new MathNum(this.Re.clone(), this.Im.clone());
   }
 
-  isEqualTo = function (this: MathNum, other: MathNum): boolean {
+  isEqualTo(this: MathNum, other: MathNum): boolean {
     return (this.realPart.isEqualTo(other.realPart) && this.imaginaryPart.isEqualTo(other.imaginaryPart));
   }
 
-  getConjugate = function (this: MathNum,): MathNum {
+  isRealInteger(this: MathNum): boolean {
+    return this.isRealNumber() && this.Re.condense().denominator === 1;
+  }
+
+  isRealNumber(this: MathNum): boolean {
+    return this.Im.isEqualTo(MathFrac.ZERO);
+  }
+
+  getConjugate(this: MathNum,): MathNum {
     return new MathNum(this.Re, MathFrac.multiply(this.Im, MathFrac.createFromInt(-1)));
   }
 
-  prettyPrint = function (this: MathNum,): string {
+  prettyPrint(this: MathNum,): string {
     if (this.imaginaryPart.isEqualTo(MathFrac.ZERO)) {
       return this.realPart.prettyPrint();
     } else if (this.imaginaryPart.isNegative()) {
@@ -120,7 +131,7 @@ export class MathNum {
       absoluteValued = null;
       return output;
     } else {
-      let iPrint = this.imaginaryPart.prettyPrint();
+      const iPrint = this.imaginaryPart.prettyPrint();
       if (iPrint === "1") {
         return this.realPart.prettyPrint() + " + i";
       } else {
@@ -135,7 +146,7 @@ export class MathNum {
    * IDEMPOTENT?: yes
    */
   static add(a: MathNum, b: MathNum): MathNum {
-    let ac: MathNum = a.clone();
+    const ac: MathNum = a.clone();
     let bc: MathNum = b.clone();
 
     ac.add(bc);
@@ -149,7 +160,7 @@ export class MathNum {
    * IDEMPOTENT?: yes
    */
   static subtract(a: MathNum, b: MathNum): MathNum {
-    let ac: MathNum = a.clone();
+    const ac: MathNum = a.clone();
     let bc: MathNum = b.clone();
 
     ac.subtract(bc);
@@ -163,7 +174,7 @@ export class MathNum {
    * IDEMPOTENT?: yes
    */
   static multiply(a: MathNum, b: MathNum): MathNum {
-    let ac: MathNum = a.clone();
+    const ac: MathNum = a.clone();
     let bc: MathNum = b.clone();
 
     ac.multiplyBy(bc);
@@ -177,12 +188,41 @@ export class MathNum {
    * IDEMPOTENT?: yes
    */
   static divide(a: MathNum, b: MathNum): MathNum {
-    let ac: MathNum = a.clone();
+    const ac: MathNum = a.clone();
     let bc: MathNum = b.clone();
 
     ac.divideBy(bc);
     bc = null;
     return ac;
+  }
+
+  /**
+   * Returns the power of two MathNums
+   * SAFE?: yes
+   * IDEMPOTENT?: yes
+   */
+  static pow(a: MathNum, b: MathNum): MathNum {
+    if (!b.Im.isEqualTo(MathFrac.ZERO)) throw new Error(`Exponent operator not defined for exponents with imaginary parts`);
+    if (b.isRealInteger()) {
+      const result = MathNum.ONE;
+      let count: number = b.Re.decimalValue;
+      while (count > 0) {
+        result.multiplyBy(a);
+        count--;
+      }
+      return result;
+    } else if (a.Im.isEqualTo(MathFrac.ZERO)) {
+      const num = Math.pow(a.Re.numerator, b.Re.decimalValue),
+        denom = Math.pow(a.Re.denominator, b.Re.decimalValue);
+      if (!num && num !== 0)
+        throw new Error(`Bad numerator: ${a.Re.numerator} ^ ${b.Re.decimalValue}`);
+      if (!denom && denom !== 0)
+        throw new Error(`Bad numerator: ${a.Re.numerator} ^ ${b.Re.decimalValue}`);
+
+      return new MathNum(new MathFrac(num, denom), MathFrac.ZERO);
+    } else {
+      throw new Error(`Exponent operator not defined for non-integer exponent (${b.prettyPrint()}) and non-real base (${a.prettyPrint()})`);
+    }
   }
 
   static get ZERO(): MathNum {
@@ -234,7 +274,7 @@ export class MathNum {
       // console.log("positive imaginary");
       return MathNum.createFromStrParts("0", MathNum.NaNToOnePipe(s));
     } else {
-      let parts: string[] = s.split(/[+|-]/g).filter((s) => { return s != "" });
+      const parts: string[] = s.split(/[+|-]/g).filter((s) => { return s != "" });
 
       if (parts.length == 0) {
         throw new Error("Not a number");
@@ -242,10 +282,10 @@ export class MathNum {
         // console.log("negative imaginary");
         return MathNum.createFromStrParts("0", MathNum.NaNToNegOnePipe(s));
       } else {
-        let real: string = (s.substring(0, s.search(parts[0])) + parts[0]);
+        const real: string = (s.substring(0, s.search(parts[0])) + parts[0]);
         s = s.replace(real, "");
 
-        let imaginary: string = s;
+        const imaginary: string = s;
 
         // console.log("normal");
         if (s.search(/-/g) === -1) {

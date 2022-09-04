@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 import { ShowcaseItem } from "./showcase-item.component.js";
 export class ShowcaseSingleItem extends ShowcaseItem {
     constructor(item, parentElement, config) {
@@ -12,18 +12,18 @@ export class ShowcaseSingleItem extends ShowcaseItem {
     }
     rebuildCentered(parent) {
         const children = [
-            cws.createElement({
+            Leylights.createElement({
                 type: 'div',
                 classList: 'title-container',
                 children: [
-                    cws.createElement({
+                    Leylights.createElement({
                         type: 'h2',
                         classList: 'title',
                         innerText: this.item.name,
                     }),
                 ]
             }),
-            cws.createElement({
+            Leylights.createElement({
                 type: 'p',
                 classList: 'description',
                 innerText: this.item.description
@@ -38,15 +38,15 @@ export class ShowcaseSingleItem extends ShowcaseItem {
         });
     }
     rebuildMain(parent) {
-        const imageContainer = cws.createElement({
+        const imageContainer = Leylights.createElement({
             type: 'div',
             classList: 'image-container',
             children: [
-                cws.createElement({
+                Leylights.createElement({
                     type: 'div',
                     classList: ['image-shadow-container', 'no-opacity'],
                     children: [
-                        cws.createElement({
+                        Leylights.createElement({
                             type: 'img',
                             classList: [ShowcaseSingleItem.classNames.image, 'single-item-image']
                                 .concat(this.item.invertOnDark ? ['dark-invert-filter'] : [])
@@ -59,18 +59,18 @@ export class ShowcaseSingleItem extends ShowcaseItem {
                     ]
                 })
             ]
-        }), textContainer = cws.createElement({
+        }), textContainer = Leylights.createElement({
             type: 'div',
             classList: 'text-container',
-            children: [cws.createElement({
+            children: [Leylights.createElement({
                     type: 'span',
                     classList: 'date no-opacity',
                     innerText: `${this.item.date} / ${this.item.type}`
-                }), cws.createElement({
+                }), Leylights.createElement({
                     type: 'h2',
                     classList: 'title no-opacity',
                     innerText: this.item.name
-                }), cws.createElement({
+                }), Leylights.createElement({
                     type: 'p',
                     classList: 'description no-opacity',
                     innerHTML: this.item.description

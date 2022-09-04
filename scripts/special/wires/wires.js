@@ -1,4 +1,4 @@
-import { cws } from "../../cws.js";
+import { Leylights } from "../../leylights.js";
 import { Canvas } from "../../components/canvas.component.js";
 import { WiresConstants } from "./constants.js";
 import { WiresMenuTile } from "./menu-tile.js";
@@ -580,7 +580,7 @@ class WiresPage {
             else
                 tile.hovering = false;
         });
-        cws.Object.values(this.menuTiles).forEach((tile) => {
+        Leylights.Object.values(this.menuTiles).forEach((tile) => {
             if (me.isHovering(tile.x, tile.y, tile.w, tile.h)) {
                 tile.isHovered = true;
                 if (tile.isHovered)
@@ -649,7 +649,7 @@ class WiresPage {
         else
             this.canvas.fillRect(this.endPos.x, this.endPos.y - 5, this.endPos.w + 5, this.endPos.h + 10, WiresConstants.BORDER.COLOUR);
         this.canvas.fillRect(this.endPos.x, this.endPos.y, this.endPos.w, this.endPos.h, this.endPos.c);
-        cws.Object.values(this.menuTiles).forEach((tile) => {
+        Leylights.Object.values(this.menuTiles).forEach((tile) => {
             tile.redraw(me.canvas);
         });
     }
@@ -926,8 +926,8 @@ class WiresPage {
     addSprite(src) {
         var newimg = document.createElement("img");
         var truesrc = "/siteimages/energy/" + src + ".png";
-        newimg.setAttributeNode(cws.betterCreateAttr("src", truesrc));
-        newimg.setAttributeNode(cws.betterCreateAttr("id", truesrc));
+        newimg.setAttributeNode(Leylights.betterCreateAttr("src", truesrc));
+        newimg.setAttributeNode(Leylights.betterCreateAttr("id", truesrc));
         document.getElementById("imgs").appendChild(newimg);
         return newimg;
     }

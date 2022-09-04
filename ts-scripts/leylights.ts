@@ -1,6 +1,6 @@
 /**
  * General functions to be used anywhere
- * @author Cole Stanley
+ * @author River Stanley
 */
 
 /**
@@ -42,7 +42,7 @@ type Rectangle = {
   height: number;
 }
 
-export class cws {
+export class Leylights {
   /**
    * Determines if any left element is equal to any right element
    * Time: O(n*m)
@@ -73,7 +73,7 @@ export class cws {
       const result: T[] = [];
 
       arr.forEach((value: T) => {
-        if (!cws.Array.includes(result, value, comparatorFn))
+        if (!Leylights.Array.includes(result, value, comparatorFn))
           result.push(value);
       });
 
@@ -130,16 +130,16 @@ export class cws {
       },
 
       NodeListOf: function <T extends Node>(nodeList: NodeListOf<T>): T[] {
-        return cws.Array.from.any(nodeList, nodeList.length)
+        return Leylights.Array.from.any(nodeList, nodeList.length)
       },
 
       HTMLCollection: function (collection: HTMLCollection): Element[] {
-        return cws.Array.from.any(collection, collection.length)
+        return Leylights.Array.from.any(collection, collection.length)
       }
     },
 
     includes: function <T, U>(arr: T[], el: U, comparatorFn?: (a: T, b: U) => boolean): boolean {
-      return cws.Array.contains(arr, el, comparatorFn);
+      return Leylights.Array.contains(arr, el, comparatorFn);
     },
 
     /**
@@ -176,7 +176,7 @@ export class cws {
       else if (typeof attributes[i][0] !== "string" || typeof attributes[i][1] !== "string")
         console.error("invalid attributes provided - not strings:", attributes[i]);
       else
-        el.setAttributeNode(cws.betterCreateAttr(attributes[i][0], attributes[i][1]));
+        el.setAttributeNode(Leylights.betterCreateAttr(attributes[i][0], attributes[i][1]));
     }
 
     return el;
@@ -210,7 +210,7 @@ export class cws {
         element.classList.add(className);
       });
     }
-    if (data.style) element.setAttributeNode(cws.betterCreateAttr('style', data.style));
+    if (data.style) element.setAttributeNode(Leylights.betterCreateAttr('style', data.style));
     if (data.innerHTML) element.innerHTML = data.innerHTML;
     if (data.innerText) element.innerText = data.innerText;
     if (data.listeners)
@@ -230,7 +230,7 @@ export class cws {
               element.setAttribute(nodeData.type, nodeData.value);
           });
       } else {
-        cws.Object.entries(data.otherNodes)
+        Leylights.Object.entries(data.otherNodes)
           .forEach((nodeData) => {
             if (nodeData[0] && nodeData[1] !== undefined)
               element.setAttribute(nodeData[0], nodeData[1]);
@@ -245,7 +245,7 @@ export class cws {
    * Creates a link element.
    */
   static createLinkElement(href: string, rel: string): HTMLLinkElement {
-    return cws.createElement({
+    return Leylights.createElement({
       type: 'link',
       otherNodes: [
         {
@@ -264,7 +264,7 @@ export class cws {
    * Creates a stylesheet element.
    */
   static createStylesheetElement(href: string): HTMLLinkElement {
-    return cws.createElement({
+    return Leylights.createElement({
       type: 'link',
       otherNodes: {
         rel: 'stylesheet',
@@ -277,17 +277,17 @@ export class cws {
     const contents: HTMLElement[] = [];
 
     // conditionally create head and body
-    if (data.head) contents.push(cws.createElement({
+    if (data.head) contents.push(Leylights.createElement({
       type: 'thead',
       children: getRows(data.head, 'th')
     }));
-    if (data.body) contents.push(cws.createElement({
+    if (data.body) contents.push(Leylights.createElement({
       type: 'tbody',
       children: getRows(data.body, 'td')
     }));
 
     // create table
-    const table = cws.createElement({
+    const table = Leylights.createElement({
       type: 'table',
       id: data.id,
       classList: data.classList,
@@ -304,9 +304,9 @@ export class cws {
 
       rowsData.forEach((rowData: HTMLElement[]) => {
         if (rowData) {
-          const newRow = cws.createElement({ type: 'tr' });
+          const newRow = Leylights.createElement({ type: 'tr' });
           rowData.forEach((element: HTMLElement) => {
-            newRow.appendChild(cws.createElement({
+            newRow.appendChild(Leylights.createElement({
               type: cellType,
               children: element ? [element] : [],
             }));
@@ -483,7 +483,7 @@ export class cws {
     else if (document.body.isSameNode(child.parentElement))
       return undefined;
     else
-      return cws.findParentElementByClassName(child.parentElement, className);
+      return Leylights.findParentElementByClassName(child.parentElement, className);
   }
 
   /**
@@ -493,10 +493,10 @@ export class cws {
     if (a % b === 0)
       return b;
     else if (isNaN(a % b)) {
-      throw ("bad gcd input");
+      throw new Error(`Bad gcd input: a: ${a}, b: ${b}`);
     }
 
-    else return cws.gcd(b, a % b);
+    else return Leylights.gcd(b, a % b);
   }
 
   /**
@@ -629,7 +629,7 @@ export class cws {
        * Returns a random attribute of the given object
        */
       randomAttribute: function <T>(obj: Record<any, T>): T {
-        return cws.Array.get.randomElement(cws.Object.values(obj));
+        return Leylights.Array.get.randomElement(Leylights.Object.values(obj));
       }
     },
     /**
@@ -692,9 +692,9 @@ export class cws {
     const exponent = Math.log(Math.abs(x)) / n;
 
     if (x < 0)
-      return -cws.roundToDecimalPlaces(Math.pow(Math.E, exponent), 9);
+      return -Leylights.roundToDecimalPlaces(Math.pow(Math.E, exponent), 9);
     else
-      return cws.roundToDecimalPlaces(Math.pow(Math.E, exponent), 9);
+      return Leylights.roundToDecimalPlaces(Math.pow(Math.E, exponent), 9);
   }
 
   /**
@@ -702,7 +702,7 @@ export class cws {
    * @returns 
    */
   static orEquals<T = any>(a: T, b: T[]): boolean {
-    return cws.anyEqual([a], b);
+    return Leylights.anyEqual([a], b);
   }
 
   /**
@@ -737,7 +737,7 @@ export class cws {
       return "zero";
 
     if (n < 0)
-      return "negative " + cws.numberToString(-n);
+      return "negative " + Leylights.numberToString(-n);
 
     // n > 0, then
 
@@ -840,7 +840,7 @@ export class cws {
    * @example 123456 => 123 456
    */
   static numberToPrettyNumber(label: number): string {
-    if (cws.isInteger(label)) {
+    if (Leylights.isInteger(label)) {
       return (label < 0 ? '-' : '') +
         Math.abs(label)
           .toString()
@@ -906,7 +906,7 @@ export class cws {
     }
 
     if (n < 0) {
-      return cws.roundToDecimalPlaces(value, -n);
+      return Leylights.roundToDecimalPlaces(value, -n);
     } else if (n > 0) {
       return Math.round(value / Math.pow(10, n)) * Math.pow(10, n);
     } else {
@@ -925,7 +925,7 @@ export class cws {
       throw new Error("Not an integer: " + n);
     }
 
-    return cws.roundToDecimalPlaces(n, -(n.toString().length - significantFigures));
+    return Leylights.roundToDecimalPlaces(n, -(n.toString().length - significantFigures));
   }
 
   /**
@@ -956,7 +956,7 @@ export class cws {
     ],
 
     to: function (input: any): boolean {
-      if (cws.orEquals(input, cws.toBoolPipe.falseValues)) {
+      if (Leylights.orEquals(input, Leylights.toBoolPipe.falseValues)) {
         return false;
       } else {
         return true;
@@ -1008,10 +1008,10 @@ export class cws {
   }
 
   static toTitleCase = function (str: string): string {
-    return cws.toCapitalized(str.substr(0).toLowerCase());
+    return Leylights.toCapitalized(str.substr(0).toLowerCase());
   }
 }
 
-console.assert(cws.roundToDecimalPlaces(99.999, 2) === 100);
-console.assert(cws.roundToDecimalPlaces(99.874, 2) === 99.87);
-console.assert(cws.roundToDecimalPlaces(99.87394385, 2) === 99.87);
+console.assert(Leylights.roundToDecimalPlaces(99.999, 2) === 100);
+console.assert(Leylights.roundToDecimalPlaces(99.874, 2) === 99.87);
+console.assert(Leylights.roundToDecimalPlaces(99.87394385, 2) === 99.87);

@@ -1,4 +1,4 @@
-import { cws } from "../../cws.js"; import { Button } from "../../components/button.component.js";
+import { Leylights } from "../../leylights.js"; import { Button } from "../../components/button.component.js";
 import { KeyboardListener } from "../../tools/keyboard-listener.js";
 import { NPCsCharacterData } from "./core/character-data.js";
 import { NPCsClass } from "./core/class.js";
@@ -45,7 +45,7 @@ class NPCsGenerator {
 
     // fill race dropdown
 
-    cws.Object.values(NPCsRace.list).forEach((race: NPCsRace) => {
+    Leylights.Object.values(NPCsRace.list).forEach((race: NPCsRace) => {
       let raceSelector = document.createElement("option");
       raceSelector.innerHTML = race.name;
       menu.raceSelector.appendChild(raceSelector);
@@ -57,7 +57,7 @@ class NPCsGenerator {
     menu.generator = Button.createByAttachment(document.getElementById("generateButton"), () => { NPCsGenerator.createCard('card') }, 'generateNPC');
     document.getElementById('main').style.marginTop = (topMargin) + 'px';
 
-    let classNames: string[] = cws.Object.values(NPCsClass.list)
+    let classNames: string[] = Leylights.Object.values(NPCsClass.list)
       .map(a => {
         return a.name;
       })
@@ -127,7 +127,7 @@ class NPCsGenerator {
 
     // get race, class
     if (!data) {
-      let races: NPCsRace[] = cws.Object.values(NPCsRace.list);
+      let races: NPCsRace[] = Leylights.Object.values(NPCsRace.list);
       let raceInput: string = menu.raceSelector.value;
       let raceSelection: NPCsRace[] = races.filter((raceFilter: NPCsRace) => {
         return raceFilter.name === raceInput;
@@ -138,7 +138,7 @@ class NPCsGenerator {
       else
         race = NPCsRace.getRandomRace();
 
-      let classes: NPCsClass[] = cws.Object.values(NPCsClass.list);
+      let classes: NPCsClass[] = Leylights.Object.values(NPCsClass.list);
       let classInput: string = menu.classSelector.value;
       let classSelection: NPCsClass[] = classes.filter((classEntry: NPCsClass) => {
         return classEntry.name.toLowerCase() === classInput.toLowerCase();
@@ -157,7 +157,7 @@ class NPCsGenerator {
 
         names = [null, null];
 
-        names[0] = cws.toCapitalized(namesList[0]);
+        names[0] = Leylights.toCapitalized(namesList[0]);
         names[1] = namesList.slice(1).join(' ');
       } else {
         names = null;
@@ -171,7 +171,7 @@ class NPCsGenerator {
       let targetCR: number;
       let inputField: HTMLInputElement = document.getElementById("inputCr") as HTMLInputElement;
 
-      targetCR = cws.roundToDecimalPlaces(parseFloat(inputField.value), 2);
+      targetCR = Leylights.roundToDecimalPlaces(parseFloat(inputField.value), 2);
       if (isNaN(targetCR))
         newCharacter.alterCRBy(CR_SHIFT_RANGE);
       else

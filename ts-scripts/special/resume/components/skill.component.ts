@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 
 export class ResumeSkillComponent {
   skill: string;
@@ -28,7 +28,7 @@ export class ResumeSkillComponent {
 
   rebuildElement(): HTMLElement {
     const resumeSkill = 'resume-skill',
-      element = cws.createElement({
+      element = Leylights.createElement({
         type: 'li',
         innerText: this.skill,
         classList: [resumeSkill].concat(this.isHighlighted ? ['skill-emph'] : []),
@@ -78,7 +78,7 @@ export class ResumeSkillComponent {
       document.querySelectorAll('#skills-list .resume-skill').forEach((skill: HTMLElement) => {
         // find any matches between searchTerms and skill alias array
         const leftMatches = skill.getAttribute('data-aliases').split(' ').filter((alias) => {
-          return cws.Array.includes(searchTerms, alias);
+          return Leylights.Array.includes(searchTerms, alias);
         });
 
         if (leftMatches.length > 0) skill.classList.add(skillToHighlight);

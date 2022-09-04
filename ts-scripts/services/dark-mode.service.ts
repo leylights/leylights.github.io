@@ -1,4 +1,4 @@
-import { cws } from "../cws.js";
+import { Leylights } from "../leylights.js";
 
 enum DarkModeStatus {
   Dark,
@@ -143,7 +143,7 @@ export class DarkModeService {
   }
 
   private static genericRegisterStylesheet(absPath: string, array: HTMLLinkElement[], status: DarkModeStatus) {
-    const el: HTMLLinkElement = cws.createStylesheetElement(absPath);
+    const el: HTMLLinkElement = Leylights.createStylesheetElement(absPath);
     el.classList.add(status === DarkModeStatus.Light ? this.stylesheetClassnames.light : this.stylesheetClassnames.dark);
 
     array.push(el);

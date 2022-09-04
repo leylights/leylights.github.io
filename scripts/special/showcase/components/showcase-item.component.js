@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 export class ShowcaseItem {
     constructor() {
         this._id = ShowcaseItem.next_id++;
@@ -18,24 +18,24 @@ export class ShowcaseItem {
     }
     rebuildContainer(parent, children, config) {
         var _a;
-        const content = cws.createElement({
+        const content = Leylights.createElement({
             type: 'div',
             classList: 'showcase-item-content',
             children: config.isLeftAligned ? children.reverse() : children,
-        }), container = cws.createElement({
+        }), container = Leylights.createElement({
             type: 'div',
             classList: ['showcase-item-container']
                 .concat((_a = config.classList) !== null && _a !== void 0 ? _a : [])
                 .concat(config.highlightType > 0 ? [`highlight`, `highlight-${config.highlightType}`] : []),
             children: [
-                cws.createElement({
+                Leylights.createElement({
                     type: 'div',
                     id: `showcase_item_${this.id}`,
                     classList: ['showcase-item']
                         .concat(config.isSecret ? ['secret-item'] : [])
                         .concat(!config.isLeftAligned ? ['right-aligned-item'] : []),
                     children: config.href ? [
-                        cws.createElement({
+                        Leylights.createElement({
                             type: 'a',
                             otherNodes: [{ type: 'href', value: config.href }],
                             children: [
@@ -54,11 +54,11 @@ export class ShowcaseItem {
         parent.appendChild(this.container);
     }
     rebuildImage(item) {
-        return cws.createElement({
+        return Leylights.createElement({
             type: 'div',
             classList: 'image-shadow-container no-opacity',
             children: [
-                cws.createElement({
+                Leylights.createElement({
                     type: 'img',
                     classList: [ShowcaseItem.classNames.image, 'single-item-image']
                         .concat(item.invertOnDark ? ['dark-invert-filter'] : [])

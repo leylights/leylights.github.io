@@ -1,5 +1,5 @@
 
-import { cws } from "../../cws.js";
+import { Leylights } from "../../leylights.js";
 import { Button } from "../../components/button.component.js";
 import { BASE_TEMP_HIGHLIGHT_TIME } from "../../components/general.js";
 import { ResizingInput } from "../../components/resizing-input.component.js";
@@ -102,13 +102,13 @@ export class NPCsInitiativeTracker {
 
   addTableRow(this: NPCsInitiativeTracker): void {
     const me = this,
-      newRow = cws.createElement({
+      newRow = Leylights.createElement({
         type: 'tr',
         children: [
-          cws.createElement({
+          Leylights.createElement({
             type: 'td',
           }),
-          cws.createElement({
+          Leylights.createElement({
             type: 'td',
           })
         ]
@@ -120,22 +120,22 @@ export class NPCsInitiativeTracker {
 
     // set up isNPC cell after so that it does not become editable
     const
-      isNPCButton = cws.createElement({
+      isNPCButton = Leylights.createElement({
         type: 'button'
       }),
-      isNPCBody = cws.createElement({
+      isNPCBody = Leylights.createElement({
         type: 'div',
         classList: 'npc-data-cell',
         children: [
-          cws.createElement({
+          Leylights.createElement({
             type: 'div',
             classList: 'is-npc-container',
             children: [isNPCButton]
           }),
-          cws.createElement({
+          Leylights.createElement({
             type: 'div',
             classList: 'health-input-container',
-            children: [cws.createElement({
+            children: [Leylights.createElement({
               type: 'input',
               classList: 'health-input',
               otherNodes: [{
@@ -146,7 +146,7 @@ export class NPCsInitiativeTracker {
           })
         ]
       }),
-      isNPCCell = cws.createElement({
+      isNPCCell = Leylights.createElement({
         type: 'td',
         children: [
           isNPCBody,
@@ -290,28 +290,28 @@ export class NPCsInitiativeTracker {
   loadInitialHTML(this: NPCsInitiativeTracker): void {
     const
       me = this,
-      tbody = cws.createElement({
+      tbody = Leylights.createElement({
         type: 'tbody',
       }),
-      table = cws.createElement({
+      table = Leylights.createElement({
         type: 'table',
         id: 'data-input-table',
         children: [
-          cws.createElement({
+          Leylights.createElement({
             type: 'thead',
             children: [
-              cws.createElement({
+              Leylights.createElement({
                 type: 'tr',
                 children: [
-                  cws.createElement({
+                  Leylights.createElement({
                     type: 'th',
                     innerText: 'Name'
                   }),
-                  cws.createElement({
+                  Leylights.createElement({
                     type: 'th',
                     innerText: 'Initiative'
                   }),
-                  cws.createElement({
+                  Leylights.createElement({
                     type: 'th',
                     innerText: 'Is NPC?'
                   })
@@ -397,7 +397,7 @@ export class NPCsInitiativeTracker {
         for (let i = 0; i < 100; i++) {
           name = (await NPCsRace.list.human.generateName())[0];
 
-          if (!(cws.Array.includes(takenNames, name)))
+          if (!(Leylights.Array.includes(takenNames, name)))
             break;
         }
       } else {
@@ -423,23 +423,23 @@ export class NPCsInitiativeTracker {
 
     // generate initiative tracker
 
-    me.HTML.tracker.current = cws.createElement({
+    me.HTML.tracker.current = Leylights.createElement({
       type: 'h2',
     });
-    me.HTML.tracker.upcoming = cws.createElement({
+    me.HTML.tracker.upcoming = Leylights.createElement({
       type: 'h3',
     });
-    me.HTML.tracker.upcomingPlayer = cws.createElement({
+    me.HTML.tracker.upcomingPlayer = Leylights.createElement({
       type: 'h3',
       classList: 'invisible',
       innerText: 'Next player character:'
     });
-    me.HTML.tracker.currentRound = cws.createElement({
+    me.HTML.tracker.currentRound = Leylights.createElement({
       type: 'p',
       innerText: `Current round: 1`
     });
 
-    const nextDiv = cws.createElement({
+    const nextDiv = Leylights.createElement({
       type: 'div',
       style: 'position: relative',
       children: [
@@ -447,7 +447,7 @@ export class NPCsInitiativeTracker {
         me.HTML.tracker.upcomingPlayer
       ]
     });
-    const newPage = cws.createElement({
+    const newPage = Leylights.createElement({
       type: 'div',
       id: 'initiative-tracker',
       children: [
@@ -462,24 +462,24 @@ export class NPCsInitiativeTracker {
     newPage.appendChild(me.HTML.tracker.currentRound);
     me.resetCurrentRoundHTML();
 
-    me.HTML.tracker.topOfRoundArrow = cws.createElement({
+    me.HTML.tracker.topOfRoundArrow = Leylights.createElement({
       type: 'div',
       classList: 'top-of-round',
       children: [
-        cws.createElement({
+        Leylights.createElement({
           type: 'div',
           classList: 'arrow',
-          children: [cws.createElement({
+          children: [Leylights.createElement({
             type: 'div',
             classList: ['triangle'],
-          }), cws.createElement({
+          }), Leylights.createElement({
             type: 'div',
             classList: ['line'],
           })],
         })],
     });
 
-    me.HTML.tracker.grid = cws.createElement({
+    me.HTML.tracker.grid = Leylights.createElement({
       type: 'div',
       classList: 'combatant-grid',
     });
@@ -500,22 +500,22 @@ export class NPCsInitiativeTracker {
     me.loadTrackerTitle();
 
     function createRow(combatant: NPCsInitiativeTrackerCombatant): void {
-      const deleteButton = cws.createElement({
+      const deleteButton = Leylights.createElement({
         type: 'span',
         classList: 'npcs-delete-button',
         innerText: 'remove'
       }), nextCombatantRow: CombatantRow = {
         isLong: combatant.hasAdditionalData,
-        initiative: cws.createElement({
+        initiative: Leylights.createElement({
           type: 'div',
           classList: ['combatant-initiative'].concat(combatant.isNPC ? ['is-npc'] : []),
           innerText: combatant.initiative + '',
         }),
-        name: cws.createElement({
+        name: Leylights.createElement({
           type: 'div',
           classList: 'combatant-name',
           children: [
-            cws.createElement({
+            Leylights.createElement({
               type: 'span',
               innerText: combatant.name,
             }),
@@ -532,7 +532,7 @@ export class NPCsInitiativeTracker {
           if (me.enabledCharacterCount > 0)
             me.loadToNextValidCombatant();
         }, 'Remove'),
-        container: cws.createElement({
+        container: Leylights.createElement({
           type: 'div',
           classList: ['combatant-row'].concat(combatant.hasAdditionalData ? ['combatant-row-long'] : []),
         }),
@@ -543,7 +543,7 @@ export class NPCsInitiativeTracker {
       nextCombatantRow.container.appendChild(nextCombatantRow.name);
 
       if (combatant.HP) {
-        nextCombatantRow.HPInput = new ResizingInput(cws.createElement({
+        nextCombatantRow.HPInput = new ResizingInput(Leylights.createElement({
           type: 'input',
           classList: 'combatant-hp',
           otherNodes: [{
@@ -554,12 +554,12 @@ export class NPCsInitiativeTracker {
             value: combatant.HP + ''
           }]
         }))
-        nextCombatantRow.HPContainer = cws.createElement({
+        nextCombatantRow.HPContainer = Leylights.createElement({
           type: 'div',
           classList: 'combatant-hp-container',
-          children: [cws.createElement({
+          children: [Leylights.createElement({
             type: 'div',
-            children: [cws.createElement({
+            children: [Leylights.createElement({
               type: 'span',
               innerText: 'HP: '
             }),
@@ -634,7 +634,7 @@ export class NPCsInitiativeTracker {
 
   resetCurrentRoundHTML(this: NPCsInitiativeTracker) {
     const me = this,
-      lastRound: number = cws.parseFirstFloat(this.HTML.tracker.currentRound.innerText);
+      lastRound: number = Leylights.parseFirstFloat(this.HTML.tracker.currentRound.innerText);
 
     if (lastRound !== this.currentRound) {
       const highlight: string = 'highlight-tracker-text',

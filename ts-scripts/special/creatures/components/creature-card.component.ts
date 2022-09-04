@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 import { Button } from "../../../components/button.component.js";
 import { ResizingInput } from "../../../components/resizing-input.component.js";
 import { SummonsCreature, SummonsCreatureAttack } from "../creature.js";
@@ -18,79 +18,79 @@ export class SummonsCreatureCardComponent implements SummonsCreatureViewComponen
 
     this.id = SummonsCreatureCardComponent.nextCardId++;
 
-    this.element = cws.createElement({
+    this.element = Leylights.createElement({
       type: 'div',
       classList: 'creature-card-new',
       children: [
-        cws.createElement({
+        Leylights.createElement({
           type: 'div',
           classList: 'name-row',
           children: [
-            cws.createElement({
+            Leylights.createElement({
               type: 'div',
               classList: 'creature-name',
               children: [
-                cws.createElement({
+                Leylights.createElement({
                   type: 'input',
                   classList: 'fit-to-content',
                   otherNodes: [{ type: 'value', value: creature.name }]
                 }),
               ],
             }),
-            cws.createElement({
+            Leylights.createElement({
               type: 'div',
               classList: 'creature-hp',
-              children: [cws.createElement({
+              children: [Leylights.createElement({
                 type: 'p',
                 children: [
-                  cws.createElement({
+                  Leylights.createElement({
                     type: 'span',
                     innerText: 'HP: ('
                   }),
-                  cws.createElement({
+                  Leylights.createElement({
                     type: 'input',
                     classList: 'fit-to-content',
                     otherNodes: [{ type: 'value', value: creature.hp + '', }]
                   }),
-                  cws.createElement({
+                  Leylights.createElement({
                     type: 'span',
                     innerText: ' / ' + creature.TOTAL_HP + ')',
                   }),
                 ]
               })],
             }),
-            cws.createElement({
+            Leylights.createElement({
               type: 'div',
               classList: 'card-delete-button',
               children: [
-                cws.createElement({
+                Leylights.createElement({
                   type: 'span',
                   innerText: 'x'
                 }),
               ]
             })]
         }),
-        cws.createElement({
+        Leylights.createElement({
           type: 'hr'
         }),
-        cws.createTable({
+        Leylights.createTable({
           body: [
             [
-              cws.createElement({
+              Leylights.createElement({
                 type: 'div',
                 classList: 'card-roll-display attack-roll',
                 innerText: '-'
-              }), cws.createElement({
+              }), Leylights.createElement({
                 type: 'div',
                 classList: 'card-roll-display damage-roll',
                 innerText: '-'
               })
             ], [
-              cws.createElement({
+              Leylights.createElement({
                 type: 'h4',
                 innerText: 'ATTACK',
                 classList: 'attack-subtitle'
-              }), cws.createElement({
+              }), Leylights.createElement({
                 type: 'h4',
                 innerText: 'DAMAGE'
               }),

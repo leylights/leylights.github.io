@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { cws } from "../../cws.js";
+import { Leylights } from "../../leylights.js";
 import { WordleAnswerTile } from "./components/answer-tile.component.js";
 import { WordleKeyTile } from "./components/keyboard-tile.component.js";
 export class WordleView {
@@ -93,7 +93,7 @@ export class WordleView {
     rebuild(container) {
         const me = this;
         // alert message
-        this.alertMessageBox = cws.createElement({
+        this.alertMessageBox = Leylights.createElement({
             type: 'div',
             classList: 'wordle-message-box'
         });
@@ -110,7 +110,7 @@ export class WordleView {
             }
             elementRows.push(row);
         }
-        const table = cws.createTable({
+        const table = Leylights.createTable({
             body: elementRows,
             id: 'wordle-answers-grid'
         });
@@ -127,7 +127,7 @@ export class WordleView {
         ].map(s => s.split(''));
         keys[2].unshift('←');
         keys[2].push('ENTER');
-        const keyboardContainer = cws.createElement({
+        const keyboardContainer = Leylights.createElement({
             type: 'div',
             id: 'wordle-keyboard-container'
         });
@@ -143,7 +143,7 @@ export class WordleView {
                 rowKeys.push(tile);
                 keyElements.push(tile.element);
             });
-            const row = cws.createTable({
+            const row = Leylights.createTable({
                 body: [keyElements],
                 classList: ['key-row']
             });

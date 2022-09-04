@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 
 type LanguageProficicencyLevel = 'Native' | 'Fluent' | 'Conversational' | 'Fundamental';
 
@@ -22,7 +22,7 @@ export class ResumeLanguageComponent {
   }
 
   rebuildElement(): HTMLElement {
-    const element = cws.createElement({
+    const element = Leylights.createElement({
       type: 'li',
       classList: ['resume-language', 'resume-highlight-no-css'],
       innerText: this.fullText,

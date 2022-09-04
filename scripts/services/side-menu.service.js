@@ -6,7 +6,7 @@
  * @author Cole Stanley
  * Created: 2017
  */
-import { cws } from '../cws.js';
+import { Leylights } from '../leylights.js';
 import { Button } from '../components/button.component.js';
 import { MenuItemMulti } from './menus/menu-item-multi.js';
 import { MenuItemSingle } from './menus/menu-item-single.js';
@@ -36,7 +36,7 @@ export class SideMenuService {
         newItem.classList.add('side-menu-item');
         newItem.id = `menu-item-${SideMenuService.itemNo}`;
         if (item instanceof MenuItemSingle)
-            newItem.appendChild(cws.createElement({
+            newItem.appendChild(Leylights.createElement({
                 type: 'a',
                 innerText: item.shortName,
                 otherNodes: { href: item.singleLinks.href },
@@ -68,11 +68,11 @@ export class SideMenuService {
     }
     static buildMenuStructure() {
         function createCategory(name, type, content) {
-            return cws.createElement({
+            return Leylights.createElement({
                 type: 'div',
                 id: `${type}-dropdown-category`,
                 classList: 'side-menu-dropdown-category side-menu-top-level-item',
-                children: (content || []).concat([cws.createElement({
+                children: (content || []).concat([Leylights.createElement({
                         type: 'button',
                         classList: 'side-menu-top-level-button',
                         innerHTML: name,
@@ -80,10 +80,10 @@ export class SideMenuService {
             });
         }
         function createTopLevelButton(name, link) {
-            return cws.createElement({
+            return Leylights.createElement({
                 type: 'div',
                 classList: 'side-menu-top-level-item',
-                children: [cws.createElement({
+                children: [Leylights.createElement({
                         type: 'a',
                         classList: 'side-menu-top-level-button',
                         otherNodes: [{ type: 'href', value: link }],
@@ -91,18 +91,18 @@ export class SideMenuService {
                     })]
             });
         }
-        const sideMenu = cws.createElement({
+        const sideMenu = Leylights.createElement({
             type: 'nav',
             id: 'side-menu',
             children: [
-                cws.createElement({
+                Leylights.createElement({
                     type: 'div',
                     id: 'side-menu-content',
                     children: [
-                        cws.createElement({
+                        Leylights.createElement({
                             type: 'div',
                             id: 'side-menu-title-container',
-                            children: [cws.createElement({
+                            children: [Leylights.createElement({
                                     type: 'h1',
                                     id: 'side-menu-title',
                                     innerText: 'menu',
@@ -112,19 +112,19 @@ export class SideMenuService {
                         createCategory('Tools', 'tools'),
                         createTopLevelButton('Archive', '/pages/archive.html'),
                         createTopLevelButton('Resume', '/pages/resume.html'),
-                        cws.createElement({
+                        Leylights.createElement({
                             type: 'button',
                             id: 'side-menu-end-button',
-                            children: [cws.createElement({
+                            children: [Leylights.createElement({
                                     type: 'img',
                                     otherNodes: [{ type: 'src', value: '/siteimages/closebutton.png' }],
                                 })]
                         }),
-                        cws.createElement({
+                        Leylights.createElement({
                             type: 'div',
                             classList: 'dark-mode-container',
                             children: [
-                                cws.createElement({
+                                Leylights.createElement({
                                     type: 'span',
                                     innerText: 'Dark mode'
                                 }),

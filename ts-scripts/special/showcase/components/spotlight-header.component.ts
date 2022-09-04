@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 
 type Season = 'fall' | 'winter' | 'spring' | 'summer';
 interface SpotlightHeaderElements {
@@ -16,13 +16,13 @@ export class SpotlightHeader {
   private getSpotlightImage(this: SpotlightHeader): HTMLElement {
     const season: Season = getSeason();
     const options: string[] = SpotlightHeader.SPOTLIGHT_IMAGES[season];
-    const imageSource: string = cws.Array.get.randomElement(options);
+    const imageSource: string = Leylights.Array.get.randomElement(options);
 
-    return cws.createElement({
+    return Leylights.createElement({
       type: 'div',
       id: this.elements?.spotlightImage.id ?? 'showcase-main-spotlight-image',
       classList: this.elements?.spotlightImage.className,
-      style: `background-image: url("${cws.getRelativeUrlPath(`siteimages/showcase/${season}/${imageSource}`)}");`,
+      style: `background-image: url("${Leylights.getRelativeUrlPath(`siteimages/showcase/${season}/${imageSource}`)}");`,
     });
 
     function getSeason(): Season {
@@ -61,19 +61,19 @@ export class SpotlightHeader {
         ?.querySelector('#big-logo') as HTMLImageElement)
         ?.src.replace(window.location.origin + '/', '') || 'siteimages/logo-w.svg',
 
-      logo: HTMLImageElement = cws.createElement({
+      logo: HTMLImageElement = Leylights.createElement({
         type: 'img',
         id: 'big-logo',
         classList: 'site-logo',
         otherNodes: [{
           type: 'src',
-          value: cws.getRelativeUrlPath(logoSource)
+          value: Leylights.getRelativeUrlPath(logoSource)
         }, {
           type: 'alt',
           value: 'colestanley.ca'
         }],
       }),
-      container: HTMLElement = cws.createElement({
+      container: HTMLElement = Leylights.createElement({
         type: 'div',
         id: 'showcase-main-spotlight',
         children: [

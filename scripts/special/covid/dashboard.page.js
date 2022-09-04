@@ -15,7 +15,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { cws } from "../../cws.js";
+import { Leylights } from "../../leylights.js";
 import { Button } from "../../components/button.component.js";
 import { COVIDCardGrid } from "./components/card-grid.component.js";
 import { COVIDSectionCollection } from "./components/section-collection.component.js";
@@ -49,7 +49,7 @@ class COVIDDashboardPage {
                 notifyOnDebugToggle: true,
             },
             listener: (isDark) => {
-                const lightLink = cws.getRelativeUrlPath('stylesheets/covid/covid-light.css');
+                const lightLink = Leylights.getRelativeUrlPath('stylesheets/covid/covid-light.css');
                 if (isDark) {
                     Array.from(document.getElementsByTagName('link')).forEach((link) => {
                         if (link.rel == 'stylesheet' && link.href.includes(lightLink.split('/').pop())) {
@@ -58,7 +58,7 @@ class COVIDDashboardPage {
                     });
                 }
                 else {
-                    document.head.appendChild(cws.createLinkElement(lightLink, 'stylesheet'));
+                    document.head.appendChild(Leylights.createLinkElement(lightLink, 'stylesheet'));
                 }
             }
         });
@@ -81,7 +81,7 @@ class COVIDDashboardPage {
             buildWaterlooDashboard();
             buildProvinceSelectorDashboard();
             buildRegionalSelectorDashboard();
-            if (cws.Object.values(this.sections).filter((section) => section.isSelected).length === 0)
+            if (Leylights.Object.values(this.sections).filter((section) => section.isSelected).length === 0)
                 this.sections.home.select();
             function buildHomeDashboard() {
                 function getCaseCount(location, region) {
@@ -92,7 +92,7 @@ class COVIDDashboardPage {
                 function getCount(statistic, location, region) {
                     return __awaiter(this, void 0, void 0, function* () {
                         const count = yield COVIDDataBridge.getSummary(statistic, location, region);
-                        return cws.numberToPrettyNumber(count);
+                        return Leylights.numberToPrettyNumber(count);
                     });
                 }
                 // Daily case counts
@@ -133,13 +133,13 @@ class COVIDDashboardPage {
                         title: "Vaccine doses administered",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
                             const doses = yield COVIDDataBridge.getSummary('vaccine_administration_total_doses', province.locationId, level);
-                            return cws.numberToPrettyNumber(doses);
+                            return Leylights.numberToPrettyNumber(doses);
                         }),
                     }, {
                         title: "Double-vaccinations completed",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
                             const doses = yield COVIDDataBridge.getSummary('vaccine_administration_dose_2', province.locationId, level);
-                            return cws.numberToPrettyNumber(doses);
+                            return Leylights.numberToPrettyNumber(doses);
                         }),
                     }, {
                         title: "Population double vaccinated",
@@ -162,17 +162,17 @@ class COVIDDashboardPage {
                 buildRegionalDashboard(me.sections.waterloo, me.regionsController.waterloo);
             }
             function buildRegionalSelectorDashboard() {
-                me.sections.regionSelect.appendToBody(cws.createElement({
+                me.sections.regionSelect.appendToBody(Leylights.createElement({
                     type: 'h2',
                     innerText: 'Select a region:'
                 }));
                 // health unit select
-                const selector = cws.createElement({
+                const selector = Leylights.createElement({
                     type: 'select',
                     id: 'health-unit-select',
                     classList: 'covid-region-select',
                 });
-                me.sections.regionSelect.appendToBody(cws.createElement({
+                me.sections.regionSelect.appendToBody(Leylights.createElement({
                     type: 'div',
                     children: [selector]
                 }));
@@ -182,13 +182,13 @@ class COVIDDashboardPage {
                         value: r.locationId,
                     };
                 }).sort((a, b) => { return a.name < b.name ? -1 : 1; }).forEach((unit) => {
-                    selector.appendChild(cws.createElement({
+                    selector.appendChild(Leylights.createElement({
                         type: 'option',
                         innerText: unit.name,
                         otherNodes: [{ type: 'value', value: unit.value }],
                     }));
                 });
-                const body = cws.createElement({
+                const body = Leylights.createElement({
                     type: 'div',
                     id: 'region-select-body',
                 });
@@ -198,20 +198,20 @@ class COVIDDashboardPage {
                     buildRegionalDashboard(body, me.regionsController.getHealthUnitByCode(selector.value));
                 }, 'Load', true);
                 me.sections.regionSelect.appendToBody(body);
-                me.sections.provinceSelect.appendToBody(cws.createElement({ type: 'br' }));
+                me.sections.provinceSelect.appendToBody(Leylights.createElement({ type: 'br' }));
             }
             function buildProvinceSelectorDashboard() {
-                me.sections.provinceSelect.appendToBody(cws.createElement({
+                me.sections.provinceSelect.appendToBody(Leylights.createElement({
                     type: 'h2',
                     innerText: 'Select a province:'
                 }));
                 // province select
-                const selector = cws.createElement({
+                const selector = Leylights.createElement({
                     type: 'select',
                     classList: 'covid-region-select',
                     id: 'province-select',
                 });
-                me.sections.provinceSelect.appendToBody(cws.createElement({
+                me.sections.provinceSelect.appendToBody(Leylights.createElement({
                     type: 'div',
                     children: [selector]
                 }));
@@ -223,13 +223,13 @@ class COVIDDashboardPage {
                         value: r.locationId,
                     };
                 }).sort((a, b) => { return a.name < b.name ? -1 : 1; }).forEach((unit) => {
-                    selector.appendChild(cws.createElement({
+                    selector.appendChild(Leylights.createElement({
                         type: 'option',
                         innerText: unit.name,
                         otherNodes: [{ type: 'value', value: unit.value }],
                     }));
                 });
-                const body = cws.createElement({
+                const body = Leylights.createElement({
                     type: 'div',
                     id: 'region-select-body',
                 });
@@ -239,7 +239,7 @@ class COVIDDashboardPage {
                     buildMacroRegionalDashboard(body, me.regionsController.getProvinceByCode(selector.value), COVIDRegionLevel.provincial);
                 }, 'Load', true);
                 me.sections.provinceSelect.appendToBody(body);
-                me.sections.provinceSelect.appendToBody(cws.createElement({ type: 'br' }));
+                me.sections.provinceSelect.appendToBody(Leylights.createElement({ type: 'br' }));
             }
             function buildRegionalDashboard(section, region) {
                 // daily totals
@@ -320,8 +320,8 @@ class COVIDDashboardPage {
                 });
             }
             function buildTimeSeriesAnalysis(section, region, level) {
-                const CASES_START = new Date('2020-01-25'), DEATHS_START = new Date('2020-03-08'), TODAY = new Date(Date.now() - Date.now() % (24 * 60 * 60 * 1000)), caseDays = cws.daysBetween(CASES_START, TODAY), deathsDays = cws.daysBetween(DEATHS_START, TODAY);
-                const title = cws.createElement({ type: 'h2', innerText: 'Time-series analysis' });
+                const CASES_START = new Date('2020-01-25'), DEATHS_START = new Date('2020-03-08'), TODAY = new Date(Date.now() - Date.now() % (24 * 60 * 60 * 1000)), caseDays = Leylights.daysBetween(CASES_START, TODAY), deathsDays = Leylights.daysBetween(DEATHS_START, TODAY);
+                const title = Leylights.createElement({ type: 'h2', innerText: 'Time-series analysis' });
                 appendToSection(title);
                 const appendableBody = section instanceof COVIDSection ? section.appendableBody : section, typeSelector = new COVIDSectionCollection(appendableBody, { setHeightToMax: true }), wavgSection = new COVIDSection(null, `Average (${averageDays} days)`, [], typeSelector), wavgCollection = new COVIDSectionCollection(wavgSection.appendableBody, { setHeightToMax: true }), rawSection = new COVIDSection(null, 'Raw', [], typeSelector), rawCollection = new COVIDSectionCollection(rawSection.appendableBody, { setHeightToMax: true });
                 buildCharts(rawCollection, 0);
@@ -445,19 +445,19 @@ class COVIDDashboardPage {
                         title: "New cases",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
                             const cases = yield COVIDDataBridge.getTimeSeries('cases', region.locationId, level);
-                            return cws.numberToPrettyNumber(COVIDDashboardPage.getTimeSeriesAverage(cases, averageDays, true));
+                            return Leylights.numberToPrettyNumber(COVIDDashboardPage.getTimeSeriesAverage(cases, averageDays, true));
                         }),
                     }, level === COVIDRegionLevel.regional ? null : {
                         title: "Hospitalizations",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
                             const cases = yield COVIDDataBridge.getTimeSeries('hospitalizations', region.locationId, level);
-                            return cws.numberToPrettyNumber(COVIDDashboardPage.getTimeSeriesAverage(cases, averageDays, true));
+                            return Leylights.numberToPrettyNumber(COVIDDashboardPage.getTimeSeriesAverage(cases, averageDays, true));
                         }),
                     }, {
                         title: "Deaths",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
                             const deaths = yield COVIDDataBridge.getTimeSeries('deaths', region.locationId, level);
-                            return cws.numberToPrettyNumber(COVIDDashboardPage.getTimeSeriesAverage(deaths, averageDays, true));
+                            return Leylights.numberToPrettyNumber(COVIDDashboardPage.getTimeSeriesAverage(deaths, averageDays, true));
                         }),
                     }]);
             }
@@ -466,17 +466,17 @@ class COVIDDashboardPage {
                     {
                         title: "Cases",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
-                            return cws.numberToPrettyNumber(yield COVIDDataBridge.getSummary('cases', region.locationId, level));
+                            return Leylights.numberToPrettyNumber(yield COVIDDataBridge.getSummary('cases', region.locationId, level));
                         }),
                     }, level === COVIDRegionLevel.regional ? null : {
                         title: "Hospitalizations",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
-                            return cws.numberToPrettyNumber(yield COVIDDataBridge.getSummary('hospitalizations', region.locationId, level));
+                            return Leylights.numberToPrettyNumber(yield COVIDDataBridge.getSummary('hospitalizations', region.locationId, level));
                         }),
                     }, {
                         title: "Deaths",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
-                            return cws.numberToPrettyNumber(yield COVIDDataBridge.getSummary('deaths', region.locationId, level));
+                            return Leylights.numberToPrettyNumber(yield COVIDDataBridge.getSummary('deaths', region.locationId, level));
                         }),
                     }
                 ].concat(!region.population ? [] : [{
@@ -504,7 +504,7 @@ class COVIDDashboardPage {
                 me.createGrid(section, data.title, [{
                         title: "AVERAGE CASES (past 7 days)",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
-                            return cws.numberToPrettyNumber(COVIDDashboardPage.getTimeSeriesAverage(yield COVIDDataBridge.getTimeSeries('cases', data.locationId, data.level), 7, true));
+                            return Leylights.numberToPrettyNumber(COVIDDashboardPage.getTimeSeriesAverage(yield COVIDDataBridge.getTimeSeries('cases', data.locationId, data.level), 7, true));
                         }),
                     }, {
                         title: "DEATHS (past 28 days)",
@@ -518,7 +518,7 @@ class COVIDDashboardPage {
                         title: "CUMULATIVE CASES AS % OF POP.",
                         responseGetter: () => __awaiter(this, void 0, void 0, function* () {
                             const ccases = yield COVIDDataBridge.getSummary('cases', data.locationId, data.level);
-                            return cws.roundToDecimalPlaces(100 * ccases / data.population, 2) + '% ';
+                            return Leylights.roundToDecimalPlaces(100 * ccases / data.population, 2) + '% ';
                         }),
                     }
                 ]);

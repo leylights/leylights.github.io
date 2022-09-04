@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 export class NPCsSpell {
     constructor(data) {
         this._name = data.name;
@@ -30,7 +30,7 @@ export class NPCsSpell {
     }
     static getSpellByName(name) {
         for (const spellLevel of NPCsSpell.list) {
-            const spells = cws.Object.values(spellLevel);
+            const spells = Leylights.Object.values(spellLevel);
             for (const spell of spells) {
                 if (name.toLowerCase() === spell.name.toLowerCase())
                     return spell;

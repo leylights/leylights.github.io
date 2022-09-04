@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 import { Button } from "../../../components/button.component.js";
 import { NPCsMemorySaveBarComponent } from "../components/npcs-memory-save-bar.component.js";
 import { NPCsCharacterData } from "./character-data.js";
@@ -21,7 +21,7 @@ export class NPCsMemory {
           child.remove();
         });
       else
-        existingList = cws.createElement({
+        existingList = Leylights.createElement({
           type: 'ul',
           id: 'saved-character-list'
         });
@@ -33,16 +33,16 @@ export class NPCsMemory {
       return existingList;
 
       function createListItem(character: NPCsCharacterData) {
-        const deleteElement = cws.createElement({
+        const deleteElement = Leylights.createElement({
           type: 'button',
           classList: 'saved-character-delete',
           innerText: 'x',
         });
 
-        const element: HTMLLIElement = cws.createElement({
+        const element: HTMLLIElement = Leylights.createElement({
           type: 'li',
           id: `saved-character-${character.ID}`,
-          children: [cws.createElement({
+          children: [Leylights.createElement({
             type: 'div',
             classList: 'saved-character-name',
             innerText: character.name

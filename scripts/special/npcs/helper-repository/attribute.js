@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 export class NPCsAttribute {
     constructor(data) {
         this.name = data.name;
@@ -36,7 +36,7 @@ export class NPCsAttribute {
         return classAtrributesList;
     }
     static getAttributeByName(name) {
-        const result = cws.Object.values(NPCsAttribute.list).filter((a) => { return a.name === name; });
+        const result = Leylights.Object.values(NPCsAttribute.list).filter((a) => { return a.name === name; });
         if (result.length > 0)
             return result[0];
         else

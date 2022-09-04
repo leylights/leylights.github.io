@@ -1,4 +1,4 @@
-import { cws } from "../../../../cws.js";
+import { Leylights } from "../../../../leylights.js";
 import { MathVector } from "../../../../tools/math/vector.js";
 import { Canvas } from "../../../../components/canvas.component.js";
 import { PacmanEntityEnum, PacmanDirectionEnum, PacmanHelper, PacmanStateEnum } from "../../helper.js";
@@ -39,10 +39,10 @@ export class PacmanGhost extends PacmanCharacter {
     }
 
     // start box navigation
-    if (cws.anyEqual([this.currentNodeID], ["bt", "bo", "bu"])) {
+    if (Leylights.anyEqual([this.currentNodeID], ["bt", "bo", "bu"])) {
       if (this.isDead) {
         if (((this.currentNodeID == "bt" && this.direction != PacmanDirectionEnum.RIGHT)
-          || (this.currentNodeID == "bo" && (cws.anyEqual([this.aimDirection], [PacmanDirectionEnum.DOWN, PacmanDirectionEnum.UP])))
+          || (this.currentNodeID == "bo" && (Leylights.anyEqual([this.aimDirection], [PacmanDirectionEnum.DOWN, PacmanDirectionEnum.UP])))
           || (this.currentNodeID == "bu" && this.direction != PacmanDirectionEnum.LEFT))) {
           this.reviveGhost(false);
           this.direction = PacmanDirectionEnum.STILL;
@@ -75,7 +75,7 @@ export class PacmanGhost extends PacmanCharacter {
     if (exitValid
       && exitID != null
       && !PacmanHelper.areOppositeDirection(this.direction, this.aimDirection)
-      && (Math.random() <= (1 - this.stupidifier) || cws.anyEqual([this.currentNodeID], ["bt", "bo", "bu"]) || this.isDead)) {
+      && (Math.random() <= (1 - this.stupidifier) || Leylights.anyEqual([this.currentNodeID], ["bt", "bo", "bu"]) || this.isDead)) {
       this.destinationNodeID = exitID;
       this.direction = this.aimDirection;
 
@@ -175,7 +175,7 @@ export class PacmanGhost extends PacmanCharacter {
         true,
         16)
       return;
-    } else if (cws.orEquals(PacmanState.gameState, [PacmanStateEnum.PLAYER_DEATH_ANIMATING, PacmanStateEnum.PLAYER_DEATH_END]) || PacmanState.isLevelEndFlashing()) {
+    } else if (Leylights.orEquals(PacmanState.gameState, [PacmanStateEnum.PLAYER_DEATH_ANIMATING, PacmanStateEnum.PLAYER_DEATH_END]) || PacmanState.isLevelEndFlashing()) {
       return;
     }
 
@@ -253,7 +253,7 @@ export class PacmanGhost extends PacmanCharacter {
     // override to return home when dead
 
     if (this.isDead) {
-      if (cws.anyEqual([this.currentNodeID], ["bp", "bo", "bt", "bu"])) {
+      if (Leylights.anyEqual([this.currentNodeID], ["bp", "bo", "bt", "bu"])) {
         target.x = this.home.x;
         target.y = this.home.y;
       } else {

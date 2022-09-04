@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 import { ResumePage } from "../resume.page.js";
 import { ResumeSkillComponent } from "./skill.component.js";
 
@@ -82,22 +82,22 @@ export class ResumeExperienceItemComponent {
    */
   private rebuildTable(): void {
     const me = this,
-      table = cws.createTable({
+      table = Leylights.createTable({
         head: [
           [
-            cws.createElement({
+            Leylights.createElement({
               type: 'h3',
               classList: 'job-title',
               innerText: me.title,
             }),
-            cws.createElement({
+            Leylights.createElement({
               type: 'h3',
               classList: 'experience-date',
               innerText: me.dates.join(', '),
             })
           ],
           this.subtitle ? [
-            cws.createElement({
+            Leylights.createElement({
               type: 'h4',
               classList: 'workplace-name',
               innerText: me.subtitle,
@@ -110,7 +110,7 @@ export class ResumeExperienceItemComponent {
         ],
         classList: ['experience-table']
       }),
-      container = cws.createElement({
+      container = Leylights.createElement({
         type: 'div',
         classList: 'experience-item',
         children: [table],
@@ -124,7 +124,7 @@ export class ResumeExperienceItemComponent {
           : [highlight.innerHTML.trim()];
 
         ResumeSkillComponent.highlightSkill(terms, {
-          searchForStrictWord: cws.Array.includes(terms, 'Java'),
+          searchForStrictWord: Leylights.Array.includes(terms, 'Java'),
         });
       });
     });
@@ -135,18 +135,18 @@ export class ResumeExperienceItemComponent {
     this.container = container;
 
     function getTableBody(): HTMLElement[] {
-      const elements = [cws.createElement({
+      const elements = [Leylights.createElement({
         type: 'div',
         children: [
-          cws.createElement({
+          Leylights.createElement({
             type: 'div',
             classList: ['experience-image-container', 'mobile-only'],
             children: me.getImages()
           }),
-          cws.createElement({
+          Leylights.createElement({
             type: 'ul',
             children: me._experiencePoints.map((point: string) => {
-              return cws.createElement({
+              return Leylights.createElement({
                 type: 'li',
                 innerHTML: me.formatPoint(point)
               });
@@ -154,7 +154,7 @@ export class ResumeExperienceItemComponent {
           }),
         ]
       }),
-      cws.createElement({
+      Leylights.createElement({
         type: 'div',
         classList: ['experience-image-container', 'desktop-only'],
         children: me.getImages()
@@ -171,12 +171,12 @@ export class ResumeExperienceItemComponent {
    */
   private rebuildGrid(): void {
     const me = this,
-      grid = cws.createElement({
+      grid = Leylights.createElement({
         type: 'div',
         classList: ['horizontal-grid', 'experience-grid'].concat(me.isFlipped ? ['reversed'] : []),
         children: getGridBody(),
       }),
-      container = cws.createElement({
+      container = Leylights.createElement({
         type: 'div',
         classList: 'experience-item',
         children: [grid],
@@ -194,27 +194,27 @@ export class ResumeExperienceItemComponent {
           : [highlight.innerHTML.trim()];
 
         ResumeSkillComponent.highlightSkill(terms, {
-          searchForStrictWord: cws.Array.includes(terms, 'java'),
+          searchForStrictWord: Leylights.Array.includes(terms, 'java'),
         });
       });
     });
     this.container = container;
 
     function getGridBody(): HTMLElement[] {
-      const els = [cws.createElement({
+      const els = [Leylights.createElement({
         type: 'div',
         classList: 'experience-grid-body-cell',
         children: [
-          cws.createElement({
+          Leylights.createElement({
             type: 'div',
             children: [
-              cws.createElement({
+              Leylights.createElement({
                 type: 'h3',
                 classList: 'job-title',
                 innerText: me.title,
                 style: 'float: left'
               }),
-              cws.createElement({
+              Leylights.createElement({
                 type: 'h3',
                 classList: 'experience-date',
                 innerText: me.dates.join(', '),
@@ -222,28 +222,28 @@ export class ResumeExperienceItemComponent {
               })
             ]
           }),
-          cws.createElement({
+          Leylights.createElement({
             type: 'h4',
             classList: 'workplace-name',
             innerText: me.subtitle,
             style: 'clear: both'
           }),
-          cws.createElement({
+          Leylights.createElement({
             type: 'div',
             classList: ['experience-image-container', 'mobile-only'],
             children: me.getImages(),
           }),
-          cws.createElement({
+          Leylights.createElement({
             type: 'ul',
             children: me._experiencePoints.map((point: string) => {
-              return cws.createElement({
+              return Leylights.createElement({
                 type: 'li',
                 innerHTML: me.formatPoint(point)
               });
             }),
           }),
         ]
-      }), cws.createElement({
+      }), Leylights.createElement({
         type: 'div',
         classList: ['experience-grid-image-cell', 'desktop-only'],
         children: me.getImages()
@@ -286,7 +286,7 @@ export class ResumeExperienceItemComponent {
     const me = this,
       classList = ['experience-image'].concat(me.isFlipped ? ['reversed'] : []).concat(me._invertDarkImg ? ['dark-invert-filter'] : []);
 
-    return [cws.createElement({
+    return [Leylights.createElement({
       type: 'img',
       classList: classList.concat(['dark-none']),
       otherNodes: [{
@@ -296,7 +296,7 @@ export class ResumeExperienceItemComponent {
         type: 'alt',
         value: me._imageAlt
       }]
-    }), cws.createElement({
+    }), Leylights.createElement({
       type: 'img',
       classList: classList.concat(['dark-only']),
       otherNodes: [{

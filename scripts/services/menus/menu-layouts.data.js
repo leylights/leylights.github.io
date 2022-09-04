@@ -1,4 +1,4 @@
-import { cws } from "../../cws.js";
+import { Leylights } from "../../leylights.js";
 import { MenuItemMulti } from "./menu-item-multi.js";
 import { MenuItems } from "./menu-items.data.js";
 export class MenuLayouts {
@@ -30,7 +30,7 @@ MenuLayouts.MULTI_ITEMS = {
         ]
     })
 };
-MenuLayouts.ALL = cws.Object.values(MenuItems);
+MenuLayouts.ALL = Leylights.Object.values(MenuItems);
 MenuLayouts.MAIN_MENU = [
     MenuItems.covidDashboard,
     MenuItems.resume,
@@ -39,8 +39,9 @@ MenuLayouts.MAIN_MENU = [
     MenuItems.pacManV2,
     MenuItems.wiresV2,
     MenuItems.emWaves,
-    MenuItems.matrices,
+    MenuItems.calculatorii,
     MenuItems.vectors,
+    MenuItems.matrices,
     MenuItems.daydream,
     MenuLayouts.MULTI_ITEMS.NPCs,
     MenuItems.algebra,
@@ -83,9 +84,10 @@ MenuLayouts.TOP_MENU = {
         MenuItems.infectionModel,
         MenuItems.vectors,
         MenuItems.algebra,
+        MenuItems.calculatorii,
     ])
 };
-MenuLayouts.SECRET_ITEMS = cws.Object.values(MenuItems).filter((item) => {
+MenuLayouts.SECRET_ITEMS = Leylights.Object.values(MenuItems).filter((item) => {
     return item.isSecret;
 });
 //# sourceMappingURL=menu-layouts.data.js.map

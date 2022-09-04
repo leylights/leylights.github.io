@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 import { COVIDHelper } from "../helper.js";
 import { COVIDDisplayCard } from "./display-card.component.js";
 import { COVIDSection } from "./section.component.js";
@@ -15,13 +15,13 @@ export class COVIDCardGrid {
     constructor(title, cardData, parentElement, config) {
         this.cards = [];
         const me = this, gridClass = 'card-grid';
-        this.element = cws.createElement({
+        this.element = Leylights.createElement({
             type: 'div',
             classList: 'grid-section',
-            children: [cws.createElement({
+            children: [Leylights.createElement({
                     type: 'h2',
                     innerText: title,
-                }), cws.createElement({
+                }), Leylights.createElement({
                     type: 'div',
                     classList: gridClass + ((config === null || config === void 0 ? void 0 : config.maxTwoAcross) ? ' max-two-across' : ''),
                 })]

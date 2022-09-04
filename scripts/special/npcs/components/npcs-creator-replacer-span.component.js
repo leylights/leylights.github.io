@@ -1,8 +1,8 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 export class NPCsReplacerSpan {
     constructor(body) {
         this.id = NPCsReplacerSpan.nextId++;
-        this.element = cws.createElement({
+        this.element = Leylights.createElement({
             type: 'span',
             classList: 'npcs-replacer-span',
             id: `npcs-replacer-span-${this.id}`

@@ -1,4 +1,4 @@
-import { cws } from "../../cws.js";
+import { Leylights } from "../../leylights.js";
 import { MenuItemMulti } from "./menu-item-multi.js";
 import { MenuItemSingle } from "./menu-item-single.js";
 import { MenuItem } from "./menu-item.js";
@@ -24,7 +24,7 @@ export class MenuLayouts {
     })
   };
 
-  static readonly ALL: MenuItemSingle[] = cws.Object.values(MenuItems);
+  static readonly ALL: MenuItemSingle[] = Leylights.Object.values(MenuItems);
 
   static readonly MAIN_MENU: (MenuItemSingle | MenuItemMulti)[] = [
     MenuItems.covidDashboard,
@@ -34,8 +34,9 @@ export class MenuLayouts {
     MenuItems.pacManV2,
     MenuItems.wiresV2,
     MenuItems.emWaves,
-    MenuItems.matrices,
+    MenuItems.calculatorii,
     MenuItems.vectors,
+    MenuItems.matrices,
     MenuItems.daydream,
     MenuLayouts.MULTI_ITEMS.NPCs,
     MenuItems.algebra,
@@ -83,6 +84,7 @@ export class MenuLayouts {
         MenuItems.infectionModel,
         MenuItems.vectors,
         MenuItems.algebra,
+        MenuItems.calculatorii,
       ])
     }
 
@@ -96,7 +98,7 @@ export class MenuLayouts {
       });
   }
 
-  static readonly SECRET_ITEMS = cws.Object.values(MenuItems).filter((item) => {
+  static readonly SECRET_ITEMS = Leylights.Object.values(MenuItems).filter((item) => {
     return item.isSecret;
   });
 }

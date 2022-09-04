@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { cws } from "../cws.js";
+import { Leylights } from "../leylights.js";
 /**
  * Infection Spread Modeller
  *
@@ -85,7 +85,7 @@ const canvas = {
         this.element.style.transition = "all 0.5s linear";
         this.element.width = this.element.getBoundingClientRect().width;
         this.element.height = this.element.getBoundingClientRect().height;
-        this.element.setAttributeNode(cws.betterCreateAttr("oncontextmenu", "return false;"));
+        this.element.setAttributeNode(Leylights.betterCreateAttr("oncontextmenu", "return false;"));
         this.context = this.element.getContext("2d", {
             alpha: false
         });
@@ -116,9 +116,9 @@ const canvas = {
             this.borderColour = window.getComputedStyle(document.getElementById(CANVAS_ID)).borderColor;
         },
         draw: function () {
-            cws.fillRect(0, canvas.outerHeight - this.outerHeight, this.width, this.borderWidth, this.borderColour, canvas.context);
-            cws.fillRect(0, this.innerY, this.width, this.innerHeight, canvas.element.style.backgroundColor, canvas.context);
-            cws.drawText("Symptomatic Isolation:", 10, this.innerY + ((this.innerHeight + ISOLATION_BAR_TEXT_SIZE) / 2), "#000", false, ISOLATION_BAR_TEXT_SIZE, null, canvas.context);
+            Leylights.fillRect(0, canvas.outerHeight - this.outerHeight, this.width, this.borderWidth, this.borderColour, canvas.context);
+            Leylights.fillRect(0, this.innerY, this.width, this.innerHeight, canvas.element.style.backgroundColor, canvas.context);
+            Leylights.drawText("Symptomatic Isolation:", 10, this.innerY + ((this.innerHeight + ISOLATION_BAR_TEXT_SIZE) / 2), "#000", false, ISOLATION_BAR_TEXT_SIZE, null, canvas.context);
         }
     },
     get width() {
@@ -139,7 +139,7 @@ const canvas = {
         window.cancelAnimationFrame(animator);
     },
     clear: function () {
-        cws.fillRect(0, 0, this.element.width, this.element.height, "white", canvas.context);
+        Leylights.fillRect(0, 0, this.element.width, this.element.height, "white", canvas.context);
     }
 };
 const chart = {
@@ -187,7 +187,7 @@ const chart = {
         window.cancelAnimationFrame(animator);
     },
     clear: function () {
-        cws.fillRect(0, 0, this.element.width, this.element.height, "white", this.context);
+        Leylights.fillRect(0, 0, this.element.width, this.element.height, "white", this.context);
     }
 };
 /**
@@ -392,9 +392,9 @@ class Cell {
      * @param {String} colour
      */
     static drawCell(x, y, colour, dotColour) {
-        cws.fillCircle(x, y, Cell.radius, colour, false, canvas.context);
+        Leylights.fillCircle(x, y, Cell.radius, colour, false, canvas.context);
         if (dotColour != null) {
-            cws.fillCircle(x + Cell.radius - Cell.dotRadius, y + Cell.radius - Cell.dotRadius, Cell.dotRadius, dotColour, false, canvas.context);
+            Leylights.fillCircle(x + Cell.radius - Cell.dotRadius, y + Cell.radius - Cell.dotRadius, Cell.dotRadius, dotColour, false, canvas.context);
         }
     }
     static infectCell(cell) {
@@ -711,15 +711,15 @@ Controls.accordionInteract = function (head) {
  * Initializes the controls
  */
 Controls.prepare = function (firstTime) {
-    cws.getInputElementById("secondsUntilAsymptomatic").value = secondsToAsymptomatic + "";
-    cws.getInputElementById("secondsUntilSymptomatic").value = secondsToSymptomatic + "";
-    cws.getInputElementById("secondsUntilConclusion").value = secondsToSurvival + "";
-    cws.getInputElementById("mortalityRate").value = (mortalityRate * 100) + "";
+    Leylights.getInputElementById("secondsUntilAsymptomatic").value = secondsToAsymptomatic + "";
+    Leylights.getInputElementById("secondsUntilSymptomatic").value = secondsToSymptomatic + "";
+    Leylights.getInputElementById("secondsUntilConclusion").value = secondsToSurvival + "";
+    Leylights.getInputElementById("mortalityRate").value = (mortalityRate * 100) + "";
     document.getElementById("mortalityDisplay").innerText = (mortalityRate * 100) + "";
-    cws.getInputElementById("asymptomaticRate").value = (asymptomaticRate * 100) + "";
+    Leylights.getInputElementById("asymptomaticRate").value = (asymptomaticRate * 100) + "";
     document.getElementById("asymptomaticDisplay").innerText = (asymptomaticRate * 100) + "";
-    cws.getInputElementById("isolateSymptomatic").checked = isolateSymptomatic;
-    cws.getInputElementById("showNonContagious").checked = showNonContagious;
+    Leylights.getInputElementById("isolateSymptomatic").checked = isolateSymptomatic;
+    Leylights.getInputElementById("showNonContagious").checked = showNonContagious;
     if (firstTime) {
         let accordionHeads = document.getElementsByClassName("accordionHead");
         for (let i = 0; i < accordionHeads.length; i++) {
@@ -731,21 +731,21 @@ Controls.prepare = function (firstTime) {
             });
         }
         document.getElementById("mortalityRate").addEventListener("change", function (e) {
-            document.getElementById("mortalityDisplay").innerText = Math.round(parseFloat(cws.getInputElementById("mortalityRate").value)) + "";
+            document.getElementById("mortalityDisplay").innerText = Math.round(parseFloat(Leylights.getInputElementById("mortalityRate").value)) + "";
         });
         document.getElementById("asymptomaticRate").addEventListener("change", function (e) {
-            document.getElementById("asymptomaticDisplay").innerText = Math.round(parseFloat(cws.getInputElementById("asymptomaticRate").value)) + "";
+            document.getElementById("asymptomaticDisplay").innerText = Math.round(parseFloat(Leylights.getInputElementById("asymptomaticRate").value)) + "";
         });
         document.getElementById("restartNoCovid").addEventListener("click", () => { restartSimulation(false); });
         document.getElementById("restartCovid").addEventListener("click", () => { restartSimulation(true); });
     }
     // anti-infection measures
-    cws.getInputElementById("vaccinationRate").value = (vaccinationRate * 100) + "";
+    Leylights.getInputElementById("vaccinationRate").value = (vaccinationRate * 100) + "";
     document.getElementById("vaccinationDisplay").innerText = (vaccinationRate * 100) + "";
-    cws.getInputElementById("physDistancing").value = (populationSpacing - 1) + "";
+    Leylights.getInputElementById("physDistancing").value = (populationSpacing - 1) + "";
     if (firstTime) {
         document.getElementById("vaccinationRate").addEventListener("change", function (e) {
-            document.getElementById("vaccinationDisplay").innerText = Math.round(parseFloat(cws.getInputElementById("vaccinationRate").value)) + "";
+            document.getElementById("vaccinationDisplay").innerText = Math.round(parseFloat(Leylights.getInputElementById("vaccinationRate").value)) + "";
         });
     }
     // update the legend
@@ -770,9 +770,9 @@ Controls.collect = function () {
     mortalityRate = Controls.numOrZero(document.getElementById("mortalityRate")) / 100;
     asymptomaticRate = Controls.numOrZero(document.getElementById("asymptomaticRate")) / 100;
     vaccinationRate = Controls.numOrZero(document.getElementById("vaccinationRate")) / 100;
-    populationSpacing = parseInt(cws.getInputElementById("physDistancing").value) + 1;
-    isolateSymptomatic = cws.getInputElementById("isolateSymptomatic").checked;
-    showNonContagious = cws.getInputElementById("showNonContagious").checked;
+    populationSpacing = parseInt(Leylights.getInputElementById("physDistancing").value) + 1;
+    isolateSymptomatic = Leylights.getInputElementById("isolateSymptomatic").checked;
+    showNonContagious = Leylights.getInputElementById("showNonContagious").checked;
 };
 /**
  * Returns the non-negative numeric value of the input element, or zero if not a non-negative number
@@ -866,8 +866,8 @@ function makeBackup() {
         backupPopulation[i] = population[i].makeCopy();
     }
     next_population_backup = now + POPULATION_BACKUP_INTERVAL;
-    cws.fillRect(0, canvas.bodyHeight - 20, 20, 20, "orange", canvas.context);
-    cws.drawText("B", 10, canvas.bodyHeight - 10, "white", true, 20, null, canvas.context);
+    Leylights.fillRect(0, canvas.bodyHeight - 20, 20, 20, "orange", canvas.context);
+    Leylights.drawText("B", 10, canvas.bodyHeight - 10, "white", true, 20, null, canvas.context);
 }
 /**
  * Infects evert cell
@@ -928,8 +928,8 @@ function redrawCanvas() {
         for (let i = 0; i < counts[INF_STATES.SYMPTOMATIC]; i++) {
             let x = canvas.width - (i + 1) * (2 * Cell.radius + 10);
             if (x < 20 + canvas.context.measureText("Symptomatic Isolation").width) {
-                cws.drawLine(x + (2 * Cell.radius + 10) + padding, y + Cell.radius, x + (4 * Cell.radius + 10) - padding, y + Cell.radius, "white", 2, canvas.context);
-                cws.drawLine(x + (3 * Cell.radius + 10), y + padding, x + (3 * Cell.radius + 10), y + (2 * Cell.radius) - padding, "white", 2, canvas.context);
+                Leylights.drawLine(x + (2 * Cell.radius + 10) + padding, y + Cell.radius, x + (4 * Cell.radius + 10) - padding, y + Cell.radius, "white", 2, canvas.context);
+                Leylights.drawLine(x + (3 * Cell.radius + 10), y + padding, x + (3 * Cell.radius + 10), y + (2 * Cell.radius) - padding, "white", 2, canvas.context);
                 break;
             }
             else {
@@ -950,18 +950,18 @@ function redrawChart() {
     let chartRect = { w: chart.width, h: chart.height };
     let gridSpace = chart.gridlineSpace;
     for (let x = 0; x < chartRect.w; x += gridSpace.horizontal) {
-        cws.drawLine(x, 0, x, chart.height, GRIDLINE_COLOUR, 1, chart.context);
+        Leylights.drawLine(x, 0, x, chart.height, GRIDLINE_COLOUR, 1, chart.context);
     }
     for (let y = chartRect.h; y > 0; y -= gridSpace.horizontal) {
-        cws.drawLine(0, y, chart.width, y, GRIDLINE_COLOUR, 1, chart.context);
+        Leylights.drawLine(0, y, chart.width, y, GRIDLINE_COLOUR, 1, chart.context);
     }
     // redraw the statistics
     for (let i = 0; i < stats.length; i++) {
         if (shownStatistics[i]) {
             for (let j = 0; j < stats[i].length; j++) {
-                cws.fillCircle(j * chart.gridlineSpace.horizontal, chart.height - chart.height * (stats[i][j] / population.length), DATAPOINT_RADIUS, Cell.colours[i], true, chart.context);
+                Leylights.fillCircle(j * chart.gridlineSpace.horizontal, chart.height - chart.height * (stats[i][j] / population.length), DATAPOINT_RADIUS, Cell.colours[i], true, chart.context);
                 if (j > 0) {
-                    cws.drawLine((j - 1) * chart.gridlineSpace.horizontal, chart.height - chart.height * (stats[i][j - 1] / population.length), j * chart.gridlineSpace.horizontal, chart.height - chart.height * (stats[i][j] / population.length), Cell.colours[i], 1, chart.context);
+                    Leylights.drawLine((j - 1) * chart.gridlineSpace.horizontal, chart.height - chart.height * (stats[i][j - 1] / population.length), j * chart.gridlineSpace.horizontal, chart.height - chart.height * (stats[i][j] / population.length), Cell.colours[i], 1, chart.context);
                 }
             }
         }
@@ -1160,7 +1160,7 @@ function updateChart() {
         shownStatistics[i] = document.getElementById("showLines").children[0].children[i].children[0].children[0].checked;
     }
     // determine chart locking
-    keepRight = !cws.getInputElementById("unlockChart").checked;
+    keepRight = !Leylights.getInputElementById("unlockChart").checked;
 }
 /**
  * When necessary, updates the statistics array

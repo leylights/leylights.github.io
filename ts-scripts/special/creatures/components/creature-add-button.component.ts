@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 import { Button } from "../../../components/button.component.js";
 import { SummonsCreatureFactory } from "../creature-factory.js";
 import { SummonsCreature } from "../creature.js";
@@ -14,27 +14,27 @@ export class SummonsCreatureAddButton {
     const me = this;
 
     // create select
-    this.selector = cws.createElement({
+    this.selector = Leylights.createElement({
       type: 'select',
       classList: 'create-select'
     });
 
     // fill select options
-    const names: string[] = cws.Object.values(SummonsCreatureFactory.creatures).map((c) => { return c.name; });
+    const names: string[] = Leylights.Object.values(SummonsCreatureFactory.creatures).map((c) => { return c.name; });
     names.forEach((name: string) => {
-      me.selector.appendChild(cws.createElement({
+      me.selector.appendChild(Leylights.createElement({
         type: 'option',
         innerText: name.toUpperCase(),
       }));
     });
-    me.selector.appendChild(cws.createElement({
+    me.selector.appendChild(Leylights.createElement({
       type: 'option',
       innerText: SummonsCreatureAddButton.NEW_CREATURE_NAME.toUpperCase(),
     }));
 
     // create table
-    this.table = cws.createTable({
-      body: [[cws.createElement({
+    this.table = Leylights.createTable({
+      body: [[Leylights.createElement({
         type: 'div',
         classList: 'create-button'
       }), this.selector]]
@@ -47,7 +47,7 @@ export class SummonsCreatureAddButton {
       if (selectedCreature == SummonsCreatureAddButton.NEW_CREATURE_NAME.toUpperCase()) {
         addNewCreature();
       } else {
-        const createdCreature: SummonsCreature = Array.from(cws.Object.values(SummonsCreatureFactory.creatures)).filter((c) => {
+        const createdCreature: SummonsCreature = Array.from(Leylights.Object.values(SummonsCreatureFactory.creatures)).filter((c) => {
           return c.name.toUpperCase() === selectedCreature;
         })[0].creator();
 

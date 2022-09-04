@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 import { NPCsAttackMelee } from "./action-attack-melee.js";
 import { NPCsAttackMixed } from "./action-attack-mixed.js";
 import { NPCsAttackRanged } from "./action-attack-ranged.js";
@@ -9,11 +9,11 @@ import { DEX, NPCsDice, STR } from "./general.js";
 
 export class NPCsInventory {
   static getActionByUniqueName(name: string) {
-    const miscActions: NPCsAction[] = cws.Object.values(NPCsInventory.actionsList.misc);
-    const meleeAttacks: NPCsAttackMelee[] = cws.Object.values(NPCsInventory.actionsList.attacks.melee);
-    const rangedAttacks: NPCsAttackRanged[] = cws.Object.values(NPCsInventory.actionsList.attacks.ranged);
-    const mixedAttacks: NPCsAttackMixed[] = cws.Object.values(NPCsInventory.actionsList.attacks.mixed);
-    const reactions: NPCsReaction[] = cws.Object.values(NPCsInventory.actionsList.reactions);
+    const miscActions: NPCsAction[] = Leylights.Object.values(NPCsInventory.actionsList.misc);
+    const meleeAttacks: NPCsAttackMelee[] = Leylights.Object.values(NPCsInventory.actionsList.attacks.melee);
+    const rangedAttacks: NPCsAttackRanged[] = Leylights.Object.values(NPCsInventory.actionsList.attacks.ranged);
+    const mixedAttacks: NPCsAttackMixed[] = Leylights.Object.values(NPCsInventory.actionsList.attacks.mixed);
+    const reactions: NPCsReaction[] = Leylights.Object.values(NPCsInventory.actionsList.reactions);
 
     const result = [
       findOneOrFail(miscActions),
@@ -38,9 +38,9 @@ export class NPCsInventory {
   }
 
   static getAttackByName(name: string): NPCsAttack {
-    const attacks = cws.Object.values(NPCsInventory.actionsList.attacks.melee)
-      .concat(cws.Object.values(NPCsInventory.actionsList.attacks.mixed))
-      .concat(cws.Object.values(NPCsInventory.actionsList.attacks.ranged));
+    const attacks = Leylights.Object.values(NPCsInventory.actionsList.attacks.melee)
+      .concat(Leylights.Object.values(NPCsInventory.actionsList.attacks.mixed))
+      .concat(Leylights.Object.values(NPCsInventory.actionsList.attacks.ranged));
 
     const result = attacks.filter((attack: NPCsAttack) => {
       return attack.name === name;

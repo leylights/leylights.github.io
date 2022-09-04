@@ -1,4 +1,4 @@
-import { cws } from "../cws.js";
+import { Leylights } from "../leylights.js";
 import { DarkModeService } from "../services/dark-mode.service.js";
 import { Canvas } from "./canvas.component.js";
 const MAX_UNIQUE_X_VALUES = 24;
@@ -31,7 +31,7 @@ export class LineChartComponent {
         this.axisDataGeneratorHelpers = {
             areAllValuesIntegers(values) {
                 for (let i = 0; i < values.length; i++) {
-                    if (!cws.isInteger(values[i]))
+                    if (!Leylights.isInteger(values[i]))
                         return false;
                 }
                 return true;
@@ -44,7 +44,7 @@ export class LineChartComponent {
                     let success = false;
                     while (!success) {
                         for (let i = 0; i < divisors.length; i++) {
-                            if (cws.isInteger((max - min) / divisors[i])) {
+                            if (Leylights.isInteger((max - min) / divisors[i])) {
                                 space = (max - min) / divisors[i];
                                 success = true;
                                 break;
@@ -67,11 +67,11 @@ export class LineChartComponent {
                 const roundingDigit = values.length > 0 ? Math.round(values[values.length - 1]).toString().length - 3 : 0;
                 const output = [];
                 values.forEach((n) => {
-                    n = cws.roundToNthDigit(n, roundingDigit);
+                    n = Leylights.roundToNthDigit(n, roundingDigit);
                     output.push({
                         label: labelDivisions
                             ? me.axisDataGeneratorHelpers.findLabelFor(me, n, pointAttribute)
-                            : cws.numberToPrettyNumber(n),
+                            : Leylights.numberToPrettyNumber(n),
                         value: n,
                     });
                 });
@@ -84,7 +84,7 @@ export class LineChartComponent {
                             return me._points[i].label;
                         }
                         else {
-                            return cws.numberToPrettyNumber(value);
+                            return Leylights.numberToPrettyNumber(value);
                         }
                     }
                 }
@@ -94,7 +94,7 @@ export class LineChartComponent {
                 const uniqueValues = [];
                 let fail = false;
                 me._points.forEach((point) => {
-                    if (!cws.Array.contains(uniqueValues, point, (a, b) => {
+                    if (!Leylights.Array.contains(uniqueValues, point, (a, b) => {
                         return a[pointAttribute] === b[pointAttribute];
                     })) {
                         if (uniqueValues.length >= maximumPoints) {
@@ -125,10 +125,10 @@ export class LineChartComponent {
                 const xAxisData = me.generateXAxisData(limit);
                 xAxis.innerHTML = '';
                 xAxisData.divisions.forEach((division) => {
-                    const next = cws.createElement({
+                    const next = Leylights.createElement({
                         type: 'div',
                         classList: LineChartComponent.DIVISION_CLASS_NAMES.x,
-                        children: [cws.createElement({
+                        children: [Leylights.createElement({
                                 type: 'span',
                                 innerText: division.label
                             })],
@@ -204,8 +204,8 @@ export class LineChartComponent {
         result.divisions = result.divisions.map((a) => {
             if (me.autoRoundYAxis) {
                 const result = {
-                    label: cws.roundToNthDigit(a.value, me.yDigitRoundedTo) + '',
-                    value: cws.roundToNthDigit(a.value, me.yDigitRoundedTo),
+                    label: Leylights.roundToNthDigit(a.value, me.yDigitRoundedTo) + '',
+                    value: Leylights.roundToNthDigit(a.value, me.yDigitRoundedTo),
                 };
                 return result;
             }
@@ -282,26 +282,26 @@ export class LineChartComponent {
         this.redraw();
     }
     rebuild() {
-        const me = this, container = cws.createElement({
+        const me = this, container = Leylights.createElement({
             type: 'div',
             classList: 'line-chart-container',
         }), firstTime = !this.canvas;
         if (!firstTime)
             this.canvas.stop();
         // develop HTML
-        const titleContainer = cws.createElement({
+        const titleContainer = Leylights.createElement({
             type: 'div',
             classList: 'line-chart-title-container',
-            children: [cws.createElement({
+            children: [Leylights.createElement({
                     type: 'h2',
                     classList: 'line-chart-title',
                     innerText: this.title,
                 })]
-        }), xAxis = cws.createElement({
+        }), xAxis = Leylights.createElement({
             type: 'div',
             classList: ['line-chart-axis', 'line-chart-x-axis'],
             style: `min-height: ${this.xAxisHeight}`,
-        }), yAxis = cws.createElement({
+        }), yAxis = Leylights.createElement({
             type: 'div',
             classList: ['line-chart-axis', 'line-chart-y-axis'],
             style: `min-width: ${this.yAxisWidth}`,
@@ -310,10 +310,10 @@ export class LineChartComponent {
             this.rebuildHelpers.generateXAxis(me, MAX_UNIQUE_X_VALUES, xAxis);
             const yAxisData = this.generateYAxisData();
             yAxisData.divisions.forEach((division) => {
-                const next = cws.createElement({
+                const next = Leylights.createElement({
                     type: 'div',
                     classList: LineChartComponent.DIVISION_CLASS_NAMES.y,
-                    children: [cws.createElement({
+                    children: [Leylights.createElement({
                             type: 'span',
                             innerText: division.label
                         })],
@@ -338,7 +338,7 @@ export class LineChartComponent {
         // remove overlapping y axis dividers
         Array.from(yAxis.querySelectorAll(`.${LineChartComponent.DIVISION_CLASS_NAMES.y}`)).forEach((a) => {
             Array.from(yAxis.querySelectorAll(`.${LineChartComponent.DIVISION_CLASS_NAMES.y}`)).forEach((b) => {
-                if (!a.isEqualNode(b) && cws.rectanglesCollide(a.getBoundingClientRect(), b.getBoundingClientRect()))
+                if (!a.isEqualNode(b) && Leylights.rectanglesCollide(a.getBoundingClientRect(), b.getBoundingClientRect()))
                     b.remove();
             });
         });

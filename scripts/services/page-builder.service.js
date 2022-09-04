@@ -3,7 +3,7 @@
  *
  * Activates darkmode where and when applicable
  */
-import { cws } from '../cws.js';
+import { Leylights } from '../leylights.js';
 import { GoogleAnalyticsController } from './google-analytics-controller.service.js';
 import { CookieInterface } from './cookie-interface.service.js';
 import { SideMenuService } from './side-menu.service.js';
@@ -25,10 +25,10 @@ export class PageBuilder {
      * Adds the given stylesheet to the <head>
      */
     static loadCSSFile(absolutePath) {
-        const path = cws.getRelativeUrlPath(absolutePath);
+        const path = Leylights.getRelativeUrlPath(absolutePath);
         if (document.head.querySelector(`link[rel=stylesheet][href='${path}']`))
             return; // don't double-load
-        document.head.appendChild(cws.createLinkElement(path, 'stylesheet'));
+        document.head.appendChild(Leylights.createLinkElement(path, 'stylesheet'));
     }
     /**
      * Populates the <head> element
@@ -67,13 +67,20 @@ export class PageBuilder {
             }, (parseFloat(window.getComputedStyle(document.getElementById('loadingScreen')).transitionDuration) * 1000));
         });
         // set up load listener to listen to load
+        const minimumLoadingTime = 500; // required to prevent 'flashbang loading screen' effect
         document.addEventListener('readystatechange', function () {
             if (document.readyState === 'complete') {
-                PageBuilder.loadTarget.dispatchEvent(new Event('load'));
+                console.log(`init: ${PageBuilder.initTime % 100000}, current: ${Date.now() % 100000}, difference: ${Date.now() - PageBuilder.initTime}`);
+                if (Date.now() - PageBuilder.initTime <= minimumLoadingTime)
+                    setTimeout(() => {
+                        PageBuilder.loadTarget.dispatchEvent(new Event('load'));
+                    }, (PageBuilder.initTime + minimumLoadingTime) - Date.now());
+                else
+                    PageBuilder.loadTarget.dispatchEvent(new Event('load'));
             }
         });
         // links
-        const gFontsLoad = cws.createElement({
+        const gFontsLoad = Leylights.createElement({
             type: 'link',
             otherNodes: {
                 rel: 'preconnect',
@@ -81,7 +88,7 @@ export class PageBuilder {
             }
         });
         document.head.appendChild(gFontsLoad);
-        const poppins = cws.createElement({
+        const poppins = Leylights.createElement({
             type: 'link',
             otherNodes: {
                 rel: 'stylesheet',
@@ -101,7 +108,7 @@ export class PageBuilder {
             return;
         }
         GoogleAnalyticsController.init();
-        document.head.insertAdjacentElement('afterbegin', cws.createElement({
+        document.head.insertAdjacentElement('afterbegin', Leylights.createElement({
             type: 'script',
             otherNodes: [
                 { type: 'async', value: '', },
@@ -126,7 +133,7 @@ export class PageBuilder {
         }
     }
     static insertMetaTag(name, content, insertAtTop) {
-        const metaTag = cws.createElement({
+        const metaTag = Leylights.createElement({
             type: 'meta',
             otherNodes: [
                 { type: 'name', value: name, },
@@ -146,4 +153,5 @@ PageBuilder.STRUCTURED_DATA = {
     name: CoreDataService.personalName,
 };
 PageBuilder.loadTarget = new EventTarget();
+PageBuilder.initTime = Date.now();
 //# sourceMappingURL=page-builder.service.js.map

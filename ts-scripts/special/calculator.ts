@@ -1,4 +1,4 @@
-import { cws } from "../cws.js";
+import { Leylights } from "../leylights.js";
 
 /** 
  * Algebra Calculator
@@ -1906,7 +1906,7 @@ checkExpect(isOperator("+"), true);
 checkExpect(isOperator("x"), false);
 
 function isOperator(str) {
-  return cws.orEquals(str, ["+", "-", "*", "/", "^"]);
+  return Leylights.orEquals(str, ["+", "-", "*", "/", "^"]);
 }
 
 // Tests
@@ -1950,7 +1950,7 @@ function isVariable(s) {
  */
 
 function isBracket(str) {
-  return cws.orEquals(str, ["(", ")"]);
+  return Leylights.orEquals(str, ["(", ")"]);
 }
 
 /**

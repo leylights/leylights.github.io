@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 import { InputComponent } from "../../../components/input.component.js";
 import { LineChartComponent, LineChartPoint } from "../../../components/line-chart.component.js";
 import { COVIDDataBridge, COVIDRegionLevel, COVIDTimeSeriesDayResponse, COVIDTimeSeriesType } from "../model/covid-data-bridge.js";
@@ -58,7 +58,7 @@ export class COVIDTimeSeriesChart {
     this.averageDays = config.averageDays;
 
     // create html
-    const lineChartContainer = cws.createElement({
+    const lineChartContainer = Leylights.createElement({
       type: 'div',
       classList: 'covid-line-chart-container'
     });
@@ -80,17 +80,17 @@ export class COVIDTimeSeriesChart {
   private buildTimeRangeInputs(this: COVIDTimeSeriesChart) {
     const me = this,
       start = new InputComponent({
-        element: cws.createElement({
+        element: Leylights.createElement({
           type: 'input',
           classList: ['time-series-start-date-input', 'time-series-range-input'],
         })
       }),
       end = new InputComponent({
-        element: cws.createElement({
+        element: Leylights.createElement({
           type: 'input',
           classList: ['time-series-end-date-input', 'time-series-range-input'],
         })
-      }), container = cws.createElement({
+      }), container = Leylights.createElement({
         type: 'div',
         classList: 'time-series-range-selectors',
         children: [
@@ -108,12 +108,12 @@ export class COVIDTimeSeriesChart {
 
     function buildInputContainer(input: InputComponent, name: string) {
       input.placeholder = 'yyyy-mm-dd';
-      return cws.createElement({
+      return Leylights.createElement({
         type: 'div',
         classList: 'time-series-range-input-container',
         children: [
           input.element,
-          cws.createElement({
+          Leylights.createElement({
             type: 'h3',
             innerText: name,
             classList: 'time-series-range-input-title'
@@ -144,7 +144,7 @@ export class COVIDTimeSeriesChart {
       .slice(hiddenFirstDays)
       .map((day) => {
         return {
-          x: (me.config.days ?? me.fullTimeSeries.length) - cws.daysBetween(today, new Date(day.date)),
+          x: (me.config.days ?? me.fullTimeSeries.length) - Leylights.daysBetween(today, new Date(day.date)),
           y: day.property,
           label: day.date,
         }

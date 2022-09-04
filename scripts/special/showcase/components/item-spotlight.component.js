@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 export class ShowcaseItemSpotlight {
     constructor(item, parentElement) {
         this._id = ShowcaseItemSpotlight.next_id++;
@@ -7,7 +7,7 @@ export class ShowcaseItemSpotlight {
     }
     get id() { return this._id; }
     rebuild(parent) {
-        this.image = cws.createElement({
+        this.image = Leylights.createElement({
             type: 'img',
             classList: ['showcase-spotlight-item-image'],
             otherNodes: [
@@ -15,7 +15,7 @@ export class ShowcaseItemSpotlight {
                 { type: 'alt', value: this.item.description },
             ]
         });
-        const container = cws.createElement({
+        const container = Leylights.createElement({
             type: 'div',
             classList: 'showcase-spotlight-container',
             id: 'showcase-spotlight-container-' + this.id,

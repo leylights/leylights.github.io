@@ -1,4 +1,4 @@
-import { cws } from "../cws.js";
+import { Leylights } from "../leylights.js";
 import { KeyboardListener } from "../tools/keyboard-listener.js";
 import { DarkModeService } from "../services/dark-mode.service.js";
 export class Canvas {
@@ -179,7 +179,7 @@ export class Canvas {
      * @param {Number} angle (DEGREES) The angle from vertical at which to draw the triangle.  Only works correctly if center == true.
      */
     drawTriangle(x, y, w, h, colour, center, angle) {
-        angle = cws.toRadians(angle);
+        angle = Leylights.toRadians(angle);
         this.context.beginPath();
         this.context.fillStyle = colour;
         this.context.strokeStyle = colour;
@@ -288,7 +288,7 @@ export class Canvas {
         this.context.stroke();
     }
     rebuildElement(parentElement) {
-        const me = this, canvas = cws.createElement({
+        const me = this, canvas = Leylights.createElement({
             type: 'canvas',
         });
         if (this.element)

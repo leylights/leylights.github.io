@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 import { NPCsAction } from "../helper-repository/action.js";
 import { NPCsReaction } from "../helper-repository/action-reaction.js";
 import { NPCsArmour } from "../helper-repository/armour.js";
@@ -431,7 +431,7 @@ export class NPCsClass {
   }
 
   static getClassByName(name: string): NPCsClass {
-    const result: NPCsClass[] = cws.Object.values(NPCsClass.list).filter((c: NPCsClass) => {
+    const result: NPCsClass[] = Leylights.Object.values(NPCsClass.list).filter((c: NPCsClass) => {
       return c.name.toLowerCase() === name.toLowerCase();
     });
 
@@ -441,7 +441,7 @@ export class NPCsClass {
   }
 
   static getRandomClass(): NPCsClass {
-    let options: NPCsClass[] = cws.Object.values(NPCsClass.list);
-    return cws.Array.get.randomElement(options);
+    let options: NPCsClass[] = Leylights.Object.values(NPCsClass.list);
+    return Leylights.Array.get.randomElement(options);
   }
 }

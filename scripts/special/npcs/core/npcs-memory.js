@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 import { NPCsMemorySaveBarComponent } from "../components/npcs-memory-save-bar.component.js";
 import { NPCsCharacterData } from "./character-data.js";
 import { NPCsClassicCard } from "./classic-card.js";
@@ -66,7 +66,7 @@ NPCsMemory.HTML = {
                 child.remove();
             });
         else
-            existingList = cws.createElement({
+            existingList = Leylights.createElement({
                 type: 'ul',
                 id: 'saved-character-list'
             });
@@ -75,15 +75,15 @@ NPCsMemory.HTML = {
         });
         return existingList;
         function createListItem(character) {
-            const deleteElement = cws.createElement({
+            const deleteElement = Leylights.createElement({
                 type: 'button',
                 classList: 'saved-character-delete',
                 innerText: 'x',
             });
-            const element = cws.createElement({
+            const element = Leylights.createElement({
                 type: 'li',
                 id: `saved-character-${character.ID}`,
-                children: [cws.createElement({
+                children: [Leylights.createElement({
                         type: 'div',
                         classList: 'saved-character-name',
                         innerText: character.name

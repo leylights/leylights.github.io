@@ -6,7 +6,7 @@
  * Start Date: January 2021
  */
 
-import { cws } from '../cws.js';
+import { Leylights } from '../leylights.js';
 import { CoreDataService } from './core-data.service.js';
 import { DarkModeService } from './dark-mode.service.js';
 import { MenuItemMulti } from './menus/menu-item-multi.js';
@@ -20,21 +20,21 @@ export class TopMenuService {
 
   public static build() {
     function getDropdownButton(text: string, menuId: string) {
-      return cws.createElement({
+      return Leylights.createElement({
         type: 'div',
         classList: 'header-menu-item-container',
         children: [
-          cws.createElement({
+          Leylights.createElement({
             type: 'div',
             classList: 'header-menu-item',
             children: [
-              cws.createElement({
+              Leylights.createElement({
                 type: 'span',
                 innerText: text.toLowerCase(),
               }),
             ],
           }),
-          cws.createElement({
+          Leylights.createElement({
             type: 'div',
             classList: 'header-dropdown-body',
             id: menuId,
@@ -44,19 +44,19 @@ export class TopMenuService {
     }
 
     function getNoDropdownButton(text: string, link: string, spanId?: string) {
-      return cws.createElement({
+      return Leylights.createElement({
         type: 'div',
         classList: 'header-menu-item-container',
-        children: [cws.createElement({
+        children: [Leylights.createElement({
           type: 'div',
           classList: 'header-menu-item',
           children: [
-            cws.createElement({
+            Leylights.createElement({
               type: 'a',
               classList: 'header-link',
               otherNodes: [{ type: 'href', value: link }],
               children: [
-                cws.createElement({
+                Leylights.createElement({
                   type: 'span',
                   id: spanId,
                   innerText: text.toLowerCase(),
@@ -67,28 +67,28 @@ export class TopMenuService {
       });
     }
 
-    TopMenuService.header = cws.createElement({
+    TopMenuService.header = Leylights.createElement({
       type: 'nav',
       id: 'desktop-header',
       children: [
-        cws.createElement({
+        Leylights.createElement({
           type: 'div',
           id: 'header-inner-bounds',
           children: [
-            cws.createElement({
+            Leylights.createElement({
               type: 'a',
               otherNodes: [{ type: 'href', value: '/' }],
-              children: [cws.createElement({
+              children: [Leylights.createElement({
                 type: 'img',
                 id: 'header-logo',
                 classList: 'site-logo',
                 otherNodes: [{ type: 'src', value: CoreDataService.siteLogoSrc }],
-              }), cws.createElement({
+              }), Leylights.createElement({
                 type: 'h1',
                 id: 'header-title',
                 innerText: CoreDataService.siteName,
               })],
-            }), cws.createElement({
+            }), Leylights.createElement({
               type: 'div',
               id: 'header-menu',
               children: [
@@ -101,11 +101,11 @@ export class TopMenuService {
             }),
           ],
         }),
-        cws.createElement({
+        Leylights.createElement({
           type: 'button',
           id: 'side-menu-opener',
           children: [
-            cws.createElement({
+            Leylights.createElement({
               type: 'img',
               id: 'side-menu-opener-image',
               otherNodes: [{ type: 'src', value: '/siteimages/menuicon.png' }],
@@ -145,7 +145,7 @@ export class TopMenuService {
       }
     }
 
-    const newItem = cws.createElement({
+    const newItem = Leylights.createElement({
       type: type,
       classList: 'header-item',
       innerHTML: item instanceof MenuItemSingle && item.isExternalLink
@@ -157,9 +157,9 @@ export class TopMenuService {
 
     if (item instanceof MenuItemSingle && item.singleLinks.href) {
       if ((window.location.href.search('index.html') !== -1 || window.location.href.split('colestanley.ca/')[1] === '') || item.singleLinks.href.substring(0, 4) == 'http') // on homepage OR linking externally (e.g. Drive)
-        newItem.setAttributeNode(cws.betterCreateAttr('href', item.singleLinks.href));
+        newItem.setAttributeNode(Leylights.betterCreateAttr('href', item.singleLinks.href));
       else // on child page
-        newItem.setAttributeNode(cws.betterCreateAttr('href', item.singleLinks.href));
+        newItem.setAttributeNode(Leylights.betterCreateAttr('href', item.singleLinks.href));
     }
 
     parent.appendChild(newItem);
@@ -176,16 +176,16 @@ export class TopMenuService {
   }
 
   static createDarkModeToggle(id: string): HTMLElement {
-    const toggle: HTMLElement = cws.createElement({
+    const toggle: HTMLElement = Leylights.createElement({
       type: 'div',
       classList: 'dark-mode-toggle',
       id: id,
       children: [
-        cws.createElement({
+        Leylights.createElement({
           type: 'input',
           otherNodes: { type: 'checkbox' },
         }),
-        cws.createElement({
+        Leylights.createElement({
           type: 'div',
           classList: 'slider',
         }),
