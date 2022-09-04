@@ -5,6 +5,9 @@ export class MathNum {
   imaginaryPart: MathFrac;
 
   constructor(real: MathFrac | number, imag: MathFrac | number) {
+    if(!real && real !== 0) throw new Error(`Bad real part: ${real}`);
+    if(!imag && imag !== 0) throw new Error(`Bad imaginary part: ${imag}`);
+
     this.realPart = real instanceof MathFrac ? real : new MathFrac(real, 1);
     this.imaginaryPart = imag instanceof MathFrac ? imag : new MathFrac(imag, 1);
   }
@@ -101,7 +104,11 @@ export class MathNum {
   }
 
   isRealInteger(this: MathNum): boolean {
-    return this.Im.isEqualTo(MathFrac.ZERO) && this.Re.condense().denominator === 1;
+    return this.isRealNumber() && this.Re.condense().denominator === 1;
+  }
+
+  isRealNumber(this: MathNum): boolean {
+    return this.Im.isEqualTo(MathFrac.ZERO);
   }
 
   getConjugate(this: MathNum,): MathNum {

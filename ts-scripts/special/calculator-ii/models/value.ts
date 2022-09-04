@@ -9,6 +9,8 @@ export class CalculatorValue extends CalculatorSingular {
 
   constructor(value: number | MathNum) {
     super(value + '');
+    if (!value && value !== 0) throw new Error(`Bad value: ${value}`);
+
     this.value = value instanceof MathNum ? value : new MathNum(MathFrac.createFromInt(value), MathFrac.ZERO);
   }
 

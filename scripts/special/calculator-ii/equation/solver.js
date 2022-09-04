@@ -3,7 +3,7 @@ import { MathNum } from "../../../tools/math/number.js";
 import { CalculatorComponent } from "../calculator-component.js";
 import { CalculatorEquationType } from "../models/equation-type.js";
 import { CalculatorFunction, CalculatorOperator } from "../models/function.js";
-import { CalculatorUserError } from "../models/user-facing-error.js";
+import { CalculatorLogarithmFunction } from "../models/logarithm.js";
 import { CalculatorValue } from "../models/value.js";
 import { CalculatorVariable } from "../models/variable.js";
 import { CalculatorParser } from "../parser.js";
@@ -119,8 +119,8 @@ export class CalculatorSolver extends CalculatorComponent {
                     if (!left.rightTerm.containsVariable(isolatedVariable)) { // f(x) ^ g(y) = r => f(x) = r^(1/g(y))
                         return exitRecurse(left.leftTerm, new CalculatorFunction(right, new CalculatorFunction(new CalculatorValue(1), left.rightTerm, CalculatorOperator.divide), CalculatorOperator.exponent));
                     }
-                    else if (!left.leftTerm.containsVariable(isolatedVariable)) { // f(y) ^ g(x) = r => g(x) = f(y) / r
-                        throw new CalculatorUserError(`Logarithms currently unhandled in step ${left.printHTML()} = ${right.printHTML()}`);
+                    else if (!left.leftTerm.containsVariable(isolatedVariable)) { // f(y) ^ g(x) = r => g(x) = log(f(y)) / log(r)
+                        return exitRecurse(left.rightTerm, new CalculatorFunction(new CalculatorLogarithmFunction(left.leftTerm), new CalculatorLogarithmFunction(right), CalculatorOperator.divide));
                     }
                     else {
                         throw new Error(`Both sides of ${left.print()} contain ${isolatedVariable}`);
@@ -203,7 +203,7 @@ export class CalculatorSolver extends CalculatorComponent {
             .map((eq) => new CalculatorParser(eq).output);
         for (const p of parsedEquations) {
             this.log(config.debug, p.print());
-            this.emitStep(`x = ${p.printHTML()}>`, config);
+            this.emitStep(`x = ${p.printHTML()}`, config);
         }
         const results = parsedEquations
             .map((p) => CalculatorEvaluator.evaluate((p)))

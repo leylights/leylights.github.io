@@ -2,6 +2,7 @@ import { MathNum } from "../../../tools/math/number.js";
 import { CalculatorComponent } from "../calculator-component.js";
 import { CalculatorError, CalculatorErrorType } from "../models/error.js";
 import { CalculatorFunction, CalculatorOperator } from "../models/function.js";
+import { CalculatorLogarithmFunction } from "../models/logarithm.js";
 import { CalculatorValue } from "../models/value.js";
 import { CalculatorVariable } from "../models/variable.js";
 export class CalculatorEvaluator extends CalculatorComponent {
@@ -10,6 +11,22 @@ export class CalculatorEvaluator extends CalculatorComponent {
             return input;
         else if (input instanceof CalculatorValue)
             return input;
+        else if (input instanceof CalculatorLogarithmFunction) {
+            input.parameter = this.evaluate(input.parameter);
+            if (input.parameter instanceof CalculatorValue) {
+                if (input.parameter.value.isRealNumber()) {
+                    const logResult = Math.log10(input.parameter.value.toRealNumber().decimalValue);
+                    if (isNaN(logResult))
+                        return input;
+                    else
+                        return new CalculatorValue(logResult);
+                }
+                else
+                    return input; // imaginary number
+            }
+            else
+                return input; // can't be evaluated
+        }
         else if (input instanceof CalculatorFunction) { // is a function
             const lhs = this.evaluate(input.leftTerm);
             const rhs = this.evaluate(input.rightTerm);

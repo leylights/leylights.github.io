@@ -1,6 +1,10 @@
 import { MathFrac } from "./fraction.js";
 export class MathNum {
     constructor(real, imag) {
+        if (!real && real !== 0)
+            throw new Error(`Bad real part: ${real}`);
+        if (!imag && imag !== 0)
+            throw new Error(`Bad imaginary part: ${imag}`);
         this.realPart = real instanceof MathFrac ? real : new MathFrac(real, 1);
         this.imaginaryPart = imag instanceof MathFrac ? imag : new MathFrac(imag, 1);
     }
@@ -77,7 +81,10 @@ export class MathNum {
         return (this.realPart.isEqualTo(other.realPart) && this.imaginaryPart.isEqualTo(other.imaginaryPart));
     }
     isRealInteger() {
-        return this.Im.isEqualTo(MathFrac.ZERO) && this.Re.condense().denominator === 1;
+        return this.isRealNumber() && this.Re.condense().denominator === 1;
+    }
+    isRealNumber() {
+        return this.Im.isEqualTo(MathFrac.ZERO);
     }
     getConjugate() {
         return new MathNum(this.Re, MathFrac.multiply(this.Im, MathFrac.createFromInt(-1)));

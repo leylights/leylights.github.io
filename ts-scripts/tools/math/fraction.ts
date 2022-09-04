@@ -9,6 +9,9 @@ export class MathFrac {
   type: string;
 
   constructor(num: number, denom: number, type?: string) {
+    if (!num && num !== 0) throw new Error(`Bad numerator: ${num}`);
+    if (!denom && denom !== 0) throw new Error(`Bad denominator: ${denom}`);
+
     this.numerator = num;
     this.denominator = denom;
     this.type = type;
