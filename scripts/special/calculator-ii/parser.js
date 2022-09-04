@@ -72,8 +72,6 @@ export class CalculatorParser extends CalculatorComponent {
             throw new Error('Recursive brackets unbalanced');
         if (!this.areBracketsSurrounding(input))
             return this.parseRecurse('(' + input + ')');
-        // if (this.areTooManyBracketsSurrounding(input))
-        //   return this.parseRecurse(input.substring(1, input.length - 1));
         this.log(`brackets are surrounding: ${input}`);
         // find the leftmost operator not nested in brackets; split addition/subtraction before splitting multiply/divide before splitting exponents
         const nextOperatorIndex = this.getIndexOfNextOperator(input);
@@ -172,23 +170,6 @@ export class CalculatorParser extends CalculatorComponent {
         }
         return openParenthesisCount === 0;
     }
-    /**
-     * @example areTooManyBracketsSurrounding('((1))') => true
-     */
-    // private areTooManyBracketsSurrounding(input: string): boolean {
-    //   let startingOpenParenthesisCount: number = 0;
-    //   let endingCloseParenthesisCount: number = 0;
-    //   for (let i = 0; i < input.length; i++) {
-    //     if (input[i] === '(') startingOpenParenthesisCount++;
-    //     else break;
-    //   }
-    //   for (let i = input.length - 1; i >= 0; i--) {
-    //     if (input[i] === ')') endingCloseParenthesisCount++;
-    //     else break;
-    //   }
-    //   if (startingOpenParenthesisCount === endingCloseParenthesisCount && startingOpenParenthesisCount > 1) return true;
-    //   else return false;
-    // }
     /**
      * Invariant: all brackets are parentheses
      */

@@ -26,7 +26,6 @@ export class CalculatorDistributor extends CalculatorComponent {
     let space = '';
     for (let i = 0; i < depth; i++) space += ' ';
 
-    // this.log(debug, `Distribute calls: ${this.recursiveCalls}`);
     if (input instanceof CalculatorFunction) this.log(debug, `Distribute start: ${space}${input.print(true, depth)}`);
 
     if (input instanceof CalculatorValue) return input;
@@ -257,7 +256,6 @@ export class CalculatorDistributor extends CalculatorComponent {
     tester.test('5^x*5^y', '(5 ^ (x + y))');
     tester.test('5^x/5^y', '(5 ^ (x - y))');
 
-    // tester.test('((x-2)*(x-3))*(x-4)', '((((x ^ 3) - (9 * (x ^ 2))) + (26 * x)) - 24)');
     tester.test('(x+2)*(x+3)', '(((x * x) + (2 * x)) + ((x * 3) + (2 * 3)))');
     tester.test(
       '(((x * x) + (2 * x)) + ((3 * x) + (2 * 3)))*(x+4)',

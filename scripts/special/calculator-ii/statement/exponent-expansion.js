@@ -59,7 +59,6 @@ export class CalculatorExponentExpander extends CalculatorComponent {
         tester.test('(x - 2) ^ 2', '((x - 2) * (x - 2))');
         // tester.test('(x * y) ^ (3 / 2)', ''); // handled by distributor
         tester.test('x ^ -2', '(1 / (x * x))');
-        // tester.test('x ^ (3 - 2)', '((x ^ 3) / (x ^ 2))'); 
     }
 }
 //# sourceMappingURL=exponent-expansion.js.map
