@@ -1,4 +1,5 @@
 export class CalculatorTerm {
+    get id() { return undefined; }
     clone() {
         return undefined;
     }
@@ -22,4 +23,5 @@ export class CalculatorTerm {
         return undefined;
     }
 }
+CalculatorTerm.next_id = 0;
 //# sourceMappingURL=term.js.map

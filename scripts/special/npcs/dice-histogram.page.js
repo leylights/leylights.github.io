@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { cws } from "../../cws.js";
+import { Leylights } from "../../leylights.js";
 import { Button } from "../../components/button.component.js";
 import { InputComponent } from "../../components/input.component.js";
 import { LineChartComponent } from "../../components/line-chart.component.js";
@@ -73,10 +73,10 @@ export class NPCsDiceHistogramPage {
         if (diceMatches.length <= 0) {
             rejectDiceInput();
         }
-        else if (cws.orEquals(this.diceInput.value[this.diceInput.value.length - 1], ['+', '-'])) {
+        else if (Leylights.orEquals(this.diceInput.value[this.diceInput.value.length - 1], ['+', '-'])) {
             rejectDiceInput();
         }
-        else if (cws.orEquals(this.diceInput.value.split(' ').join('')[0], ['+', '-'])) {
+        else if (Leylights.orEquals(this.diceInput.value.split(' ').join('')[0], ['+', '-'])) {
             rejectDiceInput();
         }
         else if (diceMatches.length >= 1 && diceMatches.join('').split(/[\+\-]/g).join('') != this.diceInput.value.split(/[\+\-\s]/g).join('')) {
@@ -127,7 +127,7 @@ export class NPCsDiceHistogramPage {
         let breakOut = false;
         strings.forEach((s) => {
             try {
-                if (cws.orEquals(s[0], ['+', '-'])) {
+                if (Leylights.orEquals(s[0], ['+', '-'])) {
                     if (s[0] === '-') {
                         dice.push(new NPCsSignedDice(s.substring(1), -1));
                     }

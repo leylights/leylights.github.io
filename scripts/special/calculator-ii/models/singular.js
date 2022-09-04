@@ -1,7 +1,10 @@
+import { CalculatorTerm } from "./term.js";
 export class CalculatorSingular {
     constructor(name) {
         this.displayName = name;
+        this._id = ++CalculatorTerm.next_id;
     }
+    get id() { return this._id; }
     clone() {
         return undefined;
     }

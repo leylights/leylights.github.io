@@ -1,4 +1,8 @@
 export class CalculatorTerm {
+  static next_id = 0;
+
+  get id(): number { return undefined; }
+
   clone(): CalculatorTerm {
     return undefined;
   }

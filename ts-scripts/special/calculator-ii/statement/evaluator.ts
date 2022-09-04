@@ -1,11 +1,12 @@
 import { MathNum } from "../../../tools/math/number.js";
 import { CalculatorComponent } from "../calculator-component.js";
-import { CalculatorError, CalculatorErrorType } from "../models/error.js";
 import { CalculatorFunction, CalculatorOperator } from "../models/function.js";
 import { CalculatorLogarithmFunction } from "../models/logarithm.js";
 import { CalculatorTerm } from "../models/term.js";
 import { CalculatorValue } from "../models/value.js";
 import { CalculatorVariable } from "../models/variable.js";
+import { CalculatorParser } from "../parser.js";
+import { CalculatorTester } from "../tester.js";
 
 export class CalculatorEvaluator extends CalculatorComponent {
   static evaluate(input: CalculatorTerm): CalculatorTerm {
@@ -36,10 +37,12 @@ export class CalculatorEvaluator extends CalculatorComponent {
             return new CalculatorValue(MathNum.multiply(lhs.value, rhs.value));
           }
           case CalculatorOperator.divide: {
-            if (rhs.value.isEqualTo(MathNum.ZERO)) throw new CalculatorError(CalculatorErrorType.divisionByZero, `${lhs.value} / ${rhs.value}`);
+            if (rhs.value.isEqualTo(MathNum.ZERO)) return new CalculatorFunction(lhs, rhs, CalculatorOperator.divide);
             return new CalculatorValue(MathNum.divide(lhs.value, rhs.value));
           }
           case CalculatorOperator.exponent: {
+            if (lhs.value.isRealNumber() && lhs.value.Re.decimalValue < 0 && !rhs.value.isRealInteger())
+              return new CalculatorFunction(lhs, rhs, CalculatorOperator.exponent); // JS cannot handle negative nth roots
             return new CalculatorValue(MathNum.pow(lhs.value, rhs.value));
           }
           default:
@@ -68,6 +71,16 @@ export class CalculatorEvaluator extends CalculatorComponent {
               return new CalculatorValue(0);
             else if (rhs instanceof CalculatorValue && rhs.value.isEqualTo(MathNum.ONE))
               return lhs;
+
+            if (
+              lhs instanceof CalculatorFunction &&
+              lhs.operator === CalculatorOperator.multiply
+            ) { // (x * b) / b
+              if (lhs.rightTerm.equals(rhs))
+                return this.evaluate(lhs.leftTerm);
+              if (lhs.leftTerm.equals(rhs))
+                return this.evaluate(lhs.rightTerm);
+            }
             break;
           case CalculatorOperator.exponent:
             if (lhs instanceof CalculatorValue && lhs.value.isEqualTo(MathNum.ZERO))
@@ -91,14 +104,17 @@ export class CalculatorEvaluator extends CalculatorComponent {
   }
 
   /**
-   * Evaluates the input and presents it in its most human-readable format
+   * Presents the input in its most human-readable format
    */
-  static simplify(input: CalculatorTerm): CalculatorTerm {
-    input = this.evaluate(input);
+  static simplify(input: CalculatorTerm, debug?: boolean): CalculatorTerm {
+    this.log(debug, `Simplifying: ${input.print()}`);
 
     if (input instanceof CalculatorVariable) return input;
     else if (input instanceof CalculatorValue) return input;
-    else if (input instanceof CalculatorFunction) { // is a function
+    else if (input instanceof CalculatorLogarithmFunction) {
+      input.parameter = this.simplify(input.parameter);
+      return input;
+    } else if (input instanceof CalculatorFunction) { // is a function
       const lhs = this.simplify(input.leftTerm);
       const rhs = this.simplify(input.rightTerm);
       // special cases:
@@ -152,5 +168,22 @@ export class CalculatorEvaluator extends CalculatorComponent {
     }
 
     throw new Error('Bad input given: ' + input.print());
+  }
+
+  static test() {
+    const evaluateTester = new CalculatorTester<string>('Evaluator.evaluate', (input: string) => {
+      return CalculatorEvaluator.evaluate(new CalculatorParser(input).output).print();
+    });
+    const simplifyTester = new CalculatorTester<string>('Evaluator.simplify', (input: string, debug?: boolean) => {
+      return CalculatorEvaluator.simplify(new CalculatorParser(input).output, debug).print();
+    });
+    const simplifyLogTester = new CalculatorTester<string>('Evaluator.simplify (logarithm)', (input: string, debug?: boolean) => {
+      return CalculatorEvaluator.simplify(new CalculatorLogarithmFunction(new CalculatorParser(input).output), debug).print();
+    });
+
+    evaluateTester.test('3+4', '7');
+
+    simplifyTester.test('(1 * (5 ^ y))', '(5 ^ y)')
+    simplifyLogTester.test('(1 - (1 * (5 ^ y)))', 'log((1 - (5 ^ y)))')
   }
 }

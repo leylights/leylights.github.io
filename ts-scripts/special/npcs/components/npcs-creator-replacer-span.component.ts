@@ -1,11 +1,11 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 import { NPCsCharacterData } from "../core/character-data.js";
 
 export class NPCsReplacerSpan {
   private _originalBody: string;
   private _currentBody: string;
   id: number = NPCsReplacerSpan.nextId++;
-  element: HTMLElement = cws.createElement({
+  element: HTMLElement = Leylights.createElement({
     type: 'span',
     classList: 'npcs-replacer-span',
     id: `npcs-replacer-span-${this.id}`

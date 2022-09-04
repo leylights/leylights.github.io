@@ -1,4 +1,4 @@
-﻿import { cws } from "../../cws.js";
+﻿import { Leylights } from "../../leylights.js";
 import { KeyboardListener } from "../../tools/keyboard-listener.js";
 import { Canvas } from "../../components/canvas.component.js";
 import { WiresConstants } from "./constants.js";
@@ -644,7 +644,7 @@ class WiresPage {
       } else tile.hovering = false;
     });
 
-    cws.Object.values(this.menuTiles).forEach((tile: WiresMenuTile) => {
+    Leylights.Object.values(this.menuTiles).forEach((tile: WiresMenuTile) => {
       if (
         me.isHovering(
           tile.x,
@@ -759,7 +759,7 @@ class WiresPage {
       );
     this.canvas.fillRect(this.endPos.x, this.endPos.y, this.endPos.w, this.endPos.h, this.endPos.c);
 
-    cws.Object.values(this.menuTiles).forEach((tile) => {
+    Leylights.Object.values(this.menuTiles).forEach((tile) => {
       tile.redraw(me.canvas);
     });
   }
@@ -1042,8 +1042,8 @@ class WiresPage {
   addSprite(src: string) {
     var newimg = document.createElement("img");
     var truesrc = "/siteimages/energy/" + src + ".png";
-    newimg.setAttributeNode(cws.betterCreateAttr("src", truesrc));
-    newimg.setAttributeNode(cws.betterCreateAttr("id", truesrc));
+    newimg.setAttributeNode(Leylights.betterCreateAttr("src", truesrc));
+    newimg.setAttributeNode(Leylights.betterCreateAttr("id", truesrc));
     document.getElementById("imgs").appendChild(newimg);
     return newimg;
   }

@@ -9,12 +9,14 @@ import { CoreDataService } from "../../services/core-data.service.js";
 import { CalculatorIdentifier } from "./equation/identifier.js";
 import { CalculatorSolver } from "./equation/solver.js";
 import { CalculatorUserError } from "./models/user-facing-error.js";
+import { CalculatorLogarithmDistributor } from "./statement/logarithm-distributor.js";
+import { CalculatorEvaluator } from "./statement/evaluator.js";
 const PRINT_DEBUG_LOGS = false;
 class CalculatorPage {
     static init() {
         CalculatorView.registerInputEventListener((inputValue) => {
             try {
-                CalculatorView.emitOutput(CalculatorCore.calculate(inputValue, { debug: PRINT_DEBUG_LOGS, clearPrint: true, showSteps: true }));
+                CalculatorView.emitOutput(CalculatorCore.calculate(inputValue, { debug: PRINT_DEBUG_LOGS, clearPrint: true, showSteps: true }).result);
             }
             catch (e) {
                 if (e instanceof CalculatorUserError)
@@ -22,6 +24,14 @@ class CalculatorPage {
                 CalculatorView.inputField.reject();
                 throw e;
             }
+        });
+        CalculatorView.stepsFullToggle.addEventListener('click', () => {
+            CalculatorView.stepsFullToggle.classList.toggle('active');
+            CalculatorView.stepsFull.classList.toggle('active');
+            if (CalculatorView.stepsFullToggle.classList.contains('active'))
+                CalculatorView.stepsFullToggle.innerText = 'Hide';
+            else
+                CalculatorView.stepsFullToggle.innerText = 'Show';
         });
     }
 }
@@ -33,6 +43,8 @@ if (CoreDataService.isDev) {
     CalculatorDistributor.test();
     CalculatorCommuter.test();
     CalculatorCollector.test();
+    CalculatorEvaluator.test();
+    CalculatorLogarithmDistributor.test();
     CalculatorIdentifier.test();
     CalculatorSolver.test();
     CalculatorCore.test();

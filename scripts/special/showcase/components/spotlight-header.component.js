@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 export class SpotlightHeader {
     constructor(replacedTarget) {
         this.logoPaddingVh = 10;
@@ -8,12 +8,12 @@ export class SpotlightHeader {
         var _a, _b, _c;
         const season = getSeason();
         const options = SpotlightHeader.SPOTLIGHT_IMAGES[season];
-        const imageSource = cws.Array.get.randomElement(options);
-        return cws.createElement({
+        const imageSource = Leylights.Array.get.randomElement(options);
+        return Leylights.createElement({
             type: 'div',
             id: (_b = (_a = this.elements) === null || _a === void 0 ? void 0 : _a.spotlightImage.id) !== null && _b !== void 0 ? _b : 'showcase-main-spotlight-image',
             classList: (_c = this.elements) === null || _c === void 0 ? void 0 : _c.spotlightImage.className,
-            style: `background-image: url("${cws.getRelativeUrlPath(`siteimages/showcase/${season}/${imageSource}`)}");`,
+            style: `background-image: url("${Leylights.getRelativeUrlPath(`siteimages/showcase/${season}/${imageSource}`)}");`,
         });
         function getSeason() {
             const today = new Date();
@@ -45,18 +45,18 @@ export class SpotlightHeader {
     }
     rebuild(replacedTarget) {
         var _a, _b;
-        const me = this, image = this.getSpotlightImage(), logoSource = ((_b = (_a = document.body.querySelector('#showcase-main-spotlight')) === null || _a === void 0 ? void 0 : _a.querySelector('#big-logo')) === null || _b === void 0 ? void 0 : _b.src.replace(window.location.origin + '/', '')) || 'siteimages/logo-w.svg', logo = cws.createElement({
+        const me = this, image = this.getSpotlightImage(), logoSource = ((_b = (_a = document.body.querySelector('#showcase-main-spotlight')) === null || _a === void 0 ? void 0 : _a.querySelector('#big-logo')) === null || _b === void 0 ? void 0 : _b.src.replace(window.location.origin + '/', '')) || 'siteimages/logo-w.svg', logo = Leylights.createElement({
             type: 'img',
             id: 'big-logo',
             classList: 'site-logo',
             otherNodes: [{
                     type: 'src',
-                    value: cws.getRelativeUrlPath(logoSource)
+                    value: Leylights.getRelativeUrlPath(logoSource)
                 }, {
                     type: 'alt',
                     value: 'colestanley.ca'
                 }],
-        }), container = cws.createElement({
+        }), container = Leylights.createElement({
             type: 'div',
             id: 'showcase-main-spotlight',
             children: [

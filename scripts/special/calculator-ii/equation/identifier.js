@@ -32,7 +32,7 @@ export class CalculatorIdentifier extends CalculatorComponent {
                     return exit(CalculatorEquationType.single_number_to_variable_exponent, variables[0]);
                 else if (this.isTermVarBaseToVarExponent(term, debug))
                     return exit(CalculatorEquationType.single_variable_to_variable_exponent, variables[0]);
-                else if (this.isTermLinear(term))
+                else if (this.isTermLinear(term, debug))
                     return exit(CalculatorEquationType.single_linear_variable, variables[0]);
                 else
                     return exit(CalculatorEquationType.miscellaneous, variables[0]);
@@ -65,9 +65,9 @@ export class CalculatorIdentifier extends CalculatorComponent {
                 if (terms[0].containsVariable() && terms[1].containsVariable()) { // x^2 + x, 5^x + x^x, x + x^1/2
                     this.log(debug, `two variable terms found: ${terms.map((t) => t.print(true)).join(', ')}`);
                     // quadratics     
-                    if (this.isTermXSquared(terms[0]) && this.isTermLinear(terms[1]))
+                    if (this.isTermXSquared(terms[0]) && this.isTermLinear(terms[1], debug))
                         return exit(CalculatorEquationType.quadratic, variables[0]);
-                    else if (this.isTermLinear(terms[0]) && this.isTermXSquared(terms[1]))
+                    else if (this.isTermLinear(terms[0], debug) && this.isTermXSquared(terms[1]))
                         return exit(CalculatorEquationType.quadratic, variables[0]);
                     else
                         return exit(CalculatorEquationType.miscellaneous, variables[0]);
@@ -87,11 +87,11 @@ export class CalculatorIdentifier extends CalculatorComponent {
             else if (terms.length === 3) {
                 this.log(debug, `${input.print()} is a quadratic or polynomial`);
                 const testForQuadratic = (a, b) => {
-                    this.log(debug, `a^2?: ${this.isTermXSquared(a)}, a^1?: ${this.isTermLinear(a)}`);
-                    this.log(debug, `b^2?: ${this.isTermXSquared(b)}, b^1?: ${this.isTermLinear(b)}`);
-                    if (this.isTermXSquared(a) && this.isTermLinear(b))
+                    this.log(debug, `a^2?: ${this.isTermXSquared(a)}, a^1?: ${this.isTermLinear(a, debug)}`);
+                    this.log(debug, `b^2?: ${this.isTermXSquared(b)}, b^1?: ${this.isTermLinear(b, debug)}`);
+                    if (this.isTermXSquared(a) && this.isTermLinear(b, debug))
                         return exit(CalculatorEquationType.quadratic, variables[0]);
-                    if (this.isTermXSquared(b) && this.isTermLinear(a))
+                    if (this.isTermXSquared(b) && this.isTermLinear(a, debug))
                         return exit(CalculatorEquationType.quadratic, variables[0]);
                     return exit(CalculatorEquationType.single_variable_polynomial, variables[0]);
                 };
@@ -119,7 +119,7 @@ export class CalculatorIdentifier extends CalculatorComponent {
                     terms[1].containsVariable(variables[0])))
                     && this.hasIntegerCoefficient(terms[0])
                     && this.hasIntegerCoefficient(terms[1])) {
-                    if (this.isTermLinear(terms[0]) && this.isTermLinear(terms[1]))
+                    if (this.isTermLinear(terms[0], debug) && this.isTermLinear(terms[1], debug))
                         return exit(CalculatorEquationType.linear_diophantine_equation, variables.join(','));
                     else
                         return exit(CalculatorEquationType.multi_variate, variables.join(','));
@@ -130,22 +130,24 @@ export class CalculatorIdentifier extends CalculatorComponent {
             else if (terms.length === 3) { // f(x,y) + g(x,y) + n = 0, f(x,y) + g(x,y) + h(x,y) = 0
                 const variableTerms = terms.filter((term) => term.containsVariable());
                 if (variableTerms.length === 2) { // f(x,y) + g(x,y) + n = 0
-                    if (this.isTermLinear(variableTerms[0]) &&
-                        this.isTermLinear(variableTerms[1]) &&
+                    if (this.isTermLinear(variableTerms[0], debug) &&
+                        this.isTermLinear(variableTerms[1], debug) &&
                         ((variableTerms[0].containsVariable(variables[0]) &&
                             variableTerms[1].containsVariable(variables[1])) || (variableTerms[0].containsVariable(variables[1]) &&
                             variableTerms[1].containsVariable(variables[0]))))
                         return exit(CalculatorEquationType.linear_diophantine_equation, variables.join(','));
+                    else
+                        return exit(CalculatorEquationType.multi_variate, variables.join(','));
                 }
                 else
-                    return exit(CalculatorEquationType.multi_variate, variables[0]);
+                    return exit(CalculatorEquationType.multi_variate, variables.join(','));
             }
             else { // f(x,y) + g(x,y) + h(x,y) + ... + n = 0
-                return exit(CalculatorEquationType.multi_variate, variables[0]);
+                return exit(CalculatorEquationType.multi_variate, variables.join(','));
             }
         }
         else if (totalDistinctVariables > 2)
-            return exit(CalculatorEquationType.multi_variate, variables[0]);
+            return exit(CalculatorEquationType.multi_variate, variables.join(','));
     }
     static hasIntegerCoefficient(term) {
         return (term instanceof CalculatorFunction
@@ -153,10 +155,13 @@ export class CalculatorIdentifier extends CalculatorComponent {
             && term.leftTerm.value.isRealInteger());
     }
     // returns whether the term follows the pattern (a * x)
-    static isTermLinear(term) {
-        return (term instanceof CalculatorFunction
+    static isTermLinear(term, debug) {
+        const result = (term instanceof CalculatorFunction
             && term.leftTerm instanceof CalculatorValue
-            && term.rightTerm instanceof CalculatorVariable);
+            && term.rightTerm instanceof CalculatorVariable
+            && term.operator !== CalculatorOperator.exponent);
+        this.log(debug, `${term.print()} is ${result ? '' : 'not '}linear`);
+        return result;
     }
     // returns whether the term follows the pattern (a * (x ^ 2))
     static isTermXSquared(term) {
@@ -242,6 +247,7 @@ export class CalculatorIdentifier extends CalculatorComponent {
         test('([{1 * (x ^ 2)} + {2 * x}] - 8) = 0', CalculatorEquationType.quadratic, 'x');
         test('((1 * (x ^ 3)) - (4 * y)) = 0', CalculatorEquationType.multi_variate, 'x,y');
         test('(3/2*x)+(1*y)=0', CalculatorEquationType.multi_variate, 'x,y');
+        test('(5^x)-(5^y)-1=0', CalculatorEquationType.multi_variate, 'x,y');
     }
 }
 //# sourceMappingURL=identifier.js.map

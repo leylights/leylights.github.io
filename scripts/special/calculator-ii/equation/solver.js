@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 import { MathNum } from "../../../tools/math/number.js";
 import { CalculatorComponent } from "../calculator-component.js";
 import { CalculatorEquationType } from "../models/equation-type.js";
@@ -8,6 +8,7 @@ import { CalculatorValue } from "../models/value.js";
 import { CalculatorVariable } from "../models/variable.js";
 import { CalculatorParser } from "../parser.js";
 import { CalculatorEvaluator } from "../statement/evaluator.js";
+import { CalculatorLogarithmDistributor } from "../statement/logarithm-distributor.js";
 import { CalculatorUtil } from "../statement/util.js";
 import { CalculatorTester } from "../tester.js";
 import { CalculatorView } from "../view.js";
@@ -24,10 +25,13 @@ export class CalculatorSolver extends CalculatorComponent {
         const allTerms = disjunctiveTerms.positives.concat(disjunctiveTerms.negatives);
         const identification = CalculatorIdentifier.identify(input, allTerms, config === null || config === void 0 ? void 0 : config.debug);
         const result = this.solveSwitch(input, identification, config);
-        this.emitStep(`Result: ${result}`, config);
+        if (config.emitSteps)
+            CalculatorView.logStep(result.HTMLResult, 'result');
         return result;
     }
     static solveSwitch(input, identification, config) {
+        if (!identification)
+            throw new Error(`Bad identification: ${identification}`);
         this.log(config.debug, `type: ${identification.type}`);
         switch (identification.type) {
             case CalculatorEquationType.no_variable:
@@ -53,19 +57,29 @@ export class CalculatorSolver extends CalculatorComponent {
             case CalculatorEquationType.single_variable_to_variable_exponent:
             case CalculatorEquationType.reject:
             default:
-                return `${input.print()} = 0`;
+                return {
+                    result: `${input.print()} = 0`,
+                    HTMLResult: `${input.printHTML()} = 0`,
+                };
         }
     }
     static solveNoVariable(input) {
-        return `${input.print()} = 0`; // if there's no variables, the number term should already be fully evaluated.
+        return {
+            result: `${input.print()} = 0`,
+            HTMLResult: `${input.printHTML()} = 0`
+        };
     }
     static isolateVariable(input, isolatedVariable, config) {
         this.emitStep(`${input ? input.printHTML() : 0} = 0`, config);
         const isolationResult = this.isolateVariableRecurse(input, new CalculatorValue(0), isolatedVariable, config);
-        const output = `${CalculatorEvaluator.evaluate(isolationResult.left).print()} = ${CalculatorEvaluator.evaluate(isolationResult.right).print()}`;
-        const HTMLOutput = `${CalculatorEvaluator.evaluate(isolationResult.left).printHTML()} = ${CalculatorEvaluator.evaluate(isolationResult.right).printHTML()}`;
+        const results = {
+            left: CalculatorEvaluator.simplify(CalculatorEvaluator.evaluate(isolationResult.left)),
+            right: CalculatorEvaluator.simplify(CalculatorEvaluator.evaluate(isolationResult.right)),
+        };
+        const output = `${results.left.print()} = ${results.right.print()}`;
+        const HTMLOutput = `${results.left.printHTML()} = ${results.right.printHTML()}`;
         this.emitStep(HTMLOutput, config);
-        return output;
+        return { result: output, HTMLResult: HTMLOutput };
     }
     static isolateVariableRecurse(left, right, isolatedVariable, config) {
         const exitBase = (left, right) => {
@@ -119,8 +133,8 @@ export class CalculatorSolver extends CalculatorComponent {
                     if (!left.rightTerm.containsVariable(isolatedVariable)) { // f(x) ^ g(y) = r => f(x) = r^(1/g(y))
                         return exitRecurse(left.leftTerm, new CalculatorFunction(right, new CalculatorFunction(new CalculatorValue(1), left.rightTerm, CalculatorOperator.divide), CalculatorOperator.exponent));
                     }
-                    else if (!left.leftTerm.containsVariable(isolatedVariable)) { // f(y) ^ g(x) = r => g(x) = log(f(y)) / log(r)
-                        return exitRecurse(left.rightTerm, new CalculatorFunction(new CalculatorLogarithmFunction(left.leftTerm), new CalculatorLogarithmFunction(right), CalculatorOperator.divide));
+                    else if (!left.leftTerm.containsVariable(isolatedVariable)) { // f(y) ^ g(x) = r => g(x) = log(r) / log(f(y))
+                        return exitRecurse(left.rightTerm, CalculatorLogarithmDistributor.distribute(new CalculatorFunction(new CalculatorLogarithmFunction(right), new CalculatorLogarithmFunction(left.leftTerm), CalculatorOperator.divide)));
                     }
                     else {
                         throw new Error(`Both sides of ${left.print()} contain ${isolatedVariable}`);
@@ -155,21 +169,32 @@ export class CalculatorSolver extends CalculatorComponent {
         this.emitStep(`Linear diophantine equation values: a: ${a.value}, b: ${b.value}, c: ${c}`, config);
         if (terms.value && !(new MathNum(Math.abs(c), 0)).isEqualTo(terms.value.term.value)) {
             this.log(config === null || config === void 0 ? void 0 : config.debug, `c(${c}) non - integer: ${new MathNum(Math.abs(c), 0).prettyPrint()} not equal to ${terms.value.term.value.prettyPrint()}`);
-            return `${input.print()} = 0`; // non-integer c
+            return {
+                result: `${input.print()} = 0`,
+                HTMLResult: `${input.printHTML()} = 0`,
+            };
         }
-        const gcd = cws.gcd(a.value, b.value);
+        const gcd = Leylights.gcd(a.value, b.value);
         this.log(config === null || config === void 0 ? void 0 : config.debug, `Greatest common denominator of ${a.value} and ${b.value}: ${gcd}`);
         if (c % gcd === 0) {
             const EEAResult = CalculatorUtil.EEA(a.value, b.value, (s) => { this.emitStep(s, config); });
             this.log(config === null || config === void 0 ? void 0 : config.debug, `EEA results: x: ${EEAResult.x}, y: ${EEAResult.y}, gcd: ${EEAResult.gcd}`);
-            this.emitStep(`EEA results: ${EEAResult.x} * ${a.value} + ${EEAResult.y} * ${b.value} = ${EEAResult.gcd}`, config);
+            const resultFormatter = new CalculatorFunction(new CalculatorFunction(EEAResult.x, a.value, CalculatorOperator.multiply), new CalculatorFunction(EEAResult.y, b.value, CalculatorOperator.multiply), CalculatorOperator.add);
+            this.emitStep(`EEA results: ${resultFormatter.printHTML()} = ${EEAResult.gcd}`, config);
             const multiplier = c / EEAResult.gcd;
-            this.emitStep(`EEA multiplier: ${multiplier}`, config);
-            return `${a.variable.displayName} = ${EEAResult.x * multiplier}, ${b.variable.displayName} = ${EEAResult.y * multiplier}`;
+            const multiplierFormatter = new CalculatorFunction(c, EEAResult.gcd, CalculatorOperator.divide);
+            this.emitStep(`EEA multiplier: ${multiplierFormatter.printHTML()} = ${multiplier}`, config);
+            return {
+                result: `${a.variable.displayName} = ${EEAResult.x * multiplier}, ${b.variable.displayName} = ${EEAResult.y * multiplier}`,
+                HTMLResult: `${new CalculatorVariable(a.variable.displayName).printHTML()} = ${EEAResult.x * multiplier}, ${new CalculatorVariable(b.variable.displayName).printHTML()} = ${EEAResult.y * multiplier}`,
+            };
         }
         else {
             this.log(config === null || config === void 0 ? void 0 : config.debug, `${c} not an integer multiple of the GCD of ${a.value} and ${b.value}`);
-            return `${input.print()} = 0`;
+            return {
+                result: `${input.print()} = 0`,
+                HTMLResult: `${input.printHTML()} = 0`,
+            };
         }
     }
     static solveQuadratic(input, config) {
@@ -180,7 +205,7 @@ export class CalculatorSolver extends CalculatorComponent {
             terms.variables[0].term.leftTerm instanceof CalculatorValue &&
             terms.variables[1].term instanceof CalculatorFunction &&
             terms.variables[1].term.leftTerm instanceof CalculatorValue) {
-            if (CalculatorIdentifier.isTermLinear(terms.variables[0].term)) {
+            if (CalculatorIdentifier.isTermLinear(terms.variables[0].term, config.debug)) {
                 a = terms.variables[1].term.leftTerm.integerValue * (terms.variables[1].pos ? 1 : -1);
                 b = terms.variables[0].term.leftTerm.integerValue * (terms.variables[0].pos ? 1 : -1);
             }
@@ -194,7 +219,10 @@ export class CalculatorSolver extends CalculatorComponent {
         this.log(config.debug, `radicand: ${radicand}`);
         if (CalculatorEvaluator.evaluate(new CalculatorParser(radicand).output).value.toRealNumber().decimalValue < 0) {
             this.emitStep(`negative radicand: ${new CalculatorParser(radicand).output.printHTML()}`, config);
-            return `${variable} does not exist`; // -ve square root
+            return {
+                result: `${variable} does not exist`,
+                HTMLResult: `${new CalculatorVariable(variable).printHTML()} does not exist`, // -ve square root
+            };
         }
         const equations = ['+', '-'].map((operator) => `(-1 * ${b} ${operator}(${radicand}) ^ (1 / 2)) / (2 * ${a})`);
         for (const e of equations)
@@ -211,9 +239,17 @@ export class CalculatorSolver extends CalculatorComponent {
             .sort((a, b) => a.decimal - b.decimal);
         const exactResults = results.map((n) => n.exact.prettyPrint());
         if (exactResults[0].length < 20)
-            return `${variable} = ${exactResults.join(', ')}`;
-        else
-            return `${variable} = ${results.map((n) => cws.roundToNthDigit(n.decimal, -5)).join(', ')}`;
+            return {
+                result: `${variable} = ${exactResults.join(', ')}`,
+                HTMLResult: `${new CalculatorVariable(variable)} = ${exactResults.join(', ')}`,
+            };
+        else {
+            const answer = results.map((n) => Leylights.roundToNthDigit(n.decimal, -5)).join(', ');
+            return {
+                result: `${variable} = ${answer}`,
+                HTMLResult: `${new CalculatorVariable(variable).printHTML()} = ${answer}`,
+            };
+        }
     }
     static sortDisjunctiveVariablesAndValues(disjuctiveTerms) {
         const variableTerms = [];
@@ -245,7 +281,7 @@ export class CalculatorSolver extends CalculatorComponent {
     }
     static test() {
         const tester = new CalculatorTester('Solver', (input, debug) => {
-            return CalculatorSolver.solve(new CalculatorParser(input, { debug: false }).leftOutput, { debug: debug });
+            return CalculatorSolver.solve(new CalculatorParser(input, { debug: false }).leftOutput, { debug: debug }).result;
         });
         tester.test('0=0', '0 = 0');
         tester.test('1*x=0', 'x = 0');
@@ -260,6 +296,8 @@ export class CalculatorSolver extends CalculatorComponent {
         tester.test('(((24 * (x ^ 2)) - (168 * x)) + 288) = 0', 'x = 3, 4');
         tester.test('1*x^3-4*y=0', 'x = ((4 * y) ^ 1/3)');
         tester.test('3/2*x+y=0', 'x = ((0 - y) / 3/2)');
+        tester.test('5^x-25=0', 'x = 2');
+        tester.test('25^x-5=0', 'x = 1/2');
     }
 }
 //# sourceMappingURL=solver.js.map

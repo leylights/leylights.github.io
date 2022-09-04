@@ -1,4 +1,4 @@
-import { cws } from "../../cws.js";
+import { Leylights } from "../../leylights.js";
 import { Canvas } from "../../components/canvas.component.js";
 const ARROW = {
     w: 5,
@@ -77,7 +77,7 @@ class Vectors {
      */
     static buildInfo(vector) {
         // element creation, filling
-        const info = cws.createElement({
+        const info = Leylights.createElement({
             type: 'div',
             classList: 'infoTab',
             id: "infoTab" + infoTabs,
@@ -100,7 +100,7 @@ class Vectors {
         info.querySelector(".closeInfoTab").addEventListener("click", () => { Vectors.closeInfoTab(info); });
         // set values of input elements
         info.querySelectorAll('input').forEach((input, index) => {
-            input.value = cws.Object.entries(vector.components)[index][1] + '';
+            input.value = Leylights.Object.entries(vector.components)[index][1] + '';
         });
         document.getElementById("existingVectors").appendChild(info); // append to screen
         vector.infoTabIndex = infoTabs;
@@ -197,8 +197,8 @@ class Vectors {
             a: vector.angle2d
         };
         // if vector is TINY, don't draw arrow
-        if (Math.abs((ARROW.w / 2) * Math.sin(vector.angle2d * Math.PI / 180) * 1) > Math.abs(cws.pythagorean(vector.cosmeticComponents.x, vector.cosmeticComponents.y, null))
-            || Math.abs((ARROW.h / 2) * Math.sin(vector.angle2d * Math.PI / 180) * 1) > Math.abs(cws.pythagorean(vector.cosmeticComponents.x, vector.cosmeticComponents.y, null)))
+        if (Math.abs((ARROW.w / 2) * Math.sin(vector.angle2d * Math.PI / 180) * 1) > Math.abs(Leylights.pythagorean(vector.cosmeticComponents.x, vector.cosmeticComponents.y, null))
+            || Math.abs((ARROW.h / 2) * Math.sin(vector.angle2d * Math.PI / 180) * 1) > Math.abs(Leylights.pythagorean(vector.cosmeticComponents.x, vector.cosmeticComponents.y, null)))
             return;
         Vectors.canvas.drawTriangle(triangle.x, triangle.y, triangle.w, triangle.h, vector.colour, true, triangle.a);
     }

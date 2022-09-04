@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 export class COVIDSectionCollection {
     constructor(parentElement, config) {
         this.sections = [];
@@ -7,11 +7,11 @@ export class COVIDSectionCollection {
         this.setHeightToMax = (config === null || config === void 0 ? void 0 : config.setHeightToMax) || false;
         this.id = config === null || config === void 0 ? void 0 : config.id;
         // create elements
-        this.tabsContainer = cws.createElement({
+        this.tabsContainer = Leylights.createElement({
             type: 'div',
             classList: 'covid-tabs-container',
             children: [
-                cws.createElement({
+                Leylights.createElement({
                     type: 'div',
                     id: (config === null || config === void 0 ? void 0 : config.id) ? (config === null || config === void 0 ? void 0 : config.id) + '-tab' : null,
                     classList: 'covid-tab-spacer',
@@ -20,7 +20,7 @@ export class COVIDSectionCollection {
             ]
         });
         parentElement.appendChild(this.tabsContainer);
-        this.sectionsContainer = cws.createElement({
+        this.sectionsContainer = Leylights.createElement({
             type: 'div',
             classList: 'covid-sections-container',
             id: config === null || config === void 0 ? void 0 : config.id,

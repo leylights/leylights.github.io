@@ -1,4 +1,4 @@
-import { cws } from "../cws.js";
+import { Leylights } from "../leylights.js";
 var DarkModeStatus;
 (function (DarkModeStatus) {
     DarkModeStatus[DarkModeStatus["Dark"] = 0] = "Dark";
@@ -95,7 +95,7 @@ export class DarkModeService {
         });
     }
     static genericRegisterStylesheet(absPath, array, status) {
-        const el = cws.createStylesheetElement(absPath);
+        const el = Leylights.createStylesheetElement(absPath);
         el.classList.add(status === DarkModeStatus.Light ? this.stylesheetClassnames.light : this.stylesheetClassnames.dark);
         array.push(el);
         if (this.darkModeStatus === status) {

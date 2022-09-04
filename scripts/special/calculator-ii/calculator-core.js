@@ -13,8 +13,13 @@ export class CalculatorCore {
         const parser = new CalculatorParser(input, config);
         if (parser.isEquation)
             return this.calculateEquality(parser.leftOutput, parser.rightOutput, config);
-        else
-            return this.calculateStatement(parser.output, config).print();
+        else {
+            const result = this.calculateStatement(parser.output, config);
+            return {
+                result: result.print(),
+                HTMLResult: result.printHTML(),
+            };
+        }
     }
     static calculateEquality(leftSide, rightSide, config) {
         if (!leftSide || !rightSide)
@@ -52,9 +57,11 @@ export class CalculatorCore {
     }
     static test() {
         const tester = new CalculatorTester('Core', (input, debug) => {
-            return CalculatorCore.calculate(input, { debug: debug });
+            return CalculatorCore.calculate(input, { debug: debug }).result;
         });
-        tester.test('3/2*x+y=0', 'x = ((0 - (1 * y)) / 3/2)');
+        tester.test('3/2*x+y=0', 'x = ((0 - y) / 3/2)');
+        tester.test('5^x+5^y=1', 'x = (log((1 - (5 ^ y))) / 0.69897)');
+        tester.test('34=d^3', 'd = 3.23961');
     }
 }
 //# sourceMappingURL=calculator-core.js.map

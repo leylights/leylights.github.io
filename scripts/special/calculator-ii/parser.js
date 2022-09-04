@@ -1,4 +1,4 @@
-import { cws } from "../../cws.js";
+import { Leylights } from "../../leylights.js";
 import { CalculatorComponent } from "./calculator-component.js";
 import { CalculatorFunction, CalculatorOperator } from "./models/function.js";
 import { CalculatorUserError } from "./models/user-facing-error.js";
@@ -8,6 +8,7 @@ import { CalculatorTester } from "./tester.js";
 export class CalculatorParser extends CalculatorComponent {
     constructor(input, config) {
         super(config === null || config === void 0 ? void 0 : config.debug);
+        this.iterations = 0;
         this.log('-- Parsing --');
         this.firstInput = input;
         const parts = this.firstInput.split('=');
@@ -62,33 +63,87 @@ export class CalculatorParser extends CalculatorComponent {
         return this.parseRecurse(formattedInput);
     }
     parseRecurse(input) {
-        this.log(input);
+        this.log(`parsing: ${input}`);
+        this.iterations++;
+        if (this.iterations > 50)
+            throw new Error(`Parser loop`);
         // add in brackets
-        if (!CalculatorParser.areBracketsSurrounding(input))
+        if (!CalculatorParser.areBracketsBalanced(input))
+            throw new Error('Recursive brackets unbalanced');
+        if (!this.areBracketsSurrounding(input))
             return this.parseRecurse('(' + input + ')');
+        // if (this.areTooManyBracketsSurrounding(input))
+        //   return this.parseRecurse(input.substring(1, input.length - 1));
+        this.log(`brackets are surrounding: ${input}`);
         // find the leftmost operator not nested in brackets; split addition/subtraction before splitting multiply/divide before splitting exponents
         const nextOperatorIndex = this.getIndexOfNextOperator(input);
-        if (nextOperatorIndex !== -1) { // term includes an operator
-            const operator = input[nextOperatorIndex];
-            const lhs = input.substring(1, nextOperatorIndex);
-            let rhs = input.substring(nextOperatorIndex + 1);
-            rhs = rhs.substring(0, rhs.length - 1);
-            this.log(`LHS: ${lhs}, RHS: ${rhs}, operator: ${operator}`);
-            return new CalculatorFunction(this.parseRecurse(lhs), this.parseRecurse(rhs), operator);
+        if (nextOperatorIndex > -1) { // term includes an operator
+            return this.parseTermWithOperator(input, nextOperatorIndex);
         }
         else {
-            // if only a value, return a value
-            const isOnlyValue = !input.match(/[^0-9()-]/g);
-            const sanitizedValue = input.split('').filter((c) => !('()'.includes(c))).join('');
-            if (isOnlyValue) {
-                this.log('Value found: ' + sanitizedValue);
-                return new CalculatorValue(parseFloat(sanitizedValue));
-            }
-            else {
-                this.log('Variable found: ' + sanitizedValue);
-                return new CalculatorVariable(sanitizedValue);
-            }
+            this.log(`No operators in ${input}`);
+            if (input.substring(1, input.length - 1).match(/\(/)) // brackets still exist in term, implicit multiplication (e.g. 5(x+2) ) likely
+                return this.parseTermWithoutOperatorWithBrackets(input);
+            else
+                return this.parseTermWithoutOperatorNorBrackets(input);
         }
+    }
+    parseTermWithOperator(input, operatorIndex) {
+        this.log(`operator ${input[operatorIndex]} found in ${input} at ${operatorIndex}`);
+        const operator = input[operatorIndex];
+        const lhs = input.substring(1, operatorIndex);
+        let rhs = input.substring(operatorIndex + 1);
+        rhs = rhs.substring(0, rhs.length - 1);
+        this.log(`LHS: ${lhs}, RHS: ${rhs}, operator: ${operator}`);
+        return new CalculatorFunction(this.parseRecurse(lhs), this.parseRecurse(rhs), operator);
+    }
+    parseTermWithoutOperatorWithBrackets(input) {
+        const originalInput = input;
+        this.log(`parsing term with brackets, no operator: ${input}`);
+        const firstBracketedTerm = this.getFirstBracketedTerm(input.substring(1, input.length - 1));
+        const indexOfTerm = input.indexOf(firstBracketedTerm);
+        this.log(`indexOfTerm: ${indexOfTerm}, firstBracketedTerm: ${firstBracketedTerm}, firstBracketedTermLen: ${firstBracketedTerm.length}`);
+        let termWithMultiplication = '(';
+        if (indexOfTerm > 1)
+            termWithMultiplication = input.substring(0, indexOfTerm) + '*';
+        termWithMultiplication += firstBracketedTerm;
+        if (indexOfTerm + firstBracketedTerm.length < input.length - 1) // subtract 1 to ignore ending ) 
+            termWithMultiplication += '*' + input.substring(indexOfTerm + firstBracketedTerm.length);
+        else
+            termWithMultiplication += input.substring(indexOfTerm + firstBracketedTerm.length);
+        this.log(`reformatted term: ${termWithMultiplication}`);
+        if (originalInput === termWithMultiplication)
+            return this.parseTermWithoutOperatorNorBrackets(originalInput);
+        else
+            return this.parseRecurse(termWithMultiplication);
+    }
+    parseTermWithoutOperatorNorBrackets(input) {
+        this.log(`parsing term no brackets or operator: ${input}`);
+        const valueMatches = input.match(/-?([0-9])+/g);
+        const values = [];
+        this.log(`value matches: ${valueMatches ? valueMatches.join(', ') : 'none'}`);
+        if (valueMatches) {
+            for (const v of valueMatches)
+                if (v.match(/[0-9]/)) // not just a negative sign
+                    values.push(new CalculatorValue(parseFloat(v)));
+        }
+        const variableMatches = input.match(/-?[a-zA-Z]/g);
+        const variables = [];
+        if (variableMatches) {
+            for (const v of variableMatches)
+                variables.push(new CalculatorVariable(v));
+        }
+        this.log('Values found: ' + values.map((v) => v.value.prettyPrint()).join(', '));
+        this.log('Variables found: ' + variables.map((v) => v.displayName).join(', '));
+        let current = null;
+        const terms = [].concat(values).concat(variables);
+        for (const t of terms) {
+            if (!current)
+                current = t;
+            else
+                current = new CalculatorFunction(current, t, CalculatorOperator.multiply);
+        }
+        return current;
     }
     static areBracketsBalanced(input) {
         let openParenthesisCount = 0;
@@ -100,43 +155,106 @@ export class CalculatorParser extends CalculatorComponent {
         });
         return openParenthesisCount === 0;
     }
-    static areBracketsSurrounding(input) {
+    areBracketsSurrounding(input) {
         let openParenthesisCount = 0;
-        for (const c of input) {
-            if (c === '(')
+        if (input[0] !== '(')
+            return false;
+        if (input[input.length - 1] !== ')')
+            return false;
+        for (let i = 0; i < input.length; i++) {
+            const c = input[i];
+            if (openParenthesisCount === 0 && i !== 0)
+                return false; // any non-bracket character not surrounded by brackets
+            else if (c === '(')
                 openParenthesisCount++;
             else if (c === ')')
                 openParenthesisCount--;
-            else if (openParenthesisCount === 0)
-                return false; // any non-bracket character not surrounded by brackets
         }
-        return true;
+        return openParenthesisCount === 0;
+    }
+    /**
+     * @example areTooManyBracketsSurrounding('((1))') => true
+     */
+    // private areTooManyBracketsSurrounding(input: string): boolean {
+    //   let startingOpenParenthesisCount: number = 0;
+    //   let endingCloseParenthesisCount: number = 0;
+    //   for (let i = 0; i < input.length; i++) {
+    //     if (input[i] === '(') startingOpenParenthesisCount++;
+    //     else break;
+    //   }
+    //   for (let i = input.length - 1; i >= 0; i--) {
+    //     if (input[i] === ')') endingCloseParenthesisCount++;
+    //     else break;
+    //   }
+    //   if (startingOpenParenthesisCount === endingCloseParenthesisCount && startingOpenParenthesisCount > 1) return true;
+    //   else return false;
+    // }
+    /**
+     * Invariant: all brackets are parentheses
+     */
+    getFirstBracketedTerm(input) {
+        if (input.match(/[[{]/))
+            throw new Error('Non-parenthesis brackets given');
+        let openParenthesisCount = 0;
+        let openIndex;
+        for (let i = 0; i < input.length; i++) {
+            const char = input[i];
+            if (char === '(') {
+                if (openParenthesisCount === 0)
+                    openIndex = i;
+                openParenthesisCount++;
+            }
+            else if (char === ')') {
+                openParenthesisCount--;
+                if (openParenthesisCount === 0)
+                    return input.substring(openIndex, i + 1);
+            }
+        }
+        throw new Error(`No bracketed term found in ${input}`);
+    }
+    hasOperator(input) {
+        if (input.match(/[+*/^]/g))
+            return true; // easy, unmistakeable, hearteyesemoji operators
+        else if (input.match(/-/g)) {
+            for (let i = 0; i < input.length; i++) {
+                if (input[i] === '-') {
+                    if ('(+-*/^'.includes(input[i - 1])) // negative found
+                        continue;
+                    else {
+                        this.log(`subtraction found in ${input} at ${i}`);
+                        return true; // else must be substraction
+                    }
+                }
+            }
+        }
+        else
+            return false;
     }
     /**
      * @returns the index of the next operator to split, -1 if none exists
      */
     getIndexOfNextOperator(input) {
-        let nextOperatorIndex = this.getIndexOfLeftmostOperator(input, [
+        let nextOperatorIndex = this.getIndexOfRightmostOperator(input, [
             CalculatorOperator.add,
             CalculatorOperator.subtract
         ]);
         if (nextOperatorIndex === -1)
-            nextOperatorIndex = this.getIndexOfLeftmostOperator(input, [
+            nextOperatorIndex = this.getIndexOfRightmostOperator(input, [
                 CalculatorOperator.multiply,
                 CalculatorOperator.divide
             ]);
         if (nextOperatorIndex === -1)
-            nextOperatorIndex = this.getIndexOfLeftmostOperator(input, [
+            nextOperatorIndex = this.getIndexOfRightmostOperator(input, [
                 CalculatorOperator.exponent,
             ]);
         return nextOperatorIndex;
     }
     /**
-     * @returns the index of the leftmost operator not contained within any sub-terms
+     * @returns the index of the rightmost operator not contained within any sub-terms
      */
-    getIndexOfLeftmostOperator(input, operators) {
+    getIndexOfRightmostOperator(input, operators) {
         if (input[0] !== '(')
-            throw new Error(`Bad input to getIndexOfLeftmostOperator: ${input} has no initial '('`);
+            throw new Error(`Bad input to getIndexOfRightmostOperator: ${input} has no initial '('`);
         let openParenthesisCount = 0;
         const chars = input.split('');
         let isLHSNegative = false;
@@ -147,11 +265,11 @@ export class CalculatorParser extends CalculatorComponent {
                 openParenthesisCount--;
             else if (openParenthesisCount === 0) {
                 // negation handling: test against all operators
-                if (cws.Array.contains(CalculatorFunction.operators, chars[i]) && chars[i] !== CalculatorOperator.subtract) {
+                if (Leylights.Array.contains(CalculatorFunction.operators, chars[i]) && chars[i] !== CalculatorOperator.subtract) {
                     isLHSNegative = false;
                 }
                 // test against searched-for operators
-                if (cws.Array.contains(operators, chars[i])) {
+                if (Leylights.Array.contains(operators, chars[i])) {
                     if (chars[i] === CalculatorOperator.subtract) {
                         // '-' is only subtract if its left character is a number or variable or ')'.  Otherwise treat it as negation, UNLESS the LHS is already negated
                         if ((chars[i - 1] === ')'
@@ -201,6 +319,9 @@ export class CalculatorParser extends CalculatorComponent {
         tester.test('1-2-3', '((1 - 2) - 3)');
         tester.test('1-2--3', '((1 - 2) - -3)');
         tester.test('1/2/2', '((1 / 2) / 2)');
+        tester.test('5x', '(5 * x)');
+        tester.test('(x+2)(x+3)', '((x + 2) * (x + 3))');
+        tester.test('5(x+2)', '(5 * (x + 2))');
     }
 }
 CalculatorParser.acceptedVariables = new RegExp(/[a-zA-z]/g);

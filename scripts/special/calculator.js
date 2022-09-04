@@ -1,4 +1,4 @@
-import { cws } from "../cws.js";
+import { Leylights } from "../leylights.js";
 /* OBJECT DEFINITIONS */
 /**
  * An object which stores a fraction in exact form
@@ -1561,7 +1561,7 @@ checkExpect(nthRoot(-81, 3), -4.326748711);
 checkExpect(isOperator("+"), true);
 checkExpect(isOperator("x"), false);
 function isOperator(str) {
-    return cws.orEquals(str, ["+", "-", "*", "/", "^"]);
+    return Leylights.orEquals(str, ["+", "-", "*", "/", "^"]);
 }
 // Tests
 checkExpect(isOperator("-"), true);
@@ -1595,7 +1595,7 @@ function isVariable(s) {
  * @param {String} str
  */
 function isBracket(str) {
-    return cws.orEquals(str, ["(", ")"]);
+    return Leylights.orEquals(str, ["(", ")"]);
 }
 /**
  * Multiplies coefficient-less terms by 1

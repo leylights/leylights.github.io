@@ -1,4 +1,4 @@
-import { cws } from "../cws.js";;
+import { Leylights } from "../leylights.js";;
 
 /**
  * EM Wave Generator
@@ -154,7 +154,7 @@ const myCanvas = {
     this.canvas.style.backgroundColor = "white";
     this.canvas.style.transition = "all 0.5s linear";
     this.canvas.setAttributeNode(
-      cws.betterCreateAttr("oncontextmenu", "return false;")
+      Leylights.betterCreateAttr("oncontextmenu", "return false;")
     );
 
     this.isClicking = false;
@@ -228,7 +228,7 @@ const myCanvas = {
   },
 
   clear: function () {
-    cws.fillRect(
+    Leylights.fillRect(
       0,
       0,
       this.canvas.width,
@@ -289,15 +289,15 @@ function init(firstTime?: boolean) {
 
     (document.getElementById("waveSpeedInput") as HTMLInputElement).value = "" + waveSpeed;
 
-    cws.getInputElementById("axisStretchInput").value = "" + customPreset.AXIS_MULTIPLIER * 100;
-    cws.getInputElementById("electricAmplitudeText").value = "" + customPreset.BLUE_AMPLITUDE;
-    cws.getInputElementById("gridlinesText").value = "" + customPreset.GRIDLINES;
-    cws.getInputElementById("vectorText").value = "" + customPreset.VECTOR_SPACING;
-    cws.getInputElementById("xAngleInput").value = "" + customPreset.X_ANGLE;
-    cws.getInputElementById("xLenInput").value = "" + customPreset.X_LENGTH;
-    cws.getInputElementById("wavesText").value = "" + Math.round((customPreset.Z_LENGTH / customPreset.WAVES) * 100) / 100;
-    cws.getInputElementById("zAngleInput").value = "" + customPreset.Z_ANGLE;
-    cws.getInputElementById("zLenInput").value = "" + Math.round(customPreset.Z_LENGTH / Math.cos((customPreset.Z_ANGLE - 90) / 180 * Math.PI));
+    Leylights.getInputElementById("axisStretchInput").value = "" + customPreset.AXIS_MULTIPLIER * 100;
+    Leylights.getInputElementById("electricAmplitudeText").value = "" + customPreset.BLUE_AMPLITUDE;
+    Leylights.getInputElementById("gridlinesText").value = "" + customPreset.GRIDLINES;
+    Leylights.getInputElementById("vectorText").value = "" + customPreset.VECTOR_SPACING;
+    Leylights.getInputElementById("xAngleInput").value = "" + customPreset.X_ANGLE;
+    Leylights.getInputElementById("xLenInput").value = "" + customPreset.X_LENGTH;
+    Leylights.getInputElementById("wavesText").value = "" + Math.round((customPreset.Z_LENGTH / customPreset.WAVES) * 100) / 100;
+    Leylights.getInputElementById("zAngleInput").value = "" + customPreset.Z_ANGLE;
+    Leylights.getInputElementById("zLenInput").value = "" + Math.round(customPreset.Z_LENGTH / Math.cos((customPreset.Z_ANGLE - 90) / 180 * Math.PI));
 
     document.getElementById("general-button").addEventListener("click", () => {
       handleDropdownOpener(document.getElementById("general-button"));
@@ -459,7 +459,7 @@ function checkCustomInput() {
   setNumFromInput(document.getElementById("axisStretchInput"), "axis");
 
   // back axes
-  customPreset.BACK_AXES = cws.getInputElementById("backAxesInput").checked;
+  customPreset.BACK_AXES = Leylights.getInputElementById("backAxesInput").checked;
 
   // gridlines
   setNumFromInput(document.getElementById("gridlinesText"), "gridlines");
@@ -489,16 +489,16 @@ function checkCustomInput() {
 
   // change placeholders
 
-  cws.getInputElementById("axisStretchInput").placeholder = "" + customPreset.AXIS_MULTIPLIER * 100;
-  cws.getInputElementById("electricAmplitudeText").placeholder = "" + customPreset.BLUE_AMPLITUDE;
-  cws.getInputElementById("backAxesInput").checked = customPreset.BACK_AXES;
-  cws.getInputElementById("gridlinesText").placeholder = "" + customPreset.GRIDLINES;
-  cws.getInputElementById("vectorText").placeholder = "" + customPreset.VECTOR_SPACING;
-  cws.getInputElementById("xAngleInput").placeholder = "" + customPreset.X_ANGLE;
-  cws.getInputElementById("xLenInput").placeholder = "" + customPreset.X_LENGTH;
-  cws.getInputElementById("wavesText").placeholder = "" + customPreset.WAVES;
-  cws.getInputElementById("zAngleInput").placeholder = "" + customPreset.Z_ANGLE;
-  cws.getInputElementById("zLenInput").placeholder = "" + customPreset.Z_LENGTH;
+  Leylights.getInputElementById("axisStretchInput").placeholder = "" + customPreset.AXIS_MULTIPLIER * 100;
+  Leylights.getInputElementById("electricAmplitudeText").placeholder = "" + customPreset.BLUE_AMPLITUDE;
+  Leylights.getInputElementById("backAxesInput").checked = customPreset.BACK_AXES;
+  Leylights.getInputElementById("gridlinesText").placeholder = "" + customPreset.GRIDLINES;
+  Leylights.getInputElementById("vectorText").placeholder = "" + customPreset.VECTOR_SPACING;
+  Leylights.getInputElementById("xAngleInput").placeholder = "" + customPreset.X_ANGLE;
+  Leylights.getInputElementById("xLenInput").placeholder = "" + customPreset.X_LENGTH;
+  Leylights.getInputElementById("wavesText").placeholder = "" + customPreset.WAVES;
+  Leylights.getInputElementById("zAngleInput").placeholder = "" + customPreset.Z_ANGLE;
+  Leylights.getInputElementById("zLenInput").placeholder = "" + customPreset.Z_LENGTH;
 
   // reinitialize
 
@@ -579,9 +579,9 @@ function drawArrowCap(line, angle, bothEnds, x?, y?) {
     ay = y;
   }
 
-  cws.fillTriangle(ax, ay, w, h, line.colour, true, angle, myCanvas.context);
+  Leylights.fillTriangle(ax, ay, w, h, line.colour, true, angle, myCanvas.context);
   if (bothEnds)
-    cws.fillTriangle(line.startX, line.startY, w, h, line.colour, true, 180 - angle, myCanvas.context);
+    Leylights.fillTriangle(line.startX, line.startY, w, h, line.colour, true, 180 - angle, myCanvas.context);
 }
 
 function drawGridlines() {
@@ -755,7 +755,7 @@ function drawVectors(axis, wave) {
         angle = 180;
       else
         angle = -1;
-      arrowOffsets.y = arrow.h / 2 * Math.cos(cws.toRadians(angle));
+      arrowOffsets.y = arrow.h / 2 * Math.cos(Leylights.toRadians(angle));
     } else {
       if (waveY < -arrow.h)
         angle = 180 - preset.X_ANGLE;
@@ -763,8 +763,8 @@ function drawVectors(axis, wave) {
         angle = 360 - preset.X_ANGLE;
       else
         angle = -1;
-      arrowOffsets.x = -arrow.h / 2 * Math.sin(cws.toRadians(angle));
-      arrowOffsets.y = arrow.h / 2 * Math.cos(cws.toRadians(angle));
+      arrowOffsets.x = -arrow.h / 2 * Math.sin(Leylights.toRadians(angle));
+      arrowOffsets.y = arrow.h / 2 * Math.cos(Leylights.toRadians(angle));
     }
 
     // draws the arrow
@@ -775,8 +775,8 @@ function drawVectors(axis, wave) {
 
         // calculating the locations of the bottom-right corner of the triangle 
         let bottomRightCornerAngle = Math.atan((arrow.h / 2) / (arrow.w / 2)) / (2 * Math.PI) * 360;
-        let bottomCornerLen = cws.pythagorean(arrow.w / 2, arrow.h / 2, null);
-        let bottomRight = { x: finalX + arrowOffsets.x + Math.round((bottomCornerLen) * Math.cos(cws.toRadians(bottomRightCornerAngle + angle))), y: finalY + arrowOffsets.y + Math.round((bottomCornerLen) * Math.sin(cws.toRadians(bottomRightCornerAngle + angle))) };
+        let bottomCornerLen = Leylights.pythagorean(arrow.w / 2, arrow.h / 2, null);
+        let bottomRight = { x: finalX + arrowOffsets.x + Math.round((bottomCornerLen) * Math.cos(Leylights.toRadians(bottomRightCornerAngle + angle))), y: finalY + arrowOffsets.y + Math.round((bottomCornerLen) * Math.sin(Leylights.toRadians(bottomRightCornerAngle + angle))) };
 
         // determining if overlap is occurring
         if (angle > 180 && getYComponent(bottomRight.x - graphOrigin.x) > bottomRight.y) { // SW arrows
@@ -785,7 +785,7 @@ function drawVectors(axis, wave) {
           continue;
         }
       }
-      cws.fillTriangle(finalX + arrowOffsets.x, finalY + arrowOffsets.y, arrow.w, arrow.h, wave.colour, true, angle, myCanvas.context);
+      Leylights.fillTriangle(finalX + arrowOffsets.x, finalY + arrowOffsets.y, arrow.w, arrow.h, wave.colour, true, angle, myCanvas.context);
     }
   }
 
@@ -1165,9 +1165,9 @@ function redraw() {
   // letters
 
   if (SHOW_AXIS_NAMES) {
-    cws.drawText("x", Math.round(xAxis.cosmeticEndX * 0.95), Math.round(xAxis.cosmeticEndY * 1.05), "black", true, 16, null, myCanvas.context);
-    cws.drawText("y", Math.round(yAxis.cosmeticEndX), Math.round(-ARROWCAP.h / 2 + yAxis.cosmeticEndY * 0.85), "black", true, 16, null, myCanvas.context);
-    cws.drawText("z", Math.round(zAxis.cosmeticEndX * 1.02), Math.round(zAxis.cosmeticEndY * 1.02), "black", true, 16, null, myCanvas.context);
+    Leylights.drawText("x", Math.round(xAxis.cosmeticEndX * 0.95), Math.round(xAxis.cosmeticEndY * 1.05), "black", true, 16, null, myCanvas.context);
+    Leylights.drawText("y", Math.round(yAxis.cosmeticEndX), Math.round(-ARROWCAP.h / 2 + yAxis.cosmeticEndY * 0.85), "black", true, 16, null, myCanvas.context);
+    Leylights.drawText("z", Math.round(zAxis.cosmeticEndX * 1.02), Math.round(zAxis.cosmeticEndY * 1.02), "black", true, 16, null, myCanvas.context);
   }
 }
 
@@ -1251,7 +1251,7 @@ function setNumFromInput(element, targetName) {
         if (num < 0)
           valid = false;
         if (valid)
-          customPreset.Z_LENGTH = Math.round(num * Math.cos(cws.toRadians(preset.Z_ANGLE - 90)));
+          customPreset.Z_LENGTH = Math.round(num * Math.cos(Leylights.toRadians(preset.Z_ANGLE - 90)));
         break;
       default:
         console.log("unrecognized input:" + element.value);

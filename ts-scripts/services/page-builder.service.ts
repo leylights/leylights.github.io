@@ -4,7 +4,7 @@
  * Activates darkmode where and when applicable
  */
 
-import { cws } from '../cws.js';
+import { Leylights } from '../leylights.js';
 import { GoogleAnalyticsController } from './google-analytics-controller.service.js';
 import { CookieInterface } from './cookie-interface.service.js';
 import { SideMenuService } from './side-menu.service.js';
@@ -37,10 +37,10 @@ export class PageBuilder {
    * Adds the given stylesheet to the <head>
    */
   static loadCSSFile(absolutePath: string) {
-    const path: string = cws.getRelativeUrlPath(absolutePath);
+    const path: string = Leylights.getRelativeUrlPath(absolutePath);
     if (document.head.querySelector(`link[rel=stylesheet][href='${path}']`)) return; // don't double-load
 
-    document.head.appendChild(cws.createLinkElement(path, 'stylesheet'));
+    document.head.appendChild(Leylights.createLinkElement(path, 'stylesheet'));
   }
 
   /**
@@ -98,7 +98,7 @@ export class PageBuilder {
 
     // links
 
-    const gFontsLoad = cws.createElement({
+    const gFontsLoad = Leylights.createElement({
       type: 'link',
       otherNodes: {
         rel: 'preconnect',
@@ -107,7 +107,7 @@ export class PageBuilder {
     });
     document.head.appendChild(gFontsLoad);
 
-    const poppins = cws.createElement({
+    const poppins = Leylights.createElement({
       type: 'link',
       otherNodes: {
         rel: 'stylesheet',
@@ -129,7 +129,7 @@ export class PageBuilder {
 
     GoogleAnalyticsController.init();
 
-    document.head.insertAdjacentElement('afterbegin', cws.createElement({
+    document.head.insertAdjacentElement('afterbegin', Leylights.createElement({
       type: 'script',
       otherNodes: [
         { type: 'async', value: '', },
@@ -155,7 +155,7 @@ export class PageBuilder {
   }
 
   private static insertMetaTag(name: string, content: string, insertAtTop?: boolean): void {
-    const metaTag: HTMLMetaElement = cws.createElement({
+    const metaTag: HTMLMetaElement = Leylights.createElement({
       type: 'meta',
       otherNodes: [
         { type: 'name', value: name, },

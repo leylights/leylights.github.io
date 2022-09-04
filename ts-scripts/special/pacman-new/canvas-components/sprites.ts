@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 import { BST } from "../../../tools/bst.js";
 
 const PRIMARY_CONTAINER: HTMLElement = document.getElementById('sprites-container');
@@ -59,8 +59,8 @@ export class PacmanSprites extends BST<HTMLImageElement> {
    */
 
   private addSprite(name: string): void {
-    const location: string = cws.getRelativeUrlPath('siteimages/pac') + "/" + name,
-      sprite: HTMLImageElement = cws.createElement({
+    const location: string = Leylights.getRelativeUrlPath('siteimages/pac') + "/" + name,
+      sprite: HTMLImageElement = Leylights.createElement({
         type: 'img',
         classList: 'sprite',
         id: location,

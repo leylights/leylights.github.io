@@ -5,8 +5,8 @@ export class MathNum {
   imaginaryPart: MathFrac;
 
   constructor(real: MathFrac | number, imag: MathFrac | number) {
-    if(!real && real !== 0) throw new Error(`Bad real part: ${real}`);
-    if(!imag && imag !== 0) throw new Error(`Bad imaginary part: ${imag}`);
+    if (!real && real !== 0) throw new Error(`Bad real part: ${real}`);
+    if (!imag && imag !== 0) throw new Error(`Bad imaginary part: ${imag}`);
 
     this.realPart = real instanceof MathFrac ? real : new MathFrac(real, 1);
     this.imaginaryPart = imag instanceof MathFrac ? imag : new MathFrac(imag, 1);
@@ -197,7 +197,7 @@ export class MathNum {
   }
 
   /**
-   * Returns the quotient of two MathNums
+   * Returns the power of two MathNums
    * SAFE?: yes
    * IDEMPOTENT?: yes
    */
@@ -212,7 +212,14 @@ export class MathNum {
       }
       return result;
     } else if (a.Im.isEqualTo(MathFrac.ZERO)) {
-      return new MathNum(new MathFrac(Math.pow(a.Re.numerator, b.Re.decimalValue), Math.pow(a.Re.denominator, b.Re.decimalValue)), MathFrac.ZERO);
+      const num = Math.pow(a.Re.numerator, b.Re.decimalValue),
+        denom = Math.pow(a.Re.denominator, b.Re.decimalValue);
+      if (!num && num !== 0)
+        throw new Error(`Bad numerator: ${a.Re.numerator} ^ ${b.Re.decimalValue}`);
+      if (!denom && denom !== 0)
+        throw new Error(`Bad numerator: ${a.Re.numerator} ^ ${b.Re.decimalValue}`);
+
+      return new MathNum(new MathFrac(num, denom), MathFrac.ZERO);
     } else {
       throw new Error(`Exponent operator not defined for non-integer exponent (${b.prettyPrint()}) and non-real base (${a.prettyPrint()})`);
     }

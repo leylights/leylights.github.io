@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 import { Button } from "../../../components/button.component.js";
 import { NPCsMemory } from "../core/npcs-memory.js";
 export class NPCsMemorySaveBarComponent {
@@ -9,18 +9,18 @@ export class NPCsMemorySaveBarComponent {
         const me = this;
         me.clickAction = iconClickAction;
         me.deleteAction = iconDeleteAction;
-        const refreshButton = cws.createElement({
+        const refreshButton = Leylights.createElement({
             type: 'div',
             id: 'saved-bar-refresh',
             children: [
-                cws.createElement({
+                Leylights.createElement({
                     type: 'div',
                     classList: 'save-icon-circle',
                     innerText: String.fromCharCode(0x21BB),
                 }),
             ]
         });
-        me.HTML.footerElement = cws.createElement({
+        me.HTML.footerElement = Leylights.createElement({
             type: 'div',
             id: 'npcs-footer',
             children: [
@@ -34,15 +34,15 @@ export class NPCsMemorySaveBarComponent {
         parentElement.appendChild(me.HTML.footerElement);
     }
     createSavedIcon(data, clickAction, deleteAction) {
-        const me = this, mainIcon = cws.createElement({
+        const me = this, mainIcon = Leylights.createElement({
             type: 'div',
             classList: 'save-icon-circle',
             innerText: data.names[0].charAt(0) + (data.names[1].charAt(0) || data.names[0].charAt(1) || ''),
-        }), deleteIcon = cws.createElement({
+        }), deleteIcon = Leylights.createElement({
             type: 'div',
             classList: 'save-icon-delete',
             innerText: 'x',
-        }), container = cws.createElement({
+        }), container = Leylights.createElement({
             type: 'div',
             classList: 'save-icon',
             id: `saved-character-${data.ID}`,

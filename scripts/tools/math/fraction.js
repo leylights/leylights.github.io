@@ -1,4 +1,4 @@
-import { cws } from "../../cws.js";
+import { Leylights } from "../../leylights.js";
 /**
  * A class to handle real fractions
  */
@@ -136,7 +136,7 @@ export class MathFrac {
      * Returns the fraction for chaining
      */
     condense() {
-        const divisionFactor = Math.abs(cws.gcd(this.numerator, this.denominator));
+        const divisionFactor = Math.abs(Leylights.gcd(this.numerator, this.denominator));
         this.numerator /= divisionFactor;
         this.denominator /= divisionFactor;
         if (this.denominator < 0) {
@@ -215,6 +215,8 @@ export class MathFrac {
         return ac;
     }
     static createFromInt(n) {
+        if (typeof n !== 'number')
+            throw new Error(`Bad type of n ${n}`);
         return new MathFrac(n, 1);
     }
     static createFromStr(s) {

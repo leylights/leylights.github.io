@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 import { COVIDDataInterface } from "./covid-data-interface.js";
 import { COVIDHealthUnit } from "./health-unit.js";
 import { COVIDProvince } from "./province.js";
@@ -45,7 +45,7 @@ export class COVIDRegionsController {
             console.log(healthRegions);
             // Health units
             healthRegions.forEach(configuration => {
-                if (!cws.Array.includes(me.SKIPPED_HEALTH_UNITS, configuration.id)) {
+                if (!Leylights.Array.includes(me.SKIPPED_HEALTH_UNITS, configuration.id)) {
                     me.healthUnits.push(new COVIDHealthUnit(configuration));
                 }
                 if (me.healthUnits[me.healthUnits.length - 1].locationId === COVIDRegionsController.LONDON_CODE)
@@ -55,7 +55,7 @@ export class COVIDRegionsController {
             });
             // Provinces
             provinces.forEach(configuration => {
-                if (!cws.Array.includes(me.SKIPPED_PROVINCES, configuration.shortName)) {
+                if (!Leylights.Array.includes(me.SKIPPED_PROVINCES, configuration.shortName)) {
                     me.provinces.push(new COVIDProvince({
                         pop: me.provincialPopulations[configuration.shortName],
                         province: configuration.fullName,

@@ -1,9 +1,12 @@
+import { CalculatorTerm } from "./term.js";
 export class CalculatorLogarithmFunction {
     constructor(parameter) {
         this.parameter = parameter;
+        this._id = ++CalculatorTerm.next_id;
         if (!this.parameter)
             throw new Error(`Bad parameter given: ${parameter}`);
     }
+    get id() { return this._id; }
     clone() {
         return new CalculatorLogarithmFunction(this.parameter.clone());
     }

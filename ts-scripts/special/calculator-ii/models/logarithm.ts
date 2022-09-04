@@ -2,13 +2,16 @@ import { CalculatorTerm } from "./term.js";
 
 export class CalculatorLogarithmFunction implements CalculatorTerm {
   parameter: CalculatorTerm;
-  
-  
+  private _id: number;
+
   constructor(parameter: CalculatorTerm) {
     this.parameter = parameter;
-   
+    this._id = ++CalculatorTerm.next_id;
+
     if (!this.parameter) throw new Error(`Bad parameter given: ${parameter}`);
   }
+
+  get id() { return this._id; }
 
   clone(): CalculatorTerm {
     return new CalculatorLogarithmFunction(this.parameter.clone());

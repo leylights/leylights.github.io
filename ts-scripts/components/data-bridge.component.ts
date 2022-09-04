@@ -1,4 +1,4 @@
-import { cws } from "../cws.js";
+import { Leylights } from "../leylights.js";
 
 /**
  * Handles retrieval of data from the API
@@ -113,7 +113,7 @@ export class DataBridge {
     if (!this.isRunning)
       this.open();
 
-    if (!cws.Array.includes(me.queueURLs, path))
+    if (!Leylights.Array.includes(me.queueURLs, path))
       this.addToQueue(path);
 
     const result = new Promise((resolve, reject) => {

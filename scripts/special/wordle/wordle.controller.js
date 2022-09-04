@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { cws } from "../../cws.js";
+import { Leylights } from "../../leylights.js";
 import { WordleLetterState } from "./data/wordle-letter-state.js";
 import { WordleWordCheckResponse } from "./data/wordle-word-check-response.js";
 import { WordleView } from "./wordle.view.js";
@@ -77,13 +77,13 @@ export class WordleController {
         return __awaiter(this, void 0, void 0, function* () {
             const upperSelectionLimit = 2300;
             const today = Math.floor((Date.now() - new Date().getTimezoneOffset() * 60 * 1000) / (1000 * 60 * 60 * 24));
-            return (yield cws.getJSONFile('/json-data/wordle/words.json')).splice(0, 2300)[today % upperSelectionLimit].toLowerCase();
+            return (yield Leylights.getJSONFile('/json-data/wordle/words.json')).splice(0, 2300)[today % upperSelectionLimit].toLowerCase();
         });
     }
     validateWord(word) {
         return __awaiter(this, void 0, void 0, function* () {
             const lowercaseWord = word.toLowerCase();
-            const words = yield cws.getJSONFile('/json-data/wordle/words.json');
+            const words = yield Leylights.getJSONFile('/json-data/wordle/words.json');
             return !!words.find((value) => { return value.toLowerCase() === lowercaseWord; });
         });
     }

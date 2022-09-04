@@ -127,6 +127,7 @@
   animation: step-fade-out 1.5s ease-out, step-fade-up 1.5s ease-out;
   animation-duration: 1.5s;
   opacity: 0;
+  color: white;
 }
 #main #calc-error-modal {
   box-shadow: 0 0 4px 0 var(--reject-color);
@@ -149,15 +150,26 @@
 #main .body {
   padding-bottom: 4em;
 }
+#main .body #steps-title {
+  margin-bottom: 0;
+}
+#main .body #steps-toggle {
+  font-style: italic;
+  font-weight: 300;
+  cursor: pointer;
+}
 #main .body #steps-full {
-  display: grid;
   column-gap: 4px;
   grid-template-columns: 1fr 4fr;
-  background-color: #0a0a0a;
+  box-shadow: 0 0 8px 2px #8888;
   padding: 1em;
   border-radius: 8px;
   margin: 1em 0 1em 1em;
   min-height: 100px;
+  display: none;
+}
+#main .body #steps-full.active {
+  display: grid;
 }
 #main .function .parens.d-0,
 #main .function .operator.d-0 {
@@ -187,7 +199,52 @@
   :root:not(.light) .content input {
     box-shadow: 0 0 6px 0 #fff8;
   }
+  :root:not(.light) #steps-full {
+    background-color: #0a0a0a;
+    box-shadow: none;
+  }
 }
 :root.dark .content input {
   box-shadow: 0 0 6px 0 #fff8;
+}
+:root.dark #steps-full {
+  background-color: #0a0a0a;
+  box-shadow: none;
+}
+
+@media (max-width: 780px) {
+  #main header {
+    height: unset;
+    display: flex;
+  }
+  #main header #header-main-content h1 {
+    font-size: 4em;
+  }
+  #main header #header-main-content h2 {
+    font-size: 1em;
+  }
+  #main header #header-main-content input {
+    font-size: 1.2em;
+  }
+}
+@media (max-width: 500px) {
+  #main header {
+    height: 500px;
+  }
+  #main header #header-main-content h1 {
+    font-size: 4em;
+  }
+  #main header #header-main-content h2 {
+    font-size: 1em;
+  }
+  #main header #header-main-content input {
+    font-size: 1em;
+    width: calc(100% - 4px);
+    padding: 4px;
+    margin-left: 0;
+  }
+  #main header #header-bg {
+    width: unset;
+    height: 100%;
+  }
 }

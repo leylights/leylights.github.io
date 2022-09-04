@@ -64,21 +64,18 @@ export class CalculatorCollector extends CalculatorComponent {
         filter('negatives');
         let output = null;
         const keys = Object.keys(filteredTerms);
-        const values = keys.map((key) => filteredTerms[key]);
-        values.push(values.splice(keys.indexOf('_values'), 1)[0]); // move values to the back
-        for (const value of values) {
+        const filteredEntries = keys.map((key) => filteredTerms[key]);
+        filteredEntries.push(filteredEntries.splice(keys.indexOf('_values'), 1)[0]); // move values to the back
+        for (const filteredEntry of filteredEntries) {
             let evaluatorTerm = null;
             let firstTermIsNegative = false;
-            for (const p of value.positives) {
-                if (!evaluatorTerm) {
+            for (const p of filteredEntry.positives) {
+                if (!evaluatorTerm)
                     evaluatorTerm = p;
-                }
-                else if (firstTermIsNegative)
-                    evaluatorTerm = new CalculatorFunction(evaluatorTerm, p, CalculatorOperator.subtract);
                 else
                     evaluatorTerm = new CalculatorFunction(evaluatorTerm, p, CalculatorOperator.add);
             }
-            for (const n of value.negatives) {
+            for (const n of filteredEntry.negatives) {
                 if (!evaluatorTerm) {
                     firstTermIsNegative = true;
                     evaluatorTerm = n;
@@ -88,19 +85,24 @@ export class CalculatorCollector extends CalculatorComponent {
                 else
                     evaluatorTerm = new CalculatorFunction(evaluatorTerm, n, CalculatorOperator.subtract);
             }
+            this.log(debug, `evaluatorTerm: ${evaluatorTerm ? evaluatorTerm.print() : 'none'}`);
+            this.log(debug, `for value ${filteredEntry.coefficient.print()}, firstTermIsNegative: ${firstTermIsNegative ? 'yes' : 'no'}`);
             if (!evaluatorTerm)
                 continue; // no data for this coefficient (e.g. (x * y) has no data for numerical values)
             let result;
-            if (value.coefficient instanceof CalculatorValue) // values coefficient of 1
+            if (filteredEntry.coefficient instanceof CalculatorValue) // values coefficient of 1
                 result = evaluatorTerm;
-            else
-                result = new CalculatorFunction(evaluatorTerm, value.coefficient, CalculatorOperator.multiply);
-            this.log(debug, `${value.coefficient.print()}: ${result.print()}`);
+            else {
+                if (!output && firstTermIsNegative)
+                    evaluatorTerm = new CalculatorFunction(new CalculatorValue(0), evaluatorTerm, CalculatorOperator.subtract);
+                result = new CalculatorFunction(evaluatorTerm, filteredEntry.coefficient, CalculatorOperator.multiply);
+            }
+            this.log(debug, `${filteredEntry.coefficient.print()}: ${result.print()}`);
             if (!output)
                 output = result;
             else
-                output = new CalculatorFunction(output, result, value.positives.length > 0 ? CalculatorOperator.add : CalculatorOperator.subtract);
-        }
+                output = new CalculatorFunction(output, result, firstTermIsNegative ? CalculatorOperator.subtract : CalculatorOperator.add);
+        } // end for loop
         this.log(debug, `output: ${(_a = output === null || output === void 0 ? void 0 : output.print()) !== null && _a !== void 0 ? _a : 'none'}`);
         return output;
     }
@@ -145,6 +147,7 @@ export class CalculatorCollector extends CalculatorComponent {
         tester.test('(x - x)^2', '(1 * (((1 - 1) * x) ^ 2))');
         tester.test('3*(x - x)^2', '(3 * (((1 - 1) * x) ^ 2))');
         tester.test('((((x ^ 2) - (3 * x)) - ((4 * x) - (3 * 4))) - 0)', '(((1 * (x ^ 2)) - ((3 + 4) * x)) + ((3 * 4) - 0))');
+        tester.test('(34 - (d ^ 3))', '(((0 - 1) * (d ^ 3)) + 34)');
     }
 }
 //# sourceMappingURL=collector.js.map

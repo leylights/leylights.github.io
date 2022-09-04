@@ -2,10 +2,14 @@ import { CalculatorTerm } from "./term.js";
 
 export class CalculatorSingular implements CalculatorTerm {
   displayName: string;
+  private _id: number;
 
   constructor(name: string) {
     this.displayName = name;
+    this._id = ++CalculatorTerm.next_id;
   }
+
+  get id(): number { return this._id; }
 
   clone(): CalculatorTerm {
     return undefined;

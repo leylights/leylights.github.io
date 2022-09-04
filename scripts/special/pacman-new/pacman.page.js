@@ -5,7 +5,7 @@
  * Start Date: April 30th, 2021
  * End Date: September 7th, 2021
  */
-import { cws } from "../../cws.js";
+import { Leylights } from "../../leylights.js";
 import { Canvas } from "../../components/canvas.component.js";
 import { PacmanConstants } from "./canvas-components/constants.js";
 import { PacmanGhost } from "./canvas-components/entities/ghost.js";
@@ -108,13 +108,13 @@ export class PacmanPage {
             if (start == undefined) {
                 continue;
             }
-            if (cws.anyEqual([start.ID], pelletlessNodes)) {
+            if (Leylights.anyEqual([start.ID], pelletlessNodes)) {
                 continue;
             }
             PacmanState.pellets.push(generatePellet(start.x + PacmanConstants.HALL_WIDTH / 2 - PacmanPickup.BASE_WIDTH / 2, start.y + PacmanConstants.HALL_WIDTH / 2 - PacmanPickup.BASE_WIDTH / 2));
             for (let j = 0; j < start.exits.length; j++) {
                 const end = PacmanMapNode.getNodeByID(start.exits[j]);
-                if (cws.anyEqual([start.ID, end.ID], pelletlessNodes)) {
+                if (Leylights.anyEqual([start.ID, end.ID], pelletlessNodes)) {
                     continue;
                 }
                 if (start.ID >= end.ID) {
@@ -209,7 +209,7 @@ export class PacmanPage {
         }
     }
     moveSprites() {
-        if (cws.Array.includes([PacmanStateEnum.NORMAL, PacmanStateEnum.CHASE], PacmanState.gameState))
+        if (Leylights.Array.includes([PacmanStateEnum.NORMAL, PacmanStateEnum.CHASE], PacmanState.gameState))
             PacmanPlayer.player.move(() => { PacmanPlayer.player.direct(); });
         PacmanGhost.array.forEach((ghost) => {
             ghost.move(() => { ghost.direct(); });
@@ -255,7 +255,7 @@ export class PacmanPage {
         this.canvas.drawText("SCORE: ", 12, 20, "white", false, 16);
         this.canvas.drawText(PacmanState.score + "", 12, 36, "white", false, 16);
         // ready!
-        if (cws.Array.includes([PacmanStateEnum.PAUSE_BEFORE_WAITING_FOR_PLAYER, PacmanStateEnum.WAITING_FOR_PLAYER], PacmanState.gameState)) {
+        if (Leylights.Array.includes([PacmanStateEnum.PAUSE_BEFORE_WAITING_FOR_PLAYER, PacmanStateEnum.WAITING_FOR_PLAYER], PacmanState.gameState)) {
             const readyImage = PacmanSprites.spritesTree.getValue("ready.png");
             const topMargin = (PacmanConstants.HALL_WIDTH - readyImage.height) / 2;
             this.canvas.drawImage(readyImage, (this.canvas.width / 2) - (readyImage.width / 2), PacmanConstants.NODE_ROWS[5] + topMargin);
@@ -305,7 +305,7 @@ export class PacmanPage {
         });
     }
     restartGame(restartType) {
-        if (cws.Array.includes([PacmanRestartTypesEnum.FULL, PacmanRestartTypesEnum.LEVEL_UP], restartType)) {
+        if (Leylights.Array.includes([PacmanRestartTypesEnum.FULL, PacmanRestartTypesEnum.LEVEL_UP], restartType)) {
             this.generatePellets();
             PacmanGhost.array.forEach((g) => {
                 g = null;
@@ -328,7 +328,7 @@ export class PacmanPage {
             PacmanState.collectedFruitCount = 0;
             PacmanState.next1UpScore = 10000;
         }
-        if (cws.Array.includes([PacmanRestartTypesEnum.FULL, PacmanRestartTypesEnum.LEVEL_UP], restartType)) {
+        if (Leylights.Array.includes([PacmanRestartTypesEnum.FULL, PacmanRestartTypesEnum.LEVEL_UP], restartType)) {
             PacmanState.levelStartTime = PacmanState.now;
             PacmanState.hasFruitSpawned = false;
         }

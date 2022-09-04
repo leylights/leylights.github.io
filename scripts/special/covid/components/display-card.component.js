@@ -1,15 +1,15 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 export class COVIDDisplayCard {
     constructor(title, value, parentElement) {
-        this.element = cws.createElement({
+        this.element = Leylights.createElement({
             type: 'div',
             classList: 'display-card',
             children: [
-                cws.createElement({
+                Leylights.createElement({
                     type: 'h2',
                     classList: 'card-value',
                     innerText: value + '',
-                }), cws.createElement({
+                }), Leylights.createElement({
                     type: 'h4',
                     classList: 'card-title',
                     innerText: title,

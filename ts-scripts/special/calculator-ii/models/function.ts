@@ -1,4 +1,5 @@
 import { CalculatorTerm } from "./term.js";
+import { CalculatorValue } from "./value.js";
 
 export enum CalculatorOperator {
   add = '+',
@@ -9,8 +10,9 @@ export enum CalculatorOperator {
 }
 
 export class CalculatorFunction implements CalculatorTerm {
-  leftTerm: CalculatorTerm;
-  rightTerm: CalculatorTerm;
+  private _leftTerm: CalculatorTerm;
+  private _rightTerm: CalculatorTerm;
+  private _id: number;
   operator: CalculatorOperator;
 
   static operators: CalculatorOperator[] = [
@@ -21,31 +23,52 @@ export class CalculatorFunction implements CalculatorTerm {
     CalculatorOperator.exponent
   ];
 
-  constructor(lhs: CalculatorTerm, rhs: CalculatorTerm, operator: CalculatorOperator) {
-    this.leftTerm = lhs;
-    this.rightTerm = rhs;
+  constructor(lhs: CalculatorTerm | number, rhs: CalculatorTerm | number, operator: CalculatorOperator) {
+    this._leftTerm = typeof lhs === 'number' ? new CalculatorValue(lhs) : lhs;
+    this._rightTerm = typeof rhs === 'number' ? new CalculatorValue(rhs) : rhs;
     this.operator = operator;
+    this._id = ++CalculatorTerm.next_id;
 
-    if (!this.leftTerm && !this.rightTerm) throw new Error(`Bad terms given: lhs ${lhs} and rhs: ${rhs} with operator ${operator}`);
-    if (!this.leftTerm) throw new Error(`Bad left term given: ${lhs}, with rhs ${rhs.print()} and operator ${operator}`);
-    if (!this.rightTerm) throw new Error(`Bad right term given: ${rhs}, with lhs ${lhs.print()} and operator ${operator}`);
+    if (!this._leftTerm && !this._rightTerm) throw new Error(`Bad terms given: lhs ${lhs} and rhs: ${rhs} with operator ${operator}`);
+    if (!this._leftTerm) throw new Error(`Bad left term given: ${lhs}, with rhs ${this._leftTerm.print()} and operator ${operator}`);
+    if (!this._rightTerm) throw new Error(`Bad right term given: ${rhs}, with lhs ${this._rightTerm.print()} and operator ${operator}`);
+  }
+
+  get id(): number { return this._id; }
+
+  get leftTerm(): CalculatorTerm {
+    return this._leftTerm;
+  }
+
+  set leftTerm(term: CalculatorTerm) {
+    if (term.id === this.id) throw new Error(`Cannot set term as its own child`);
+    else this._leftTerm = term;
+  }
+
+  get rightTerm(): CalculatorTerm {
+    return this._rightTerm;
+  }
+
+  set rightTerm(term: CalculatorTerm) {
+    if (term.id === this.id) throw new Error(`Cannot set term as its own child`);
+    else this._rightTerm = term;
   }
 
   clone(): CalculatorTerm {
-    return new CalculatorFunction(this.leftTerm.clone(), this.rightTerm.clone(), this.operator);
+    return new CalculatorFunction(this._leftTerm.clone(), this._rightTerm.clone(), this.operator);
   }
 
   containsVariable(variable?: string): boolean {
-    return this.leftTerm.containsVariable(variable) || this.rightTerm.containsVariable(variable);
+    return this._leftTerm.containsVariable(variable) || this._rightTerm.containsVariable(variable);
   }
 
   getVariables(): string[] {
-    return this.leftTerm.getVariables().concat(this.rightTerm.getVariables());
+    return this._leftTerm.getVariables().concat(this._rightTerm.getVariables());
   }
 
   equals(other: CalculatorTerm): boolean {
     if (other instanceof CalculatorFunction) {
-      return this.operator === other.operator && this.leftTerm.equals(other.leftTerm) && this.rightTerm.equals(other.rightTerm);
+      return this.operator === other.operator && this._leftTerm.equals(other._leftTerm) && this._rightTerm.equals(other._rightTerm);
     } else return false;
   }
 
@@ -59,7 +82,7 @@ export class CalculatorFunction implements CalculatorTerm {
       }
     else brackets = { l: '(', r: ')' };
 
-    return `${brackets.l}${this.leftTerm.print(useClearerBraces, depth + 1)} ${this.operator} ${this.rightTerm.print(useClearerBraces, depth + 1)}${brackets.r}`;
+    return `${brackets.l}${this._leftTerm.print(useClearerBraces, depth + 1)} ${this.operator} ${this._rightTerm.print(useClearerBraces, depth + 1)}${brackets.r}`;
   }
 
   printHTML(depth: number = 0): string {
@@ -67,9 +90,9 @@ export class CalculatorFunction implements CalculatorTerm {
 
     let output = `<span class="function depth-${depthIndex}">`;
     output += `<span class="parens d-${depthIndex}">(</span>`;
-    output += this.leftTerm.printHTML(depth + 1);
+    output += this._leftTerm.printHTML(depth + 1);
     output += `<span class="operator d-${depthIndex}"> ${this.operator} </span>`;
-    output += this.rightTerm.printHTML(depth + 1);
+    output += this._rightTerm.printHTML(depth + 1);
     output += `<span class="parens d-${depthIndex}">)</span></span>`;
 
     return output;

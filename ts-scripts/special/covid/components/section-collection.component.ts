@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 import { COVIDSection } from "./section.component.js";
 
 export class COVIDSectionCollection {
@@ -20,11 +20,11 @@ export class COVIDSectionCollection {
     this.id = config?.id;
 
     // create elements
-    this.tabsContainer = cws.createElement({
+    this.tabsContainer = Leylights.createElement({
       type: 'div',
       classList: 'covid-tabs-container',
       children: [
-        cws.createElement({
+        Leylights.createElement({
           type: 'div',
           id: config?.id ? config?.id + '-tab' : null,
           classList: 'covid-tab-spacer',
@@ -35,7 +35,7 @@ export class COVIDSectionCollection {
 
     parentElement.appendChild(this.tabsContainer);
 
-    this.sectionsContainer = cws.createElement({
+    this.sectionsContainer = Leylights.createElement({
       type: 'div',
       classList: 'covid-sections-container',
       id: config?.id,

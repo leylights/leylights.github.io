@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 
 export class WordleTile {
   private _flipDelay: number;
@@ -11,21 +11,21 @@ export class WordleTile {
 
   constructor(flipDelay: number, classList: string) {
     this._flipDelay = flipDelay;
-    this.front = cws.createElement({
+    this.front = Leylights.createElement({
       type: 'div',
       classList: 'front',
-      children: [cws.createElement({ type: 'div', classList: 'letter-text', })],
+      children: [Leylights.createElement({ type: 'div', classList: 'letter-text', })],
     });
-    this.back = cws.createElement({
+    this.back = Leylights.createElement({
       type: 'div',
       classList: 'back',
-      children: [cws.createElement({ type: 'div', classList: 'letter-text', })],
+      children: [Leylights.createElement({ type: 'div', classList: 'letter-text', })],
     });
 
-    this.element = cws.createElement({
+    this.element = Leylights.createElement({
       type: 'div',
       classList: 'wordle-tile ' + classList,
-      children: [cws.createElement({
+      children: [Leylights.createElement({
         type: 'div',
         classList: 'inner',
         children: [this.front, this.back],

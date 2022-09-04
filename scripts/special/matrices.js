@@ -1,4 +1,4 @@
-import { cws } from "../cws.js";
+import { Leylights } from "../leylights.js";
 import { MathNum } from "../tools/math/number.js";
 import { Button } from "../components/button.component.js";
 import { BASE_TEMP_HIGHLIGHT_TIME } from "../components/general.js";
@@ -229,7 +229,7 @@ class MatrixValues {
         // produce matrix
         for (const row of this.rows) {
             for (let i = 0; i < row.length; i++) {
-                output += cws.stringToLength(row.getValueAt(i).prettyPrint(), maxCellLength) + ' ';
+                output += Leylights.stringToLength(row.getValueAt(i).prettyPrint(), maxCellLength) + ' ';
                 if (i != row.length - 1) {
                     if (asLaTeX)
                         output += ' & ';
@@ -567,7 +567,7 @@ class MatrixHTML {
         for (let i = 0; i < numCols; i++) {
             const cell = row.insertCell();
             if (this.isEditable)
-                cell.setAttributeNode(cws.betterCreateAttr('contenteditable', 'true'));
+                cell.setAttributeNode(Leylights.betterCreateAttr('contenteditable', 'true'));
         }
         this.checkDisplay();
     }
@@ -582,7 +582,7 @@ class MatrixHTML {
         }
         for (let i = 0; i < el.rows.length; i++) {
             const cell = el.rows[i].insertCell();
-            cell.setAttributeNode(cws.betterCreateAttr('contenteditable', 'true'));
+            cell.setAttributeNode(Leylights.betterCreateAttr('contenteditable', 'true'));
         }
         this.checkDisplay();
     }
@@ -672,7 +672,7 @@ class MatrixHTML {
         this.buttons.push(newButton);
         MatrixHTML.nextMatrixButtonId++;
         function isHalfButton(maybeHalfButton) {
-            return cws.orEquals(maybeHalfButton, [
+            return Leylights.orEquals(maybeHalfButton, [
                 "Scale" /* scale */,
                 "Cofactor" /* cofactor */
             ]);
@@ -754,7 +754,7 @@ class MatrixHTML {
         this.footerButtonContainer = this.footer.querySelector(".matrix-footer-buttons");
         this.footerInput = this.footer.querySelector(".footer-input");
         // buttons
-        if (cws.orEquals("resize", buttons)) {
+        if (Leylights.orEquals("resize", buttons)) {
             this.generateMatrixButton("R+" /* addRow */, () => { MatrixDOMListener.addRow(this); });
             this.generateMatrixButton("C+" /* addCol */, () => { MatrixDOMListener.addCol(this); });
             this.generateMatrixButton("R-" /* delRow */, () => { MatrixDOMListener.delRow(this); });
@@ -904,9 +904,9 @@ class Matrix {
         const title = innerHTMLOrNull("li.matrix-title", "");
         const buttons = innerHTMLOrNull("li.matrix-buttons", "").split(" ");
         const size = innerHTMLOrNull("li.matrix-size", "1 1");
-        const isEditable = cws.toBoolPipe.to(innerHTMLOrNull("li.matrix-editable", ""));
-        const displayFooterInput = cws.toBoolPipe.to(innerHTMLOrNull("li.matrix-display-footer", ""));
-        const hideWhenEmpty = cws.toBoolPipe.to(innerHTMLOrNull("li.matrix-hide-when-empty", "false"));
+        const isEditable = Leylights.toBoolPipe.to(innerHTMLOrNull("li.matrix-editable", ""));
+        const displayFooterInput = Leylights.toBoolPipe.to(innerHTMLOrNull("li.matrix-display-footer", ""));
+        const hideWhenEmpty = Leylights.toBoolPipe.to(innerHTMLOrNull("li.matrix-hide-when-empty", "false"));
         let footerInputStyle = "";
         if (!displayFooterInput) {
             footerInputStyle = "style = 'display: none'";

@@ -1,12 +1,13 @@
 import { InputComponent } from "../../components/input.component.js";
-import { cws } from "../../cws.js";
-import { CalculatorError } from "./models/error.js";
+import { Leylights } from "../../leylights.js";
+import { CalculatorUserError } from "./models/user-facing-error.js";
 
 export class CalculatorView {
   static readonly inputField: InputComponent = new InputComponent({ element: document.getElementById('formula-input') as HTMLInputElement });
 
   static readonly stepsPreview = document.getElementById('preview-steps');
   static readonly stepsFull = document.getElementById('steps-full');
+  static readonly stepsFullToggle = document.getElementById('steps-toggle');
   static readonly outputFields = {
     main: document.getElementById('formula-output') as HTMLTextAreaElement,
     error: document.getElementById('calc-error-modal') as HTMLDivElement,
@@ -18,7 +19,7 @@ export class CalculatorView {
   private static get LOG_DELAY(): number {
     let step: HTMLElement = this.stepsPreview.querySelector('.step');
     if (!step) {
-      step = cws.createElement({ type: 'div', classList: 'step', style: 'display: none' });
+      step = Leylights.createElement({ type: 'div', classList: 'step', style: 'display: none' });
       this.stepsPreview.appendChild(step);
     }
 
@@ -49,7 +50,7 @@ export class CalculatorView {
     this.outputFields.error.classList.remove('active');
   }
 
-  static emitError(error: CalculatorError) {
+  static emitError(error: CalculatorUserError) {
     this.outputFields.error.querySelector('.error-msg').innerHTML = error.message;
     this.outputFields.error.classList.add('active');
     this.outputFields.error.setAttribute('data-last-error', Date.now() + '');
@@ -86,7 +87,7 @@ export class CalculatorView {
   private static logStepToPreview(value: string, type: string, title?: string) {
     const idRoot = type.replace(/\s/g, '-').toLowerCase();
 
-    const step: HTMLDivElement = cws.createElement({
+    const step: HTMLDivElement = Leylights.createElement({
       type: 'div',
       classList: 'step step-preview',
       id: idRoot + '-preview',
@@ -101,8 +102,8 @@ export class CalculatorView {
     const idRoot = type.replace(/\s/g, '-').toLowerCase();
 
     const elements: HTMLDivElement[] = [
-      cws.createElement({ type: 'div', classList: 'step step-title', id: idRoot + '-title', innerHTML: `${title ? `${title} ` : ''}${type}:` }),
-      cws.createElement({ type: 'div', classList: 'step step-value', id: idRoot + '-value', innerHTML: value })
+      Leylights.createElement({ type: 'div', classList: 'step step-title', id: idRoot + '-title', innerHTML: `${title ? `${title} ` : ''}${type}:` }),
+      Leylights.createElement({ type: 'div', classList: 'step step-value', id: idRoot + '-value', innerHTML: value })
     ];
 
     for (const el of elements) {

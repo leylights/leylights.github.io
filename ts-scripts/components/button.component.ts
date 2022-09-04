@@ -1,4 +1,4 @@
-import { cws } from "../cws.js";
+import { Leylights } from "../leylights.js";
 import { BASE_TEMP_HIGHLIGHT_TIME } from "./general.js";
 
 type ButtonData = {
@@ -199,7 +199,7 @@ export class Button {
    * @returns The HTML Element for a new button
    */
   private static generateHTML(data: ButtonData): HTMLDivElement {
-    let el: HTMLDivElement = cws.createElement({
+    let el: HTMLDivElement = Leylights.createElement({
       type: 'div',
       id: data.id,
       classList: data.giveButtonClass

@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 import { NPCsCharacterData } from "../core/character-data.js";
 import { NPCsAction } from "./action.js";
 import { NPCsAttribute } from "./attribute.js";
@@ -131,7 +131,7 @@ export class NPCsAttack extends NPCsAction {
   getHTML(this: NPCsAttack, data?: NPCsCharacterData): string {
     let attackType: string = this.attackType == 'Mixed' ? 'Melee or Ranged' : this.attackType;
     return `<i>${attackType} Weapon Attack:</i> ${NPCsHelper.abilityToStr(this.ability, false)}_WITH_PROF to hit, 
-    ${this.getHTMLRangeOrReach()}, ${cws.numberToString(this.targetCount)} target. <i>Hit:</i> ${this.getAttacksListHTML(data)} ${this.damageType} damage${this.additionalEndText || '.'}`;
+    ${this.getHTMLRangeOrReach()}, ${Leylights.numberToString(this.targetCount)} target. <i>Hit:</i> ${this.getAttacksListHTML(data)} ${this.damageType} damage${this.additionalEndText || '.'}`;
   }
 
   getAttacksListHTML = function (this: NPCsAttack, data?: NPCsCharacterData) {

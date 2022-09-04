@@ -1,4 +1,4 @@
-import { cws } from "../../../cws.js";
+import { Leylights } from "../../../leylights.js";
 import { MathFrac } from "../../../tools/math/fraction.js";
 import { MathNum } from "../../../tools/math/number.js";
 import { CalculatorSingular } from "./singular.js";
@@ -8,10 +8,18 @@ export class CalculatorValue extends CalculatorSingular {
   value: MathNum;
 
   constructor(value: number | MathNum) {
-    super(value + '');
+    super('value');
     if (!value && value !== 0) throw new Error(`Bad value: ${value}`);
 
-    this.value = value instanceof MathNum ? value : new MathNum(MathFrac.createFromInt(value), MathFrac.ZERO);
+    this.value = value instanceof MathNum
+      ? value
+      : typeof value === 'number'
+        ? new MathNum(MathFrac.createFromInt(value), MathFrac.ZERO)
+        : null;
+    if (this.value === null) {
+      console.error(value);
+      throw new Error(`Bad value: ${value}`);
+    }
   }
 
   get integerValue() {
@@ -38,7 +46,7 @@ export class CalculatorValue extends CalculatorSingular {
 
   print(): string {
     if (this.value.prettyPrint().length > 25 && this.value.Im.isEqualTo(MathFrac.ZERO))
-      return cws.roundToNthDigit(this.value.Re.decimalValue, -5) + '';
+      return Leylights.roundToNthDigit(this.value.Re.decimalValue, -5) + '';
     else
       return this.value.prettyPrint() + '';
   }

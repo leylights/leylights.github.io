@@ -1,4 +1,4 @@
-import { cws } from "../../../../cws.js";
+import { Leylights } from "../../../../leylights.js";
 import { Canvas } from "../../../../components/canvas.component.js";
 import { PacmanEntityEnum } from "../../helper.js";
 import { PacmanConstants } from "../constants.js";
@@ -28,7 +28,7 @@ export class PacmanFruit extends PacmanPickup {
   }
 
   private static getRandomFruitSpawnNode(): PacmanMapNode {
-    return cws.Array.get.randomElement(PacmanMapNode.map.filter((node: PacmanMapNode) => {
+    return Leylights.Array.get.randomElement(PacmanMapNode.map.filter((node: PacmanMapNode) => {
       return node.canSpawnFruit;
     }));
   }

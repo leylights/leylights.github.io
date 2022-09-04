@@ -16,14 +16,24 @@ interface Config {
   clearPrint?: boolean
 }
 
+interface Result {
+  result: string,
+  HTMLResult: string
+}
+
 export class CalculatorCore {
-  static calculate(input: string, config: Config): string {
+  static calculate(input: string, config: Config): Result {
     const parser: CalculatorParser = new CalculatorParser(input, config);
 
     if (parser.isEquation)
       return this.calculateEquality(parser.leftOutput, parser.rightOutput, config);
-    else
-      return this.calculateStatement(parser.output, config).print();
+    else {
+      const result = this.calculateStatement(parser.output, config);
+      return {
+        result: result.print(),
+        HTMLResult: result.printHTML(),
+      }
+    }
   }
 
   private static calculateEquality(leftSide: CalculatorTerm, rightSide: CalculatorTerm, config: Config) {
@@ -68,9 +78,12 @@ export class CalculatorCore {
 
   static test() {
     const tester = new CalculatorTester<string>('Core', (input: string, debug?: boolean) => {
-      return CalculatorCore.calculate(input, { debug: debug });
+      return CalculatorCore.calculate(input, { debug: debug }).result;
     });
 
-    tester.test('3/2*x+y=0', 'x = ((0 - (1 * y)) / 3/2)');
+    tester.test('3/2*x+y=0', 'x = ((0 - y) / 3/2)');
+    tester.test('5^x+5^y=1', 'x = (log((1 - (5 ^ y))) / 0.69897)');
+
+    tester.test('34=d^3', 'd = 3.23961');
   }
 }
