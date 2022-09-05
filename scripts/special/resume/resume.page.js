@@ -146,6 +146,7 @@ export class ResumePage {
         email.href = `mailto:${CoreDataService.email}`;
     }
     static setFadeListeners() {
+        return; // disable
         for (const degree of document.querySelectorAll('#education-degrees>div'))
             ResumePage.setFadeListener(degree);
         const fadeListener = () => {

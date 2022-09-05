@@ -43,7 +43,7 @@ export class CalculatorView {
             this.outputFields.main.style.fontSize = `${--fontSize}px`;
     }
     static logStep(value, type, title) {
-        this.waitingLogs.push({ value: value, type: type, title: title });
+        this.waitingLogs.push({ value: value, type: Leylights.toTitleCase(type), title: Leylights.toTitleCase(title) });
     }
     static activateLogs() {
         for (let i = 0; i < 30; i++) {

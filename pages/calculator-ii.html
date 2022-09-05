@@ -64,7 +64,7 @@
             <p>For the binary functions, there are five possible operators:
             <ul>
               <li>Addition (+)</li>
-              <li>Subtratction (-)</li>
+              <li>Subtraction (-)</li>
               <li>Multiplication (*)</li>
               <li>Division (/)</li>
               <li>Exponent (^)</li>
@@ -89,6 +89,85 @@
         <p>In cases where the term is a unary or binary function, the same code function is called on any parameter
           terms passed to the unary/binary function. Almost all processing of any input works in this pattern: recursion
           on the structure of a mathematical term.</p>
+        <h3>Math</h3>
+        <p>As can be seen by expanding the "Steps" section above, the algorithm to solve any given equation is as
+          follows:</p>
+        <ul>
+          <li>Parse the equation</li>
+          <li>Reformat the equation</li>
+          <ul>
+            <li>Expand exponents</li>
+            <li>Apply the distributive property</li>
+            <li>Apply the commutative property</li>
+            <li>Collect like terms</li>
+            <li>Evaluate all numerical values</li>
+          </ul>
+          <li>Solve the equation</li>
+          <ul>
+            <li>Identify the equation type</li>
+            <li>Solve the equation according to its type</li>
+          </ul>
+        </ul>
+        <h4>Parse the equation</h4>
+        <p>The program must first learn to understand the given equation, by breaking it up into the four data types
+          listed earlier: values, variables, unary functions, and binary functions. This understandable, 'parsed'
+          equation
+          is then able to be interpreted by the reformatting and solving steps.</p>
+        <p>
+          All reformatting steps reformat the equation <math>f(x₁, ..., xₘ) = g(xₘ₊₁, ..., xₙ)</math> by understanding
+          it as
+          <math>f(x₁, ..., xₘ) - g(xₘ₊₁, ..., xₙ) = 0</math>, then only reformatting the left side, since there is
+          nothing to change about the new right side.
+        </p>
+        <h4>Expand exponents</h4>
+        <p>
+          To reduce the number of cases the distributive property handler has to understand, all exponents are expanded
+          into a series of multiplied terms. For example, <math>(x+2)^2</math> becomes <math>(x+2)(x+2)</math>.
+        </p>
+        <h4>Apply the distributive property</h4>
+        <p>
+          The statement is then distributed recursively according to a long list of distribution rules. Some examples
+          include
+        </p>
+        <ul>
+          <li><math>x(y+z) = xy + xz</math></li>
+          <li><math>x(y-z) = xy - xz</math></li>
+          <li><math>f(x)(y+z) = f(x)y + f(x)z</math></li>
+          <li><math>(x*y)/z = x/z + y/z</math></li>
+          <li>The list goes on for 40+ unique combinations.</li>
+        </ul>
+        <p>The end goal of this is to, where possible, bring the disjunctive operators <math>+</math> and <math>-</math>
+          to the top level of the equation. Then, like terms can more easily be collected in later steps, without having
+          to repeat the distribution step.</p>
+        <h4>Apply the commutative property</h4>
+        <p>To allow the program to more easily identify like terms for the collection step, all conjunctive
+          terms&mdash;those with values connected by multiplication&mdash;are rearranged such that any variables are on
+          the right side of the term, and any values are on the left side of the term. For example, <math>(x * 4)</math>
+          becomes <math>(4 * x)</math> </p>
+        <h4>Collect like terms</h4>
+        <p>All terms that share equal coefficients are collected, reducing the complexity of the evaluation step and
+          making the type of equation easier to identify when solving it. </p>
+        <p>For example, <math>((4 * x) + (5 * x))</math> becomes <math>((4 + 5) * x)</math>.</p>
+        <h4>Evaluate numerical values</h4>
+        <p>In this step, the program finally does arithmetic to simplify all numerical values. It also cancels out
+          multiplication by zero or one, checks for division by zero or one, and simplifies any addition or subtraction
+          by zero.</p>
+        <p>For example, <math>((4 + 5) * x)</math> becomes <math>(9 * x)</math>.</p>
+        <h4>Identify the equation type</h4>
+        <p>The calculator first tries to identify the type of equation before solving it. Special types, such as linear
+          diophantine equations, variable-free equations, and quadratic equations can then be filtered into special
+          solving patterns. </p>
+        <h4>Solve the identified equation</h4>
+        <p>The calculator then solves the equation. For specialized types, such as quadratic equations, it applies a
+          specialized algorithm to produce an answer, such as the quadratic formula.</p>
+        <p>For other types, the algorithm simply isolates the solved-for variable by moving all non-variable terms to
+          the right-hand side of the equation. It then evaluates that right-hand side by the evaluation rules from the
+          previous evaluation step to produce a final answer. </p>
+        <h3>Test-driven development</h3>
+        <p>Both unit tests and integration tests are used to build code confidence in this calculator. Each step,
+          represented by a JavaScript ES6 class, has its own <code>.test()</code> function that runs through a series of
+          inputs and outputs to ensure that the step works correctly. Integrations test also exist at the top layer of
+          the program, giving a user-like input to the calculator and checking against an expected answer.</p>
         <h2>Libraries</h2>
         <p>This calculator was developed in TypeScript.</p>
         <p>No additional libraries were used.</p>

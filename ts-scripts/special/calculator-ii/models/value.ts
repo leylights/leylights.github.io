@@ -45,13 +45,13 @@ export class CalculatorValue extends CalculatorSingular {
   }
 
   print(): string {
-    if (this.value.prettyPrint().length > 25 && this.value.Im.isEqualTo(MathFrac.ZERO))
+    if (this.value.prettyPrint().length > 15 && this.value.Im.isEqualTo(MathFrac.ZERO))
       return Leylights.roundToNthDigit(this.value.Re.decimalValue, -5) + '';
     else
       return this.value.prettyPrint() + '';
   }
 
   printHTML(): string {
-    return `<span class="value">${this.value.prettyPrint()}</span>`;
+    return `<span class="value">${this.print()}</span>`;
   }
 }

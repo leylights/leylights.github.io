@@ -128,6 +128,8 @@ export class CalculatorEvaluator extends CalculatorComponent {
                         return rhs;
                     if (rhs instanceof CalculatorValue && rhs.value.isEqualTo(MathNum.ZERO))
                         return lhs;
+                    if (rhs instanceof CalculatorValue && rhs.value.Re.decimalValue < 0)
+                        return new CalculatorFunction(lhs, new CalculatorValue(rhs.value.multiplyBy(MathNum.NEG_ONE)), CalculatorOperator.subtract);
                     break;
                 case CalculatorOperator.subtract:
                     if (rhs instanceof CalculatorValue && rhs.value.isEqualTo(MathNum.ZERO))

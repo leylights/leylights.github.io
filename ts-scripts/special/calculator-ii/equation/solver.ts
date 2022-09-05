@@ -10,6 +10,7 @@ import { CalculatorVariable } from "../models/variable.js";
 import { CalculatorParser } from "../parser.js";
 import { CalculatorEvaluator } from "../statement/evaluator.js";
 import { CalculatorLogarithmDistributor } from "../statement/logarithm-distributor.js";
+import { CalculatorStatementReformatter } from "../statement/statement-reformatter.js";
 import { CalculatorUtil } from "../statement/util.js";
 import { CalculatorTester } from "../tester.js";
 import { CalculatorView } from "../view.js";
@@ -39,7 +40,9 @@ export class CalculatorSolver extends CalculatorComponent {
     const allTerms = disjunctiveTerms.positives.concat(disjunctiveTerms.negatives);
     const identification: { type: CalculatorEquationType, isolatedVariable: string } = CalculatorIdentifier.identify(input, allTerms, config?.debug);
 
+    this.log(config.debug, '-- Solve --');
     const result = this.solveSwitch(input, identification, config);
+    if (typeof result.HTMLResult !== 'string') throw new Error(`Bad HTMLResult: ${result.HTMLResult}`);
 
     if (config.emitSteps) CalculatorView.logStep(result.HTMLResult, 'result');
 
@@ -92,8 +95,8 @@ export class CalculatorSolver extends CalculatorComponent {
     this.emitStep(`${input ? input.printHTML() : 0} = 0`, config);
     const isolationResult = this.isolateVariableRecurse(input, new CalculatorValue(0), isolatedVariable, config);
     const results = {
-      left: CalculatorEvaluator.simplify(CalculatorEvaluator.evaluate(isolationResult.left)),
-      right: CalculatorEvaluator.simplify(CalculatorEvaluator.evaluate(isolationResult.right)),
+      left: CalculatorStatementReformatter.simplifyAndReformat(isolationResult.left),
+      right: CalculatorStatementReformatter.simplifyAndReformat(isolationResult.right),
     };
 
     const output = `${results.left.print()} = ${results.right.print()}`;
@@ -108,12 +111,14 @@ export class CalculatorSolver extends CalculatorComponent {
     right: CalculatorTerm,
   } {
     const exitBase = (left: CalculatorTerm, right: CalculatorTerm) => {
-      return { left: left ? CalculatorEvaluator.simplify(left) : left, right: right ? CalculatorEvaluator.evaluate(right) : right };
+      return { left: left ? CalculatorStatementReformatter.reformatStatement(left, { debug: config.debug }) : left, right: right ? CalculatorStatementReformatter.reformatStatement(right, { debug: config.debug }) : right };
     }, exitRecurse = (left: CalculatorTerm, right: CalculatorTerm) => {
       this.emitStep(`${left ? left.printHTML() : 0} = ${right.printHTML()}`, config);
       this.log(config.debug, `${left ? left.print(true) : 0} = ${right.print(true)}`);
       return this.isolateVariableRecurse(left, right, isolatedVariable, config);
     }
+
+    this.log(config.debug, `Isolating for ${isolatedVariable}: ${left?.print() || 'empty'} = ${right?.print() || 'empty'}`)
 
     if (!left) return exitBase(left, right);
     if (left instanceof CalculatorVariable) {
@@ -155,6 +160,8 @@ export class CalculatorSolver extends CalculatorComponent {
             ),
           );
         } else {
+          this.log(config.debug, `Cannot isolate ${isolatedVariable} in ${left?.print() || 'none'} = ${right?.print() || 'none'}`);
+
           return exitBase(left, right); // both sides contain x; cannot isolate
         }
       }
@@ -290,7 +297,7 @@ export class CalculatorSolver extends CalculatorComponent {
 
   private static solveQuadratic(input: CalculatorTerm, config: Config): SolveResult {
     const terms = this.sortDisjunctiveVariablesAndValues(CalculatorUtil.getDisjunctiveTerms(input, config.debug));
-    const variable = input.getVariables()[0];
+    const variable: CalculatorVariable = new CalculatorVariable(input.getVariables()[0]);
 
     let a: number, b: number;
     if (
@@ -316,8 +323,8 @@ export class CalculatorSolver extends CalculatorComponent {
     if ((CalculatorEvaluator.evaluate(new CalculatorParser(radicand).output) as CalculatorValue).value.toRealNumber().decimalValue < 0) {
       this.emitStep(`negative radicand: ${new CalculatorParser(radicand).output.printHTML()}`, config);
       return {
-        result: `${variable} does not exist`, // -ve square root
-        HTMLResult: `${new CalculatorVariable(variable).printHTML()} does not exist`, // -ve square root
+        result: `${variable.print()} does not exist`, // -ve square root
+        HTMLResult: `${variable.printHTML()} does not exist`, // -ve square root
       }
     }
 
@@ -329,7 +336,7 @@ export class CalculatorSolver extends CalculatorComponent {
 
     for (const p of parsedEquations) {
       this.log(config.debug, p.print());
-      this.emitStep(`x = ${p.printHTML()}`, config);
+      this.emitStep(`${variable.printHTML()} = ${p.printHTML()}`, config);
     }
 
     const results = parsedEquations
@@ -341,14 +348,14 @@ export class CalculatorSolver extends CalculatorComponent {
 
     if (exactResults[0].length < 20)
       return {
-        result: `${variable} = ${exactResults.join(', ')}`,
-        HTMLResult: `${new CalculatorVariable(variable)} = ${exactResults.join(', ')}`,
+        result: `${variable.print()} = ${exactResults.join(', ')}`,
+        HTMLResult: `${variable.printHTML()} = ${exactResults.join(', ')}`,
       };
     else {
       const answer = results.map((n) => Leylights.roundToNthDigit(n.decimal, -5)).join(', ');
       return {
-        result: `${variable} = ${answer}`,
-        HTMLResult: `${new CalculatorVariable(variable).printHTML()} = ${answer}`,
+        result: `${variable.print()} = ${answer}`,
+        HTMLResult: `${variable.printHTML()} = ${answer}`,
       };
     }
   }
@@ -404,8 +411,8 @@ export class CalculatorSolver extends CalculatorComponent {
     tester.test('(((24 * (x ^ 2)) - (-24 * x)) + 288) = 0', 'x does not exist');
     tester.test('(((24 * (x ^ 2)) - (168 * x)) + 288) = 0', 'x = 3, 4');
 
-    tester.test('1*x^3-4*y=0', 'x = ((4 * y) ^ 1/3)');
-    tester.test('3/2*x+y=0', 'x = ((0 - y) / 3/2)');
+    tester.test('1*x^3-4*y=0', 'x = (1.5874 * (y ^ 1/3))');
+    tester.test('3/2*x+y=0', 'x = (-2/3 * y)');
 
     tester.test('5^x-25=0', 'x = 2');
     tester.test('25^x-5=0', 'x = 1/2');

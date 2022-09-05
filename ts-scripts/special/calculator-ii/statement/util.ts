@@ -1,6 +1,7 @@
 import { CalculatorFunction, CalculatorOperator } from "../models/function.js";
 import { CalculatorSingular } from "../models/singular.js";
 import { CalculatorTerm } from "../models/term.js";
+import { CalculatorUnaryFunction } from "../models/unary-function.js";
 
 export class CalculatorUtil {
   static disjunctiveTermsCache = {};
@@ -22,7 +23,7 @@ export class CalculatorUtil {
       return { positives: pos, negatives: neg };
     }
 
-    if (input instanceof CalculatorSingular)
+    if (input instanceof CalculatorSingular || input instanceof CalculatorUnaryFunction)
       return exit([input], []);
     else if (input instanceof CalculatorFunction) {
       switch (input.operator) {

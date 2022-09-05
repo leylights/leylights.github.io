@@ -2,12 +2,17 @@
   font-size: 1.5em;
 }
 
+#main {
+  background-color: #fff !important;
+}
+
 #controls {
   min-width: 200px;
   width: calc(15% - 4px);
-  height: 100%;
+  height: calc(100vh - 73px);
   float: left;
   border-right: 4px solid var(--primary-accent-color);
+  background-color: var(--primary-bg-color);
   font-family: Encode Sans;
   font-size: 0.8em;
   overflow-x: hidden;
@@ -31,39 +36,33 @@
   user-select: none;
   border-bottom: 2px var(--accent-color) solid;
 }
-
-.controlsSubMenu > h2 {
+.controlsSubMenu h2 {
   margin: 0;
   padding: 0.83em 0 0.83em 0.5em;
   font-size: 1.35em;
   border-bottom: 1px var(--very-light-text-color) solid;
 }
-
-.controlsSubMenu > h3 {
+.controlsSubMenu h2:hover {
+  cursor: pointer;
+  color: var(--primary-accent-color);
+}
+.controlsSubMenu h3 {
   margin: 0;
   padding: 0.83em 0 0.83em 0.5em;
   /* border-bottom: 1px #555555 solid; */
   font-weight: normal;
 }
-
-.controlsSubMenu > h3 > input {
+.controlsSubMenu h3 input {
   padding: 0.83em 0 0 0;
   border: none;
   background-color: inherit;
   border-bottom: 1px var(--very-light-text-color) solid;
   text-align: center;
 }
-
-.controlsSubMenu > h3 > p {
+.controlsSubMenu h3 p {
   margin: 0;
 }
-
-.controlsSubMenu > h2:hover {
-  cursor: pointer;
-  color: var(--primary-accent-color);
-}
-
-.controlsSubMenu > h3:hover {
+.controlsSubMenu h3:hover {
   cursor: pointer;
   color: var(--primary-accent-color);
 }
@@ -101,12 +100,15 @@
 }
 
 /* Customization Tab */
-#customPreset > div, .controlsSubMenu > div, .controlsSubMenu > h3 {
+#customPreset > div,
+.controlsSubMenu > div,
+.controlsSubMenu > h3 {
   padding: 0.83em;
   width: calc(100% - 1.5em);
 }
 
-#customPreset > div input, .controlsSubMenu > div input {
+#customPreset > div input,
+.controlsSubMenu > div input {
   width: 100%;
   border: none;
   background-color: inherit;
@@ -114,13 +116,15 @@
   text-align: center;
 }
 
-#customPreset > div span, .controlsSubMenu > div span {
+#customPreset > div span,
+.controlsSubMenu > div span {
   margin-right: 0.5em;
   display: block;
   overflow: hidden;
 }
 
-#customPreset > div label, .controlsSubMenu > div label {
+#customPreset > div label,
+.controlsSubMenu > div label {
   margin: 0;
   float: left;
   width: 130px;

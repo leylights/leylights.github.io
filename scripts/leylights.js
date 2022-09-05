@@ -862,7 +862,9 @@ Leylights.toRadians = function (degreeValue) {
     return degreeValue * (Math.PI / 180);
 };
 Leylights.toTitleCase = function (str) {
-    return Leylights.toCapitalized(str.substr(0).toLowerCase());
+    if (!str)
+        return str;
+    return Leylights.toCapitalized(str.substring(0).toLowerCase());
 };
 console.assert(Leylights.roundToDecimalPlaces(99.999, 2) === 100);
 console.assert(Leylights.roundToDecimalPlaces(99.874, 2) === 99.87);

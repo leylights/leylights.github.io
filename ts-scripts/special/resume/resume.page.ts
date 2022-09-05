@@ -175,6 +175,8 @@ export class ResumePage {
   }
 
   private static setFadeListeners(): void {
+    return; // disable
+
     for (const degree of document.querySelectorAll('#education-degrees>div'))
       ResumePage.setFadeListener(degree as HTMLElement);
 

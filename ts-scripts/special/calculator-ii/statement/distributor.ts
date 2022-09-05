@@ -1,6 +1,7 @@
 import { CalculatorComponent } from "../calculator-component.js";
 import { CalculatorFunction, CalculatorOperator } from "../models/function.js";
 import { CalculatorTerm } from "../models/term.js";
+import { CalculatorUnaryFunction } from "../models/unary-function.js";
 import { CalculatorUserError } from "../models/user-facing-error.js";
 import { CalculatorValue } from "../models/value.js";
 import { CalculatorVariable } from "../models/variable.js";
@@ -30,6 +31,7 @@ export class CalculatorDistributor extends CalculatorComponent {
 
     if (input instanceof CalculatorValue) return input;
     else if (input instanceof CalculatorVariable) return input;
+    else if (input instanceof CalculatorUnaryFunction) return input;
     else if (input instanceof CalculatorFunction) {
       // distribute at innermost segment first
       input.leftTerm = this.distributeRecurse(input.leftTerm, debug, depth + 1);
@@ -211,7 +213,7 @@ export class CalculatorDistributor extends CalculatorComponent {
             return exitWithoutDistributing('s ^ (l +-*/^ m)');
           }
       }
-    }
+    } else throw new Error(`Bad input: ${input.print()}`);
   }
 
   static test() {

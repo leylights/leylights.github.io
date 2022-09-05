@@ -69,7 +69,7 @@ export class CalculatorView {
   }
 
   static logStep(value: string, type: string, title?: string) {
-    this.waitingLogs.push({ value: value, type: type, title: title });
+    this.waitingLogs.push({ value: value, type: Leylights.toTitleCase(type), title: Leylights.toTitleCase(title) });
   }
 
   private static activateLogs() {
