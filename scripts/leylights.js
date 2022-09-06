@@ -62,7 +62,7 @@ export class Leylights {
             element.id = data.id;
         if (data.classList) {
             if (typeof data.classList === 'string' && data.classList.includes(' '))
-                data.classList = data.classList.split(' ');
+                data.classList = data.classList.trim().split(' ');
             else if (!Array.isArray(data.classList))
                 data.classList = [data.classList];
             data.classList.forEach((className) => {

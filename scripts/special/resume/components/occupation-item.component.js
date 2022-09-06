@@ -10,7 +10,7 @@ export class ResumeOccupationItemComponent extends ResumeExperienceItemComponent
             darkImageUrl: data.darkImageUrl,
             imageAlt: data.workplaceName,
             experiencePoints: data.experiencePoints,
-            type: data.asGrid ? 'grid' : 'table',
+            layout: data.layout,
             flipped: data.flipped,
         });
     }

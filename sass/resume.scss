@@ -1,3 +1,10 @@
+@import './util/mixins/dark-mode.scss';
+
+:root {
+  --language-colour: var(--primary-accent-color);
+  --skill-highlight-colour: var(--tertiary-accent-color);
+}
+
 body {
   margin: auto;
   margin-top: 0;
@@ -7,6 +14,7 @@ body {
 /* Fonts */
 
 h2 {
+  font-weight: 300;
   color: var(--text-color);
 }
 
@@ -14,6 +22,7 @@ h2 {
 h4,
 h5,
 h6 {
+  font-weight: 300;
   margin: 0;
 }
 
@@ -71,22 +80,6 @@ h5 {
       transform: translateY(-50%);
     }
   }
-}
-
-table.equal-2-col {
-  width: 100%;
-}
-
-table.equal-2-col > tbody > tr > td {
-  width: 50%;
-}
-
-table.top-v-align > tbody > tr > td {
-  vertical-align: top;
-}
-
-table.bot-v-align > tbody > tr > td {
-  vertical-align: bottom;
 }
 
 .subtitle {
@@ -182,27 +175,27 @@ a:hover {
   }
   &.language {
     // color: var(--light-text-color);
-    color: var(--light-text-color);
+    color: var(--language-colour);
   }
   &.user-highlighted-skill {
-    font-weight: bold;
-    color: var(--tertiary-accent-color);
+    font-weight: 600;
+    color: var(--skill-highlight-colour);
   }
 }
 
 #skills-list {
-  height: 100px;
+  height: 140px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
 }
 
-.resume-skill {
+.resume-skill:not(.no-matches) {
   cursor: pointer;
   transition: var(--hover-color-transition);
 }
 
-.resume-skill:hover {
+.resume-skill:hover:not(.skill-to-highlight, .no-matches) {
   color: var(--primary-accent-color);
 }
 
@@ -249,11 +242,36 @@ a:hover {
 
 .experience-item {
   margin-bottom: 1em;
-}
 
-.experience-table {
-  width: 100%;
-  color: var(--text-color);
+  &.compact-layout {
+    .side-image {
+      display: none;
+    }
+
+    .body {
+      display: flex;
+      gap: 1em;
+      flex-direction: row-reverse;
+
+      .experience-image-container {
+        position: relative;
+        width: 100%;
+
+        flex-basis: 20%;
+        align-self: center;
+      }
+    }
+
+    &.flipped .body {
+      flex-direction: row;
+    }
+  }
+
+  &.side-layout {
+    .compact-image {
+      display: none;
+    }
+  }
 }
 
 .experience-grid {
@@ -266,45 +284,36 @@ a:hover {
   grid-auto-columns: 1fr auto;
 }
 
-.experience-image-container {
-  position: relative;
-  width: 100%;
-}
-
 .experience-image {
   max-width: 200px;
   max-height: 200px;
   float: right;
   width: 125px;
   padding: 1em;
-  padding-right: 0;
 }
 
 .experience-image.reversed {
   float: left;
-  padding: 1em 2em;
 }
 
-.experience-table th {
-  text-align: left;
-}
+.project-title {
+  font-weight: bold;
+  color: var(--text-color);
 
-.experience-table .experience-date {
-  text-align: right;
-  width: 300px;
-  float: right;
-}
-
-.experience-table td {
-  vertical-align: top;
+  .resume-highlight {
+    color: var(--text-color);
+    &.user-highlighted-skill {
+      color: var(--skill-highlight-colour);
+    }
+  }
 }
 
 .skill-emph {
-  font-weight: bold;
+  color: var(--primary-accent-color);
 }
 
 .skill-to-highlight {
-  color: var(--tertiary-accent-color);
+  color: var(--skill-highlight-colour);
 }
 
 .skill-to-highlight.no-results,
@@ -312,8 +321,21 @@ a:hover {
   color: var(--light-text-color);
 }
 
+#small-projects {
+  display: flex;
+  gap: 1em;
+}
+
+.small-experience-item {
+  flex-basis: 1;
+  position: relative;
+
+  .date {
+    font-size: 0.9em;
+  }
+}
+
 #languages-list {
-  font-weight: bold;
   list-style: none;
   padding-left: 0;
 }
@@ -322,6 +344,30 @@ a:hover {
   padding-left: 0;
   li {
     list-style-type: none;
+  }
+}
+
+#awards-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2em;
+
+  .award {
+    text-align: center;
+    padding: 1em 3em;
+    span {
+      display: block;
+    }
+
+    .name {
+      font-size: 1.2em;
+    }
+
+    .date {
+      font-size: 0.9em;
+      font-style: italic;
+      margin-bottom: 8px;
+    }
   }
 }
 
@@ -354,15 +400,6 @@ a:hover {
   #CscaTitle {
     width: null;
   }
-
-  table.equal-2-col > tbody > tr > td {
-    display: contents;
-  }
-
-  table.equal-2-col > tbody > tr > td ul {
-    margin: 0;
-  }
-
   .textAccentImage {
     max-width: 200px;
     width: 60%;
@@ -386,23 +423,6 @@ a:hover {
 
   #skills-list {
     height: 200px;
-  }
-
-  .experience-table tr {
-    display: block;
-  }
-
-  .experience-table th,
-  td {
-    display: block;
-  }
-
-  .experience-table .experience-date,
-  .experience-grid .experience-date {
-    text-align: left;
-    float: left;
-    width: 100%;
-    font-size: 0.9em;
   }
 
   .workplace-name {
@@ -429,6 +449,14 @@ a:hover {
 
   .experience-image.dark-only {
     display: none;
+  }
+
+  #small-projects {
+    flex-direction: column;
+  }
+
+  #awards-container {
+    display: block;
   }
 }
 
@@ -458,4 +486,8 @@ a:hover {
   .lowerShowcaseContainer {
     display: none;
   }
+}
+
+@include dark-root {
+  --language-colour: var(--primary-accent-color);
 }

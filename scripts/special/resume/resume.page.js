@@ -5,6 +5,8 @@ import { ResumeExperienceItemComponent } from "./components/experience-item.comp
 import { ResumeLanguageComponent } from "./components/language-item.component.js";
 import { ResumeOccupationItemComponent } from "./components/occupation-item.component.js";
 import { ResumeSkillComponent } from "./components/skill.component.js";
+import { ResumeSmallExperienceItem } from "./components/small-experience-item.component.js";
+import { Leylights } from "../../leylights.js";
 export class ResumePage {
     static init() {
         new SpotlightHeader(document.getElementById('showcase'));
@@ -14,11 +16,32 @@ export class ResumePage {
         this.loadProjects();
         this.loadLanguages();
         this.loadSkills();
+        this.disableSkills();
+        this.loadContact();
         ResumePage.setFadeListeners();
     }
     static loadExperience() {
         const experienceParent = document.getElementById('experience-container');
         // use <C> to highlight anything, <L> to highlight languages and tools
+        ResumePage.experienceItems.push(new ResumeOccupationItemComponent({
+            parentElement: experienceParent,
+            workplaceName: 'Vidyard',
+            jobTitle: 'Software Developer (Web Team)',
+            dates: ['Winter 2022'],
+            mainImageUrl: '/siteimages/resume/vidyard.svg',
+            darkImageUrl: '/siteimages/resume/vidyard_dark.svg',
+            experiencePoints: [
+                `Led integration of <L term='quality javascript typescript'>Jest</L>, 
+        <L term='quality javascript'>ESLint</L>, and <L term='typescript'>TypeScript</L>
+         with a mature codebase, starting the team's use of <C term="quality">test-driven development</C> with <C term="quality">28% code coverage</C>
+         in two months to reduce and prevent user-facing errors.`,
+                `Performed and improved on a <C term="accessibility design html css">WCAG2.1 accessibility audit</C> to <C term="accessibility design">
+        decrease UX friction</C> and <C term="accessibility design">increase conversion</C>.`,
+                `Overhauled a <L>PHP</L> component library to implement <C nolink>object-oriented programming</C> principles, decreasing ticket cycle time.`,
+                `<C term='communication'>Collaborated with external teams</C> to clarify requirements and deliver progress updates.`
+            ],
+            layout: 'compact',
+        }));
         ResumePage.experienceItems.push(new ResumeOccupationItemComponent({
             parentElement: experienceParent,
             workplaceName: 'Uptake Canada',
@@ -27,10 +50,15 @@ export class ResumePage {
             mainImageUrl: '/siteimages/resume/uptake.png',
             darkImageUrl: '/siteimages/resume/uptake_dark.png',
             experiencePoints: [
-                `Independently developed <C term='api'><L term='javascript typescript'>NestJS</L> RESTful API</C> endpoints and complex <C><L>SQL</L></C> stored procedures to support frontend requirements`,
-                `<C term='team'>Worked with a team</C> to deploy new features to <C term='git'>production environments</C> using the <L term='javascript'>Ext JS</L> component framework to meet design specifications`,
-                `Contributed to the development process, including <L>git</L> workflows, <C term='quality'>code reviews</C>, <C term='tdd'>test-driven development</C>, and consultation with design teams to maximize code confidence and acceptability`,
-            ]
+                `Independently developed <L term='javascript typescript api'>NestJS</L> <C term='api'>RESTful API</C> endpoints
+         and complex <L term='api sql'>SQL</L> stored procedures to support frontend specifications`,
+                `Developed <C nolink>new frontend interfaces</C> using <L term="javascript">ExtJS</L> to support design specifications and display API data.`,
+                `Contributed to the development process, including <L>git</L> workflows, 
+         <C term='quality communication'>code reviews</C>, <C term='quality'>test-driven development</C>, and consultation with
+         design teams to <C term='quality'>maximize code confidence</C> and acceptability`,
+            ],
+            flipped: true,
+            layout: 'compact',
         }));
         ResumePage.experienceItems.push(new ResumeOccupationItemComponent({
             parentElement: experienceParent,
@@ -42,11 +70,12 @@ export class ResumePage {
             experiencePoints: [
                 `Designed and developed a <C term='independence html css'>mobile-friendly online eLearning platform</C> for an international client with 2300+ total users, using <L>HTML</L>, <L>CSS</L>, 
       <L>JavaScript</L>, and an internal language.`,
-                `Entrusted with implementing <L>CSS</L> with minimal HTML changes to render an existing platform with 2500+ users <C nolink>mobile-aware</C>`,
-                `Developed and implemented numerous <L>JavaScript</L> programs to <C nolink>promote user engagement</C> with educational materials`,
+                `Entrusted with implementing <L>CSS</L> with minimal HTML changes to render an existing platform with 2500+ users <C term='css'>mobile-aware</C>`,
+                `Developed and implemented <L>JavaScript</L> web components to <C nolink>promote user engagement</C> with educational materials`,
                 `<C term='design'>Led the visual design work</C> for a mobile eLearning app deployed to 10 000+ users`,
                 `Edited supervisors' external communications to ensure greater professionalism and impact in dealings with clients.`
-            ]
+            ],
+            layout: 'compact',
         }));
         ResumePage.experienceItems.push(new ResumeOccupationItemComponent({
             parentElement: experienceParent,
@@ -58,10 +87,10 @@ export class ResumePage {
             experiencePoints: [
                 `<C term='team'>Worked with a team</C> to organize and run a highly-successful educational summer camp for ~80 local youth per week`,
                 `<C term='communication'>Taught engaging lessons</C> on basic fundamentals in <L nolink>Scratch</L>, <L nolink>Photoshop</L>, <L nolink>Python</L>, and <L term='html css'>HTML/CSS</L>`,
-                `Commended by supervisors for exceptional <C>initiative</C> and <C>leadership</C>`
+                `Commended by supervisors for exceptional <C nolink>initiative</C> and <C nolink>leadership</C>`
             ],
             flipped: true,
-            asGrid: true,
+            layout: 'side',
         }));
         ResumePage.experienceItems.push(new ResumeOccupationItemComponent({
             parentElement: experienceParent,
@@ -74,7 +103,7 @@ export class ResumePage {
                 `<C term='team'>Worked with a team</C> to teach <L>JavaScript</L> fundamentals to local youth`,
                 `Led 1-1 lessons with struggling students to reduce drop-out rates`
             ],
-            asGrid: true,
+            layout: 'side',
         }));
     }
     static loadLanguages() {
@@ -93,44 +122,65 @@ export class ResumePage {
             darkImageUrl: CoreDataService.siteLogoSrc,
             imageAlt: CoreDataService.siteName,
             experiencePoints: [
-                `Developed and maintained a <C term="html css javascript typescript">mobile-aware portfolio website</C>, upgrading it as my development and <C>design</C> capabilities grew`,
-                `Updated site regularly with new projects, including a <L term='javascript typescript'>COVID-19 infection model</L>, <L term='java'>a machine-learning AI</L>,
-         and <L term='javascript typescript'>3D‑graphing projects</L>`
+                `Developed and maintained a <C term="html css javascript typescript">mobile-aware portfolio website</C>, 
+        upgrading it as my development and <C>design</C> capabilities grew`,
+                `Used centralized data with a custom <C term="javascript typescript">JavaScript web component</C> framework`,
+                `<span class="project-title"><C term='javascript typescript api html css'>COVID-19 data dashboard:</C></span> 
+        Leverages an <C term='API'>external API</C> to display health data to contextualize health measures.`,
+                `<span class="project-title"><C term='javascript typescript'>Algebra calculator:</C></span> 
+        Uses a custom algorithm to find a solution to many types of algebraic equations.`,
+                `<span class="project-title"><C term='javascript typescript'>Infection model:</C></span> 
+        Simulates viral community transmission with a geometric simulation.`,
             ],
             flipped: true,
-            type: 'grid',
             invertDarkImg: true,
+            layout: 'side',
         }));
-        ResumePage.projects.push(new ResumeExperienceItemComponent({
-            parentElement: container,
+        ResumePage.smallProjects.push(new ResumeSmallExperienceItem({
             title: 'Wordlebot',
-            dates: ['June 2022'],
-            mainImageUrl: CoreDataService.siteLogoSrc,
-            darkImageUrl: CoreDataService.siteLogoSrc,
-            imageAlt: 'Wordlebot',
-            experiencePoints: [
-                `Developed an algorithm and program to solve the daily wordle, written in <L term='javascript typescript nodejs'>NodeJS</L>`,
-                `Leveraged the <L nolink>puppeteer</L> library to interact with an external webpage`
-            ],
-            flipped: true,
-            type: 'grid',
-            invertDarkImg: true,
+            dates: ['Summer 2022'],
+            body: `Developed a <L term="javascript typescript">NodeJS</L> application with <L term="typescript">TypeScript</L> 
+        and Google's <L term="javascript typescript">Puppeteer library</L> to algorithmically solve the daily New York Times Wordle.`,
+        }));
+        ResumePage.smallProjects.push(new ResumeSmallExperienceItem({
+            title: 'Goose',
+            dates: ['Summer 2022'],
+            body: `Developed an <L term="html css">HTML/CSS</L>-only framework using 
+      <L term="javascript typescript">TypeScript</L> for development and implementation 
+      of web components, <C term="quality">enabling newcomers to write better code</C>.`,
+        }));
+        ResumePage.smallProjects.push(new ResumeSmallExperienceItem({
+            title: 'CC3K',
+            dates: ['Winter 2021'],
+            body: `Developed a roguelike game in <L>C++</L> using <C nolink>object-oriented principles</C> 
+      for CS 246 at the University of Waterloo.`,
         }));
     }
     static loadSkills() {
         const skillParent = document.getElementById('skills-list'), skillInfo = [
+            ['TypeScript', true, ['API']],
             ['JavaScript', true],
             ['HTML', true],
             ['CSS', true],
+            ['PHP', false],
+            ['Jest', true],
+            ['Cypess', true],
+            ['C++', false],
+            ['NodeJS', false],
+            ['RESTful APIs', true, ['API']],
+            ['Git', true],
+            ['GitHub', false, ['git']],
+            ['PHPUnit', false, ['PHP', 'quality']],
+            ['Test-driven development', true, ['quality']],
+            ['R', false, [], true],
+            ['SQL', true],
+            ['C', false, [], true],
             ['Java', false, ['Java'], true],
             ['Communication', true, ['team', 'taught']],
-            ['Web design', false, ['design', 'mobile-aware']],
+            ['Web design', false, ['design']],
             ['French', true],
-            ['SQL', true],
-            ['Git', true, ['production']],
-            ['TypeScript', true, ['API']],
-            ['TypeORM', false, ['API']],
             ['NestJS', false, ['API']],
+            ['TypeORM', false, ['API']],
         ];
         skillInfo.forEach((info) => {
             ResumePage.skills.push(new ResumeSkillComponent(skillParent, info[0], {
@@ -139,6 +189,42 @@ export class ResumePage {
                 searchForStrictWord: info[3],
             }));
         });
+    }
+    static loadContact() {
+        if (!CoreDataService.shouldRiverify) {
+            document.getElementById('connect-links').appendChild(Leylights.createElement({
+                type: 'li',
+                children: [Leylights.createElement({
+                        type: 'a',
+                        innerText: 'in/leylights',
+                        otherNodes: {
+                            target: '_blank',
+                            href: 'https://www.linkedin.com/in/leylights/',
+                        },
+                    })]
+            }));
+        }
+        else {
+            document.getElementById('connect-links').appendChild(Leylights.createElement({
+                type: 'li',
+                children: [Leylights.createElement({
+                        type: 'a',
+                        innerText: 'leylights',
+                        otherNodes: {
+                            target: '_blank',
+                            href: 'https://github.com/leylights',
+                        },
+                    })]
+            }));
+        }
+    }
+    static disableSkills() {
+        for (const skill of this.skills) {
+            console.log(skill.findSkillMatches());
+            if (skill.findSkillMatches().length === 0) {
+                skill.element.classList.add('no-matches');
+            }
+        }
     }
     static setContactInfo() {
         const connect = document.querySelector('#connect-links'), email = connect.querySelector('#email');
@@ -172,6 +258,7 @@ export class ResumePage {
         });
     }
     static setFadeListener(element) {
+        return element; // disable
         element.classList.add('fade-up-pending');
         ResumePage.fadeInElements.push(element);
         return element;
@@ -180,6 +267,7 @@ export class ResumePage {
 ResumePage.experienceItems = [];
 ResumePage.skills = [];
 ResumePage.projects = [];
+ResumePage.smallProjects = [];
 ResumePage.languages = [];
 ResumePage.fadeInElements = [];
 ResumePage.init();
