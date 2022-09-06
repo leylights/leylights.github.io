@@ -2,6 +2,7 @@ import { CalculatorComponent } from "../calculator-component.js";
 import { CalculatorFunction, CalculatorOperator } from "../models/function.js";
 import { CalculatorSingular } from "../models/singular.js";
 import { CalculatorTerm } from "../models/term.js";
+import { CalculatorUnaryFunction } from "../models/unary-function.js";
 import { CalculatorValue } from "../models/value.js";
 import { CalculatorParser } from "../parser.js";
 import { CalculatorTester } from "../tester.js";
@@ -14,7 +15,10 @@ export class CalculatorExponentExpander extends CalculatorComponent {
   private static expandRecurse(input: CalculatorTerm, debug: boolean): CalculatorTerm {
     this.log(debug, `Expanding: ${input.print()}`);
     if (input instanceof CalculatorSingular) return input;
-    else if (input instanceof CalculatorFunction) {
+    else if (input instanceof CalculatorUnaryFunction) {
+      input.parameter = this.expandRecurse(input.parameter, debug);
+      return input;
+    } else if (input instanceof CalculatorFunction) {
       switch (input.operator) {
         case CalculatorOperator.add:
         case CalculatorOperator.subtract:
@@ -39,13 +43,16 @@ export class CalculatorExponentExpander extends CalculatorComponent {
               if (exponent > 0) return current;
               else return new CalculatorFunction(new CalculatorValue(1), current, CalculatorOperator.divide);
             } else {
-              this.log(debug, `Exponent value: ${input.rightTerm.value.isRealInteger()}`);
+              this.log(debug, `No expansion, exponent value is not real integer`);
+              return input;
             }
           } else {
             input.leftTerm = this.expandRecurse(input.leftTerm, debug);
             input.rightTerm = this.expandRecurse(input.rightTerm, debug);
             return input;
           }
+        default:
+          throw new Error(`Bad operator ${input.operator} in: ${input.print()}`);
       }
     }
 

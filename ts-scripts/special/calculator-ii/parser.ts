@@ -1,6 +1,7 @@
 import { Leylights } from "../../leylights.js";
 import { CalculatorComponent } from "./calculator-component.js";
 import { CalculatorFunction, CalculatorOperator } from "./models/function.js";
+import { CalculatorLogarithmFunction } from "./models/logarithm.js";
 import { CalculatorSingular } from "./models/singular.js";
 import { CalculatorTerm } from "./models/term.js";
 import { CalculatorUserError } from "./models/user-facing-error.js";
@@ -85,7 +86,9 @@ export class CalculatorParser extends CalculatorComponent {
 
     if (!this.areBracketsSurrounding(input))
       return this.parseRecurse('(' + input + ')');
-      
+
+    input = this.removeUnnecessaryBrackets(input);
+
     this.log(`brackets are surrounding: ${input}`);
 
     // find the leftmost operator not nested in brackets; split addition/subtraction before splitting multiply/divide before splitting exponents
@@ -124,9 +127,14 @@ export class CalculatorParser extends CalculatorComponent {
     this.log(`indexOfTerm: ${indexOfTerm}, firstBracketedTerm: ${firstBracketedTerm}, firstBracketedTermLen: ${firstBracketedTerm.length}`);
 
     let termWithMultiplication: string = '(';
-    if (indexOfTerm > 1)
-      termWithMultiplication = input.substring(0, indexOfTerm) + '*';
-
+    if (indexOfTerm > 1) {
+      if (input.substring(indexOfTerm - 3, indexOfTerm) === 'log') {
+        if (indexOfTerm > 1 + 3)
+          termWithMultiplication = input.substring(0, indexOfTerm - 3) + '*log';
+        else termWithMultiplication = '(log';
+      } else
+        termWithMultiplication = input.substring(0, indexOfTerm) + '*';
+    }
     termWithMultiplication += firstBracketedTerm;
     if (indexOfTerm + firstBracketedTerm.length < input.length - 1) // subtract 1 to ignore ending ) 
       termWithMultiplication += '*' + input.substring(indexOfTerm + firstBracketedTerm.length);
@@ -134,8 +142,12 @@ export class CalculatorParser extends CalculatorComponent {
 
     this.log(`reformatted term: ${termWithMultiplication}`);
 
-    if (originalInput === termWithMultiplication) return this.parseTermWithoutOperatorNorBrackets(originalInput);
-    else return this.parseRecurse(termWithMultiplication);
+    if (originalInput === termWithMultiplication) {
+      if (input.substring(indexOfTerm - 3, indexOfTerm) === 'log')
+        return new CalculatorLogarithmFunction(this.parseRecurse(firstBracketedTerm));
+      else
+        return this.parseTermWithoutOperatorNorBrackets(originalInput);
+    } else return this.parseRecurse(termWithMultiplication);
   }
 
   private parseTermWithoutOperatorNorBrackets(input: string): CalculatorTerm {
@@ -305,6 +317,61 @@ export class CalculatorParser extends CalculatorComponent {
     return -1;
   }
 
+
+  /**
+   * @example removeUnnecessaryBrackets('((x+3))') => '(x+3)' 
+   */
+  private removeUnnecessaryBrackets(input: string) {
+    type BracketInfo = { index: number, depth: number, indexAtDepth: number };
+    const openBrackets: BracketInfo[] = [];
+    const closeBrackets: BracketInfo[] = [];
+
+    let depth = 0;
+    const bracketsOfDepthN = { open: [], close: [] };
+    for (let i = 0; i < input.length; i++) {
+      if (input[i] === '(') {
+        if (!bracketsOfDepthN.open[depth]) bracketsOfDepthN.open[depth] = 1;
+        else bracketsOfDepthN.open[depth]++;
+
+        openBrackets.push({ index: i, depth: depth, indexAtDepth: bracketsOfDepthN.open[depth] });
+
+        depth++;
+      } else if (input[i] === ')') {
+        depth--;
+
+        if (!bracketsOfDepthN.close[depth]) bracketsOfDepthN.close[depth] = 1;
+        else bracketsOfDepthN.close[depth]++;
+
+        closeBrackets.push({ index: i, depth: depth, indexAtDepth: bracketsOfDepthN.close[depth] });
+      }
+    }
+
+    const getCloseBracketFor = (open: BracketInfo) => {
+      const results: BracketInfo[] = closeBrackets.filter(close => { return close.depth === open.depth && close.indexAtDepth === open.indexAtDepth });
+      if (results.length !== 1) throw new Error(`Could not find close bracket for bracket at ${open.index} in ${input}`);
+
+      return results[0];
+    }
+
+    for (let i = 0; i < openBrackets.length; i++) {
+      const open: BracketInfo = openBrackets[i];
+      const close: BracketInfo = getCloseBracketFor(open);
+
+      if (openBrackets[i + 1] !== undefined && openBrackets[i + 1].index === open.index + 1) {
+        const neighbourClose = getCloseBracketFor(openBrackets[i + 1]);
+
+        if (neighbourClose.index === close.index - 1) {
+          this.log(`found unnecessary brackets at ${open.index} and ${close.index} in ${input}`);
+          return this.removeUnnecessaryBrackets(
+            input.substring(0, open.index) + input.substring(open.index + 1, close.index) + input.substring(close.index + 1)
+          );
+        }
+      }
+    }
+
+    return input;
+  }
+
   static test() {
     const tester = new CalculatorTester<string>('Parser', (input: string, debug?: boolean) => {
       return new CalculatorParser(input, { debug: debug }).fullOutput;
@@ -345,5 +412,18 @@ export class CalculatorParser extends CalculatorComponent {
 
     tester.test('(x+2)(x+3)', '((x + 2) * (x + 3))');
     tester.test('5(x+2)', '(5 * (x + 2))');
+
+    tester.test('log(x+2)', 'log((x + 2))');
+    tester.test('4log(x+2)', '(4 * log((x + 2)))');
+    tester.test('5(x+log(y))', '(5 * (x + log(y)))');
+    tester.test('log(5)/log(y)', '(log(5) / log(y))');
+
+    tester.test('log(0 + 1)', 'log((0 + 1))');
+    tester.test('log((0 + 1))', 'log((0 + 1))');
+    tester.test('log(((0 + 1) - (1 * (5 ^ y))))', 'log(((0 + 1) - (1 * (5 ^ y))))');
+    tester.test('(log(((0 + 1) - (1 * (5 ^ y)))) / log(5))', '(log(((0 + 1) - (1 * (5 ^ y)))) / log(5))');
+    tester.test('((log(((0 + 1) - (1 * (5 ^ y)))) / log(5)) - (log(1) / log(5)))', '((log(((0 + 1) - (1 * (5 ^ y)))) / log(5)) - (log(1) / log(5)))');
+
+    tester.test('(log((((0 + 1) - (1 * (5 ^ y))) / 1)) / log(5))', '(log((((0 + 1) - (1 * (5 ^ y))) / 1)) / log(5))');
   }
 }

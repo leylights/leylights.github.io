@@ -12,8 +12,8 @@ interface ResumeExperienceItemComponentCreationData {
   darkImageUrl: string;
   imageAlt: string;
   flipped?: boolean;
-  type: 'table' | 'grid';
   invertDarkImg?: boolean;
+  layout: 'side' | 'compact';
 }
 
 export class ResumeExperienceItemComponent {
@@ -23,7 +23,7 @@ export class ResumeExperienceItemComponent {
   dates: string[];
 
   isFlipped: boolean;
-  rebuildFn: () => void;
+  layout: 'side' | 'compact';
 
   private _experiencePoints: string[];
   private _mainImageSrc: string;
@@ -37,18 +37,14 @@ export class ResumeExperienceItemComponent {
     this.dates = data.dates;
     this._experiencePoints = data.experiencePoints;
     this.isFlipped = data.flipped || false;
-
-    if (data.type === 'grid')
-      this.rebuildFn = this.rebuildGrid;
-    else
-      this.rebuildFn = this.rebuildTable;
+    this.layout = data.layout || 'compact';
 
     this._mainImageSrc = validateUrl(data.mainImageUrl);
     this._darkImageSrc = validateUrl(data.darkImageUrl);
     this._imageAlt = data.imageAlt;
     this._invertDarkImg = data.invertDarkImg || false;
 
-    this.rebuildFn();
+    this.rebuild();
 
     data.parentElement.appendChild(this.container);
 
@@ -70,115 +66,27 @@ export class ResumeExperienceItemComponent {
 
   set experiencePoints(newPoints: string[]) {
     this._experiencePoints = newPoints;
-    this.rebuildFn();
+    this.rebuild();
   }
 
 
   get experiencePointElements(): HTMLLIElement[] {
     return Array.from(this.container.querySelectorAll('li'));
   }
-  /**
-   * Rebuilds this.container
-   */
-  private rebuildTable(): void {
-    const me = this,
-      table = Leylights.createTable({
-        head: [
-          [
-            Leylights.createElement({
-              type: 'h3',
-              classList: 'job-title',
-              innerText: me.title,
-            }),
-            Leylights.createElement({
-              type: 'h3',
-              classList: 'experience-date',
-              innerText: me.dates.join(', '),
-            })
-          ],
-          this.subtitle ? [
-            Leylights.createElement({
-              type: 'h4',
-              classList: 'workplace-name',
-              innerText: me.subtitle,
-            }),
-            null
-          ] : null,
-        ],
-        body: [
-          getTableBody()
-        ],
-        classList: ['experience-table']
-      }),
-      container = Leylights.createElement({
-        type: 'div',
-        classList: 'experience-item',
-        children: [table],
-      });
-
-    ResumePage.setFadeListener(container);
-    container.querySelectorAll('.resume-highlight:not(.nolink)').forEach((highlight: Element) => {
-      highlight.addEventListener(('click'), () => {
-        const terms: string[] = highlight.getAttribute('data-term')
-          ? highlight.getAttribute('data-term').split(' ')
-          : [highlight.innerHTML.trim()];
-
-        ResumeSkillComponent.highlightSkill(terms, {
-          searchForStrictWord: Leylights.Array.includes(terms, 'Java'),
-        });
-      });
-    });
-    if (this.container) {
-      this.container.replaceWith(container);
-    }
-
-    this.container = container;
-
-    function getTableBody(): HTMLElement[] {
-      const elements = [Leylights.createElement({
-        type: 'div',
-        children: [
-          Leylights.createElement({
-            type: 'div',
-            classList: ['experience-image-container', 'mobile-only'],
-            children: me.getImages()
-          }),
-          Leylights.createElement({
-            type: 'ul',
-            children: me._experiencePoints.map((point: string) => {
-              return Leylights.createElement({
-                type: 'li',
-                innerHTML: me.formatPoint(point)
-              });
-            }),
-          }),
-        ]
-      }),
-      Leylights.createElement({
-        type: 'div',
-        classList: ['experience-image-container', 'desktop-only'],
-        children: me.getImages()
-      })];
-
-      if (me.isFlipped)
-        return elements.reverse();
-      else return elements;
-    }
-  }
 
   /**
    * Rebuilds this.container
    */
-  private rebuildGrid(): void {
+  private rebuild(): void {
     const me = this,
       grid = Leylights.createElement({
         type: 'div',
-        classList: ['horizontal-grid', 'experience-grid'].concat(me.isFlipped ? ['reversed'] : []),
+        classList: ['horizontal-grid', 'experience-grid'],
         children: getGridBody(),
       }),
       container = Leylights.createElement({
         type: 'div',
-        classList: 'experience-item',
+        classList: `experience-item ${me.layout}-layout ${me.isFlipped ? 'flipped' : ''}`,
         children: [grid],
       });
 
@@ -187,17 +95,7 @@ export class ResumeExperienceItemComponent {
     }
 
     ResumePage.setFadeListener(container);
-    container.querySelectorAll('.resume-highlight:not(.nolink)').forEach((highlight: Element) => {
-      highlight.addEventListener(('click'), () => {
-        const terms: string[] = highlight.getAttribute('data-term')
-          ? highlight.getAttribute('data-term').split(' ')
-          : [highlight.innerHTML.trim()];
-
-        ResumeSkillComponent.highlightSkill(terms, {
-          searchForStrictWord: Leylights.Array.includes(terms, 'java'),
-        });
-      });
-    });
+    ResumeExperienceItemComponent.setHighlightEventListeners(container);
     this.container = container;
 
     function getGridBody(): HTMLElement[] {
@@ -230,22 +128,28 @@ export class ResumeExperienceItemComponent {
           }),
           Leylights.createElement({
             type: 'div',
-            classList: ['experience-image-container', 'mobile-only'],
-            children: me.getImages(),
-          }),
-          Leylights.createElement({
-            type: 'ul',
-            children: me._experiencePoints.map((point: string) => {
-              return Leylights.createElement({
-                type: 'li',
-                innerHTML: me.formatPoint(point)
-              });
-            }),
-          }),
+            classList: 'body',
+            children: [
+              Leylights.createElement({
+                type: 'div',
+                classList: ['experience-image-container', 'compact-image'],
+                children: me.getImages(),
+              }),
+              Leylights.createElement({
+                type: 'ul',
+                children: me._experiencePoints.map((point: string) => {
+                  return Leylights.createElement({
+                    type: 'li',
+                    innerHTML: ResumeExperienceItemComponent.formatPoint(point)
+                  });
+                }),
+              }),
+            ]
+          })
         ]
       }), Leylights.createElement({
         type: 'div',
-        classList: ['experience-grid-image-cell', 'desktop-only'],
+        classList: ['experience-grid-image-cell', 'side-image'],
         children: me.getImages()
       })];
 
@@ -255,7 +159,7 @@ export class ResumeExperienceItemComponent {
     }
   }
 
-  private formatPoint(point: string): string {
+  static formatPoint(point: string): string {
     // match the tag and all contents, but no contents can contain the closing </C> or </L>
     return point.replace(/<([CL])(?:(?!<\/\1>).)*<\/\1>/g, (match, tagName) => {
       const innerText = match.match(/>(.*)</)[1];
@@ -282,9 +186,23 @@ export class ResumeExperienceItemComponent {
     });
   }
 
+  static setHighlightEventListeners(container: HTMLElement): void {
+    container.querySelectorAll('.resume-highlight:not(.nolink)').forEach((highlight: Element) => {
+      highlight.addEventListener(('click'), () => {
+        const terms: string[] = highlight.getAttribute('data-term')
+          ? highlight.getAttribute('data-term').split(' ')
+          : [highlight.innerHTML.trim()];
+
+        ResumeSkillComponent.highlightSkill(terms, {
+          searchForStrictWord: Leylights.Array.includes(terms, 'java'),
+        });
+      });
+    });
+  }
+
   private getImages(): HTMLImageElement[] {
     const me = this,
-      classList = ['experience-image'].concat(me.isFlipped ? ['reversed'] : []).concat(me._invertDarkImg ? ['dark-invert-filter'] : []);
+      classList = ['experience-image'].concat(me._invertDarkImg ? ['dark-invert-filter'] : []);
 
     return [Leylights.createElement({
       type: 'img',

@@ -39,8 +39,10 @@ $steps-output-height: 80px;
   padding-bottom: 4em;
 
   h2,
-  h3 {
+  h3,
+  h4 {
     font-weight: 300;
+    color: var(--primary-accent-color)
   }
 
   header {
@@ -55,6 +57,7 @@ $steps-output-height: 80px;
     h3 {
       font-size: 18px;
       margin-bottom: 4px;
+      color: #fff;
     }
 
     #header-bg {
@@ -163,6 +166,10 @@ $steps-output-height: 80px;
 
   .body {
     padding-bottom: 4em;
+
+    math {
+      font-family: 'Cambria Math', Arial, sans-serif;
+    }
 
     #steps-title {
       margin-bottom: 0;

@@ -62,7 +62,7 @@ export class Leylights {
             element.id = data.id;
         if (data.classList) {
             if (typeof data.classList === 'string' && data.classList.includes(' '))
-                data.classList = data.classList.split(' ');
+                data.classList = data.classList.trim().split(' ');
             else if (!Array.isArray(data.classList))
                 data.classList = [data.classList];
             data.classList.forEach((className) => {
@@ -862,7 +862,9 @@ Leylights.toRadians = function (degreeValue) {
     return degreeValue * (Math.PI / 180);
 };
 Leylights.toTitleCase = function (str) {
-    return Leylights.toCapitalized(str.substr(0).toLowerCase());
+    if (!str)
+        return str;
+    return Leylights.toCapitalized(str.substring(0).toLowerCase());
 };
 console.assert(Leylights.roundToDecimalPlaces(99.999, 2) === 100);
 console.assert(Leylights.roundToDecimalPlaces(99.874, 2) === 99.87);

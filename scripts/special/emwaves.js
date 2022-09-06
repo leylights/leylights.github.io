@@ -1,5 +1,5 @@
+/* eslint-disable no-var */
 import { Leylights } from "../leylights.js";
-;
 /**
  * EM Wave Generator
  *
@@ -104,13 +104,10 @@ var blueOffsets = {
 var animator;
 var now = Date.now();
 var usePointer = false;
-var switchState = 0; // 0 = none; 1 = white; -1 = black;
 var bgC = 255;
-var bgSwitchTime = 0;
 var doResize = false;
 var lastResize = now;
 var lastMenuSize = document.getElementById("side-menu").getBoundingClientRect().width;
-var consolesLogged = false;
 const myCanvas = {
     canvas: document.createElement("canvas"),
     context: null,
@@ -140,7 +137,7 @@ const myCanvas = {
             myCanvas.keys[e.keyCode] = false;
         });
         myCanvas.canvas.addEventListener("click", function (evt) {
-            let canvasArea = myCanvas.canvas.getBoundingClientRect();
+            const canvasArea = myCanvas.canvas.getBoundingClientRect();
             myCanvas.mouseX = evt.clientX - canvasArea.left;
             myCanvas.mouseY = evt.clientY - canvasArea.top;
             myCanvas.clickTime = now;
@@ -148,8 +145,8 @@ const myCanvas = {
             myCanvas.clickLeft = true;
         }, false);
         myCanvas.canvas.addEventListener("touchend", function (evt) {
-            let canvasArea = myCanvas.canvas.getBoundingClientRect();
-            let touch = evt.changedTouches[evt.changedTouches.length - 1];
+            const canvasArea = myCanvas.canvas.getBoundingClientRect();
+            const touch = evt.changedTouches[evt.changedTouches.length - 1];
             myCanvas.mouseX = touch.screenX - canvasArea.left;
             myCanvas.mouseY = touch.screenY - canvasArea.top;
             myCanvas.clickTime = now;
@@ -157,12 +154,12 @@ const myCanvas = {
             myCanvas.clickLeft = true;
         }, false);
         myCanvas.canvas.addEventListener("mousemove", function (evt) {
-            let canvasArea = myCanvas.canvas.getBoundingClientRect();
+            const canvasArea = myCanvas.canvas.getBoundingClientRect();
             myCanvas.mouseX = evt.clientX - canvasArea.left;
             myCanvas.mouseY = evt.clientY - canvasArea.top;
         }, false);
         myCanvas.canvas.addEventListener("contextmenu", function (evt) {
-            let canvasArea = myCanvas.canvas.getBoundingClientRect();
+            const canvasArea = myCanvas.canvas.getBoundingClientRect();
             myCanvas.mouseX = evt.clientX - canvasArea.left;
             myCanvas.mouseY = evt.clientY - canvasArea.top;
             myCanvas.clickTime = now;
@@ -181,8 +178,8 @@ const myCanvas = {
 function init(firstTime) {
     myCanvas.start();
     // set origin
-    let diagramW = (preset.Z_LENGTH + Z_AXIS_LEN_ADDITION - preset.X_LENGTH * preset.AXIS_MULTIPLIER);
-    let diagramH = (ARROWCAP.h / 2)
+    const diagramW = (preset.Z_LENGTH + Z_AXIS_LEN_ADDITION - preset.X_LENGTH * preset.AXIS_MULTIPLIER);
+    const diagramH = (ARROWCAP.h / 2)
         + preset.BLUE_AMPLITUDE * preset.AXIS_MULTIPLIER
         + preset.Z_LENGTH * Math.tan((preset.Z_ANGLE - 90) * Math.PI / 180)
         + preset.BLUE_AMPLITUDE;
@@ -213,7 +210,6 @@ function init(firstTime) {
         generatePresetButtons();
         window.addEventListener("resize", () => {
             doResize = true;
-            resizeControlsBox();
         });
         document.getElementById("waveSpeedInput").value = "" + waveSpeed;
         Leylights.getInputElementById("axisStretchInput").value = "" + customPreset.AXIS_MULTIPLIER * 100;
@@ -238,7 +234,7 @@ function init(firstTime) {
             handleDropdownOpener(document.getElementById("preset-selector-dropdown"));
         });
         document.getElementById("hide-gridlines-button").addEventListener("click", () => {
-            let me = document.getElementById("hide-gridlines-button");
+            const me = document.getElementById("hide-gridlines-button");
             showGridlines = !showGridlines;
             if (showGridlines)
                 me.innerHTML = 'Hide gridlines';
@@ -249,7 +245,7 @@ function init(firstTime) {
             setNumFromInput(document.getElementById("waveSpeedInput"), 'waveSpeed');
         });
         document.getElementById("electric-hide-vectors").addEventListener("click", () => {
-            let me = document.getElementById("electric-hide-vectors");
+            const me = document.getElementById("electric-hide-vectors");
             blueWave.vectors = !blueWave.vectors;
             if (blueWave.vectors)
                 me.innerHTML = 'Hide vectors';
@@ -257,7 +253,7 @@ function init(firstTime) {
                 me.innerHTML = 'Show vectors';
         });
         document.getElementById("electric-hide-wave").addEventListener("click", () => {
-            let me = document.getElementById("electric-hide-wave");
+            const me = document.getElementById("electric-hide-wave");
             blueWave.show = !blueWave.show;
             if (blueWave.show)
                 me.innerHTML = 'Hide wave';
@@ -265,7 +261,7 @@ function init(firstTime) {
                 me.innerHTML = 'Show wave';
         });
         document.getElementById("electric-half-wave").addEventListener("click", () => {
-            let me = document.getElementById("electric-half-wave");
+            const me = document.getElementById("electric-half-wave");
             blueWave.bothHalves = !blueWave.bothHalves;
             if (blueWave.bothHalves)
                 me.innerHTML = 'Display half wave';
@@ -273,7 +269,7 @@ function init(firstTime) {
                 me.innerHTML = 'Display full wave';
         });
         document.getElementById("magnetic-hide-vectors").addEventListener("click", () => {
-            let me = document.getElementById("magnetic-hide-vectors");
+            const me = document.getElementById("magnetic-hide-vectors");
             redWave.vectors = !redWave.vectors;
             if (redWave.vectors)
                 me.innerHTML = 'Hide vectors';
@@ -281,7 +277,7 @@ function init(firstTime) {
                 me.innerHTML = 'Show vectors';
         });
         document.getElementById("magnetic-hide-wave").addEventListener("click", () => {
-            let me = document.getElementById("magnetic-hide-wave");
+            const me = document.getElementById("magnetic-hide-wave");
             redWave.show = !redWave.show;
             if (redWave.show)
                 me.innerHTML = 'Hide wave';
@@ -289,7 +285,7 @@ function init(firstTime) {
                 me.innerHTML = 'Show wave';
         });
         document.getElementById("magnetic-half-wave").addEventListener("click", () => {
-            let me = document.getElementById("magnetic-half-wave");
+            const me = document.getElementById("magnetic-half-wave");
             redWave.bothHalves = !redWave.bothHalves;
             if (redWave.bothHalves)
                 me.innerHTML = 'Display half wave';
@@ -297,7 +293,7 @@ function init(firstTime) {
                 me.innerHTML = 'Display full wave';
         });
         document.getElementById("customizer-dropdown").addEventListener("click", () => {
-            let me = document.getElementById("customizer-dropdown");
+            const me = document.getElementById("customizer-dropdown");
             for (let i = 1; i < me.parentElement.children.length; i++) {
                 if (me.parentElement.children[i].style.display == 'none') {
                     me.parentElement.children[i].style.display = 'table';
@@ -311,7 +307,6 @@ function init(firstTime) {
         });
         document.getElementById("controlsOpener").addEventListener("click", () => { console.log("fired"); controlsToggle(); });
         document.getElementById("applyCustomizations").addEventListener("click", () => { checkCustomInput(); });
-        resizeControlsBox();
         window.requestAnimationFrame(main);
     }
 }
@@ -349,7 +344,6 @@ function main() {
         myCanvas.canvas.style.cursor = "default";
     myCanvas.recentClick = false;
     usePointer = false;
-    consolesLogged = true;
     animator = window.requestAnimationFrame(main);
 }
 /**
@@ -397,7 +391,7 @@ function checkCustomInput() {
  * @param {*} open True to open, false to close
  */
 function controlsToggle(open) {
-    let controls = document.getElementById("controls");
+    const controls = document.getElementById("controls");
     let w = controls.getBoundingClientRect().width - parseInt(window.getComputedStyle(controls).borderRightWidth);
     let fullWidth = document.getElementById("main").getBoundingClientRect().width * 0.15;
     if (fullWidth < 200)
@@ -448,8 +442,8 @@ function controlsToggle(open) {
  */
 function drawArrowCap(line, angle, bothEnds, x, y) {
     let ax, ay;
-    let w = ARROWCAP.w;
-    let h = ARROWCAP.h;
+    const w = ARROWCAP.w;
+    const h = ARROWCAP.h;
     if (typeof x === "undefined") {
         ax = line.cosmeticEndX;
         ay = line.cosmeticEndY;
@@ -465,15 +459,15 @@ function drawArrowCap(line, angle, bothEnds, x, y) {
 function drawGridlines() {
     if (!showGridlines)
         return;
-    let c = myCanvas.context;
-    let len = zAxis.endX - zAxis.startX;
+    const c = myCanvas.context;
+    const len = zAxis.endX - zAxis.startX;
     // sine variables
     c.beginPath();
     c.lineWidth = "1";
     c.strokeStyle = "grey";
     // draws the gridlines
     for (let x = (zAxis.endX - zAxis.startX) / preset.GRIDLINES; x <= len; x += (zAxis.endX - zAxis.startX) / preset.GRIDLINES) {
-        let startPoint = { x: x + zAxis.startX, y: getYComponent(x) };
+        const startPoint = { x: x + zAxis.startX, y: getYComponent(x) };
         // y-axis
         c.moveTo(startPoint.x, startPoint.y);
         c.lineTo(Math.round(x + zAxis.startX), Math.round(getYComponent(x) + (yAxis.endY - yAxis.startY) * preset.AXIS_MULTIPLIER));
@@ -497,11 +491,11 @@ function drawGridlines() {
  *  3) tilt
  */
 function drawSine(axis, wave) {
-    let c = myCanvas.context;
-    let len = axis.endX - axis.startX;
+    const c = myCanvas.context;
+    const len = axis.endX - axis.startX;
     let drawingLine = true;
     // sine variables
-    let period = (2 * Math.PI) / (len / (preset.WAVES / 2));
+    const period = (2 * Math.PI) / (len / (preset.WAVES / 2));
     c.beginPath();
     c.lineWidth = "2";
     c.strokeStyle = wave.colour;
@@ -510,7 +504,7 @@ function drawSine(axis, wave) {
         c.moveTo(axis.startX, -wave.amplitude * Math.sin(period * (-wave.phaseShift)) + getYComponent(0));
     // draws the wave
     for (let x = 0; x <= len; x++) {
-        let waveY = -wave.amplitude * Math.sin(period * (x - wave.phaseShift));
+        const waveY = -wave.amplitude * Math.sin(period * (x - wave.phaseShift));
         if (drawingLine && wave.bothHalves === false && ((waveY > 0 && wave.colour == blueWave.colour) || (waveY <= 0 && wave.colour == redWave.colour))) {
             drawingLine = false;
             c.stroke();
@@ -537,10 +531,10 @@ function drawSine(axis, wave) {
 function drawVectors(axis, wave) {
     if (!wave.vectors)
         return;
-    let c = myCanvas.context;
-    let len = axis.endX - axis.startX;
+    const c = myCanvas.context;
+    const len = axis.endX - axis.startX;
     // sine variables
-    let period = (2 * Math.PI) / (len / (preset.WAVES / 2));
+    const period = (2 * Math.PI) / (len / (preset.WAVES / 2));
     c.beginPath();
     c.lineWidth = "1";
     c.strokeStyle = wave.colour;
@@ -550,10 +544,10 @@ function drawVectors(axis, wave) {
     if (!showNegativeAxes && ((wave.colour == redWave.colour && -wave.amplitude * Math.sin(period * (0 - wave.phaseShift)) < 0) || (wave.colour == blueWave.colour && -wave.amplitude * Math.sin(period * (0 - wave.phaseShift)) > 0)))
         startPt = 0;
     for (let x = startPt; x <= len; x += preset.VECTOR_SPACING) {
-        let waveY = -wave.amplitude * Math.sin(period * (x - wave.phaseShift));
+        const waveY = -wave.amplitude * Math.sin(period * (x - wave.phaseShift));
         let finalX = x + axis.startX;
         let finalY = waveY + getYComponent(x);
-        let startPoint = { x: finalX, y: getYComponent(x) };
+        const startPoint = { x: finalX, y: getYComponent(x) };
         if (wave.colour == redWave.colour) {
             finalX += getXOffset(waveY);
             finalY += getYOffset(waveY);
@@ -570,8 +564,8 @@ function drawVectors(axis, wave) {
         c.beginPath();
         // arrow drawing
         let angle = 0;
-        let arrow = { w: 4, h: 10 };
-        let arrowOffsets = { x: 0, y: 0 };
+        const arrow = { w: 4, h: 10 };
+        const arrowOffsets = { x: 0, y: 0 };
         // angle of arrow
         if (wave.colour == blueWave.colour) {
             if (waveY < -arrow.h)
@@ -596,9 +590,9 @@ function drawVectors(axis, wave) {
         if (angle >= 0) { // do not draw if too close to axis (based on earlier setting of angle = -1)
             if (wave.colour == redWave.colour) { // ensuring no wave overlap
                 // calculating the locations of the bottom-right corner of the triangle 
-                let bottomRightCornerAngle = Math.atan((arrow.h / 2) / (arrow.w / 2)) / (2 * Math.PI) * 360;
-                let bottomCornerLen = Leylights.pythagorean(arrow.w / 2, arrow.h / 2, null);
-                let bottomRight = { x: finalX + arrowOffsets.x + Math.round((bottomCornerLen) * Math.cos(Leylights.toRadians(bottomRightCornerAngle + angle))), y: finalY + arrowOffsets.y + Math.round((bottomCornerLen) * Math.sin(Leylights.toRadians(bottomRightCornerAngle + angle))) };
+                const bottomRightCornerAngle = Math.atan((arrow.h / 2) / (arrow.w / 2)) / (2 * Math.PI) * 360;
+                const bottomCornerLen = Leylights.pythagorean(arrow.w / 2, arrow.h / 2, null);
+                const bottomRight = { x: finalX + arrowOffsets.x + Math.round((bottomCornerLen) * Math.cos(Leylights.toRadians(bottomRightCornerAngle + angle))), y: finalY + arrowOffsets.y + Math.round((bottomCornerLen) * Math.sin(Leylights.toRadians(bottomRightCornerAngle + angle))) };
                 // determining if overlap is occurring
                 if (angle > 180 && getYComponent(bottomRight.x - graphOrigin.x) > bottomRight.y) { // SW arrows
                     continue;
@@ -626,17 +620,17 @@ function findOriginAngle(useX) {
         axis = zAxis;
     // notation: line variables represent the magnitude of their line vectors
     // 1) get length of line YZ with pythagorean theorum
-    let lineYZx = Math.abs(Math.round(axis.endX - axis.startX));
-    let lineYZy = Math.abs(Math.round(axis.endY - (axis.startY - blueWave.amplitude)));
+    const lineYZx = Math.abs(Math.round(axis.endX - axis.startX));
+    const lineYZy = Math.abs(Math.round(axis.endY - (axis.startY - blueWave.amplitude)));
     // YZ = |sqrt(YZx^2 + YZy^2)|
-    let lineYZ = Math.sqrt(Math.pow(lineYZx, 2) + Math.pow(lineYZy, 2));
+    const lineYZ = Math.sqrt(Math.pow(lineYZx, 2) + Math.pow(lineYZy, 2));
     // 2) get length of z axis with pythagorean theorum
-    let lineOZx = Math.abs(Math.round(axis.endX - axis.startX));
-    let lineOZy = Math.abs(Math.round(axis.endY - axis.startY));
+    const lineOZx = Math.abs(Math.round(axis.endX - axis.startX));
+    const lineOZy = Math.abs(Math.round(axis.endY - axis.startY));
     // OZ = |sqrt(OZx^2 + OZy^2)|
-    let lineOZ = Math.sqrt(Math.pow(lineOZx, 2) + Math.pow(lineOZy, 2));
+    const lineOZ = Math.sqrt(Math.pow(lineOZx, 2) + Math.pow(lineOZy, 2));
     // 3) get line OY 
-    let lineOY = Math.abs(Math.round(axis.startY - (axis.startY - blueWave.amplitude))); // just gets -redwave.amplitude; expanded for clarity
+    const lineOY = Math.abs(Math.round(axis.startY - (axis.startY - blueWave.amplitude))); // just gets -redwave.amplitude; expanded for clarity
     // 3) get angle YOZ with cosine law
     let angleYOZ = Math.acos((Math.pow(lineYZ, 2) - Math.pow(lineOZ, 2) - Math.pow(lineOY, 2))
         /
@@ -649,17 +643,17 @@ function findOriginAngle(useX) {
  * Adds a button to the controls bar for each preset
  */
 function generatePresetButtons() {
-    let original = document.getElementsByClassName("wavePreset")[0];
+    const original = document.getElementsByClassName("wavePreset")[0];
     for (let i = 0; i < PRESETS.length; i++) {
-        let data = PRESETS[i];
-        let newButton = original.cloneNode(true);
+        const data = PRESETS[i];
+        const newButton = original.cloneNode(true);
         newButton.innerHTML = data.NAME;
         newButton.onclick = function () { preset = PRESETS[i]; init(false); };
         document.getElementById("presetMenu").appendChild(newButton);
     }
     // append custom preset
-    let data = customPreset;
-    let newButton = original.cloneNode(true);
+    const data = customPreset;
+    const newButton = original.cloneNode(true);
     newButton.innerHTML = data.NAME;
     newButton.onclick = function () { preset = customPreset; init(false); };
     document.getElementById("presetMenu").appendChild(newButton);
@@ -668,8 +662,8 @@ function generatePresetButtons() {
  * Gets the equation of the axis
  */
 function getAxisEquation(axis) {
-    let m = (axis.endY - axis.startY) / (axis.endX - axis.startX);
-    let b = axis.startY;
+    const m = (axis.endY - axis.startY) / (axis.endX - axis.startX);
+    const b = axis.startY;
     return { slope: m, yIntercept: b };
 }
 /**
@@ -744,8 +738,8 @@ function getIn() {
  * Gets the displacement of the red wave's maximums (minimums?)
  */
 function getBlueWaveTilt() {
-    let pointA = { x: xAxis.startX, y: xAxis.startY + blueWave.amplitude };
-    let pointB = { x: xAxis.endX, y: xAxis.endY };
+    const pointA = { x: xAxis.startX, y: xAxis.startY + blueWave.amplitude };
+    const pointB = { x: xAxis.endX, y: xAxis.endY };
     // STEP ONE: X AXIS MAGNITUDE
     blueOffsets.x = pointB.x - pointA.x;
     blueOffsets.y = pointB.y - pointA.y;
@@ -754,7 +748,7 @@ function getBlueWaveTilt() {
  * Gets the x offset used to tilt the red wave
  */
 function getXOffset(y) {
-    let output = -(y / redWave.amplitude) * blueOffsets.x;
+    const output = -(y / redWave.amplitude) * blueOffsets.x;
     return output;
 }
 /**
@@ -841,7 +835,7 @@ function reAngle() {
     xAxis = new Line(graphOrigin.x, graphOrigin.y, graphOrigin.x - preset.X_LENGTH, graphOrigin.y + preset.X_LENGTH * Math.tan((angles.x - 90) / 180 * Math.PI), 2, "black", angles.x, false);
     yAxis = new Line(graphOrigin.x, graphOrigin.y, graphOrigin.x, graphOrigin.y - preset.BLUE_AMPLITUDE, 2, "black", null, false); // this one remains untouched
     if (now < lastWaveChange + 50) { // USED FOR DEBUGGER Z-LENGTH CHANGES
-        let oldLength = zAxis.endX;
+        const oldLength = zAxis.endX;
         zAxis = new Line(graphOrigin.x, graphOrigin.y, oldLength, graphOrigin.y, 2, "black", angles.z, true);
     }
     else
@@ -863,9 +857,6 @@ function reAngle() {
  */
 function redraw() {
     myCanvas.clear();
-    let c = myCanvas.context;
-    // image underlay
-    // c.drawImage(IMAGES[0], 0, 0);
     // y axis
     yAxis.draw();
     drawArrowCap(yAxis, 0, false);
@@ -917,7 +908,7 @@ function resizeCanvas() {
  */
 function setNumFromInput(element, targetName) {
     let valid = true;
-    let num = parseFloat(element.value);
+    const num = parseFloat(element.value);
     // general checks
     if (isNaN(num))
         valid = false;
@@ -995,26 +986,6 @@ function setNumFromInput(element, targetName) {
         element.parentElement.parentElement.style.backgroundColor = "#fff0f0";
         setTimeout(function () { element.parentElement.parentElement.style.backgroundColor = ""; }, 3000);
     }
-}
-/*
- *
- * controls height
- *
- * sept 2021
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
-function resizeControlsBox() {
-    const controlsBox = document.getElementById('controls-inner'), opener = document.getElementById('controlsOpener');
-    controlsBox.style.height = (opener.getBoundingClientRect().y - controlsBox.getBoundingClientRect().y) + 'px';
 }
 init(true);
 //# sourceMappingURL=emwaves.js.map

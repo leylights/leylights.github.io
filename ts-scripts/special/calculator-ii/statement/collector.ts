@@ -2,6 +2,7 @@ import { MathNum } from "../../../tools/math/number.js";
 import { CalculatorComponent } from "../calculator-component.js";
 import { CalculatorFunction, CalculatorOperator } from "../models/function.js";
 import { CalculatorTerm } from "../models/term.js";
+import { CalculatorUnaryFunction } from "../models/unary-function.js";
 import { CalculatorValue } from "../models/value.js";
 import { CalculatorVariable } from "../models/variable.js";
 import { CalculatorParser } from "../parser.js";
@@ -13,6 +14,7 @@ export class CalculatorCollector extends CalculatorComponent {
    * Invariant: input has been commuted
    */
   static collect(input: CalculatorTerm, debug?: boolean): CalculatorTerm {
+    this.log(debug, `---- COLLECTION ----`);
     this.log(debug, `original input: ${input.print()}`);
     return this.collectRecurse(input, debug);
   }
@@ -49,6 +51,15 @@ export class CalculatorCollector extends CalculatorComponent {
             filteredTerms[t.print()] = { positives: [], negatives: [], coefficient: t, result: null };
 
           filteredTerms[t.print()][type].push(new CalculatorValue(1));
+        } else if (t instanceof CalculatorUnaryFunction) {
+          if (t.containsVariable()) {
+            if (!filteredTerms[t.print()]) // create entry for newly-encountered variable
+              filteredTerms[t.print()] = { positives: [], negatives: [], coefficient: t, result: null };
+
+            filteredTerms[t.print()][type].push(new CalculatorValue(MathNum.ONE));
+          } else {
+            filteredTerms._values[type].push(t);
+          }
         } else if (t instanceof CalculatorFunction) {
           if (t.containsVariable()) {
             if (t.operator === CalculatorOperator.exponent) {
@@ -65,7 +76,7 @@ export class CalculatorCollector extends CalculatorComponent {
           } else {
             filteredTerms._values[type].push(t);
           }
-        }
+        } else throw new Error(`Bad input: ${t.print()}`);
       });
     }
 
@@ -177,5 +188,16 @@ export class CalculatorCollector extends CalculatorComponent {
     tester.test('((((x ^ 2) - (3 * x)) - ((4 * x) - (3 * 4))) - 0)', '(((1 * (x ^ 2)) - ((3 + 4) * x)) + ((3 * 4) - 0))');
 
     tester.test('(34 - (d ^ 3))', '(((0 - 1) * (d ^ 3)) + 34)');
+
+    tester.test('((1 * (x ^ 4)) - (2 * (x ^ 3)))', '((1 * (x ^ 4)) - (2 * (x ^ 3)))');
+
+    tester.test(
+      '((1 / log(5)) * log(x))',
+      '((1 / log(5)) * log(x))',
+    );
+    tester.test(
+      '((1 / log(5)) * (1 / log(x)))',
+      '((1 / log(5)) * (1 / log(x)))',
+    );
   }
 }

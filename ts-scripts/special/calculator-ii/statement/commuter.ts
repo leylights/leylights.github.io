@@ -2,6 +2,7 @@ import { CalculatorComponent } from "../calculator-component.js";
 import { CalculatorFunction, CalculatorOperator } from "../models/function.js";
 import { CalculatorSingular } from "../models/singular.js";
 import { CalculatorTerm } from "../models/term.js";
+import { CalculatorUnaryFunction } from "../models/unary-function.js";
 import { CalculatorValue } from "../models/value.js";
 import { CalculatorVariable } from "../models/variable.js";
 import { CalculatorParser } from "../parser.js";
@@ -20,6 +21,8 @@ export class CalculatorCommuter extends CalculatorComponent {
     const singulars = this.getValuesOfDisjuctiveClause(input);
 
     this.log(debug, `building commuted term from ${input.print()}`);
+    this.log(debug, `located singular factors: ${singulars.factors.map(s => s.print()).join(',')}`);
+    this.log(debug, `located singular divisors: ${singulars.divisors.map(s => s.print()).join(',')}`);
 
     const values = {
       factors: [],
@@ -29,7 +32,7 @@ export class CalculatorCommuter extends CalculatorComponent {
       factors: [],
       divisors: [],
     };
-    const miscTerms = {
+    const functions = {
       factors: [],
       divisors: [],
     };
@@ -38,48 +41,79 @@ export class CalculatorCommuter extends CalculatorComponent {
     for (const f of singulars.factors) {
       if (f instanceof CalculatorValue) values.factors.push(f);
       else if (f instanceof CalculatorVariable) variables.factors.push(f);
-      else if (f instanceof CalculatorFunction) miscTerms.factors.push(f);
+      else {
+        if (!f.containsVariable())
+          values.factors.push(f);
+        else
+          functions.factors.push(f);
+      }
     }
     for (const d of singulars.divisors) {
       if (d instanceof CalculatorValue) values.divisors.push(d);
       else if (d instanceof CalculatorVariable) variables.divisors.push(d);
-      else if (d instanceof CalculatorFunction) miscTerms.divisors.push(d);
+      else {
+        if (!d.containsVariable())
+          values.divisors.push(d);
+        else
+          functions.divisors.push(d);
+      }
     }
 
     this.log(debug, `values factors: ${values.factors.map((f) => f.print()).join(', ')}, value divisors: ${values.divisors.map((f) => f.print()).join(', ')}`);
     this.log(debug, `variable factors: ${variables.factors.map((f) => f.print()).join(', ')}, variable divisors: ${variables.divisors.map((f) => f.print()).join(', ')}`);
-    this.log(debug, `term factors: ${miscTerms.factors.map((f) => f.print()).join(', ')}, term divisors: ${miscTerms.divisors.map((f) => f.print()).join(', ')}`);
+    this.log(debug, `term factors: ${functions.factors.map((f) => f.print()).join(', ')}, term divisors: ${functions.divisors.map((f) => f.print()).join(', ')}`);
 
-    const valuesTerm = this.buildTermFromFactorsAndDivisors(values.factors, values.divisors, debug);
-    const variablesTerm = this.buildTermFromFactorsAndDivisors(variables.factors, variables.divisors, debug);
-    const miscTerm = this.buildTermFromFactorsAndDivisors(miscTerms.factors, miscTerms.divisors, debug);
+    const valuesTerm = this.buildTermFromFactorsAndDivisors(values.factors, values.divisors, debug, 'value');
+    const variablesTerm = this.buildTermFromFactorsAndDivisors(variables.factors, variables.divisors, debug, 'variable');
+    const functionsTerm = this.buildTermFromFactorsAndDivisors(functions.factors, functions.divisors, debug, 'function');
 
-    this.log(debug, `values term generated: ${valuesTerm ? valuesTerm.print() : 'none'}, variables term generated: ${variablesTerm ? variablesTerm.print() : 'none'}`);
+    this.log(debug, `values term generated: ${valuesTerm ? valuesTerm.print() : 'none'}, variables term generated: ${variablesTerm ? variablesTerm.print() : 'none'}, functions term generated: ${functionsTerm ? functionsTerm.print() : 'none'}`);
 
-    let coreResult: CalculatorTerm;
-    if (valuesTerm && variablesTerm) {
-      coreResult = new CalculatorFunction(valuesTerm, variablesTerm, CalculatorOperator.multiply);
-    } else if (valuesTerm && !variablesTerm) {
-      coreResult = valuesTerm;
-    } else if (!valuesTerm && variablesTerm) {
-      coreResult = variablesTerm;
+    const multiply = (...terms: CalculatorTerm[]) => {
+      if (!terms) return null;
+
+      if (terms.length === 1) return terms[0];
+      else {
+        let current = null;
+        for (const term of terms) {
+          if (!current) current = term;
+          else current = new CalculatorFunction(current, term, CalculatorOperator.multiply);
+        }
+        return current;
+      }
     }
 
-    if (miscTerm) {
-      if (coreResult) {
-        return new CalculatorFunction(coreResult, miscTerm, CalculatorOperator.multiply);
+    if (valuesTerm) {
+      if (variablesTerm) {
+        if (functionsTerm)
+          return (multiply(valuesTerm, functionsTerm, variablesTerm));
+        else
+          return (multiply(valuesTerm, variablesTerm));
       } else {
-        return miscTerm;
+        if (functionsTerm)
+          return (multiply(valuesTerm, functionsTerm));
+        else
+          return valuesTerm;
       }
     } else {
-      return coreResult;
+      if (variablesTerm) {
+        if (functionsTerm)
+          return (multiply(functionsTerm, variablesTerm));
+        else
+          return variablesTerm;
+      } else {
+        if (functionsTerm)
+          return functionsTerm;
+        else
+          return null;
+      }
     }
   }
 
-  private static buildTermFromFactorsAndDivisors(factors: CalculatorSingular[], divisors: CalculatorSingular[], debug: boolean): CalculatorTerm | null {
-    this.log(debug, `building term from factors ${factors.map((f) => f.print()).join(', ')} and divisors ${divisors.map((d) => d.print()).join(', ')}`);
+  private static buildTermFromFactorsAndDivisors(factors: CalculatorSingular[], divisors: CalculatorSingular[], debug: boolean, type: string): CalculatorTerm | null {
+    this.log(debug, `building ${type} term from factors ${factors.map((f) => f.print()).join(', ')} and divisors ${divisors.map((d) => d.print()).join(', ')}`);
 
-    const divisor = divisors.length > 0 ? this.buildTermFromFactorsAndDivisors(divisors, [], debug) : null;
+    const divisor = divisors.length > 0 ? this.buildTermFromFactorsAndDivisors(divisors, [], debug, type) : null;
     let dividend: CalculatorTerm;
 
     if (factors.length === 0) dividend = null;
@@ -128,7 +162,7 @@ export class CalculatorCommuter extends CalculatorComponent {
 
     this.log(debug, `getting values of disj clause ${input.print()}`);
 
-    if (input instanceof CalculatorValue || input instanceof CalculatorVariable)
+    if (input instanceof CalculatorSingular || input instanceof CalculatorUnaryFunction)
       return exit([input], []); // treat self as single multiplied clause
     else if (input instanceof CalculatorFunction) {
       switch (input.operator) {
@@ -173,6 +207,8 @@ export class CalculatorCommuter extends CalculatorComponent {
     });
 
     tester.test('x/7', '((1 / 7) * x)');
+    tester.test('(x / (3 + 2))', '((1 / (3 + 2)) * x)');
+    tester.test('(x / log(6))', '((1 / log(6)) * x)');
 
     tester.test('2*3*4*x', '(((2 * 3) * 4) * x)');
     tester.test('((2*x)*(3*y))', '((2 * 3) * (x * y))');
@@ -186,7 +222,7 @@ export class CalculatorCommuter extends CalculatorComponent {
     tester.test('3*(x*4)', '((3 * 4) * x)');
     tester.test('3*2*(x*4)', '(((3 * 2) * 4) * x)');
 
-    tester.test('(x*(4+5))', '(x * (4 + 5))');
+    tester.test('(x*(4+5))', '((4 + 5) * x)');
 
     tester.test('3*2*(x*4)+x*7', '((((3 * 2) * 4) * x) + (7 * x))');
     tester.test('(2*3)*4*x', '(((2 * 3) * 4) * x)');
@@ -197,7 +233,7 @@ export class CalculatorCommuter extends CalculatorComponent {
 
     tester.test('1/2^x', '(1 * (1 / (2 ^ x)))');
     tester.test('(3^(4*x*3*(x+4)*4)/(2*3))*5',
-      '((5 / (2 * 3)) * (3 ^ ((((4 ^ 2) * 3) * x) * (x + 4))))');
+      '((5 / (2 * 3)) * (3 ^ ((((4 ^ 2) * 3) * (x + 4)) * x)))');
 
     tester.test('((3 * 4) * x)', '((3 * 4) * x)');
 
@@ -206,5 +242,16 @@ export class CalculatorCommuter extends CalculatorComponent {
 
     tester.test('x*x*x', '(x ^ 3)');
     tester.test('x*((3*x)*4*x)*x', '((3 * 4) * (x ^ 4))');
+
+    tester.test('(((x * x) * x) * x)', '(x ^ 4)');
+
+    tester.test('(1 * (((x * x) * x) * x))', '(1 * (x ^ 4))');
+
+    tester.test('((x * x) + (y * y))', '((x ^ 2) + (y ^ 2))');
+    tester.test('((x * x) * (x * x))', '(x ^ 4)');
+
+    tester.test('((((x * x) * x) * x) - (2 * ((x * x) * x)))', '((x ^ 4) - (2 * (x ^ 3)))');
+
+    tester.test('(log(((0 + 1) - (1 * (5 ^ y)))) / log(5))', '((1 / log(5)) * log(((0 + 1) - (1 * (5 ^ y)))))')
   }
 }

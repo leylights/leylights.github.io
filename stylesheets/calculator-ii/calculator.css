@@ -57,8 +57,10 @@
   padding-bottom: 4em;
 }
 #main h2,
-#main h3 {
+#main h3,
+#main h4 {
   font-weight: 300;
+  color: var(--primary-accent-color);
 }
 #main header {
   position: relative;
@@ -71,6 +73,7 @@
 #main header h3 {
   font-size: 18px;
   margin-bottom: 4px;
+  color: #fff;
 }
 #main header #header-bg {
   width: 100%;
@@ -149,6 +152,9 @@
 }
 #main .body {
   padding-bottom: 4em;
+}
+#main .body math {
+  font-family: "Cambria Math", Arial, sans-serif;
 }
 #main .body #steps-title {
   margin-bottom: 0;

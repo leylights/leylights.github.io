@@ -60,7 +60,7 @@ export class Leylights {
     contains: function <T, U>(arr: T[], el: U, comparatorFn?: (a: T, b: U) => boolean): boolean {
       if (!comparatorFn)
         comparatorFn = (a: any, b: any) => { return a === b };
-        
+
       for (let i = 0; i < arr.length; i++) {
         if (comparatorFn(arr[i], el))
           return true;
@@ -202,7 +202,7 @@ export class Leylights {
     if (data.id) element.id = data.id;
     if (data.classList) {
       if (typeof data.classList === 'string' && data.classList.includes(' '))
-        data.classList = data.classList.split(' ');
+        data.classList = data.classList.trim().split(' ');
       else if (!Array.isArray(data.classList))
         data.classList = [data.classList];
 
@@ -1008,7 +1008,8 @@ export class Leylights {
   }
 
   static toTitleCase = function (str: string): string {
-    return Leylights.toCapitalized(str.substr(0).toLowerCase());
+    if (!str) return str;
+    return Leylights.toCapitalized(str.substring(0).toLowerCase());
   }
 }
 

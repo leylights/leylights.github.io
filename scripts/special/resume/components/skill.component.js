@@ -20,6 +20,8 @@ export class ResumeSkillComponent {
             }
         });
         element.addEventListener('click', () => {
+            if (element.classList.contains('no-matches'))
+                return;
             const matchCount = ResumeSkillComponent.highlightSkill(this.aliases, {
                 skillElement: this.element,
                 searchForStrictWord: this.searchForStrictWord,
@@ -32,6 +34,59 @@ export class ResumeSkillComponent {
         delete this.element;
         this.element = element;
         return element;
+    }
+    findSkillMatches() {
+        return ResumeSkillComponent.findSkillMatches(this.aliases, this.searchForStrictWord);
+    }
+    static findSkillMatches(aliases, searchForStrictWord) {
+        const skillToHighlight = 'skill-to-highlight', userHighlightedSkill = 'user-highlighted-skill';
+        console.log('searching for ' + aliases.join(','));
+        Array.from(document.getElementsByClassName('resume-skill')).forEach((skill) => {
+            skill.classList.remove(skillToHighlight);
+            skill.classList.remove('no-results');
+        });
+        const spans = Array.from(document.getElementsByClassName('resume-highlight'))
+            .concat(Array.from(document.getElementsByClassName('resume-highlight-no-css')));
+        spans.forEach((span) => {
+            span.classList.remove(userHighlightedSkill);
+        });
+        const mappedSearchTerms = aliases.map((term) => {
+            let tempTerm = term.trim().toLowerCase();
+            if (searchForStrictWord)
+                tempTerm = ` ${tempTerm} `;
+            return tempTerm;
+        });
+        const searchResults = mappedSearchTerms.map((searchTerm) => {
+            return spans.filter((span) => {
+                return span.innerText.trim().toLowerCase().includes(searchTerm)
+                    || (span.getAttribute('data-term')
+                        && (` ${span.getAttribute('data-term').toLowerCase()} `).includes(searchTerm));
+            });
+        });
+        let flattenedSpans = [];
+        for (const s of searchResults)
+            flattenedSpans = flattenedSpans.concat(s);
+        return flattenedSpans;
+    }
+    highlightSkill() {
+        const skillToHighlight = 'skill-to-highlight', userHighlightedSkill = 'user-highlighted-skill';
+        const matches = this.findSkillMatches();
+        for (const match of matches) {
+            match.classList.add(userHighlightedSkill);
+        }
+        if (this.element)
+            this.element.classList.add(skillToHighlight);
+        else {
+            document.querySelectorAll('#skills-list .resume-skill').forEach((skill) => {
+                // find any matches between searchTerms and skill alias array
+                const leftMatches = skill.getAttribute('data-aliases').split(' ').filter((alias) => {
+                    return Leylights.Array.includes(this.aliases, alias);
+                });
+                if (leftMatches.length > 0)
+                    skill.classList.add(skillToHighlight);
+            });
+        }
+        return matches.length;
     }
     /**
      * @returns the number of matches found
@@ -66,15 +121,9 @@ export class ResumeSkillComponent {
                 tempTerm = ` ${tempTerm} `;
             return tempTerm;
         });
-        console.log(mappedSearchTerms);
         let matchCount = 0;
         mappedSearchTerms.forEach((searchTerm) => {
             spans.filter((span) => {
-                var _a;
-                if (span.innerText.trim().toLowerCase().includes(searchTerm))
-                    console.log(`match1: ${searchTerm} ${span.innerText.trim().toLowerCase()}`);
-                if ((` ${(_a = span.getAttribute('data-term')) === null || _a === void 0 ? void 0 : _a.toLowerCase()} `).includes(searchTerm))
-                    console.log(`match2: ${searchTerm} ${span.getAttribute('data-term')}`);
                 return span.innerText.trim().toLowerCase().includes(searchTerm)
                     || (span.getAttribute('data-term')
                         && (` ${span.getAttribute('data-term').toLowerCase()} `).includes(searchTerm));

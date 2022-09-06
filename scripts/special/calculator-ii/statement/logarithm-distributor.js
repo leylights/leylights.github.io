@@ -127,11 +127,13 @@ export class CalculatorLogarithmDistributor extends CalculatorComponent {
     }
     static test() {
         const tester = new CalculatorTester('Logarithm Distributor', (input) => {
-            return CalculatorLogarithmDistributor.distribute(new CalculatorLogarithmFunction(new CalculatorParser(input).output)).print();
+            return CalculatorLogarithmDistributor.distribute(new CalculatorParser(input).output).print();
         });
-        tester.test('x ^ 2', '(2 * log(x))');
-        tester.test('x ^ -2', '(-2 * log(x))');
-        tester.test('(0 - x)', 'log((-1 * x))');
+        tester.test('log(x ^ 2)', '(2 * log(x))');
+        tester.test('log(x ^ -2)', '(-2 * log(x))');
+        tester.test('log(0 - x)', 'log((-1 * x))');
+        tester.test('log(((0 + 1) - (1 * (5 ^ y))))', 'log(((0 + 1) - (1 * (5 ^ y))))');
+        tester.test('(log((((0 + 1) - (1 * (5 ^ y))) / 1)) / log(5))', '((log(((0 + 1) - (1 * (5 ^ y)))) - log(1)) / log(5))');
     }
 }
 //# sourceMappingURL=logarithm-distributor.js.map

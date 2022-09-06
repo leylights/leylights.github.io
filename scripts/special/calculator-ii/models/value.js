@@ -35,13 +35,13 @@ export class CalculatorValue extends CalculatorSingular {
         return other instanceof CalculatorValue && this.value.isEqualTo(other.value);
     }
     print() {
-        if (this.value.prettyPrint().length > 25 && this.value.Im.isEqualTo(MathFrac.ZERO))
+        if (this.value.prettyPrint().length > 15 && this.value.Im.isEqualTo(MathFrac.ZERO))
             return Leylights.roundToNthDigit(this.value.Re.decimalValue, -5) + '';
         else
             return this.value.prettyPrint() + '';
     }
     printHTML() {
-        return `<span class="value">${this.value.prettyPrint()}</span>`;
+        return `<span class="value">${this.print()}</span>`;
     }
 }
 //# sourceMappingURL=value.js.map

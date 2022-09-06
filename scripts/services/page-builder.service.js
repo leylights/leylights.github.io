@@ -62,8 +62,10 @@ export class PageBuilder {
         PageBuilder.registerLoadListener(() => {
             document.getElementById('loadingScreen').classList.add('hiding');
             setTimeout(function () {
-                document.getElementById('loadingScreen').classList.remove('hiding');
                 document.getElementById('loadingScreen').classList.add('hidden');
+                setTimeout(() => {
+                    document.getElementById('loadingScreen').classList.remove('hiding');
+                }, 16);
             }, (parseFloat(window.getComputedStyle(document.getElementById('loadingScreen')).transitionDuration) * 1000));
         });
         // set up load listener to listen to load
