@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { ResumePage } from "../resume.page.js";
 import { ResumeSkillComponent } from "./skill.component.js";
 export class ResumeExperienceItemComponent {
@@ -38,11 +38,11 @@ export class ResumeExperienceItemComponent {
      * Rebuilds this.container
      */
     rebuild() {
-        const me = this, grid = Leylights.createElement({
+        const me = this, grid = Molasses.createElement({
             type: 'div',
             classList: ['horizontal-grid', 'experience-grid'],
             children: getGridBody(),
-        }), container = Leylights.createElement({
+        }), container = Molasses.createElement({
             type: 'div',
             classList: `experience-item ${me.layout}-layout ${me.isFlipped ? 'flipped' : ''}`,
             children: [grid],
@@ -54,46 +54,43 @@ export class ResumeExperienceItemComponent {
         ResumeExperienceItemComponent.setHighlightEventListeners(container);
         this.container = container;
         function getGridBody() {
-            const els = [Leylights.createElement({
+            const els = [Molasses.createElement({
                     type: 'div',
                     classList: 'experience-grid-body-cell',
                     children: [
-                        Leylights.createElement({
+                        Molasses.createElement({
                             type: 'div',
                             children: [
-                                Leylights.createElement({
+                                Molasses.createElement({
                                     type: 'h3',
                                     classList: 'job-title',
                                     innerText: me.title,
-                                    style: 'float: left'
                                 }),
-                                Leylights.createElement({
+                                Molasses.createElement({
                                     type: 'h3',
                                     classList: 'experience-date',
                                     innerText: me.dates.join(', '),
-                                    style: 'float: right'
                                 })
                             ]
                         }),
-                        Leylights.createElement({
+                        Molasses.createElement({
                             type: 'h4',
                             classList: 'workplace-name',
                             innerText: me.subtitle,
-                            style: 'clear: both'
                         }),
-                        Leylights.createElement({
+                        Molasses.createElement({
                             type: 'div',
                             classList: 'body',
                             children: [
-                                Leylights.createElement({
+                                Molasses.createElement({
                                     type: 'div',
                                     classList: ['experience-image-container', 'compact-image'],
                                     children: me.getImages(),
                                 }),
-                                Leylights.createElement({
+                                Molasses.createElement({
                                     type: 'ul',
                                     children: me._experiencePoints.map((point) => {
-                                        return Leylights.createElement({
+                                        return Molasses.createElement({
                                             type: 'li',
                                             innerHTML: ResumeExperienceItemComponent.formatPoint(point)
                                         });
@@ -102,7 +99,7 @@ export class ResumeExperienceItemComponent {
                             ]
                         })
                     ]
-                }), Leylights.createElement({
+                }), Molasses.createElement({
                     type: 'div',
                     classList: ['experience-grid-image-cell', 'side-image'],
                     children: me.getImages()
@@ -147,14 +144,14 @@ export class ResumeExperienceItemComponent {
                     ? highlight.getAttribute('data-term').split(' ')
                     : [highlight.innerHTML.trim()];
                 ResumeSkillComponent.highlightSkill(terms, {
-                    searchForStrictWord: Leylights.Array.includes(terms, 'java'),
+                    searchForStrictWord: Molasses.Array.includes(terms, 'java'),
                 });
             });
         });
     }
     getImages() {
         const me = this, classList = ['experience-image'].concat(me._invertDarkImg ? ['dark-invert-filter'] : []);
-        return [Leylights.createElement({
+        return [Molasses.createElement({
                 type: 'img',
                 classList: classList.concat(['dark-none']),
                 otherNodes: [{
@@ -164,7 +161,7 @@ export class ResumeExperienceItemComponent {
                         type: 'alt',
                         value: me._imageAlt
                     }]
-            }), Leylights.createElement({
+            }), Molasses.createElement({
                 type: 'img',
                 classList: classList.concat(['dark-only']),
                 otherNodes: [{

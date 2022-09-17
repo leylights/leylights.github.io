@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { Button } from "../../../components/button.component.js";
 import { NPCsCharacterData } from "../core/character-data.js";
 import { NPCsMemory } from "../core/npcs-memory.js";
@@ -21,11 +21,11 @@ export class NPCsMemorySaveBarComponent {
     me.deleteAction = iconDeleteAction;
 
     const refreshButton =
-      Leylights.createElement({
+      Molasses.createElement({
         type: 'div',
         id: 'saved-bar-refresh',
         children: [
-          Leylights.createElement({
+          Molasses.createElement({
             type: 'div',
             classList: 'save-icon-circle',
             innerText: String.fromCharCode(0x21BB),
@@ -33,7 +33,7 @@ export class NPCsMemorySaveBarComponent {
         ]
       });
 
-    me.HTML.footerElement = Leylights.createElement({
+    me.HTML.footerElement = Molasses.createElement({
       type: 'div',
       id: 'npcs-footer',
       children: [
@@ -51,15 +51,15 @@ export class NPCsMemorySaveBarComponent {
 
   private createSavedIcon(data: NPCsCharacterData, clickAction: (character: NPCsCharacterData) => void, deleteAction: (character: NPCsCharacterData) => void): HTMLElement {
     const me = this,
-      mainIcon = Leylights.createElement({
+      mainIcon = Molasses.createElement({
         type: 'div',
         classList: 'save-icon-circle',
         innerText: data.names[0].charAt(0) + (data.names[1].charAt(0) || data.names[0].charAt(1) || ''),
-      }), deleteIcon = Leylights.createElement({
+      }), deleteIcon = Molasses.createElement({
         type: 'div',
         classList: 'save-icon-delete',
         innerText: 'x',
-      }), container = Leylights.createElement({
+      }), container = Molasses.createElement({
         type: 'div',
         classList: 'save-icon',
         id: `saved-character-${data.ID}`,

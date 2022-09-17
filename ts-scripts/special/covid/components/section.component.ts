@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { COVIDSectionCollection } from "./section-collection.component.js";
 
 export class COVIDSection {
@@ -12,10 +12,10 @@ export class COVIDSection {
     const me = this;
 
     // Create tab
-    this.tab = Leylights.createElement({
+    this.tab = Molasses.createElement({
       type: 'div',
       classList: 'covid-tab',
-      children: [Leylights.createElement({
+      children: [Molasses.createElement({
         type: 'span',
         innerText: shortTitle
       })]
@@ -29,27 +29,27 @@ export class COVIDSection {
     this.parent = parent;
 
     // Create section
-    this.contentsContainer = Leylights.createElement({
+    this.contentsContainer = Molasses.createElement({
       type: 'div',
       classList: 'covid-section-contents'
     });
 
     const bodyChildren: HTMLElement[] = [this.contentsContainer];
     if (includeFooter)
-      bodyChildren.push(Leylights.createElement({
+      bodyChildren.push(Molasses.createElement({
         type: 'div',
         classList: 'footer',
-        children: [Leylights.createElement({
+        children: [Molasses.createElement({
           type: 'h6',
           classList: 'data-source',
           children: [
-            Leylights.createElement({ type: 'span', innerText: 'Retrieved from ' }),
-            Leylights.createElement({ type: 'a', innerText: 'https://opencovid.ca/', otherNodes: [{ type: 'href', value: 'https://opencovid.ca/' }] }),
+            Molasses.createElement({ type: 'span', innerText: 'Retrieved from ' }),
+            Molasses.createElement({ type: 'a', innerText: 'https://opencovid.ca/', otherNodes: [{ type: 'href', value: 'https://opencovid.ca/' }] }),
           ]
         })]
       }));
 
-    this._body = Leylights.createElement({
+    this._body = Molasses.createElement({
       type: 'div',
       classList: 'covid-section',
       children: bodyChildren,

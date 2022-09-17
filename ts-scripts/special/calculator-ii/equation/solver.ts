@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { MathNum } from "../../../tools/math/number.js";
 import { CalculatorComponent } from "../calculator-component.js";
 import { CalculatorEquationType } from "../models/equation-type.js";
@@ -266,7 +266,7 @@ export class CalculatorSolver extends CalculatorComponent {
       }
     }
 
-    const gcd = Leylights.gcd(a.value, b.value);
+    const gcd = Molasses.gcd(a.value, b.value);
     this.log(config?.debug, `Greatest common denominator of ${a.value} and ${b.value}: ${gcd}`);
 
     if (c % gcd === 0) {
@@ -361,7 +361,7 @@ export class CalculatorSolver extends CalculatorComponent {
         simpleResult: `${variable.printSimple()} = ${exactResults.join(', ')}`,
       };
     else {
-      const answer = results.map((n) => Leylights.roundToNthDigit(n.decimal, -5)).join(', ');
+      const answer = results.map((n) => Molasses.roundToNthDigit(n.decimal, -5)).join(', ');
       return {
         result: `${variable.print()} = ${answer}`,
         HTMLResult: `${variable.printHTML()} = ${answer}`,

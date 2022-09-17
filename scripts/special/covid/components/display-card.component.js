@@ -1,15 +1,15 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 export class COVIDDisplayCard {
     constructor(title, value, parentElement) {
-        this.element = Leylights.createElement({
+        this.element = Molasses.createElement({
             type: 'div',
             classList: 'display-card',
             children: [
-                Leylights.createElement({
+                Molasses.createElement({
                     type: 'h2',
                     classList: 'card-value',
                     innerText: value + '',
-                }), Leylights.createElement({
+                }), Molasses.createElement({
                     type: 'h4',
                     classList: 'card-title',
                     innerText: title,

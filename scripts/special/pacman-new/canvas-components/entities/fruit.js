@@ -1,4 +1,4 @@
-import { Leylights } from "../../../../leylights.js";
+import { Molasses } from "../../../../molasses.js";
 import { PacmanEntityEnum } from "../../helper.js";
 import { PacmanConstants } from "../constants.js";
 import { PacmanMapNode } from "../map-node.js";
@@ -19,7 +19,7 @@ export class PacmanFruit extends PacmanPickup {
         PacmanState.collectedFruitCount++;
     }
     static getRandomFruitSpawnNode() {
-        return Leylights.Array.get.randomElement(PacmanMapNode.map.filter((node) => {
+        return Molasses.Array.get.randomElement(PacmanMapNode.map.filter((node) => {
             return node.canSpawnFruit;
         }));
     }

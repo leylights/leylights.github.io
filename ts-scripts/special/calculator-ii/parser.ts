@@ -1,4 +1,4 @@
-import { Leylights } from "../../leylights.js";
+import { Molasses } from "../../molasses.js";
 import { CalculatorComponent } from "./calculator-component.js";
 import { CalculatorFunction, CalculatorOperator } from "./models/function.js";
 import { CalculatorLogarithmFunction } from "./models/logarithm.js";
@@ -287,12 +287,12 @@ export class CalculatorParser extends CalculatorComponent {
       else if (chars[i] === '(') openParenthesisCount--;
       else if (openParenthesisCount === 0) {
         // negation handling: test against all operators
-        if (Leylights.Array.contains(CalculatorFunction.operators, chars[i]) && chars[i] !== CalculatorOperator.subtract) {
+        if (Molasses.Array.contains(CalculatorFunction.operators, chars[i]) && chars[i] !== CalculatorOperator.subtract) {
           isLHSNegative = false;
         }
 
         // test against searched-for operators
-        if (Leylights.Array.contains(operators, chars[i])) {
+        if (Molasses.Array.contains(operators, chars[i])) {
           if (chars[i] === CalculatorOperator.subtract) {
             // '-' is only subtract if its left character is a number or variable or ')'.  Otherwise treat it as negation, UNLESS the LHS is already negated
             if (

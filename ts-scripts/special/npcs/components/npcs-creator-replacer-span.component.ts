@@ -1,11 +1,11 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { NPCsCharacterData } from "../core/character-data.js";
 
 export class NPCsReplacerSpan {
   private _originalBody: string;
   private _currentBody: string;
   id: number = NPCsReplacerSpan.nextId++;
-  element: HTMLElement = Leylights.createElement({
+  element: HTMLElement = Molasses.createElement({
     type: 'span',
     classList: 'npcs-replacer-span',
     id: `npcs-replacer-span-${this.id}`

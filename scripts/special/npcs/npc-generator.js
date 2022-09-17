@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var _a;
-import { Leylights } from "../../leylights.js";
+import { Molasses } from "../../molasses.js";
 import { Button } from "../../components/button.component.js";
 import { KeyboardListener } from "../../tools/keyboard-listener.js";
 import { NPCsCharacterData } from "./core/character-data.js";
@@ -36,7 +36,7 @@ class NPCsGenerator {
             // initialize HTML
             menu.raceSelector = document.getElementById('races');
             // fill race dropdown
-            Leylights.Object.values(NPCsRace.list).forEach((race) => {
+            Molasses.Object.values(NPCsRace.list).forEach((race) => {
                 let raceSelector = document.createElement("option");
                 raceSelector.innerHTML = race.name;
                 menu.raceSelector.appendChild(raceSelector);
@@ -46,7 +46,7 @@ class NPCsGenerator {
             menu.challengeRatingSelector = document.getElementById('inputCr');
             menu.generator = Button.createByAttachment(document.getElementById("generateButton"), () => { NPCsGenerator.createCard('card'); }, 'generateNPC');
             document.getElementById('main').style.marginTop = (topMargin) + 'px';
-            let classNames = Leylights.Object.values(NPCsClass.list)
+            let classNames = Molasses.Object.values(NPCsClass.list)
                 .map(a => {
                 return a.name;
             })
@@ -106,7 +106,7 @@ class NPCsGenerator {
             let newCharacter;
             // get race, class
             if (!data) {
-                let races = Leylights.Object.values(NPCsRace.list);
+                let races = Molasses.Object.values(NPCsRace.list);
                 let raceInput = menu.raceSelector.value;
                 let raceSelection = races.filter((raceFilter) => {
                     return raceFilter.name === raceInput;
@@ -115,7 +115,7 @@ class NPCsGenerator {
                     race = raceSelection[0];
                 else
                     race = NPCsRace.getRandomRace();
-                let classes = Leylights.Object.values(NPCsClass.list);
+                let classes = Molasses.Object.values(NPCsClass.list);
                 let classInput = menu.classSelector.value;
                 let classSelection = classes.filter((classEntry) => {
                     return classEntry.name.toLowerCase() === classInput.toLowerCase();
@@ -129,7 +129,7 @@ class NPCsGenerator {
                 if (nameInput !== '') {
                     let namesList = menu.nameSelector.value.split(' ').map((str) => { return str.trim(); });
                     names = [null, null];
-                    names[0] = Leylights.toCapitalized(namesList[0]);
+                    names[0] = Molasses.toCapitalized(namesList[0]);
                     names[1] = namesList.slice(1).join(' ');
                 }
                 else {
@@ -140,7 +140,7 @@ class NPCsGenerator {
                 // get cr from menu
                 let targetCR;
                 let inputField = document.getElementById("inputCr");
-                targetCR = Leylights.roundToDecimalPlaces(parseFloat(inputField.value), 2);
+                targetCR = Molasses.roundToDecimalPlaces(parseFloat(inputField.value), 2);
                 if (isNaN(targetCR))
                     newCharacter.alterCRBy(CR_SHIFT_RANGE);
                 else

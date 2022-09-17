@@ -1,4 +1,5 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
+import { CoreDataService } from "../../../services/core-data.service.js";
 export class SpotlightHeader {
     constructor(replacedTarget) {
         this.logoPaddingVh = 10;
@@ -8,12 +9,12 @@ export class SpotlightHeader {
         var _a, _b, _c;
         const season = getSeason();
         const options = SpotlightHeader.SPOTLIGHT_IMAGES[season];
-        const imageSource = Leylights.Array.get.randomElement(options);
-        return Leylights.createElement({
+        const imageSource = Molasses.Array.get.randomElement(options);
+        return Molasses.createElement({
             type: 'div',
             id: (_b = (_a = this.elements) === null || _a === void 0 ? void 0 : _a.spotlightImage.id) !== null && _b !== void 0 ? _b : 'showcase-main-spotlight-image',
             classList: (_c = this.elements) === null || _c === void 0 ? void 0 : _c.spotlightImage.className,
-            style: `background-image: url("${Leylights.getRelativeUrlPath(`siteimages/showcase/${season}/${imageSource}`)}");`,
+            style: `background-image: url("${Molasses.getRelativeUrlPath(`siteimages/showcase/${season}/${imageSource}`)}");`,
         });
         function getSeason() {
             const today = new Date();
@@ -45,18 +46,18 @@ export class SpotlightHeader {
     }
     rebuild(replacedTarget) {
         var _a, _b;
-        const me = this, image = this.getSpotlightImage(), logoSource = ((_b = (_a = document.body.querySelector('#showcase-main-spotlight')) === null || _a === void 0 ? void 0 : _a.querySelector('#big-logo')) === null || _b === void 0 ? void 0 : _b.src.replace(window.location.origin + '/', '')) || 'siteimages/logo-w.svg', logo = Leylights.createElement({
+        const me = this, image = this.getSpotlightImage(), logoSource = ((_b = (_a = document.body.querySelector('#showcase-main-spotlight')) === null || _a === void 0 ? void 0 : _a.querySelector('#big-logo')) === null || _b === void 0 ? void 0 : _b.src.replace(window.location.origin + '/', '')) || 'siteimages/logo-w.svg', logo = Molasses.createElement({
             type: 'img',
             id: 'big-logo',
             classList: 'site-logo',
             otherNodes: [{
                     type: 'src',
-                    value: Leylights.getRelativeUrlPath(logoSource)
+                    value: Molasses.getRelativeUrlPath(logoSource)
                 }, {
                     type: 'alt',
-                    value: 'colestanley.ca'
+                    value: CoreDataService.siteName
                 }],
-        }), container = Leylights.createElement({
+        }), container = Molasses.createElement({
             type: 'div',
             id: 'showcase-main-spotlight',
             children: [

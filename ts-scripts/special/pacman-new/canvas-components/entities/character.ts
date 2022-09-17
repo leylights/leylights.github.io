@@ -1,4 +1,4 @@
-import { Leylights } from "../../../../leylights.js";
+import { Molasses } from "../../../../molasses.js";
 import { Canvas } from "../../../../components/canvas.component.js";
 import { PacmanEntityEnum, PacmanDirectionEnum, PacmanStateEnum } from "../../helper.js";
 import { PacmanConstants } from "../constants.js";
@@ -71,7 +71,7 @@ export class PacmanCharacter extends PacmanEntity {
   get isFleeing(): boolean {
     return (
       this.name != PacmanEntityEnum.PLAYER
-      && Leylights.orEquals(PacmanState.gameState, [PacmanStateEnum.CHASE, PacmanStateEnum.GHOST_DEATH_PAUSE])
+      && Molasses.orEquals(PacmanState.gameState, [PacmanStateEnum.CHASE, PacmanStateEnum.GHOST_DEATH_PAUSE])
       && (this.respawnTime < PacmanState.chaseStartTime
         || PacmanState.lifeStartTime + this.startDelay > PacmanState.chaseStartTime)
       && !this.isDead)
@@ -212,7 +212,7 @@ export class PacmanCharacter extends PacmanEntity {
    * Moves this character by its speed
    */
   move(this: PacmanCharacter, directFn: () => void): void {
-    if (!this.isFrozen && (Leylights.Array.contains([PacmanStateEnum.NORMAL, PacmanStateEnum.CHASE], PacmanState.gameState))) {
+    if (!this.isFrozen && (Molasses.Array.contains([PacmanStateEnum.NORMAL, PacmanStateEnum.CHASE], PacmanState.gameState))) {
       switch (this.direction) {
         case PacmanDirectionEnum.UP:
           this.y -= this.speed;

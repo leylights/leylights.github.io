@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { NPCsAttackMelee } from "./action-attack-melee.js";
 import { NPCsAttackMixed } from "./action-attack-mixed.js";
 import { NPCsAttackRanged } from "./action-attack-ranged.js";
@@ -9,11 +9,11 @@ import { DEX, NPCsDice, STR } from "./general.js";
 
 export class NPCsInventory {
   static getActionByUniqueName(name: string) {
-    const miscActions: NPCsAction[] = Leylights.Object.values(NPCsInventory.actionsList.misc);
-    const meleeAttacks: NPCsAttackMelee[] = Leylights.Object.values(NPCsInventory.actionsList.attacks.melee);
-    const rangedAttacks: NPCsAttackRanged[] = Leylights.Object.values(NPCsInventory.actionsList.attacks.ranged);
-    const mixedAttacks: NPCsAttackMixed[] = Leylights.Object.values(NPCsInventory.actionsList.attacks.mixed);
-    const reactions: NPCsReaction[] = Leylights.Object.values(NPCsInventory.actionsList.reactions);
+    const miscActions: NPCsAction[] = Molasses.Object.values(NPCsInventory.actionsList.misc);
+    const meleeAttacks: NPCsAttackMelee[] = Molasses.Object.values(NPCsInventory.actionsList.attacks.melee);
+    const rangedAttacks: NPCsAttackRanged[] = Molasses.Object.values(NPCsInventory.actionsList.attacks.ranged);
+    const mixedAttacks: NPCsAttackMixed[] = Molasses.Object.values(NPCsInventory.actionsList.attacks.mixed);
+    const reactions: NPCsReaction[] = Molasses.Object.values(NPCsInventory.actionsList.reactions);
 
     const result = [
       findOneOrFail(miscActions),
@@ -38,9 +38,9 @@ export class NPCsInventory {
   }
 
   static getAttackByName(name: string): NPCsAttack {
-    const attacks = Leylights.Object.values(NPCsInventory.actionsList.attacks.melee)
-      .concat(Leylights.Object.values(NPCsInventory.actionsList.attacks.mixed))
-      .concat(Leylights.Object.values(NPCsInventory.actionsList.attacks.ranged));
+    const attacks = Molasses.Object.values(NPCsInventory.actionsList.attacks.melee)
+      .concat(Molasses.Object.values(NPCsInventory.actionsList.attacks.mixed))
+      .concat(Molasses.Object.values(NPCsInventory.actionsList.attacks.ranged));
 
     const result = attacks.filter((attack: NPCsAttack) => {
       return attack.name === name;

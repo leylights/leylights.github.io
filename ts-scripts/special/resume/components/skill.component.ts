@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 
 export class ResumeSkillComponent {
   skill: string;
@@ -28,7 +28,7 @@ export class ResumeSkillComponent {
 
   rebuildElement(): HTMLElement {
     const resumeSkill = 'resume-skill',
-      element = Leylights.createElement({
+      element = Molasses.createElement({
         type: 'li',
         innerText: this.skill,
         classList: [resumeSkill].concat(this.isHighlighted ? ['skill-emph'] : []),
@@ -116,7 +116,7 @@ export class ResumeSkillComponent {
       document.querySelectorAll('#skills-list .resume-skill').forEach((skill: HTMLElement) => {
         // find any matches between searchTerms and skill alias array
         const leftMatches = skill.getAttribute('data-aliases').split(' ').filter((alias) => {
-          return Leylights.Array.includes(this.aliases, alias);
+          return Molasses.Array.includes(this.aliases, alias);
         });
 
         if (leftMatches.length > 0) skill.classList.add(skillToHighlight);
@@ -148,7 +148,7 @@ export class ResumeSkillComponent {
       document.querySelectorAll('#skills-list .resume-skill').forEach((skill: HTMLElement) => {
         // find any matches between searchTerms and skill alias array
         const leftMatches = skill.getAttribute('data-aliases').split(' ').filter((alias) => {
-          return Leylights.Array.includes(searchTerms, alias);
+          return Molasses.Array.includes(searchTerms, alias);
         });
 
         if (leftMatches.length > 0) skill.classList.add(skillToHighlight);

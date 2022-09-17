@@ -1,4 +1,4 @@
-import { Leylights } from "../leylights.js";
+import { Molasses } from "../molasses.js";
 
 /**
  * Handles retrieval of data from the API
@@ -113,7 +113,7 @@ export class DataBridge {
     if (!this.isRunning)
       this.open();
 
-    if (!Leylights.Array.includes(me.queueURLs, path))
+    if (!Molasses.Array.includes(me.queueURLs, path))
       this.addToQueue(path);
 
     const result = new Promise((resolve, reject) => {

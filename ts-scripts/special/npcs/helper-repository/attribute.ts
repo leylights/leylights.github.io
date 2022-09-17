@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { NPCsAbility, NPCsDice } from "./general.js";
 
 export type NPCsAttributeFullList = {
@@ -99,7 +99,7 @@ export class NPCsAttribute {
   }
 
   static getAttributeByName(name: string) {
-    const result: NPCsAttribute[] = Leylights.Object.values(NPCsAttribute.list).filter((a: NPCsAttribute) => { return a.name === name });
+    const result: NPCsAttribute[] = Molasses.Object.values(NPCsAttribute.list).filter((a: NPCsAttribute) => { return a.name === name });
 
     if (result.length > 0)
       return result[0];

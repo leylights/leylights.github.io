@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 export class ShowcaseItemSpotlight {
     constructor(item, parentElement) {
         this._id = ShowcaseItemSpotlight.next_id++;
@@ -7,7 +7,7 @@ export class ShowcaseItemSpotlight {
     }
     get id() { return this._id; }
     rebuild(parent) {
-        this.image = Leylights.createElement({
+        this.image = Molasses.createElement({
             type: 'img',
             classList: ['showcase-spotlight-item-image'],
             otherNodes: [
@@ -15,7 +15,7 @@ export class ShowcaseItemSpotlight {
                 { type: 'alt', value: this.item.description },
             ]
         });
-        const container = Leylights.createElement({
+        const container = Molasses.createElement({
             type: 'div',
             classList: 'showcase-spotlight-container',
             id: 'showcase-spotlight-container-' + this.id,

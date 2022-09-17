@@ -1,4 +1,4 @@
-﻿import {Leylights} from "../leylights.js";
+﻿import {Molasses} from "../molasses.js";
 
 var player;
 var obs = [];
@@ -134,7 +134,7 @@ function Component(x, y, w, h, c, type?, name?, isImage?: boolean) {
   };
 
   this.move = function () {
-    if (Leylights.orEquals(this.name, ["gunner", "laser", "heavy", "baller"])) {
+    if (Molasses.orEquals(this.name, ["gunner", "laser", "heavy", "baller"])) {
       if (this.y + this.h / 2 < player.y + player.h / 2)
         this.yvel += this.speed / 10;
       else if (this.y + this.h / 2 > player.y + player.h / 2)
@@ -1133,8 +1133,8 @@ function drawEntry() {
 function addSprite(src) {
   var newimg = document.createElement("img");
   var truesrc = "/siteimages/escape/" + src + ".png";
-  newimg.setAttributeNode(Leylights.betterCreateAttr("src", truesrc));
-  newimg.setAttributeNode(Leylights.betterCreateAttr("id", truesrc));
+  newimg.setAttributeNode(Molasses.betterCreateAttr("src", truesrc));
+  newimg.setAttributeNode(Molasses.betterCreateAttr("id", truesrc));
   document.getElementById("imgs").appendChild(newimg);
   return newimg;
 }
@@ -1187,7 +1187,7 @@ function pathfind(me, it) {
 // General
 
 function rect(x, y, w, h, colour) {
-  Leylights.fillRect(x, y, w, h, colour, myCanvas.context);
+  Molasses.fillRect(x, y, w, h, colour, myCanvas.context);
 }
 
 function drawText(text, x, y, colour, centered, size, type) {

@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { NPCsRace } from "../core/race.js";
 export class NPCsName {
     constructor(data) {
@@ -16,8 +16,8 @@ export class NPCsName {
     }
     get ownerRaces() {
         const me = this;
-        return Leylights.Object.values(NPCsRace.list).filter((race) => {
-            return Leylights.Array.includes(me.owners, race.archetype);
+        return Molasses.Object.values(NPCsRace.list).filter((race) => {
+            return Molasses.Array.includes(me.owners, race.archetype);
         });
     }
     static getList() {
@@ -61,7 +61,7 @@ export class NPCsName {
             return new NPCsName(data);
         });
         if (archetype)
-            return nameArray.filter((name) => { return Leylights.Array.includes(name.owners, archetype); });
+            return nameArray.filter((name) => { return Molasses.Array.includes(name.owners, archetype); });
         else
             return nameArray;
     }

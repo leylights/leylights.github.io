@@ -14,7 +14,7 @@ import { CHA, INT, NPCsLanguages } from "../helper-repository/general.js";
 import { NPCsSkillset } from "../helper-repository/skill-set.js";
 import { NPCsSpellcasterData } from "../helper-repository/spellcaster-data.js";
 import { NPCsSpell } from "../helper-repository/spell.js";
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { NPCsName } from "../helper-repository/name.js";
 export class NPCsRace {
     constructor(data) {
@@ -64,10 +64,10 @@ export class NPCsRace {
                 break;
         }
         // generate and assign alignment
-        let alignmentChoice = Math.ceil(Math.random() * (Leylights.Array.get.sum(optionAffinities)));
+        let alignmentChoice = Math.ceil(Math.random() * (Molasses.Array.get.sum(optionAffinities)));
         if (alignmentChoice <= optionAffinities[0])
             return options[0];
-        else if (alignmentChoice <= Leylights.Array.get.sum(optionAffinities, 0, 2))
+        else if (alignmentChoice <= Molasses.Array.get.sum(optionAffinities, 0, 2))
             return options[1];
         else
             return options[2];
@@ -97,7 +97,7 @@ export class NPCsRace {
             let languageOptions = NPCsLanguages;
             const TIMEOUT = 25;
             for (let i = 0; i < TIMEOUT; i++) {
-                const newLang = Leylights.Array.get.randomElement(languageOptions);
+                const newLang = Molasses.Array.get.randomElement(languageOptions);
                 const languagePreexists = selectedLanguages.filter((a) => { return a === newLang; }).length !== 0;
                 if (!languagePreexists) {
                     selectedLanguages.push(newLang);
@@ -117,38 +117,38 @@ export class NPCsRace {
             const list = yield NPCsName.getList();
             switch (this.archetype) {
                 case "dwarf":
-                    names[0] = Leylights.Array.get.randomElement(list.firstNames.dwarf).name;
-                    names[1] = Leylights.Array.get.randomElement(list.lastNames.dwarf).name;
+                    names[0] = Molasses.Array.get.randomElement(list.firstNames.dwarf).name;
+                    names[1] = Molasses.Array.get.randomElement(list.lastNames.dwarf).name;
                     break;
                 case "elf":
-                    names[0] = Leylights.Array.get.randomElement(list.firstNames.elf).name;
-                    names[1] = Leylights.Array.get.randomElement(list.lastNames.elf).name;
+                    names[0] = Molasses.Array.get.randomElement(list.firstNames.elf).name;
+                    names[1] = Molasses.Array.get.randomElement(list.lastNames.elf).name;
                     break;
                 case "halfling":
-                    names[0] = Leylights.Array.get.randomElement(list.firstNames.halfling).name;
-                    names[1] = Leylights.Array.get.randomElement(list.lastNames.halfling).name;
+                    names[0] = Molasses.Array.get.randomElement(list.firstNames.halfling).name;
+                    names[1] = Molasses.Array.get.randomElement(list.lastNames.halfling).name;
                     break;
                 case "human":
-                    names[0] = Leylights.Array.get.randomElement(list.firstNames.human).name;
-                    names[1] = Leylights.Array.get.randomElement(list.lastNames.human).name;
+                    names[0] = Molasses.Array.get.randomElement(list.firstNames.human).name;
+                    names[1] = Molasses.Array.get.randomElement(list.lastNames.human).name;
                     break;
             }
             return names;
         });
     }
     static get archetypes() {
-        const allArchetypes = Leylights.Object.values(NPCsRace.list).map((race) => {
+        const allArchetypes = Molasses.Object.values(NPCsRace.list).map((race) => {
             return race.archetype;
         });
         let result = [];
         allArchetypes.forEach((archetype) => {
-            if (!Leylights.Array.includes(result, archetype))
+            if (!Molasses.Array.includes(result, archetype))
                 result.push(archetype);
         });
         return result.sort();
     }
     static getRaceByName(name) {
-        const result = Leylights.Object.values(NPCsRace.list).filter((r) => {
+        const result = Molasses.Object.values(NPCsRace.list).filter((r) => {
             return r.name.toLowerCase() === name.toLowerCase();
         });
         if (result.length === 1)
@@ -157,8 +157,8 @@ export class NPCsRace {
             throw new Error('No such race found: ' + name);
     }
     static getRandomRace() {
-        let options = Leylights.Object.values(NPCsRace.list);
-        return Leylights.Array.get.randomElement(options);
+        let options = Molasses.Object.values(NPCsRace.list);
+        return Molasses.Array.get.randomElement(options);
     }
 }
 NPCsRace.list = {

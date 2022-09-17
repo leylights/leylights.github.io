@@ -1,4 +1,4 @@
-import { Leylights } from "../leylights.js";
+import { Molasses } from "../molasses.js";
 import { MathNum } from "../tools/math/number.js";
 import { Button } from "../components/button.component.js";
 import { BASE_TEMP_HIGHLIGHT_TIME } from "../components/general.js";
@@ -9,7 +9,7 @@ import { BASE_TEMP_HIGHLIGHT_TIME } from "../components/general.js";
  * Begin Date: May 30th, 2021 
  * End Date: August 2021
  * 
- * @author Cole Stanley
+ * @author River Stanley
  */
 
 /*
@@ -312,7 +312,7 @@ class MatrixValues {
     // produce matrix
     for (const row of this.rows) {
       for (let i = 0; i < row.length; i++) {
-        output += Leylights.stringToLength(row.getValueAt(i).prettyPrint(), maxCellLength) + ' ';
+        output += Molasses.stringToLength(row.getValueAt(i).prettyPrint(), maxCellLength) + ' ';
         if (i != row.length - 1) {
           if (asLaTeX)
             output += ' & ';
@@ -754,7 +754,7 @@ class MatrixHTML {
       const cell = row.insertCell();
 
       if (this.isEditable)
-        cell.setAttributeNode(Leylights.betterCreateAttr('contenteditable', 'true'));
+        cell.setAttributeNode(Molasses.betterCreateAttr('contenteditable', 'true'));
     }
 
     this.checkDisplay();
@@ -775,7 +775,7 @@ class MatrixHTML {
 
     for (let i = 0; i < el.rows.length; i++) {
       const cell = el.rows[i].insertCell();
-      cell.setAttributeNode(Leylights.betterCreateAttr('contenteditable', 'true'));
+      cell.setAttributeNode(Molasses.betterCreateAttr('contenteditable', 'true'));
     }
 
     this.checkDisplay();
@@ -909,7 +909,7 @@ class MatrixHTML {
     MatrixHTML.nextMatrixButtonId++;
 
     function isHalfButton(maybeHalfButton: MatrixHTMLButtonsEnum): boolean {
-      return Leylights.orEquals(maybeHalfButton, [
+      return Molasses.orEquals(maybeHalfButton, [
         MatrixHTMLButtonsEnum.scale,
         MatrixHTMLButtonsEnum.cofactor
       ]);
@@ -1004,7 +1004,7 @@ class MatrixHTML {
     this.footerInput = this.footer.querySelector(".footer-input");
 
     // buttons
-    if (Leylights.orEquals("resize", buttons)) {
+    if (Molasses.orEquals("resize", buttons)) {
       this.generateMatrixButton(MatrixHTMLButtonsEnum.addRow, () => { MatrixDOMListener.addRow(this) });
       this.generateMatrixButton(MatrixHTMLButtonsEnum.addCol, () => { MatrixDOMListener.addCol(this) });
       this.generateMatrixButton(MatrixHTMLButtonsEnum.delRow, () => { MatrixDOMListener.delRow(this) });
@@ -1234,9 +1234,9 @@ class Matrix {
     const title: string = innerHTMLOrNull("li.matrix-title", "");
     const buttons: string[] = innerHTMLOrNull("li.matrix-buttons", "").split(" ");
     const size: string = innerHTMLOrNull("li.matrix-size", "1 1");
-    const isEditable: boolean = Leylights.toBoolPipe.to(innerHTMLOrNull("li.matrix-editable", ""));
-    const displayFooterInput: boolean = Leylights.toBoolPipe.to(innerHTMLOrNull("li.matrix-display-footer", ""));
-    const hideWhenEmpty: boolean = Leylights.toBoolPipe.to(innerHTMLOrNull("li.matrix-hide-when-empty", "false"));
+    const isEditable: boolean = Molasses.toBoolPipe.to(innerHTMLOrNull("li.matrix-editable", ""));
+    const displayFooterInput: boolean = Molasses.toBoolPipe.to(innerHTMLOrNull("li.matrix-display-footer", ""));
+    const hideWhenEmpty: boolean = Molasses.toBoolPipe.to(innerHTMLOrNull("li.matrix-hide-when-empty", "false"));
     let footerInputStyle: string = "";
 
     if (!displayFooterInput) {

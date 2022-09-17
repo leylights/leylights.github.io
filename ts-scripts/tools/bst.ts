@@ -29,7 +29,7 @@ class BSTNode {
 /**
  * A binary search tree of strings, sorted in lexicographical order, 
  * where every key is a string
- * @author Cole Stanley
+ * @author River Stanley
  */
 
 export class BST<T = any> {

@@ -1,4 +1,4 @@
-import { Leylights } from "../../leylights.js";
+import { Molasses } from "../../molasses.js";
 import { Button } from "../../components/button.component.js";
 import { InputComponent } from "../../components/input.component.js";
 import { NPCsDice } from "../npcs/helper-repository/general.js";
@@ -167,7 +167,7 @@ export class SummonsPage {
       });
     }
 
-    SummonsCreatureFactory.creatures[Leylights.toCamelCase(name)] = {
+    SummonsCreatureFactory.creatures[Molasses.toCamelCase(name)] = {
       name: name,
       creator: creatureCreator
     };
@@ -179,7 +179,7 @@ export class SummonsPage {
         if (name.toUpperCase() < s.children[i].innerHTML) {
           s.children[i].insertAdjacentElement(
             'beforebegin',
-            Leylights.createElement({
+            Molasses.createElement({
               type: 'option',
               innerText: name.toUpperCase()
             })

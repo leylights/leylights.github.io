@@ -6,7 +6,7 @@ import { PacmanConstants } from "./constants.js";
 
 /**
  * A node representing a navigational node on the map
- * @author Cole Stanley
+ * @author River Stanley
  */
 
 export class PacmanMapNode {

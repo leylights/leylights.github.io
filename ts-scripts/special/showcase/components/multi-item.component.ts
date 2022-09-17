@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { MenuItemMulti } from "../../../services/menus/menu-item-multi.js";
 import { ShowcaseItem } from "./showcase-item.component.js";
 
@@ -25,14 +25,14 @@ export class ShowcaseMultiItem extends ShowcaseItem {
   }
 
   rebuild(this: ShowcaseMultiItem): void {
-    const imageContainer = Leylights.createElement({
+    const imageContainer = Molasses.createElement({
       type: 'div',
       classList: 'image-container',
-      children: [Leylights.createElement({
+      children: [Molasses.createElement({
         type: 'div',
         classList: 'images-internal-container',
         children: this.item.children.map((item) => {
-          return Leylights.createElement({
+          return Molasses.createElement({
             type: 'a',
             classList: 'captioned-image',
             otherNodes: {
@@ -40,14 +40,14 @@ export class ShowcaseMultiItem extends ShowcaseItem {
             },
             children: [
               this.rebuildImage(item),
-              Leylights.createElement({
+              Molasses.createElement({
                 type: 'div',
                 classList: 'caption',
-                children: [Leylights.createElement({
+                children: [Molasses.createElement({
                   type: 'span',
                   classList: 'captioned-name',
                   innerText: item.shortName
-                }), Leylights.createElement({
+                }), Molasses.createElement({
                   type: 'span',
                   classList: 'captioned-date',
                   innerText: item.date
@@ -58,18 +58,18 @@ export class ShowcaseMultiItem extends ShowcaseItem {
         }),
       })],
     }),
-      textContainer = Leylights.createElement({
+      textContainer = Molasses.createElement({
         type: 'div',
         classList: 'text-container',
-        children: [Leylights.createElement({
+        children: [Molasses.createElement({
           type: 'span',
           classList: 'date no-opacity',
           innerText: `${this.getDate()} / ${this.item.type}s`
-        }), Leylights.createElement({
+        }), Molasses.createElement({
           type: 'h2',
           classList: 'title no-opacity',
           innerText: this.item.name
-        }), Leylights.createElement({
+        }), Molasses.createElement({
           type: 'p',
           classList: 'description no-opacity',
           innerHTML: this.item.description

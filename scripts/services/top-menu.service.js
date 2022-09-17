@@ -1,10 +1,10 @@
 /**
  * top-menu.service.js
  *
- * @author Cole Stanley,
+ * @author River Stanley,
  * Start Date: January 2021
  */
-import { Leylights } from '../leylights.js';
+import { Molasses } from '../molasses.js';
 import { CoreDataService } from './core-data.service.js';
 import { DarkModeService } from './dark-mode.service.js';
 import { MenuItemMulti } from './menus/menu-item-multi.js';
@@ -14,21 +14,21 @@ import { SideMenuService } from './side-menu.service.js';
 export class TopMenuService {
     static build() {
         function getDropdownButton(text, menuId) {
-            return Leylights.createElement({
+            return Molasses.createElement({
                 type: 'div',
                 classList: 'header-menu-item-container',
                 children: [
-                    Leylights.createElement({
+                    Molasses.createElement({
                         type: 'div',
                         classList: 'header-menu-item',
                         children: [
-                            Leylights.createElement({
+                            Molasses.createElement({
                                 type: 'span',
                                 innerText: text.toLowerCase(),
                             }),
                         ],
                     }),
-                    Leylights.createElement({
+                    Molasses.createElement({
                         type: 'div',
                         classList: 'header-dropdown-body',
                         id: menuId,
@@ -37,19 +37,19 @@ export class TopMenuService {
             });
         }
         function getNoDropdownButton(text, link, spanId) {
-            return Leylights.createElement({
+            return Molasses.createElement({
                 type: 'div',
                 classList: 'header-menu-item-container',
-                children: [Leylights.createElement({
+                children: [Molasses.createElement({
                         type: 'div',
                         classList: 'header-menu-item',
                         children: [
-                            Leylights.createElement({
+                            Molasses.createElement({
                                 type: 'a',
                                 classList: 'header-link',
                                 otherNodes: [{ type: 'href', value: link }],
                                 children: [
-                                    Leylights.createElement({
+                                    Molasses.createElement({
                                         type: 'span',
                                         id: spanId,
                                         innerText: text.toLowerCase(),
@@ -60,28 +60,54 @@ export class TopMenuService {
                     }),]
             });
         }
-        TopMenuService.header = Leylights.createElement({
+        TopMenuService.header = Molasses.createElement({
             type: 'nav',
             id: 'desktop-header',
             children: [
-                Leylights.createElement({
+                Molasses.createElement({
                     type: 'div',
                     id: 'header-inner-bounds',
                     children: [
-                        Leylights.createElement({
-                            type: 'a',
-                            otherNodes: [{ type: 'href', value: '/' }],
-                            children: [Leylights.createElement({
-                                    type: 'img',
-                                    id: 'header-logo',
-                                    classList: 'site-logo',
-                                    otherNodes: [{ type: 'src', value: CoreDataService.siteLogoSrc }],
-                                }), Leylights.createElement({
-                                    type: 'h1',
-                                    id: 'header-title',
-                                    innerText: CoreDataService.siteName,
-                                })],
-                        }), Leylights.createElement({
+                        Molasses.createElement({
+                            type: 'div',
+                            id: 'header-left',
+                            children: [
+                                Molasses.createElement({
+                                    type: 'a',
+                                    otherNodes: [{ type: 'href', value: '/' }],
+                                    children: [Molasses.createElement({
+                                            type: 'img',
+                                            id: 'header-logo',
+                                            classList: 'site-logo',
+                                            otherNodes: [{ type: 'src', value: CoreDataService.siteLogoSrc }],
+                                        }),
+                                        Molasses.createElement({
+                                            type: `div`,
+                                            id: 'header-title',
+                                            children: [
+                                                Molasses.createElement({
+                                                    type: 'div',
+                                                    classList: 'inner',
+                                                    children: [
+                                                        Molasses.createElement({
+                                                            type: 'h1',
+                                                            classList: 'name',
+                                                            innerText: CoreDataService.siteName.replace('.github.io', ''),
+                                                        }),
+                                                        CoreDataService.siteName.includes('.github.io') ?
+                                                            Molasses.createElement({
+                                                                type: 'span',
+                                                                classList: 'github-io',
+                                                                innerText: '.github.io'
+                                                            }) : null
+                                                    ]
+                                                }),
+                                            ]
+                                        }),
+                                    ]
+                                }),
+                            ]
+                        }), Molasses.createElement({
                             type: 'div',
                             id: 'header-menu',
                             children: [
@@ -94,11 +120,11 @@ export class TopMenuService {
                         }),
                     ],
                 }),
-                Leylights.createElement({
+                Molasses.createElement({
                     type: 'button',
                     id: 'side-menu-opener',
                     children: [
-                        Leylights.createElement({
+                        Molasses.createElement({
                             type: 'img',
                             id: 'side-menu-opener-image',
                             otherNodes: [{ type: 'src', value: '/siteimages/menuicon.png' }],
@@ -133,7 +159,7 @@ export class TopMenuService {
                 type = 'div';
             }
         }
-        const newItem = Leylights.createElement({
+        const newItem = Molasses.createElement({
             type: type,
             classList: 'header-item',
             innerHTML: item instanceof MenuItemSingle && item.isExternalLink
@@ -141,12 +167,8 @@ export class TopMenuService {
                 : item.shortName,
         });
         // links need to work on index and child pages
-        if (item instanceof MenuItemSingle && item.singleLinks.href) {
-            if ((window.location.href.search('index.html') !== -1 || window.location.href.split('colestanley.ca/')[1] === '') || item.singleLinks.href.substring(0, 4) == 'http') // on homepage OR linking externally (e.g. Drive)
-                newItem.setAttributeNode(Leylights.betterCreateAttr('href', item.singleLinks.href));
-            else // on child page
-                newItem.setAttributeNode(Leylights.betterCreateAttr('href', item.singleLinks.href));
-        }
+        if (item instanceof MenuItemSingle && item.singleLinks.href)
+            newItem.setAttributeNode(Molasses.betterCreateAttr('href', item.singleLinks.href));
         parent.appendChild(newItem);
         if (item instanceof MenuItemMulti) {
             newItem.classList.add('dropdown');
@@ -159,16 +181,16 @@ export class TopMenuService {
         }
     }
     static createDarkModeToggle(id) {
-        const toggle = Leylights.createElement({
+        const toggle = Molasses.createElement({
             type: 'div',
             classList: 'dark-mode-toggle',
             id: id,
             children: [
-                Leylights.createElement({
+                Molasses.createElement({
                     type: 'input',
                     otherNodes: { type: 'checkbox' },
                 }),
-                Leylights.createElement({
+                Molasses.createElement({
                     type: 'div',
                     classList: 'slider',
                 }),

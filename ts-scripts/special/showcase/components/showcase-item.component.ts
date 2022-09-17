@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { MenuItemSingle } from "../../../services/menus/menu-item-single.js";
 
 export class ShowcaseItem {
@@ -36,25 +36,25 @@ export class ShowcaseItem {
     classList?: string[]
   }): void {
     const
-      content = Leylights.createElement({
+      content = Molasses.createElement({
         type: 'div',
         classList: 'showcase-item-content',
         children: config.isLeftAligned ? children.reverse() : children,
       }),
-      container = Leylights.createElement({
+      container = Molasses.createElement({
         type: 'div',
         classList: ['showcase-item-container']
           .concat(config.classList ?? [])
           .concat(config.highlightType > 0 ? [`highlight`, `highlight-${config.highlightType}`] : []),
         children: [
-          Leylights.createElement({
+          Molasses.createElement({
             type: 'div',
             id: `showcase_item_${this.id}`,
             classList: ['showcase-item']
               .concat(config.isSecret ? ['secret-item'] : [])
               .concat(!config.isLeftAligned ? ['right-aligned-item'] : []),
             children: config.href ? [
-              Leylights.createElement({
+              Molasses.createElement({
                 type: 'a',
                 otherNodes: [{ type: 'href', value: config.href }],
                 children: [
@@ -76,11 +76,11 @@ export class ShowcaseItem {
   }
 
   protected rebuildImage(this: ShowcaseItem, item: MenuItemSingle): HTMLDivElement {
-    return Leylights.createElement({
+    return Molasses.createElement({
       type: 'div',
       classList: 'image-shadow-container no-opacity',
       children: [
-        Leylights.createElement({
+        Molasses.createElement({
           type: 'img',
           classList: [ShowcaseItem.classNames.image, 'single-item-image']
             .concat(item.invertOnDark ? ['dark-invert-filter'] : [])

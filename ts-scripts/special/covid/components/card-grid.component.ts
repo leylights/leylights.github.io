@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { COVIDHelper } from "../helper.js";
 import { COVIDDisplayCard } from "./display-card.component.js";
 import { COVIDSection } from "./section.component.js";
@@ -30,13 +30,13 @@ export class COVIDCardGrid {
 
     const me = this,
       gridClass = 'card-grid';
-    this.element = Leylights.createElement({
+    this.element = Molasses.createElement({
       type: 'div',
       classList: 'grid-section',
-      children: [Leylights.createElement({
+      children: [Molasses.createElement({
         type: 'h2',
         innerText: title,
-      }), Leylights.createElement({
+      }), Molasses.createElement({
         type: 'div',
         classList: gridClass + (config?.maxTwoAcross ? ' max-two-across' : ''),
       })]

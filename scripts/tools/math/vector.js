@@ -1,6 +1,6 @@
 /**
  * A class to handle two-dimensional Euclidean vectors
- * @author Cole Stanley
+ * @author River Stanley
  */
 export class MathVector {
     /**

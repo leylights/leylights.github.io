@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { MathFrac } from "../../../tools/math/fraction.js";
 import { MathNum } from "../../../tools/math/number.js";
 import { CalculatorSingular } from "./singular.js";
@@ -46,7 +46,7 @@ export class CalculatorValue extends CalculatorSingular {
 
   print(): string {
     if (this.value.prettyPrint().length > 15 && this.value.Im.isEqualTo(MathFrac.ZERO))
-      return Leylights.roundToNthDigit(this.value.Re.decimalValue, -5) + '';
+      return Molasses.roundToNthDigit(this.value.Re.decimalValue, -5) + '';
     else
       return this.value.prettyPrint() + '';
   }

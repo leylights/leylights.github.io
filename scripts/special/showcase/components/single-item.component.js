@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { ShowcaseItem } from "./showcase-item.component.js";
 export class ShowcaseSingleItem extends ShowcaseItem {
     constructor(item, parentElement, config) {
@@ -12,18 +12,18 @@ export class ShowcaseSingleItem extends ShowcaseItem {
     }
     rebuildCentered(parent) {
         const children = [
-            Leylights.createElement({
+            Molasses.createElement({
                 type: 'div',
                 classList: 'title-container',
                 children: [
-                    Leylights.createElement({
+                    Molasses.createElement({
                         type: 'h2',
                         classList: 'title',
                         innerText: this.item.name,
                     }),
                 ]
             }),
-            Leylights.createElement({
+            Molasses.createElement({
                 type: 'p',
                 classList: 'description',
                 innerText: this.item.description
@@ -38,15 +38,15 @@ export class ShowcaseSingleItem extends ShowcaseItem {
         });
     }
     rebuildMain(parent) {
-        const imageContainer = Leylights.createElement({
+        const imageContainer = Molasses.createElement({
             type: 'div',
             classList: 'image-container',
             children: [
-                Leylights.createElement({
+                Molasses.createElement({
                     type: 'div',
                     classList: ['image-shadow-container', 'no-opacity'],
                     children: [
-                        Leylights.createElement({
+                        Molasses.createElement({
                             type: 'img',
                             classList: [ShowcaseSingleItem.classNames.image, 'single-item-image']
                                 .concat(this.item.invertOnDark ? ['dark-invert-filter'] : [])
@@ -59,18 +59,18 @@ export class ShowcaseSingleItem extends ShowcaseItem {
                     ]
                 })
             ]
-        }), textContainer = Leylights.createElement({
+        }), textContainer = Molasses.createElement({
             type: 'div',
             classList: 'text-container',
-            children: [Leylights.createElement({
+            children: [Molasses.createElement({
                     type: 'span',
                     classList: 'date no-opacity',
                     innerText: `${this.item.date} / ${this.item.type}`
-                }), Leylights.createElement({
+                }), Molasses.createElement({
                     type: 'h2',
                     classList: 'title no-opacity',
                     innerText: this.item.name
-                }), Leylights.createElement({
+                }), Molasses.createElement({
                     type: 'p',
                     classList: 'description no-opacity',
                     innerHTML: this.item.description

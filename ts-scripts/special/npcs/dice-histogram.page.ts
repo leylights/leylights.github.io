@@ -1,4 +1,4 @@
-import { Leylights } from "../../leylights.js";
+import { Molasses } from "../../molasses.js";
 import { Button } from "../../components/button.component.js";
 import { InputComponent } from "../../components/input.component.js";
 import { LineChartComponent, LineChartPoint } from "../../components/line-chart.component.js";
@@ -67,9 +67,9 @@ export class NPCsDiceHistogramPage {
     const diceMatches = this.getDiceStrings();
     if (diceMatches.length <= 0) {
       rejectDiceInput();
-    } else if (Leylights.orEquals(this.diceInput.value[this.diceInput.value.length - 1], ['+', '-'])) {
+    } else if (Molasses.orEquals(this.diceInput.value[this.diceInput.value.length - 1], ['+', '-'])) {
       rejectDiceInput();
-    } else if (Leylights.orEquals(this.diceInput.value.split(' ').join('')[0], ['+', '-'])) {
+    } else if (Molasses.orEquals(this.diceInput.value.split(' ').join('')[0], ['+', '-'])) {
       rejectDiceInput();
     } else if (diceMatches.length >= 1 && diceMatches.join('').split(/[\+\-]/g).join('') != this.diceInput.value.split(/[\+\-\s]/g).join('')) {
       rejectDiceInput();
@@ -127,7 +127,7 @@ export class NPCsDiceHistogramPage {
 
     strings.forEach((s: string) => {
       try {
-        if (Leylights.orEquals(s[0], ['+', '-'])) {
+        if (Molasses.orEquals(s[0], ['+', '-'])) {
           if (s[0] === '-') {
             dice.push(new NPCsSignedDice(s.substring(1), -1));
           } else {

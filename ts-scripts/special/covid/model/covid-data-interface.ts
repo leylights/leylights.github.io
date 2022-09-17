@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { COVIDDataBridge, COVIDRegionLevel } from "./covid-data-bridge.js";
 
 export class COVIDDataInterface {
@@ -19,7 +19,7 @@ export class COVIDDataInterface {
       IDs: (COVIDDataBridge.getRegionalSummaries({ nameType: 'id' })),
     }
 
-    await Promise.all([Leylights.Object.values(promises)]);
+    await Promise.all([Molasses.Object.values(promises)]);
 
     const results = {
       fullNames: await promises.fullNames,
@@ -44,7 +44,7 @@ export class COVIDDataInterface {
       IDs: (COVIDDataBridge.getProvincialSummaries({ nameType: 'id' })),
     }
 
-    await Promise.all([Leylights.Object.values(promises)]);
+    await Promise.all([Molasses.Object.values(promises)]);
 
     const results = {
       fullNames: await promises.fullNames,
