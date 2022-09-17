@@ -14,6 +14,7 @@ export class CalculatorCore {
             return {
                 result: result.print(),
                 HTMLResult: result.printHTML(),
+                simpleResult: result.printSimple(),
             };
         }
     }
@@ -32,15 +33,17 @@ export class CalculatorCore {
     }
     static test() {
         const tester = new CalculatorTester('Core', (input, debug) => {
-            return CalculatorCore.calculate(input, { debug: debug }).result;
+            return CalculatorCore.calculate(input, { debug: debug }).simpleResult;
         });
-        tester.test('3/2*x+y=0', 'x = (-2/3 * y)');
-        tester.test('5^x+5^y=1', 'x = (1.43068 * log((1 - (5 ^ y))))');
+        tester.test('3/2*x+y=0', 'x = (-2/3)y');
+        tester.test('5^x+5^y=1', 'x = 1.43068 * log(1 - 5^y)');
         tester.test('34=d^3', 'd = 3.23961');
-        tester.test('4^a=4^y*3', 'a = (y + 0.79248)');
+        tester.test('4^a=4^y*3', 'a = y + 0.79248');
         tester.test('x=log(4)', 'x = 0.60206');
-        tester.test('x+3/19', '(x + 3/19)');
-        tester.test('x+3/19(x+4)*(2+3)^2', '(x + (75 * (1 / ((19 * x) + 76))))');
+        tester.test('x+3/19', 'x + 3/19');
+        tester.test('(1+x^2)^3', '3x^2 + 3x^4 + x^6 + 1');
+        tester.test('3/(x+4)', '3/(x + 4)');
+        tester.test('x+3/19(x+4)*(2+3)^2', 'x + 75/(19x + 76)');
     }
 }
 //# sourceMappingURL=calculator-core.js.map

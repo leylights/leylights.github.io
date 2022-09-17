@@ -26,4 +26,8 @@ export class CalculatorVariable extends CalculatorSingular {
   printHTML(): string {
     return `<span class="variable">${this.displayName}</span>`;
   }
+
+  printSimple(): string {
+    return this.print();
+  }
 }

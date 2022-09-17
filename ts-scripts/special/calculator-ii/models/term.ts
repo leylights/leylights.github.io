@@ -30,4 +30,9 @@ export class CalculatorTerm {
   printHTML(depth: number = 0): string {
     return undefined;
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  printSimple(depth: number = 0): string {
+    return undefined;
+  }
 }

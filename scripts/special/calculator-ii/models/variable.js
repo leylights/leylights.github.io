@@ -21,5 +21,8 @@ export class CalculatorVariable extends CalculatorSingular {
     printHTML() {
         return `<span class="variable">${this.displayName}</span>`;
     }
+    printSimple() {
+        return this.print();
+    }
 }
 //# sourceMappingURL=variable.js.map

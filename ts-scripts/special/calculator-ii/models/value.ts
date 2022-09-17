@@ -54,4 +54,9 @@ export class CalculatorValue extends CalculatorSingular {
   printHTML(): string {
     return `<span class="value">${this.print()}</span>`;
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  printSimple(depth: number = 0): string {
+    return this.print();
+  }
 }

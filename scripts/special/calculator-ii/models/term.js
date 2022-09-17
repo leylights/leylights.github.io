@@ -22,6 +22,10 @@ export class CalculatorTerm {
     printHTML(depth = 0) {
         return undefined;
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    printSimple(depth = 0) {
+        return undefined;
+    }
 }
 CalculatorTerm.next_id = 0;
 //# sourceMappingURL=term.js.map

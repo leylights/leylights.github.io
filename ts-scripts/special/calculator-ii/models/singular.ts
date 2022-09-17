@@ -35,4 +35,8 @@ export class CalculatorSingular implements CalculatorTerm {
   printHTML(): string {
     return undefined;
   }
+
+  printSimple(): string {
+    return undefined;
+  }
 }

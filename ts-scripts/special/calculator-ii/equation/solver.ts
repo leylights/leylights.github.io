@@ -23,7 +23,8 @@ interface Config {
 
 type SolveResult = {
   result: string,
-  HTMLResult: string
+  simpleResult: string,
+  HTMLResult: string,
 }
 
 /**
@@ -80,6 +81,7 @@ export class CalculatorSolver extends CalculatorComponent {
         return {
           result: `${input.print()} = 0`,
           HTMLResult: `${input.printHTML()} = 0`,
+          simpleResult: `${input.printSimple()} = 0`
         };
     }
   }
@@ -87,7 +89,8 @@ export class CalculatorSolver extends CalculatorComponent {
   private static solveNoVariable(input: CalculatorTerm): SolveResult {
     return { // if there's no variables, the number term should already be fully evaluated.
       result: `${input.print()} = 0`,
-      HTMLResult: `${input.printHTML()} = 0`
+      HTMLResult: `${input.printHTML()} = 0`,
+      simpleResult: `${input.printSimple()} = 0`
     }
   }
 
@@ -101,9 +104,10 @@ export class CalculatorSolver extends CalculatorComponent {
 
     const output = `${results.left.print()} = ${results.right.print()}`;
     const HTMLOutput = `${results.left.printHTML()} = ${results.right.printHTML()}`;
+    const simpleOutput = `${results.left.printSimple()} = ${results.right.printSimple()}`;
     this.emitStep(HTMLOutput, config);
 
-    return { result: output, HTMLResult: HTMLOutput };
+    return { result: output, HTMLResult: HTMLOutput, simpleResult: simpleOutput };
   }
 
   private static isolateVariableRecurse(left: CalculatorTerm, right: CalculatorTerm, isolatedVariable: string, config: Config): {
@@ -258,6 +262,7 @@ export class CalculatorSolver extends CalculatorComponent {
       return {
         result: `${input.print()} = 0`, // non-integer c,
         HTMLResult: `${input.printHTML()} = 0`,
+        simpleResult: `${input.printSimple()} = 0`,
       }
     }
 
@@ -285,12 +290,14 @@ export class CalculatorSolver extends CalculatorComponent {
       return {
         result: `${a.variable.displayName} = ${EEAResult.x * multiplier}, ${b.variable.displayName} = ${EEAResult.y * multiplier}`,
         HTMLResult: `${new CalculatorVariable(a.variable.displayName).printHTML()} = ${EEAResult.x * multiplier}, ${new CalculatorVariable(b.variable.displayName).printHTML()} = ${EEAResult.y * multiplier}`,
+        simpleResult: `${a.variable.displayName} = ${EEAResult.x * multiplier}, ${b.variable.displayName} = ${EEAResult.y * multiplier}`,
       }
     } else {
       this.log(config?.debug, `${c} not an integer multiple of the GCD of ${a.value} and ${b.value}`);
       return {
         result: `${input.print()} = 0`,
         HTMLResult: `${input.printHTML()} = 0`,
+        simpleResult: `${input.printSimple()} = 0`,
       }
     }
   }
@@ -325,6 +332,7 @@ export class CalculatorSolver extends CalculatorComponent {
       return {
         result: `${variable.print()} does not exist`, // -ve square root
         HTMLResult: `${variable.printHTML()} does not exist`, // -ve square root
+        simpleResult: `${variable.printSimple()} does not exist`, // -ve square root
       }
     }
 
@@ -350,12 +358,14 @@ export class CalculatorSolver extends CalculatorComponent {
       return {
         result: `${variable.print()} = ${exactResults.join(', ')}`,
         HTMLResult: `${variable.printHTML()} = ${exactResults.join(', ')}`,
+        simpleResult: `${variable.printSimple()} = ${exactResults.join(', ')}`,
       };
     else {
       const answer = results.map((n) => Leylights.roundToNthDigit(n.decimal, -5)).join(', ');
       return {
         result: `${variable.print()} = ${answer}`,
         HTMLResult: `${variable.printHTML()} = ${answer}`,
+        simpleResult: `${variable.printSimple()} = ${answer}`,
       };
     }
   }

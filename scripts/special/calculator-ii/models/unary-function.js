@@ -52,5 +52,8 @@ export class CalculatorUnaryFunction {
         output += `<span class="parens d-${depthIndex}">)</span></span></span>`;
         return output;
     }
+    printSimple(depth = 0) {
+        return `${this.functionName}(${this.parameter.printSimple(depth + 1)})`;
+    }
 }
 //# sourceMappingURL=unary-function.js.map

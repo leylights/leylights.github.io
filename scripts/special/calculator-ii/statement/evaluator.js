@@ -73,6 +73,9 @@ export class CalculatorEvaluator extends CalculatorComponent {
                         if ((lhs instanceof CalculatorValue && lhs.value.isEqualTo(MathNum.ZERO))
                             || (rhs instanceof CalculatorValue && rhs.value.isEqualTo(MathNum.ZERO)))
                             return new CalculatorValue(0);
+                        else if (lhs instanceof CalculatorValue && rhs instanceof CalculatorFunction &&
+                            rhs.operator === CalculatorOperator.divide && rhs.leftTerm instanceof CalculatorValue) // m * (n / f) = (m * n) / f
+                            return new CalculatorFunction(this.evaluate(new CalculatorFunction(lhs, rhs.leftTerm, CalculatorOperator.multiply)), rhs.rightTerm, CalculatorOperator.divide);
                         break;
                     case CalculatorOperator.divide:
                         if (lhs instanceof CalculatorValue && lhs.value.isEqualTo(MathNum.ZERO))
