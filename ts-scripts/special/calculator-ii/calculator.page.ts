@@ -18,7 +18,7 @@ class CalculatorPage {
   static init() {
     CalculatorView.registerInputEventListener((inputValue: string) => {
       try {
-        const output = CalculatorCore.calculate(inputValue, { debug: PRINT_DEBUG_LOGS, clearPrint: true, showSteps: true }).result;
+        const output = CalculatorCore.calculate(inputValue, { debug: PRINT_DEBUG_LOGS, clearPrint: true, showSteps: true }).simpleResult;
         if (typeof output !== 'string') throw new Error(`Bad output: ${output}`);
 
         CalculatorView.emitOutput(output);

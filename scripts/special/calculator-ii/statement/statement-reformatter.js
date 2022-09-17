@@ -18,10 +18,10 @@ export class CalculatorStatementReformatter extends CalculatorComponent {
                 this.log(config.debug, `${name.toUpperCase()}: ${stepResult.print()}`);
             return stepResult;
         };
-        const exponentExpansion = doStep('Exponent expansion', input, (prev) => CalculatorExponentExpander.expand(prev));
-        const distribution = doStep('Distribution', exponentExpansion, (prev) => CalculatorDistributor.distribute(prev, config === null || config === void 0 ? void 0 : config.debug));
-        const commutation = doStep('Commutation', distribution, (prev) => CalculatorCommuter.commute(prev, config === null || config === void 0 ? void 0 : config.debug));
-        const collection = doStep('Collection', commutation, (prev) => CalculatorCollector.collect(prev, config === null || config === void 0 ? void 0 : config.debug));
+        const exponentExpansion = doStep('Exponent expansion', input, (prev) => CalculatorExponentExpander.expand(prev, (config === null || config === void 0 ? void 0 : config.debug) && this.DEBUGS.exponents));
+        const distribution = doStep('Distribution', exponentExpansion, (prev) => CalculatorDistributor.distribute(prev, (config === null || config === void 0 ? void 0 : config.debug) && this.DEBUGS.distribution));
+        const commutation = doStep('Commutation', distribution, (prev) => CalculatorCommuter.commute(prev, (config === null || config === void 0 ? void 0 : config.debug) && this.DEBUGS.commutation));
+        const collection = doStep('Collection', commutation, (prev) => CalculatorCollector.collect(prev, (config === null || config === void 0 ? void 0 : config.debug) && this.DEBUGS.collection));
         const evaluation = doStep('Evaluation', collection, (prev) => CalculatorEvaluator.evaluate(prev));
         return evaluation;
     }
@@ -31,4 +31,10 @@ export class CalculatorStatementReformatter extends CalculatorComponent {
         return CalculatorEvaluator.simplify(output);
     }
 }
+CalculatorStatementReformatter.DEBUGS = {
+    exponents: true,
+    distribution: false,
+    commutation: false,
+    collection: false,
+};
 //# sourceMappingURL=statement-reformatter.js.map

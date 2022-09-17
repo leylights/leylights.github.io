@@ -155,49 +155,49 @@ export class CalculatorCollector extends CalculatorComponent {
 
   static test() {
     const tester = new CalculatorTester<string>('Collector', (input: string, debug?: boolean) => {
-      return CalculatorCollector.collect(new CalculatorParser(input).output, debug)?.print() ?? 'no output';
+      return CalculatorCollector.collect(new CalculatorParser(input).output, debug)?.printSimple() ?? 'no output';
     });
 
-    tester.test('(3 * x)', '(3 * x)');
-    tester.test('((3 * x) + (4 * x))', '((3 + 4) * x)');
-    tester.test('((1 * x) + (1 * x))', '((1 + 1) * x)');
-    tester.test('(x + x)', '((1 + 1) * x)');
-    tester.test('(2 + 2)', '(2 + 2)');
-    tester.test('(((3 * x) + (4 * x)) + (5 * x))', '(((3 + 4) + 5) * x)');
-    tester.test('(((3 * x) - (4 * x)) + (5 * x))', '(((3 + 5) - 4) * x)');
+    tester.test('(3 * x)', '3x');
+    tester.test('((3 * x) + (4 * x))', '(3 + 4)x');
+    tester.test('((1 * x) + (1 * x))', '(1 + 1)x');
+    tester.test('(x + x)', '(1 + 1)x');
+    tester.test('(2 + 2)', '2 + 2');
+    tester.test('(((3 * x) + (4 * x)) + (5 * x))', '(3 + 4 + 5)x');
+    tester.test('(((3 * x) - (4 * x)) + (5 * x))', '(3 + 5 - 4)x');
 
-    tester.test('(1 * x)', '(1 * x)');
+    tester.test('(1 * x)', '1x');
 
-    tester.test('(((3 * x) + (4 * y)) + (5 * x))', '(((3 + 5) * x) + (4 * y))');
-    tester.test('(((3 * x) - (4 * y)) + (5 * x))', '(((3 + 5) * x) - (4 * y))');
+    tester.test('(((3 * x) + (4 * y)) + (5 * x))', '(3 + 5)x + 4y');
+    tester.test('(((3 * x) - (4 * y)) + (5 * x))', '(3 + 5)x - 4y');
 
-    tester.test('((3 * 4) * x)', '((3 * 4) * x)');
-    tester.test('(1 * (x ^ y))', '(1 * (x ^ y))');
+    tester.test('((3 * 4) * x)', '3 * 4x');
+    tester.test('(1 * (x ^ y))', '1x^y');
 
-    tester.test('(x ^ y)', '(1 * (x ^ y))');
+    tester.test('(x ^ y)', '1x^y');
 
-    tester.test('(((3 * (x ^ y)) - (5 * (y ^ x))) + (4 * (x ^ y)))', '(((3 + 4) * (x ^ y)) - (5 * (y ^ x)))');
+    tester.test('(((3 * (x ^ y)) - (5 * (y ^ x))) + (4 * (x ^ y)))', '(3 + 4)x^y - 5y^x');
 
-    tester.test('5 + 3*a - 3', '((3 * a) + (5 - 3))');
-    tester.test('5 + 3*x - 3', '((3 * x) + (5 - 3))');
+    tester.test('5 + 3*a - 3', '3a + 5 - 3');
+    tester.test('5 + 3*x - 3', '3x + 5 - 3');
 
-    tester.test('x - x', '((1 - 1) * x)');
-    tester.test('(x - x)^2', '(1 * (((1 - 1) * x) ^ 2))');
-    tester.test('3*(x - x)^2', '(3 * (((1 - 1) * x) ^ 2))');
+    tester.test('x - x', '(1 - 1)x');
+    tester.test('(x - x)^2', '1((1 - 1)x)^2');
+    tester.test('3*(x - x)^2', '3((1 - 1)x)^2');
 
-    tester.test('((((x ^ 2) - (3 * x)) - ((4 * x) - (3 * 4))) - 0)', '(((1 * (x ^ 2)) - ((3 + 4) * x)) + ((3 * 4) - 0))');
+    tester.test('((((x ^ 2) - (3 * x)) - ((4 * x) - (3 * 4))) - 0)', '1x^2 - (3 + 4)x + 3 * 4 - 0');
 
-    tester.test('(34 - (d ^ 3))', '(((0 - 1) * (d ^ 3)) + 34)');
+    tester.test('(34 - (d ^ 3))', '(0 - 1)d^3 + 34');
 
-    tester.test('((1 * (x ^ 4)) - (2 * (x ^ 3)))', '((1 * (x ^ 4)) - (2 * (x ^ 3)))');
+    tester.test('((1 * (x ^ 4)) - (2 * (x ^ 3)))', '1x^4 - 2x^3');
 
     tester.test(
       '((1 / log(5)) * log(x))',
-      '((1 / log(5)) * log(x))',
+      '(1/log(5)) * log(x)',
     );
     tester.test(
-      '((1 / log(5)) * (1 / log(x)))',
-      '((1 / log(5)) * (1 / log(x)))',
+      '(1 / log(5)) * (1 / log(x))',
+      '(1/log(5))(1/log(x))',
     );
   }
 }

@@ -13,6 +13,13 @@ interface Config {
 }
 
 export class CalculatorStatementReformatter extends CalculatorComponent {
+  static readonly DEBUGS = {
+    exponents: true,
+    distribution: false,
+    commutation: false,
+    collection: false,
+  }
+
   /**
    * Reformats a statement or side of equality
    */
@@ -24,10 +31,10 @@ export class CalculatorStatementReformatter extends CalculatorComponent {
       return stepResult;
     }
 
-    const exponentExpansion = doStep('Exponent expansion', input, (prev) => CalculatorExponentExpander.expand(prev));
-    const distribution = doStep('Distribution', exponentExpansion, (prev) => CalculatorDistributor.distribute(prev, config?.debug));
-    const commutation = doStep('Commutation', distribution, (prev) => CalculatorCommuter.commute(prev, config?.debug));
-    const collection = doStep('Collection', commutation, (prev) => CalculatorCollector.collect(prev, config?.debug));
+    const exponentExpansion = doStep('Exponent expansion', input, (prev) => CalculatorExponentExpander.expand(prev, config?.debug && this.DEBUGS.exponents));
+    const distribution = doStep('Distribution', exponentExpansion, (prev) => CalculatorDistributor.distribute(prev, config?.debug && this.DEBUGS.distribution));
+    const commutation = doStep('Commutation', distribution, (prev) => CalculatorCommuter.commute(prev, config?.debug && this.DEBUGS.commutation));
+    const collection = doStep('Collection', commutation, (prev) => CalculatorCollector.collect(prev, config?.debug && this.DEBUGS.collection));
     const evaluation = doStep('Evaluation', collection, (prev) => CalculatorEvaluator.evaluate(prev));
 
     return evaluation;
@@ -36,7 +43,7 @@ export class CalculatorStatementReformatter extends CalculatorComponent {
   static simplifyAndReformat(input: CalculatorTerm, config?: Config, title?: string): CalculatorTerm {
     const output = this.reformatStatement(input, config, title);
     this.log(config?.debug, `Simplifying ${output.print()}`);
-    
+
     return CalculatorEvaluator.simplify(output);
   }
 }

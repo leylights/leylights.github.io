@@ -43,5 +43,9 @@ export class CalculatorValue extends CalculatorSingular {
     printHTML() {
         return `<span class="value">${this.print()}</span>`;
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    printSimple(depth = 0) {
+        return this.print();
+    }
 }
 //# sourceMappingURL=value.js.map

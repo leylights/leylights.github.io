@@ -24,5 +24,8 @@ export class CalculatorSingular {
     printHTML() {
         return undefined;
     }
+    printSimple() {
+        return undefined;
+    }
 }
 //# sourceMappingURL=singular.js.map

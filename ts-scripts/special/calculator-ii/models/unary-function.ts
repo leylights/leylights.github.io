@@ -59,4 +59,8 @@ export class CalculatorUnaryFunction implements CalculatorTerm {
 
     return output;
   }
+
+  printSimple(depth: number = 0): string {
+    return `${this.functionName}(${this.parameter.printSimple(depth + 1)})`;
+  }
 }

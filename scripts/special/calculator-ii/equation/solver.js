@@ -64,13 +64,15 @@ export class CalculatorSolver extends CalculatorComponent {
                 return {
                     result: `${input.print()} = 0`,
                     HTMLResult: `${input.printHTML()} = 0`,
+                    simpleResult: `${input.printSimple()} = 0`
                 };
         }
     }
     static solveNoVariable(input) {
         return {
             result: `${input.print()} = 0`,
-            HTMLResult: `${input.printHTML()} = 0`
+            HTMLResult: `${input.printHTML()} = 0`,
+            simpleResult: `${input.printSimple()} = 0`
         };
     }
     static isolateVariable(input, isolatedVariable, config) {
@@ -82,8 +84,9 @@ export class CalculatorSolver extends CalculatorComponent {
         };
         const output = `${results.left.print()} = ${results.right.print()}`;
         const HTMLOutput = `${results.left.printHTML()} = ${results.right.printHTML()}`;
+        const simpleOutput = `${results.left.printSimple()} = ${results.right.printSimple()}`;
         this.emitStep(HTMLOutput, config);
-        return { result: output, HTMLResult: HTMLOutput };
+        return { result: output, HTMLResult: HTMLOutput, simpleResult: simpleOutput };
     }
     static isolateVariableRecurse(left, right, isolatedVariable, config) {
         const exitBase = (left, right) => {
@@ -178,6 +181,7 @@ export class CalculatorSolver extends CalculatorComponent {
             return {
                 result: `${input.print()} = 0`,
                 HTMLResult: `${input.printHTML()} = 0`,
+                simpleResult: `${input.printSimple()} = 0`,
             };
         }
         const gcd = Leylights.gcd(a.value, b.value);
@@ -193,6 +197,7 @@ export class CalculatorSolver extends CalculatorComponent {
             return {
                 result: `${a.variable.displayName} = ${EEAResult.x * multiplier}, ${b.variable.displayName} = ${EEAResult.y * multiplier}`,
                 HTMLResult: `${new CalculatorVariable(a.variable.displayName).printHTML()} = ${EEAResult.x * multiplier}, ${new CalculatorVariable(b.variable.displayName).printHTML()} = ${EEAResult.y * multiplier}`,
+                simpleResult: `${a.variable.displayName} = ${EEAResult.x * multiplier}, ${b.variable.displayName} = ${EEAResult.y * multiplier}`,
             };
         }
         else {
@@ -200,6 +205,7 @@ export class CalculatorSolver extends CalculatorComponent {
             return {
                 result: `${input.print()} = 0`,
                 HTMLResult: `${input.printHTML()} = 0`,
+                simpleResult: `${input.printSimple()} = 0`,
             };
         }
     }
@@ -227,7 +233,8 @@ export class CalculatorSolver extends CalculatorComponent {
             this.emitStep(`negative radicand: ${new CalculatorParser(radicand).output.printHTML()}`, config);
             return {
                 result: `${variable.print()} does not exist`,
-                HTMLResult: `${variable.printHTML()} does not exist`, // -ve square root
+                HTMLResult: `${variable.printHTML()} does not exist`,
+                simpleResult: `${variable.printSimple()} does not exist`, // -ve square root
             };
         }
         const equations = ['+', '-'].map((operator) => `(-1 * ${b} ${operator}(${radicand}) ^ (1 / 2)) / (2 * ${a})`);
@@ -248,12 +255,14 @@ export class CalculatorSolver extends CalculatorComponent {
             return {
                 result: `${variable.print()} = ${exactResults.join(', ')}`,
                 HTMLResult: `${variable.printHTML()} = ${exactResults.join(', ')}`,
+                simpleResult: `${variable.printSimple()} = ${exactResults.join(', ')}`,
             };
         else {
             const answer = results.map((n) => Leylights.roundToNthDigit(n.decimal, -5)).join(', ');
             return {
                 result: `${variable.print()} = ${answer}`,
                 HTMLResult: `${variable.printHTML()} = ${answer}`,
+                simpleResult: `${variable.printSimple()} = ${answer}`,
             };
         }
     }
