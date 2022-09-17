@@ -1,56 +1,56 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { Button } from "../../../components/button.component.js";
 import { ResizingInput } from "../../../components/resizing-input.component.js";
 export class SummonsCreatureCardComponent {
     constructor(creature, parentElement, deleteFunction) {
         const me = this;
         this.id = SummonsCreatureCardComponent.nextCardId++;
-        this.element = Leylights.createElement({
+        this.element = Molasses.createElement({
             type: 'div',
             classList: 'creature-card-new',
             children: [
-                Leylights.createElement({
+                Molasses.createElement({
                     type: 'div',
                     classList: 'name-row',
                     children: [
-                        Leylights.createElement({
+                        Molasses.createElement({
                             type: 'div',
                             classList: 'creature-name',
                             children: [
-                                Leylights.createElement({
+                                Molasses.createElement({
                                     type: 'input',
                                     classList: 'fit-to-content',
                                     otherNodes: [{ type: 'value', value: creature.name }]
                                 }),
                             ],
                         }),
-                        Leylights.createElement({
+                        Molasses.createElement({
                             type: 'div',
                             classList: 'creature-hp',
-                            children: [Leylights.createElement({
+                            children: [Molasses.createElement({
                                     type: 'p',
                                     children: [
-                                        Leylights.createElement({
+                                        Molasses.createElement({
                                             type: 'span',
                                             innerText: 'HP: ('
                                         }),
-                                        Leylights.createElement({
+                                        Molasses.createElement({
                                             type: 'input',
                                             classList: 'fit-to-content',
                                             otherNodes: [{ type: 'value', value: creature.hp + '', }]
                                         }),
-                                        Leylights.createElement({
+                                        Molasses.createElement({
                                             type: 'span',
                                             innerText: ' / ' + creature.TOTAL_HP + ')',
                                         }),
                                     ]
                                 })],
                         }),
-                        Leylights.createElement({
+                        Molasses.createElement({
                             type: 'div',
                             classList: 'card-delete-button',
                             children: [
-                                Leylights.createElement({
+                                Molasses.createElement({
                                     type: 'span',
                                     innerText: 'x'
                                 }),
@@ -58,27 +58,27 @@ export class SummonsCreatureCardComponent {
                         })
                     ]
                 }),
-                Leylights.createElement({
+                Molasses.createElement({
                     type: 'hr'
                 }),
-                Leylights.createTable({
+                Molasses.createTable({
                     body: [
                         [
-                            Leylights.createElement({
+                            Molasses.createElement({
                                 type: 'div',
                                 classList: 'card-roll-display attack-roll',
                                 innerText: '-'
-                            }), Leylights.createElement({
+                            }), Molasses.createElement({
                                 type: 'div',
                                 classList: 'card-roll-display damage-roll',
                                 innerText: '-'
                             })
                         ], [
-                            Leylights.createElement({
+                            Molasses.createElement({
                                 type: 'h4',
                                 innerText: 'ATTACK',
                                 classList: 'attack-subtitle'
-                            }), Leylights.createElement({
+                            }), Molasses.createElement({
                                 type: 'h4',
                                 innerText: 'DAMAGE'
                             }),

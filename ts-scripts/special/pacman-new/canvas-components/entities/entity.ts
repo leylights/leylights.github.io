@@ -1,4 +1,4 @@
-import { Leylights } from "../../../../leylights.js";
+import { Molasses } from "../../../../molasses.js";
 import { MathVector } from "../../../../tools/math/vector.js";
 import { PacmanEntityEnum, PacmanHelper } from "../../helper.js";
 import { PacmanConstants } from "../constants.js";
@@ -66,7 +66,7 @@ export class PacmanEntity {
   isCollidingWithCircle(this: PacmanEntity, otherEntity: PacmanEntity): boolean {
     const thisCenter = getCenter(this),
       thatCenter = getCenter(otherEntity);
-    return Leylights.pythagorean(thisCenter.x - thatCenter.x, thisCenter.y - thatCenter.y, null) < (((this.width + otherEntity.width) / 2) * PacmanConstants.HITBOX_MULTIPLIER);
+    return Molasses.pythagorean(thisCenter.x - thatCenter.x, thisCenter.y - thatCenter.y, null) < (((this.width + otherEntity.width) / 2) * PacmanConstants.HITBOX_MULTIPLIER);
 
     function getCenter(entity: PacmanEntity) {
       return {

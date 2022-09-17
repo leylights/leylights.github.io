@@ -3,7 +3,7 @@
  *
  * Activates darkmode where and when applicable
  */
-import { Leylights } from '../leylights.js';
+import { Molasses } from '../molasses.js';
 import { GoogleAnalyticsController } from './google-analytics-controller.service.js';
 import { CookieInterface } from './cookie-interface.service.js';
 import { SideMenuService } from './side-menu.service.js';
@@ -25,10 +25,10 @@ export class PageBuilder {
      * Adds the given stylesheet to the <head>
      */
     static loadCSSFile(absolutePath) {
-        const path = Leylights.getRelativeUrlPath(absolutePath);
+        const path = Molasses.getRelativeUrlPath(absolutePath);
         if (document.head.querySelector(`link[rel=stylesheet][href='${path}']`))
             return; // don't double-load
-        document.head.appendChild(Leylights.createLinkElement(path, 'stylesheet'));
+        document.head.appendChild(Molasses.createLinkElement(path, 'stylesheet'));
     }
     /**
      * Populates the <head> element
@@ -82,7 +82,7 @@ export class PageBuilder {
             }
         });
         // links
-        const gFontsLoad = Leylights.createElement({
+        const gFontsLoad = Molasses.createElement({
             type: 'link',
             otherNodes: {
                 rel: 'preconnect',
@@ -90,7 +90,7 @@ export class PageBuilder {
             }
         });
         document.head.appendChild(gFontsLoad);
-        const poppins = Leylights.createElement({
+        const poppins = Molasses.createElement({
             type: 'link',
             otherNodes: {
                 rel: 'stylesheet',
@@ -110,7 +110,7 @@ export class PageBuilder {
             return;
         }
         GoogleAnalyticsController.init();
-        document.head.insertAdjacentElement('afterbegin', Leylights.createElement({
+        document.head.insertAdjacentElement('afterbegin', Molasses.createElement({
             type: 'script',
             otherNodes: [
                 { type: 'async', value: '', },
@@ -135,7 +135,7 @@ export class PageBuilder {
         }
     }
     static insertMetaTag(name, content, insertAtTop) {
-        const metaTag = Leylights.createElement({
+        const metaTag = Molasses.createElement({
             type: 'meta',
             otherNodes: [
                 { type: 'name', value: name, },

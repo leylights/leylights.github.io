@@ -12,7 +12,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { NPCsArmour } from "../helper-repository/armour.js";
 import { NPCsAttribute } from "../helper-repository/attribute.js";
 import { NPCsClass } from "./class.js";
@@ -351,14 +351,14 @@ export class NPCsCharacterData {
             alterTotalPhysicalImmunity,
         ];
         function randomSkew(n) {
-            return Leylights.nthRoot(n, 0.25);
+            return Molasses.nthRoot(n, 0.25);
         }
         const MAX_ITERATIONS = 600;
         let currentIteration = 1;
         if (acceptableBoundsOfTarget < target - this.challengeRating) {
             console.log('===== beginning positive alterations =====');
             while (acceptableBoundsOfTarget < target - this.challengeRating && this.challengeRating !== 0) {
-                const alterationFn = Leylights.Array.get.randomElement(alterationFunctions, randomSkew);
+                const alterationFn = Molasses.Array.get.randomElement(alterationFunctions, randomSkew);
                 const success = alterationFn(this, alterState.better);
                 if (success)
                     console.log(`making better: ${alterationFn.name} - ${success ? 'SUCCESS' : 'FAILED'}.  New CR: ${this.challengeRating}`);
@@ -370,7 +370,7 @@ export class NPCsCharacterData {
         else if (this.challengeRating > target + 0.2) {
             console.log('===== beginning negative alterations =====');
             while (acceptableBoundsOfTarget < this.challengeRating - target && this.challengeRating !== 0) {
-                const alterationFn = Leylights.Array.get.randomElement(alterationFunctions, randomSkew);
+                const alterationFn = Molasses.Array.get.randomElement(alterationFunctions, randomSkew);
                 const success = alterationFn(this, alterState.worse);
                 if (success)
                     console.log(`making worse: ${alterationFn.name} - ${success ? 'SUCCESS' : 'FAILED'}.  New CR: ${this.challengeRating}`);
@@ -381,18 +381,18 @@ export class NPCsCharacterData {
         }
         function alterPositiveAttribute(data, alterStateType) {
             if (alterStateType === alterState.better) {
-                let classAttr = Leylights.Object.get.randomAttribute(NPCsAttribute.positiveClassAttributesList);
-                if (Leylights.Array.contains(data.attributes, classAttr))
+                let classAttr = Molasses.Object.get.randomAttribute(NPCsAttribute.positiveClassAttributesList);
+                if (Molasses.Array.contains(data.attributes, classAttr))
                     return false;
                 data.attributes[data.attributes.length] = classAttr;
             }
             else {
-                const positiveAttributeBodies = Leylights.Object.values(NPCsAttribute.positiveClassAttributesList)
+                const positiveAttributeBodies = Molasses.Object.values(NPCsAttribute.positiveClassAttributesList)
                     .map((b) => {
                     return b.body;
                 });
                 let removedAttrArray = data.attributes.filter((a) => {
-                    return Leylights.orEquals(a.body, positiveAttributeBodies);
+                    return Molasses.orEquals(a.body, positiveAttributeBodies);
                 });
                 if (removedAttrArray.length === 0)
                     return false; // no positive attribute to remove
@@ -436,11 +436,11 @@ export class NPCsCharacterData {
             return true;
         }
         function alterMultiattack(data, alterStateType) {
-            const multiattackList = Leylights.Object.values(NPCsInventory.actionsList.misc)
+            const multiattackList = Molasses.Object.values(NPCsInventory.actionsList.misc)
                 .filter((action) => {
                 return action.name.toLowerCase().includes('multiattack');
             })
-                .map((action) => { return action.uniqueName; }), anyEqual = Leylights.anyEqual(data.actions.map((action) => {
+                .map((action) => { return action.uniqueName; }), anyEqual = Molasses.anyEqual(data.actions.map((action) => {
                 return action.uniqueName;
             }), multiattackList);
             if (alterStateType === alterState.better && anyEqual) {
@@ -454,7 +454,7 @@ export class NPCsCharacterData {
             }
             else {
                 data.actions = data.actions.filter((action) => {
-                    return !Leylights.orEquals(action.uniqueName, multiattackList);
+                    return !Molasses.orEquals(action.uniqueName, multiattackList);
                 });
             }
             alterCR(data, 0.8, alterStateType);
@@ -516,7 +516,7 @@ export class NPCsCharacterData {
          * @returns Whether the change was successful
          */
         function alterGenericBooleanList(data, alterStateType, booleanListType, options, CRChange) {
-            let typeIndexMap = Leylights.Array.toN(options.length).sort(Leylights.jumbleSort);
+            let typeIndexMap = Molasses.Array.toN(options.length).sort(Molasses.jumbleSort);
             let success = false;
             let booleanList;
             let setterFunction;
@@ -581,7 +581,7 @@ export class NPCsCharacterData {
             }
         }
         function alterSavingThrow(data, alterStateType) {
-            let saveIndexMap = Leylights.Array.toN(6).sort(Leylights.jumbleSort);
+            let saveIndexMap = Molasses.Array.toN(6).sort(Molasses.jumbleSort);
             let success = false;
             for (let i = 0; i < saveIndexMap.length; i++) {
                 if (alterStateType === alterState.better && !data.saves[i]) {
@@ -639,7 +639,7 @@ export class NPCsCharacterData {
             if (dividedList[i].length > 0) {
                 let spellSlots = isRacialSpells ? 1 : this.getNthLevelSpellSlots(i);
                 if (spellSlots > 0) {
-                    output += `${i}<sup>${Leylights.getSuperscriptOrdinal(i)}</sup> Level (${spellSlots}/day): ${getLevelList(dividedList[i])}<br/>`;
+                    output += `${i}<sup>${Molasses.getSuperscriptOrdinal(i)}</sup> Level (${spellSlots}/day): ${getLevelList(dividedList[i])}<br/>`;
                     hasSpells = true;
                 }
             }
@@ -700,7 +700,7 @@ export class NPCsCharacterData {
         strWithPlaceholders = strWithPlaceholders.replace(/CLASS_SPELLCASTING_ABILITY_FULL/g, NPCsHelper.abilityToStr(classSpells.spellcastingAbility, true))
             .replace(/CLASS_SPELLCASTING_ABILITY_SHORT/g, NPCsHelper.abilityToStr(classSpells.spellcastingAbility, false))
             .replace(/CLASS_SPELL_SAVE_DC/g, ((this.spells ? this.spellcastingDC : 10) + ''))
-            .replace(/CLASS_SPELLCASTING_LEVEL/g, (`${classSpells.spellcastingLevel}${Leylights.getSuperscriptOrdinal(classSpells.spellcastingLevel)} level`))
+            .replace(/CLASS_SPELLCASTING_LEVEL/g, (`${classSpells.spellcastingLevel}${Molasses.getSuperscriptOrdinal(classSpells.spellcastingLevel)} level`))
             .replace(/CLASS_SPELL_MOD/g, (NPCsHelper.getFormattedModifier(this.spells ? (this.spellcastingModifier) : 1)))
             .replace(/CLASS_SPELL_LIST/g, (this.createSpellListHTML() + ''));
         // ability DCs
@@ -834,7 +834,7 @@ export class NPCsCharacterData {
             appendAttribute('spells', this.spells.list.map((spell) => { return spell.name; }).join(','));
         }
         const cipher = Math.ceil(Math.random() * 9);
-        return Leylights.caesarCipher(output, cipher) + cipher;
+        return Molasses.caesarCipher(output, cipher) + cipher;
         function fastAppend(attribute) {
             if (typeof me[attribute] !== 'string' && typeof me[attribute] !== 'number')
                 throw new Error('Bad fast append: ' + attribute);
@@ -848,7 +848,7 @@ export class NPCsCharacterData {
             output += attributeType + '=' + attribute;
         }
         function getIndexInObject(listObject, comparator, comparatorFn) {
-            let entries = Leylights.Object.entries(listObject);
+            let entries = Molasses.Object.entries(listObject);
             for (let i = 0; i < entries.length; i++) {
                 if (comparatorFn(comparator, entries[i][1]))
                     return i;
@@ -1037,7 +1037,7 @@ export class NPCsCharacterData {
         });
     }
     static createFromStorageString(str) {
-        str = Leylights.caesarCipher(str, -Number(str.charAt(str.length - 1))); // decode
+        str = Molasses.caesarCipher(str, -Number(str.charAt(str.length - 1))); // decode
         let name = str.substring(0, str.search('\\?'));
         let attributesArray = str
             .substring(str.search('\\?') + 1, str.length - 1)
@@ -1053,8 +1053,8 @@ export class NPCsCharacterData {
             attributes[attributeEntry[0]] = attributeEntry[1];
         });
         let filteredAttributes = {
-            race: Leylights.Object.values(NPCsRace.list)[attributes['race']],
-            class: Leylights.Object.values(NPCsClass.list)[attributes['class']],
+            race: Molasses.Object.values(NPCsRace.list)[attributes['race']],
+            class: Molasses.Object.values(NPCsClass.list)[attributes['class']],
             names: [
                 attributes['firstName'],
                 attributes['lastName']
@@ -1075,7 +1075,7 @@ export class NPCsCharacterData {
                 strToBool(attributes['WISsave']),
                 strToBool(attributes['CHAsave']),
             ],
-            armour: Leylights.Object.values(NPCsArmour.list)[attributes['armour']],
+            armour: Molasses.Object.values(NPCsArmour.list)[attributes['armour']],
             moralAlignment: attributes['moralAlignment'],
             orderAlignment: attributes['orderAlignment'],
             ID: Number(attributes['ID']),

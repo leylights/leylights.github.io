@@ -5,7 +5,7 @@
  * @todo implement overwriteData
  */
 
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { NPCsAction } from "../helper-repository/action.js";
 import { NPCsReaction } from "../helper-repository/action-reaction.js";
 import { NPCsArmour } from "../helper-repository/armour.js";
@@ -495,7 +495,7 @@ export class NPCsCharacterData {
     ];
 
     function randomSkew(n: number) {
-      return Leylights.nthRoot(n, 0.25);
+      return Molasses.nthRoot(n, 0.25);
     }
 
     const MAX_ITERATIONS = 600;
@@ -504,7 +504,7 @@ export class NPCsCharacterData {
     if (acceptableBoundsOfTarget < target - this.challengeRating) {
       console.log('===== beginning positive alterations =====');
       while (acceptableBoundsOfTarget < target - this.challengeRating && this.challengeRating !== 0) {
-        const alterationFn = Leylights.Array.get.randomElement(alterationFunctions, randomSkew);
+        const alterationFn = Molasses.Array.get.randomElement(alterationFunctions, randomSkew);
         const success = alterationFn(this, alterState.better);
 
         if (success)
@@ -517,7 +517,7 @@ export class NPCsCharacterData {
     } else if (this.challengeRating > target + 0.2) {
       console.log('===== beginning negative alterations =====');
       while (acceptableBoundsOfTarget < this.challengeRating - target && this.challengeRating !== 0) {
-        const alterationFn = Leylights.Array.get.randomElement(alterationFunctions, randomSkew);
+        const alterationFn = Molasses.Array.get.randomElement(alterationFunctions, randomSkew);
         const success = alterationFn(this, alterState.worse);
 
         if (success)
@@ -531,19 +531,19 @@ export class NPCsCharacterData {
 
     function alterPositiveAttribute(this: void, data: NPCsCharacterData, alterStateType: alterState) {
       if (alterStateType === alterState.better) {
-        let classAttr: NPCsAttribute = Leylights.Object.get.randomAttribute(NPCsAttribute.positiveClassAttributesList);
-        if (Leylights.Array.contains(data.attributes, classAttr))
+        let classAttr: NPCsAttribute = Molasses.Object.get.randomAttribute(NPCsAttribute.positiveClassAttributesList);
+        if (Molasses.Array.contains(data.attributes, classAttr))
           return false;
 
         data.attributes[data.attributes.length] = classAttr;
       } else {
-        const positiveAttributeBodies = Leylights.Object.values(NPCsAttribute.positiveClassAttributesList)
+        const positiveAttributeBodies = Molasses.Object.values(NPCsAttribute.positiveClassAttributesList)
           .map((b: NPCsAttribute) => {
             return b.body;
           });
 
         let removedAttrArray: NPCsAttribute[] = data.attributes.filter((a: NPCsAttribute) => {
-          return Leylights.orEquals(
+          return Molasses.orEquals(
             a.body,
             positiveAttributeBodies
           );
@@ -601,12 +601,12 @@ export class NPCsCharacterData {
     }
 
     function alterMultiattack(this: void, data: NPCsCharacterData, alterStateType: alterState): boolean {
-      const multiattackList: string[] = Leylights.Object.values(NPCsInventory.actionsList.misc)
+      const multiattackList: string[] = Molasses.Object.values(NPCsInventory.actionsList.misc)
         .filter((action: NPCsAction) => {
           return action.name.toLowerCase().includes('multiattack');
         })
         .map((action: NPCsAction) => { return action.uniqueName }),
-        anyEqual = Leylights.anyEqual(data.actions.map((action: NPCsAction) => {
+        anyEqual = Molasses.anyEqual(data.actions.map((action: NPCsAction) => {
           return action.uniqueName
         }), multiattackList);
 
@@ -620,7 +620,7 @@ export class NPCsCharacterData {
         data.actions.push(NPCsInventory.actionsList.misc.multiattackMeleeTwo);
       } else {
         data.actions = data.actions.filter((action: NPCsAction) => { // remove all multiattacks
-          return !Leylights.orEquals(action.uniqueName, multiattackList)
+          return !Molasses.orEquals(action.uniqueName, multiattackList)
         });
       }
 
@@ -747,7 +747,7 @@ export class NPCsCharacterData {
       options: string[],
       CRChange: number
     ) {
-      let typeIndexMap: number[] = Leylights.Array.toN(options.length).sort(Leylights.jumbleSort);
+      let typeIndexMap: number[] = Molasses.Array.toN(options.length).sort(Molasses.jumbleSort);
       let success: boolean = false;
       let booleanList: NPCsBooleanList;
       let setterFunction: (attribute: keyof NPCsDamageTypes | keyof NPCsConditionTypes, newValue: boolean) => boolean;
@@ -818,7 +818,7 @@ export class NPCsCharacterData {
     }
 
     function alterSavingThrow(this: void, data: NPCsCharacterData, alterStateType: alterState) {
-      let saveIndexMap: number[] = Leylights.Array.toN(6).sort(Leylights.jumbleSort);
+      let saveIndexMap: number[] = Molasses.Array.toN(6).sort(Molasses.jumbleSort);
       let success: boolean = false;
 
       for (let i = 0; i < saveIndexMap.length; i++) {
@@ -884,7 +884,7 @@ export class NPCsCharacterData {
       if (dividedList[i].length > 0) {
         let spellSlots: number = isRacialSpells ? 1 : this.getNthLevelSpellSlots(i);
         if (spellSlots > 0) {
-          output += `${i}<sup>${Leylights.getSuperscriptOrdinal(i)}</sup> Level (${spellSlots}/day): ${getLevelList(dividedList[i])}<br/>`;
+          output += `${i}<sup>${Molasses.getSuperscriptOrdinal(i)}</sup> Level (${spellSlots}/day): ${getLevelList(dividedList[i])}<br/>`;
           hasSpells = true;
         }
       }
@@ -965,7 +965,7 @@ export class NPCsCharacterData {
     strWithPlaceholders = strWithPlaceholders.replace(/CLASS_SPELLCASTING_ABILITY_FULL/g, NPCsHelper.abilityToStr(classSpells.spellcastingAbility, true))
       .replace(/CLASS_SPELLCASTING_ABILITY_SHORT/g, NPCsHelper.abilityToStr(classSpells.spellcastingAbility, false))
       .replace(/CLASS_SPELL_SAVE_DC/g, ((this.spells ? this.spellcastingDC : 10) + ''))
-      .replace(/CLASS_SPELLCASTING_LEVEL/g, (`${classSpells.spellcastingLevel}${Leylights.getSuperscriptOrdinal(classSpells.spellcastingLevel)} level`))
+      .replace(/CLASS_SPELLCASTING_LEVEL/g, (`${classSpells.spellcastingLevel}${Molasses.getSuperscriptOrdinal(classSpells.spellcastingLevel)} level`))
       .replace(/CLASS_SPELL_MOD/g, (NPCsHelper.getFormattedModifier(this.spells ? (this.spellcastingModifier) : 1)))
       .replace(/CLASS_SPELL_LIST/g, (this.createSpellListHTML() + ''));
 
@@ -1137,7 +1137,7 @@ export class NPCsCharacterData {
 
     const cipher = Math.ceil(Math.random() * 9);
 
-    return Leylights.caesarCipher(output, cipher) + cipher;
+    return Molasses.caesarCipher(output, cipher) + cipher;
 
     function fastAppend(attribute: keyof NPCsCharacterData): void {
       if (typeof me[attribute] !== 'string' && typeof me[attribute] !== 'number')
@@ -1157,7 +1157,7 @@ export class NPCsCharacterData {
       comparator: comparatorType,
       comparatorFn: (comparator: comparatorType, objectEntry: objectEntryType) => boolean
     ): number {
-      let entries = Leylights.Object.entries(listObject);
+      let entries = Molasses.Object.entries(listObject);
 
       for (let i = 0; i < entries.length; i++) {
         if (comparatorFn(comparator, entries[i][1]))
@@ -1405,7 +1405,7 @@ export class NPCsCharacterData {
   }
 
   static createFromStorageString(str: string): NPCsCharacterData {
-    str = Leylights.caesarCipher(str, -Number(str.charAt(str.length - 1))); // decode
+    str = Molasses.caesarCipher(str, -Number(str.charAt(str.length - 1))); // decode
 
     let name = str.substring(0, str.search('\\?'));
 
@@ -1426,8 +1426,8 @@ export class NPCsCharacterData {
     });
 
     let filteredAttributes: NPCsCharacterDataCreationData = {
-      race: Leylights.Object.values(NPCsRace.list)[attributes['race']],
-      class: Leylights.Object.values(NPCsClass.list)[attributes['class']],
+      race: Molasses.Object.values(NPCsRace.list)[attributes['race']],
+      class: Molasses.Object.values(NPCsClass.list)[attributes['class']],
       names: [
         attributes['firstName'],
         attributes['lastName']
@@ -1448,7 +1448,7 @@ export class NPCsCharacterData {
         strToBool(attributes['WISsave']),
         strToBool(attributes['CHAsave']),
       ],
-      armour: Leylights.Object.values(NPCsArmour.list)[attributes['armour']],
+      armour: Molasses.Object.values(NPCsArmour.list)[attributes['armour']],
       moralAlignment: attributes['moralAlignment'],
       orderAlignment: attributes['orderAlignment'],
       ID: Number(attributes['ID']),

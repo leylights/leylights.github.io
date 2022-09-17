@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { NPCsAction } from "../helper-repository/action.js";
 import { NPCsReaction } from "../helper-repository/action-reaction.js";
 import { NPCsAttribute } from "../helper-repository/attribute.js";
@@ -33,25 +33,25 @@ export class NPCsClassicCard {
    */
   createClassicCardHTML(this: NPCsClassicCard): HTMLDivElement {
     let outerElement: HTMLDivElement = document.createElement('div');
-    outerElement.setAttributeNode(Leylights.betterCreateAttr('class', 'monsterCard'));
-    outerElement.setAttributeNode(Leylights.betterCreateAttr('id', 'monster-card-' + this.data.ID));
+    outerElement.setAttributeNode(Molasses.betterCreateAttr('class', 'monsterCard'));
+    outerElement.setAttributeNode(Molasses.betterCreateAttr('id', 'monster-card-' + this.data.ID));
 
     const cardInnerHTML =
       `<div class="description">
         <div class='name-bar'>
         ${this.getName()}
           <div class='${this.getSaveButtonClass()}'>
-            <img src='${Leylights.getRelativeUrlPath('siteimages/npcs/save.png')}'/>
+            <img src='${Molasses.getRelativeUrlPath('siteimages/npcs/save.png')}'/>
           </div>
         </div>
-        <h6 class="type">${Leylights.toTitleCase(this.data.size)} ${this.data.race.archetype.toLowerCase()}${this.getRace()}, ${this.data.alignment}</h6>
+        <h6 class="type">${Molasses.toTitleCase(this.data.size)} ${this.data.race.archetype.toLowerCase()}${this.getRace()}, ${this.data.alignment}</h6>
         <img class="slant-bar"
-          src="${Leylights.getRelativeUrlPath("siteimages/npcs/slant_bar.png")}">
+          src="${Molasses.getRelativeUrlPath("siteimages/npcs/slant_bar.png")}">
         <h6 class="ac"><strong>Armour Class</strong> ${this.data.AC} (${this.data.armour.name})</h6>
         <h6 class="hp"><strong>Hit Points</strong> ${this.data.HP} (${this.data.hitDice.print()} ${this.data.getHpFromCon()})</h6>
         <h6 class="speed"><strong>Speed</strong> ${this.data.speed} ft.</h6>
         <img class="slant-bar" 
-          src="${Leylights.getRelativeUrlPath("siteimages/npcs/slant_bar.png")}">
+          src="${Molasses.getRelativeUrlPath("siteimages/npcs/slant_bar.png")}">
         <table>
           <tr class="asNames">
             <th>STR</th>
@@ -71,7 +71,7 @@ export class NPCsClassicCard {
           </tr>
         </table>
         <img class="slant-bar" 
-          src="${Leylights.getRelativeUrlPath("siteimages/npcs/slant_bar.png")}">
+          src="${Molasses.getRelativeUrlPath("siteimages/npcs/slant_bar.png")}">
         ${this.getSavingThrowsSection()}
         ${this.getSkillsSection()}
         ${this.getBooleanTypesSection(NPCsCharacterDataBooleanTypes.damageVulnerabilities)}
@@ -83,7 +83,7 @@ export class NPCsClassicCard {
         <h6 class="languages"><b>Languages</b> ${this.data.getLanguageList()}</h6>
         <h6 class="challenge"><b>Challenge</b> ${this.data.level} (${this.data.XPReward} XP)</h6>
         <img id="slant_bar"
-          src="${Leylights.getRelativeUrlPath("siteimages/npcs/slant_bar.png")}">
+          src="${Molasses.getRelativeUrlPath("siteimages/npcs/slant_bar.png")}">
       </div>
       <div class="attributes">
       ${this.getAttributesList()}
@@ -197,7 +197,7 @@ export class NPCsClassicCard {
         break;
     }
 
-    sectionClassName = Leylights.toCamelCase(sectionName);
+    sectionClassName = Molasses.toCamelCase(sectionName);
 
     if (data.list().length > 0)
       return `<h6 class="${sectionClassName}"><b>${sectionName}</b> ${data.list(' ')}</h6>`;
@@ -279,7 +279,7 @@ export class NPCsClassicCard {
     printWindow.document.body.querySelector(`.${SAVE_CLASS}`).remove();
 
     // set style
-    Leylights.Array.from.NodeListOf(document.head.querySelectorAll('link'))
+    Molasses.Array.from.NodeListOf(document.head.querySelectorAll('link'))
       .filter((link: HTMLLinkElement) => { return link.rel === 'stylesheet'; })
       .forEach((link: HTMLLinkElement) => {
         const newLink: HTMLLinkElement = link.cloneNode(true) as HTMLLinkElement;
@@ -292,9 +292,9 @@ export class NPCsClassicCard {
     printWindow.document.body.style.paddingTop = '5vh';
 
     // reset image hrefs
-    Leylights.Array.from.NodeListOf(printWindow.document.body.querySelectorAll('img'))
+    Molasses.Array.from.NodeListOf(printWindow.document.body.querySelectorAll('img'))
       .forEach((img: HTMLImageElement) => {
-        img.src = Leylights.getFullUrlPath(img.attributes['src'].value);
+        img.src = Molasses.getFullUrlPath(img.attributes['src'].value);
       });
 
 
@@ -327,7 +327,7 @@ export class NPCsClassicCard {
   }
 
   static save(data: NPCsCharacterData) {
-    Leylights.Array.from.HTMLCollection(document.getElementsByClassName('monsterCard')).forEach((card: Element) => {
+    Molasses.Array.from.HTMLCollection(document.getElementsByClassName('monsterCard')).forEach((card: Element) => {
       if (card.id.includes(data.ID + '')) {
         const saveButton = card.querySelector('.save-npc');
         saveButton.className += ' saved';
@@ -336,7 +336,7 @@ export class NPCsClassicCard {
   }
 
   static unsave(data: NPCsCharacterData) {
-    Leylights.Array.from.HTMLCollection(document.getElementsByClassName('monsterCard')).forEach((card: Element) => {
+    Molasses.Array.from.HTMLCollection(document.getElementsByClassName('monsterCard')).forEach((card: Element) => {
       if (card.id.includes(data.ID + '')) {
         const saveButton = card.querySelector('.save-npc');
         saveButton.className = saveButton.className.replace(/saved/g, '').trim();

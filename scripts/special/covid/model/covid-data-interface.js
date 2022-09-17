@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { COVIDDataBridge } from "./covid-data-bridge.js";
 export class COVIDDataInterface {
     static getLastUpdate() {
@@ -22,7 +22,7 @@ export class COVIDDataInterface {
                 shortNames: (COVIDDataBridge.getRegionalSummaries({ nameType: 'short' })),
                 IDs: (COVIDDataBridge.getRegionalSummaries({ nameType: 'id' })),
             };
-            yield Promise.all([Leylights.Object.values(promises)]);
+            yield Promise.all([Molasses.Object.values(promises)]);
             const results = {
                 fullNames: yield promises.fullNames,
                 shortNames: yield promises.shortNames,
@@ -45,7 +45,7 @@ export class COVIDDataInterface {
                 shortNames: (COVIDDataBridge.getProvincialSummaries({ nameType: 'short' })),
                 IDs: (COVIDDataBridge.getProvincialSummaries({ nameType: 'id' })),
             };
-            yield Promise.all([Leylights.Object.values(promises)]);
+            yield Promise.all([Molasses.Object.values(promises)]);
             const results = {
                 fullNames: yield promises.fullNames,
                 shortNames: yield promises.shortNames,

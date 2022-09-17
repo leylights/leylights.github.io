@@ -42,7 +42,7 @@ type Rectangle = {
   height: number;
 }
 
-export class Leylights {
+export class Molasses {
   /**
    * Determines if any left element is equal to any right element
    * Time: O(n*m)
@@ -73,7 +73,7 @@ export class Leylights {
       const result: T[] = [];
 
       arr.forEach((value: T) => {
-        if (!Leylights.Array.includes(result, value, comparatorFn))
+        if (!Molasses.Array.includes(result, value, comparatorFn))
           result.push(value);
       });
 
@@ -130,16 +130,16 @@ export class Leylights {
       },
 
       NodeListOf: function <T extends Node>(nodeList: NodeListOf<T>): T[] {
-        return Leylights.Array.from.any(nodeList, nodeList.length)
+        return Molasses.Array.from.any(nodeList, nodeList.length)
       },
 
       HTMLCollection: function (collection: HTMLCollection): Element[] {
-        return Leylights.Array.from.any(collection, collection.length)
+        return Molasses.Array.from.any(collection, collection.length)
       }
     },
 
     includes: function <T, U>(arr: T[], el: U, comparatorFn?: (a: T, b: U) => boolean): boolean {
-      return Leylights.Array.contains(arr, el, comparatorFn);
+      return Molasses.Array.contains(arr, el, comparatorFn);
     },
 
     /**
@@ -176,7 +176,7 @@ export class Leylights {
       else if (typeof attributes[i][0] !== "string" || typeof attributes[i][1] !== "string")
         console.error("invalid attributes provided - not strings:", attributes[i]);
       else
-        el.setAttributeNode(Leylights.betterCreateAttr(attributes[i][0], attributes[i][1]));
+        el.setAttributeNode(Molasses.betterCreateAttr(attributes[i][0], attributes[i][1]));
     }
 
     return el;
@@ -210,7 +210,7 @@ export class Leylights {
         element.classList.add(className);
       });
     }
-    if (data.style) element.setAttributeNode(Leylights.betterCreateAttr('style', data.style));
+    if (data.style) element.setAttributeNode(Molasses.betterCreateAttr('style', data.style));
     if (data.innerHTML) element.innerHTML = data.innerHTML;
     if (data.innerText) element.innerText = data.innerText;
     if (data.listeners)
@@ -230,7 +230,7 @@ export class Leylights {
               element.setAttribute(nodeData.type, nodeData.value);
           });
       } else {
-        Leylights.Object.entries(data.otherNodes)
+        Molasses.Object.entries(data.otherNodes)
           .forEach((nodeData) => {
             if (nodeData[0] && nodeData[1] !== undefined)
               element.setAttribute(nodeData[0], nodeData[1]);
@@ -245,7 +245,7 @@ export class Leylights {
    * Creates a link element.
    */
   static createLinkElement(href: string, rel: string): HTMLLinkElement {
-    return Leylights.createElement({
+    return Molasses.createElement({
       type: 'link',
       otherNodes: [
         {
@@ -264,7 +264,7 @@ export class Leylights {
    * Creates a stylesheet element.
    */
   static createStylesheetElement(href: string): HTMLLinkElement {
-    return Leylights.createElement({
+    return Molasses.createElement({
       type: 'link',
       otherNodes: {
         rel: 'stylesheet',
@@ -277,17 +277,17 @@ export class Leylights {
     const contents: HTMLElement[] = [];
 
     // conditionally create head and body
-    if (data.head) contents.push(Leylights.createElement({
+    if (data.head) contents.push(Molasses.createElement({
       type: 'thead',
       children: getRows(data.head, 'th')
     }));
-    if (data.body) contents.push(Leylights.createElement({
+    if (data.body) contents.push(Molasses.createElement({
       type: 'tbody',
       children: getRows(data.body, 'td')
     }));
 
     // create table
-    const table = Leylights.createElement({
+    const table = Molasses.createElement({
       type: 'table',
       id: data.id,
       classList: data.classList,
@@ -304,9 +304,9 @@ export class Leylights {
 
       rowsData.forEach((rowData: HTMLElement[]) => {
         if (rowData) {
-          const newRow = Leylights.createElement({ type: 'tr' });
+          const newRow = Molasses.createElement({ type: 'tr' });
           rowData.forEach((element: HTMLElement) => {
-            newRow.appendChild(Leylights.createElement({
+            newRow.appendChild(Molasses.createElement({
               type: cellType,
               children: element ? [element] : [],
             }));
@@ -483,7 +483,7 @@ export class Leylights {
     else if (document.body.isSameNode(child.parentElement))
       return undefined;
     else
-      return Leylights.findParentElementByClassName(child.parentElement, className);
+      return Molasses.findParentElementByClassName(child.parentElement, className);
   }
 
   /**
@@ -496,7 +496,7 @@ export class Leylights {
       throw new Error(`Bad gcd input: a: ${a}, b: ${b}`);
     }
 
-    else return Leylights.gcd(b, a % b);
+    else return Molasses.gcd(b, a % b);
   }
 
   /**
@@ -510,7 +510,7 @@ export class Leylights {
   }
 
   /**
-   * @example '/siteimages/logo.svg' => 'colestanley.ca/siteimages/logo.svg' 
+   * @example '/siteimages/logo.svg' => 'some-molasses.github.io/siteimages/logo.svg' 
    */
   static getFullUrlPath(url: string): string {
     const locationParts = window.location.href.split('/'),
@@ -629,7 +629,7 @@ export class Leylights {
        * Returns a random attribute of the given object
        */
       randomAttribute: function <T>(obj: Record<any, T>): T {
-        return Leylights.Array.get.randomElement(Leylights.Object.values(obj));
+        return Molasses.Array.get.randomElement(Molasses.Object.values(obj));
       }
     },
     /**
@@ -692,9 +692,9 @@ export class Leylights {
     const exponent = Math.log(Math.abs(x)) / n;
 
     if (x < 0)
-      return -Leylights.roundToDecimalPlaces(Math.pow(Math.E, exponent), 9);
+      return -Molasses.roundToDecimalPlaces(Math.pow(Math.E, exponent), 9);
     else
-      return Leylights.roundToDecimalPlaces(Math.pow(Math.E, exponent), 9);
+      return Molasses.roundToDecimalPlaces(Math.pow(Math.E, exponent), 9);
   }
 
   /**
@@ -702,7 +702,7 @@ export class Leylights {
    * @returns 
    */
   static orEquals<T = any>(a: T, b: T[]): boolean {
-    return Leylights.anyEqual([a], b);
+    return Molasses.anyEqual([a], b);
   }
 
   /**
@@ -737,7 +737,7 @@ export class Leylights {
       return "zero";
 
     if (n < 0)
-      return "negative " + Leylights.numberToString(-n);
+      return "negative " + Molasses.numberToString(-n);
 
     // n > 0, then
 
@@ -840,7 +840,7 @@ export class Leylights {
    * @example 123456 => 123 456
    */
   static numberToPrettyNumber(label: number): string {
-    if (Leylights.isInteger(label)) {
+    if (Molasses.isInteger(label)) {
       return (label < 0 ? '-' : '') +
         Math.abs(label)
           .toString()
@@ -906,7 +906,7 @@ export class Leylights {
     }
 
     if (n < 0) {
-      return Leylights.roundToDecimalPlaces(value, -n);
+      return Molasses.roundToDecimalPlaces(value, -n);
     } else if (n > 0) {
       return Math.round(value / Math.pow(10, n)) * Math.pow(10, n);
     } else {
@@ -925,7 +925,7 @@ export class Leylights {
       throw new Error("Not an integer: " + n);
     }
 
-    return Leylights.roundToDecimalPlaces(n, -(n.toString().length - significantFigures));
+    return Molasses.roundToDecimalPlaces(n, -(n.toString().length - significantFigures));
   }
 
   /**
@@ -956,7 +956,7 @@ export class Leylights {
     ],
 
     to: function (input: any): boolean {
-      if (Leylights.orEquals(input, Leylights.toBoolPipe.falseValues)) {
+      if (Molasses.orEquals(input, Molasses.toBoolPipe.falseValues)) {
         return false;
       } else {
         return true;
@@ -1009,10 +1009,10 @@ export class Leylights {
 
   static toTitleCase = function (str: string): string {
     if (!str) return str;
-    return Leylights.toCapitalized(str.substring(0).toLowerCase());
+    return Molasses.toCapitalized(str.substring(0).toLowerCase());
   }
 }
 
-console.assert(Leylights.roundToDecimalPlaces(99.999, 2) === 100);
-console.assert(Leylights.roundToDecimalPlaces(99.874, 2) === 99.87);
-console.assert(Leylights.roundToDecimalPlaces(99.87394385, 2) === 99.87);
+console.assert(Molasses.roundToDecimalPlaces(99.999, 2) === 100);
+console.assert(Molasses.roundToDecimalPlaces(99.874, 2) === 99.87);
+console.assert(Molasses.roundToDecimalPlaces(99.87394385, 2) === 99.87);

@@ -1,10 +1,10 @@
 import { InputComponent } from "../../components/input.component.js";
-import { Leylights } from "../../leylights.js";
+import { Molasses } from "../../molasses.js";
 export class CalculatorView {
     static get LOG_DELAY() {
         let step = this.stepsPreview.querySelector('.step');
         if (!step) {
-            step = Leylights.createElement({ type: 'div', classList: 'step', style: 'display: none' });
+            step = Molasses.createElement({ type: 'div', classList: 'step', style: 'display: none' });
             this.stepsPreview.appendChild(step);
         }
         return parseFloat(window.getComputedStyle(step).animationDuration) * 1000;
@@ -43,7 +43,7 @@ export class CalculatorView {
             this.outputFields.main.style.fontSize = `${--fontSize}px`;
     }
     static logStep(value, type, title) {
-        this.waitingLogs.push({ value: value, type: Leylights.toTitleCase(type), title: Leylights.toTitleCase(title) });
+        this.waitingLogs.push({ value: value, type: Molasses.toTitleCase(type), title: Molasses.toTitleCase(title) });
     }
     static activateLogs() {
         for (let i = 0; i < 30; i++) {
@@ -58,7 +58,7 @@ export class CalculatorView {
     }
     static logStepToPreview(value, type, title) {
         const idRoot = type.replace(/\s/g, '-').toLowerCase();
-        const step = Leylights.createElement({
+        const step = Molasses.createElement({
             type: 'div',
             classList: 'step step-preview',
             id: idRoot + '-preview',
@@ -70,8 +70,8 @@ export class CalculatorView {
     static logStepToFullOutput(value, type, title) {
         const idRoot = type.replace(/\s/g, '-').toLowerCase();
         const elements = [
-            Leylights.createElement({ type: 'div', classList: 'step step-title', id: idRoot + '-title', innerHTML: `${title ? `${title} ` : ''}${type}:` }),
-            Leylights.createElement({ type: 'div', classList: 'step step-value', id: idRoot + '-value', innerHTML: value })
+            Molasses.createElement({ type: 'div', classList: 'step step-title', id: idRoot + '-title', innerHTML: `${title ? `${title} ` : ''}${type}:` }),
+            Molasses.createElement({ type: 'div', classList: 'step step-value', id: idRoot + '-value', innerHTML: value })
         ];
         for (const el of elements) {
             this.stepsFull.appendChild(el);

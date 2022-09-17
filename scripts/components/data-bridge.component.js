@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var _a;
-import { Leylights } from "../leylights.js";
+import { Molasses } from "../molasses.js";
 /*
  * Overview:
 
@@ -96,7 +96,7 @@ export class DataBridge {
         const me = this;
         if (!this.isRunning)
             this.open();
-        if (!Leylights.Array.includes(me.queueURLs, path))
+        if (!Molasses.Array.includes(me.queueURLs, path))
             this.addToQueue(path);
         const result = new Promise((resolve, reject) => {
             const requestCheckInterval = setInterval(() => {

@@ -1,4 +1,4 @@
-import { Leylights } from "../../leylights.js";
+import { Molasses } from "../../molasses.js";
 import { MenuItemMulti } from "./menu-item-multi.js";
 import { MenuItems } from "./menu-items.data.js";
 export class MenuLayouts {
@@ -30,7 +30,7 @@ MenuLayouts.MULTI_ITEMS = {
         ]
     })
 };
-MenuLayouts.ALL = Leylights.Object.values(MenuItems);
+MenuLayouts.ALL = Molasses.Object.values(MenuItems);
 MenuLayouts.MAIN_MENU = [
     MenuItems.covidDashboard,
     MenuItems.resume,
@@ -87,7 +87,7 @@ MenuLayouts.TOP_MENU = {
         MenuItems.calculatorii,
     ])
 };
-MenuLayouts.SECRET_ITEMS = Leylights.Object.values(MenuItems).filter((item) => {
+MenuLayouts.SECRET_ITEMS = Molasses.Object.values(MenuItems).filter((item) => {
     return item.isSecret;
 });
 //# sourceMappingURL=menu-layouts.data.js.map

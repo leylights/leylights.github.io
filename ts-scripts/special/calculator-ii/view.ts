@@ -1,5 +1,5 @@
 import { InputComponent } from "../../components/input.component.js";
-import { Leylights } from "../../leylights.js";
+import { Molasses } from "../../molasses.js";
 import { CalculatorUserError } from "./models/user-facing-error.js";
 
 export class CalculatorView {
@@ -19,7 +19,7 @@ export class CalculatorView {
   private static get LOG_DELAY(): number {
     let step: HTMLElement = this.stepsPreview.querySelector('.step');
     if (!step) {
-      step = Leylights.createElement({ type: 'div', classList: 'step', style: 'display: none' });
+      step = Molasses.createElement({ type: 'div', classList: 'step', style: 'display: none' });
       this.stepsPreview.appendChild(step);
     }
 
@@ -69,7 +69,7 @@ export class CalculatorView {
   }
 
   static logStep(value: string, type: string, title?: string) {
-    this.waitingLogs.push({ value: value, type: Leylights.toTitleCase(type), title: Leylights.toTitleCase(title) });
+    this.waitingLogs.push({ value: value, type: Molasses.toTitleCase(type), title: Molasses.toTitleCase(title) });
   }
 
   private static activateLogs() {
@@ -87,7 +87,7 @@ export class CalculatorView {
   private static logStepToPreview(value: string, type: string, title?: string) {
     const idRoot = type.replace(/\s/g, '-').toLowerCase();
 
-    const step: HTMLDivElement = Leylights.createElement({
+    const step: HTMLDivElement = Molasses.createElement({
       type: 'div',
       classList: 'step step-preview',
       id: idRoot + '-preview',
@@ -102,8 +102,8 @@ export class CalculatorView {
     const idRoot = type.replace(/\s/g, '-').toLowerCase();
 
     const elements: HTMLDivElement[] = [
-      Leylights.createElement({ type: 'div', classList: 'step step-title', id: idRoot + '-title', innerHTML: `${title ? `${title} ` : ''}${type}:` }),
-      Leylights.createElement({ type: 'div', classList: 'step step-value', id: idRoot + '-value', innerHTML: value })
+      Molasses.createElement({ type: 'div', classList: 'step step-title', id: idRoot + '-title', innerHTML: `${title ? `${title} ` : ''}${type}:` }),
+      Molasses.createElement({ type: 'div', classList: 'step step-value', id: idRoot + '-value', innerHTML: value })
     ];
 
     for (const el of elements) {

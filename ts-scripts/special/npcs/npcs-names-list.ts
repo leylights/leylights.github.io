@@ -1,4 +1,4 @@
-import { Leylights } from "../../leylights.js";
+import { Molasses } from "../../molasses.js";
 import { Button } from "../../components/button.component.js";
 import { NPCsName } from "./helper-repository/name.js";
 import { NPCsRace, NPCsRaceArchetype } from "./core/race.js";
@@ -16,7 +16,7 @@ export class NPCsNamesList {
   constructor() {
     const me = this;
 
-    this.tableContainer = Leylights.createElement({
+    this.tableContainer = Molasses.createElement({
       type: 'div',
     });
     this.pageContent.appendChild(this.tableContainer);
@@ -27,7 +27,7 @@ export class NPCsNamesList {
       me.generateJSON();
     }, 'Submit', true);
 
-    this.outputField = Leylights.createElement({
+    this.outputField = Molasses.createElement({
       type: 'textarea',
       id: 'npcs-names-output',
     });
@@ -75,27 +75,27 @@ export class NPCsNamesList {
 
   private async generateTables() {
     const namesList = await NPCsName.getList();
-    this.tables.firstNames = await this.generateTable(Leylights.Array.distinct(namesList.firstNames.all, (a: NPCsName, b: NPCsName) => { return a.name === b.name }), 'first-names');
-    this.tables.lastNames = await this.generateTable(Leylights.Array.distinct(namesList.lastNames.all, (a: NPCsName, b: NPCsName) => { return a.name === b.name }), 'last-names');
+    this.tables.firstNames = await this.generateTable(Molasses.Array.distinct(namesList.firstNames.all, (a: NPCsName, b: NPCsName) => { return a.name === b.name }), 'first-names');
+    this.tables.lastNames = await this.generateTable(Molasses.Array.distinct(namesList.lastNames.all, (a: NPCsName, b: NPCsName) => { return a.name === b.name }), 'last-names');
   }
 
   private async generateTable(namesList: NPCsName[], id: string): Promise<HTMLTableElement> {
     const
-      tableHeadMainRow: HTMLTableRowElement = Leylights.createElement({
+      tableHeadMainRow: HTMLTableRowElement = Molasses.createElement({
         type: 'tr',
-        children: [Leylights.createElement({
+        children: [Molasses.createElement({
           type: 'th',
           innerText: 'name',
         })]
       }),
-      tableBody: HTMLTableSectionElement = Leylights.createElement({
+      tableBody: HTMLTableSectionElement = Molasses.createElement({
         type: 'tbody',
       }),
-      table: HTMLTableElement = Leylights.createElement({
+      table: HTMLTableElement = Molasses.createElement({
         type: 'table',
         id: id,
         children: [
-          Leylights.createElement({
+          Molasses.createElement({
             type: 'thead',
             children: [tableHeadMainRow]
           }),
@@ -105,28 +105,28 @@ export class NPCsNamesList {
 
     const archetypesList = NPCsRace.archetypes;
     archetypesList.forEach((archetype: NPCsRaceArchetype) => {
-      tableHeadMainRow.appendChild(Leylights.createElement({
+      tableHeadMainRow.appendChild(Molasses.createElement({
         type: 'th',
         innerText: archetype,
       }));
     });
 
     namesList.forEach((name: NPCsName) => {
-      const newRow: HTMLTableRowElement = Leylights.createElement({
+      const newRow: HTMLTableRowElement = Molasses.createElement({
         type: 'tr',
-        children: [Leylights.createElement({
+        children: [Molasses.createElement({
           type: 'td',
           innerText: name.name,
         })],
       });
 
       archetypesList.forEach((archetype: NPCsRaceArchetype) => {
-        const selector: HTMLButtonElement = Leylights.createElement({
+        const selector: HTMLButtonElement = Molasses.createElement({
           type: 'button',
           innerText: archetype,
-          classList: Leylights.Array.includes(name.owners, archetype) ? 'selected' : '',
+          classList: Molasses.Array.includes(name.owners, archetype) ? 'selected' : '',
         });
-        const newCell: HTMLTableCellElement = Leylights.createElement({
+        const newCell: HTMLTableCellElement = Molasses.createElement({
           type: 'td',
           children: [selector],
         });

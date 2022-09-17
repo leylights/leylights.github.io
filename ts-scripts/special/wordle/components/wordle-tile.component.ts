@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 
 export class WordleTile {
   private _flipDelay: number;
@@ -11,21 +11,21 @@ export class WordleTile {
 
   constructor(flipDelay: number, classList: string) {
     this._flipDelay = flipDelay;
-    this.front = Leylights.createElement({
+    this.front = Molasses.createElement({
       type: 'div',
       classList: 'front',
-      children: [Leylights.createElement({ type: 'div', classList: 'letter-text', })],
+      children: [Molasses.createElement({ type: 'div', classList: 'letter-text', })],
     });
-    this.back = Leylights.createElement({
+    this.back = Molasses.createElement({
       type: 'div',
       classList: 'back',
-      children: [Leylights.createElement({ type: 'div', classList: 'letter-text', })],
+      children: [Molasses.createElement({ type: 'div', classList: 'letter-text', })],
     });
 
-    this.element = Leylights.createElement({
+    this.element = Molasses.createElement({
       type: 'div',
       classList: 'wordle-tile ' + classList,
-      children: [Leylights.createElement({
+      children: [Molasses.createElement({
         type: 'div',
         classList: 'inner',
         children: [this.front, this.back],

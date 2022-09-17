@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 
 type LanguageProficicencyLevel = 'Native' | 'Fluent' | 'Conversational' | 'Fundamental';
 
@@ -22,7 +22,7 @@ export class ResumeLanguageComponent {
   }
 
   rebuildElement(): HTMLElement {
-    const element = Leylights.createElement({
+    const element = Molasses.createElement({
       type: 'li',
       classList: ['resume-language', 'resume-highlight-no-css'],
       innerText: this.fullText,

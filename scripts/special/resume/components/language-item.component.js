@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 export class ResumeLanguageComponent {
     constructor(parentElement, languageName, proficiencyLevel) {
         this.languageName = languageName;
@@ -10,7 +10,7 @@ export class ResumeLanguageComponent {
         return `${this.languageName} \u2014 ${this.proficiencyLevel}`;
     }
     rebuildElement() {
-        const element = Leylights.createElement({
+        const element = Molasses.createElement({
             type: 'li',
             classList: ['resume-language', 'resume-highlight-no-css'],
             innerText: this.fullText,

@@ -6,7 +6,7 @@ import { ResumeLanguageComponent } from "./components/language-item.component.js
 import { ResumeOccupationItemComponent } from "./components/occupation-item.component.js";
 import { ResumeSkillComponent } from "./components/skill.component.js";
 import { ResumeSmallExperienceItem } from "./components/small-experience-item.component.js";
-import { Leylights } from "../../leylights.js";
+import { Molasses } from "../../molasses.js";
 
 export class ResumePage {
   static experienceItems: ResumeOccupationItemComponent[] = [];
@@ -224,26 +224,26 @@ export class ResumePage {
 
   private static loadContact(): void {
     if (!CoreDataService.shouldRiverify) {
-      document.getElementById('connect-links').appendChild(Leylights.createElement({
+      document.getElementById('connect-links').appendChild(Molasses.createElement({
         type: 'li',
-        children: [Leylights.createElement({
+        children: [Molasses.createElement({
           type: 'a',
-          innerText: 'in/leylights',
+          innerText: 'in/colestantinople',
           otherNodes: {
             target: '_blank',
-            href: 'https://www.linkedin.com/in/leylights/',
+            href: 'www.linkedin.com/in/colestantinople/',
           },
         })]
       }));
     } else {
-      document.getElementById('connect-links').appendChild(Leylights.createElement({
+      document.getElementById('connect-links').appendChild(Molasses.createElement({
         type: 'li',
-        children: [Leylights.createElement({
+        children: [Molasses.createElement({
           type: 'a',
-          innerText: 'leylights',
+          innerText: 'some-molasses',
           otherNodes: {
             target: '_blank',
-            href: 'https://github.com/leylights',
+            href: 'https://github.com/some-molasses',
           },
         })]
       }));

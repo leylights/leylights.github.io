@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { Leylights } from "../../leylights.js";
+import { Molasses } from "../../molasses.js";
 import { Button } from "../../components/button.component.js";
 import { BASE_TEMP_HIGHLIGHT_TIME } from "../../components/general.js";
 import { ResizingInput } from "../../components/resizing-input.component.js";
@@ -69,13 +69,13 @@ export class NPCsInitiativeTracker {
         return this.enabledCharacterCount > 1;
     }
     addTableRow() {
-        const me = this, newRow = Leylights.createElement({
+        const me = this, newRow = Molasses.createElement({
             type: 'tr',
             children: [
-                Leylights.createElement({
+                Molasses.createElement({
                     type: 'td',
                 }),
-                Leylights.createElement({
+                Molasses.createElement({
                     type: 'td',
                 })
             ]
@@ -84,21 +84,21 @@ export class NPCsInitiativeTracker {
             cell.contentEditable = 'true';
         });
         // set up isNPC cell after so that it does not become editable
-        const isNPCButton = Leylights.createElement({
+        const isNPCButton = Molasses.createElement({
             type: 'button'
-        }), isNPCBody = Leylights.createElement({
+        }), isNPCBody = Molasses.createElement({
             type: 'div',
             classList: 'npc-data-cell',
             children: [
-                Leylights.createElement({
+                Molasses.createElement({
                     type: 'div',
                     classList: 'is-npc-container',
                     children: [isNPCButton]
                 }),
-                Leylights.createElement({
+                Molasses.createElement({
                     type: 'div',
                     classList: 'health-input-container',
-                    children: [Leylights.createElement({
+                    children: [Molasses.createElement({
                             type: 'input',
                             classList: 'health-input',
                             otherNodes: [{
@@ -108,7 +108,7 @@ export class NPCsInitiativeTracker {
                         })]
                 })
             ]
-        }), isNPCCell = Leylights.createElement({
+        }), isNPCCell = Molasses.createElement({
             type: 'td',
             children: [
                 isNPCBody,
@@ -227,27 +227,27 @@ export class NPCsInitiativeTracker {
         }
     }
     loadInitialHTML() {
-        const me = this, tbody = Leylights.createElement({
+        const me = this, tbody = Molasses.createElement({
             type: 'tbody',
-        }), table = Leylights.createElement({
+        }), table = Molasses.createElement({
             type: 'table',
             id: 'data-input-table',
             children: [
-                Leylights.createElement({
+                Molasses.createElement({
                     type: 'thead',
                     children: [
-                        Leylights.createElement({
+                        Molasses.createElement({
                             type: 'tr',
                             children: [
-                                Leylights.createElement({
+                                Molasses.createElement({
                                     type: 'th',
                                     innerText: 'Name'
                                 }),
-                                Leylights.createElement({
+                                Molasses.createElement({
                                     type: 'th',
                                     innerText: 'Initiative'
                                 }),
-                                Leylights.createElement({
+                                Molasses.createElement({
                                     type: 'th',
                                     innerText: 'Is NPC?'
                                 })
@@ -312,7 +312,7 @@ export class NPCsInitiativeTracker {
                 if (generateName) {
                     for (let i = 0; i < 100; i++) {
                         name = (yield NPCsRace.list.human.generateName())[0];
-                        if (!(Leylights.Array.includes(takenNames, name)))
+                        if (!(Molasses.Array.includes(takenNames, name)))
                             break;
                     }
                 }
@@ -327,22 +327,22 @@ export class NPCsInitiativeTracker {
             // clear old elements
             Array.from(me.HTML.content.children).forEach((child) => { child.remove(); });
             // generate initiative tracker
-            me.HTML.tracker.current = Leylights.createElement({
+            me.HTML.tracker.current = Molasses.createElement({
                 type: 'h2',
             });
-            me.HTML.tracker.upcoming = Leylights.createElement({
+            me.HTML.tracker.upcoming = Molasses.createElement({
                 type: 'h3',
             });
-            me.HTML.tracker.upcomingPlayer = Leylights.createElement({
+            me.HTML.tracker.upcomingPlayer = Molasses.createElement({
                 type: 'h3',
                 classList: 'invisible',
                 innerText: 'Next player character:'
             });
-            me.HTML.tracker.currentRound = Leylights.createElement({
+            me.HTML.tracker.currentRound = Molasses.createElement({
                 type: 'p',
                 innerText: `Current round: 1`
             });
-            const nextDiv = Leylights.createElement({
+            const nextDiv = Molasses.createElement({
                 type: 'div',
                 style: 'position: relative',
                 children: [
@@ -350,7 +350,7 @@ export class NPCsInitiativeTracker {
                     me.HTML.tracker.upcomingPlayer
                 ]
             });
-            const newPage = Leylights.createElement({
+            const newPage = Molasses.createElement({
                 type: 'div',
                 id: 'initiative-tracker',
                 children: [
@@ -363,24 +363,24 @@ export class NPCsInitiativeTracker {
             }, 'Next', true, 'next-combatant-button');
             newPage.appendChild(me.HTML.tracker.currentRound);
             me.resetCurrentRoundHTML();
-            me.HTML.tracker.topOfRoundArrow = Leylights.createElement({
+            me.HTML.tracker.topOfRoundArrow = Molasses.createElement({
                 type: 'div',
                 classList: 'top-of-round',
                 children: [
-                    Leylights.createElement({
+                    Molasses.createElement({
                         type: 'div',
                         classList: 'arrow',
-                        children: [Leylights.createElement({
+                        children: [Molasses.createElement({
                                 type: 'div',
                                 classList: ['triangle'],
-                            }), Leylights.createElement({
+                            }), Molasses.createElement({
                                 type: 'div',
                                 classList: ['line'],
                             })],
                     })
                 ],
             });
-            me.HTML.tracker.grid = Leylights.createElement({
+            me.HTML.tracker.grid = Molasses.createElement({
                 type: 'div',
                 classList: 'combatant-grid',
             });
@@ -396,22 +396,22 @@ export class NPCsInitiativeTracker {
             });
             me.loadTrackerTitle();
             function createRow(combatant) {
-                const deleteButton = Leylights.createElement({
+                const deleteButton = Molasses.createElement({
                     type: 'span',
                     classList: 'npcs-delete-button',
                     innerText: 'remove'
                 }), nextCombatantRow = {
                     isLong: combatant.hasAdditionalData,
-                    initiative: Leylights.createElement({
+                    initiative: Molasses.createElement({
                         type: 'div',
                         classList: ['combatant-initiative'].concat(combatant.isNPC ? ['is-npc'] : []),
                         innerText: combatant.initiative + '',
                     }),
-                    name: Leylights.createElement({
+                    name: Molasses.createElement({
                         type: 'div',
                         classList: 'combatant-name',
                         children: [
-                            Leylights.createElement({
+                            Molasses.createElement({
                                 type: 'span',
                                 innerText: combatant.name,
                             }),
@@ -427,7 +427,7 @@ export class NPCsInitiativeTracker {
                         if (me.enabledCharacterCount > 0)
                             me.loadToNextValidCombatant();
                     }, 'Remove'),
-                    container: Leylights.createElement({
+                    container: Molasses.createElement({
                         type: 'div',
                         classList: ['combatant-row'].concat(combatant.hasAdditionalData ? ['combatant-row-long'] : []),
                     }),
@@ -436,7 +436,7 @@ export class NPCsInitiativeTracker {
                 nextCombatantRow.container.appendChild(nextCombatantRow.initiative);
                 nextCombatantRow.container.appendChild(nextCombatantRow.name);
                 if (combatant.HP) {
-                    nextCombatantRow.HPInput = new ResizingInput(Leylights.createElement({
+                    nextCombatantRow.HPInput = new ResizingInput(Molasses.createElement({
                         type: 'input',
                         classList: 'combatant-hp',
                         otherNodes: [{
@@ -447,12 +447,12 @@ export class NPCsInitiativeTracker {
                                 value: combatant.HP + ''
                             }]
                     }));
-                    nextCombatantRow.HPContainer = Leylights.createElement({
+                    nextCombatantRow.HPContainer = Molasses.createElement({
                         type: 'div',
                         classList: 'combatant-hp-container',
-                        children: [Leylights.createElement({
+                        children: [Molasses.createElement({
                                 type: 'div',
-                                children: [Leylights.createElement({
+                                children: [Molasses.createElement({
                                         type: 'span',
                                         innerText: 'HP: '
                                     }),
@@ -515,7 +515,7 @@ export class NPCsInitiativeTracker {
         }
     }
     resetCurrentRoundHTML() {
-        const me = this, lastRound = Leylights.parseFirstFloat(this.HTML.tracker.currentRound.innerText);
+        const me = this, lastRound = Molasses.parseFirstFloat(this.HTML.tracker.currentRound.innerText);
         if (lastRound !== this.currentRound) {
             const highlight = 'highlight-tracker-text', timeout = BASE_TEMP_HIGHLIGHT_TIME;
             this.HTML.tracker.currentRound.classList.add(highlight);

@@ -1,4 +1,4 @@
-import { Leylights } from "../../leylights.js";
+import { Molasses } from "../../molasses.js";
 var tiles = [];
 var sprites = [];
 var startPos = { x: -9000, y: -9000, w: 24, h: 40, c: "#00F5F5" };
@@ -46,7 +46,7 @@ var myCanvas = {
         this.canvas.height = document.body.clientHeight - 64;
         this.canvas.style.backgroundColor = "white";
         this.canvas.style.transition = "all 0.5s linear";
-        this.canvas.setAttributeNode(Leylights.betterCreateAttr("oncontextmenu", "return false;"));
+        this.canvas.setAttributeNode(Molasses.betterCreateAttr("oncontextmenu", "return false;"));
         this.isClicking = false;
         this.recentClick = false;
         this.clickLeft = true;
@@ -107,7 +107,7 @@ var myCanvas = {
         this.clear();
     },
     clear: function () {
-        Leylights.fillRect(0, 0, this.canvas.width, this.canvas.height, this.bg, this.context);
+        Molasses.fillRect(0, 0, this.canvas.width, this.canvas.height, this.bg, this.context);
         // rect(0, 0, this.canvas.width, this.canvas.height, myCanvas.canvas.style.backgroundColor);
         // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
@@ -1116,8 +1116,8 @@ window.addEventListener("resize", resizeCanvas);
 function addSprite(src) {
     var newimg = document.createElement("img");
     var truesrc = "/siteimages/energy/" + src + ".png";
-    newimg.setAttributeNode(Leylights.betterCreateAttr("src", truesrc));
-    newimg.setAttributeNode(Leylights.betterCreateAttr("id", truesrc));
+    newimg.setAttributeNode(Molasses.betterCreateAttr("src", truesrc));
+    newimg.setAttributeNode(Molasses.betterCreateAttr("id", truesrc));
     document.getElementById("imgs").appendChild(newimg);
     return newimg;
 }
@@ -1127,10 +1127,10 @@ function addSprite(src) {
 //     return attr;
 //   }
 function drawImg(img, x, y, w, h) {
-    Leylights.drawImg(img, x, y, w, h, myCanvas.context);
+    Molasses.drawImg(img, x, y, w, h, myCanvas.context);
 }
 function drawText(text, x, y, colour, centered, size, type) {
-    Leylights.drawText(text, x, y, colour, centered, size, type, myCanvas.context);
+    Molasses.drawText(text, x, y, colour, centered, size, type, myCanvas.context);
 }
 function isClicked(x, y, w, h) {
     if (myCanvas.mouseX < x + w &&
@@ -1168,7 +1168,7 @@ function mouseUp() {
 //     return false;
 //   }
 function rect(x, y, w, h, colour) {
-    Leylights.fillRect(x, y, w, h, colour, myCanvas.context);
+    Molasses.fillRect(x, y, w, h, colour, myCanvas.context);
 }
 //   function switchToMobile() {
 //     document.getElementById("main").style.marginTop = "0px";

@@ -1,8 +1,8 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 export class NPCsReplacerSpan {
     constructor(body) {
         this.id = NPCsReplacerSpan.nextId++;
-        this.element = Leylights.createElement({
+        this.element = Molasses.createElement({
             type: 'span',
             classList: 'npcs-replacer-span',
             id: `npcs-replacer-span-${this.id}`

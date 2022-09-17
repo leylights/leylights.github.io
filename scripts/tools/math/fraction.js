@@ -1,4 +1,4 @@
-import { Leylights } from "../../leylights.js";
+import { Molasses } from "../../molasses.js";
 /**
  * A class to handle real fractions
  */
@@ -136,7 +136,7 @@ export class MathFrac {
      * Returns the fraction for chaining
      */
     condense() {
-        const divisionFactor = Math.abs(Leylights.gcd(this.numerator, this.denominator));
+        const divisionFactor = Math.abs(Molasses.gcd(this.numerator, this.denominator));
         this.numerator /= divisionFactor;
         this.denominator /= divisionFactor;
         if (this.denominator < 0) {

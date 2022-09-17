@@ -5,7 +5,7 @@ import { CHA, INT, NPCsCharacterAlignmentMoral, NPCsCharacterAlignmentOrder, NPC
 import { NPCsSkillCreationData, NPCsSkillset } from "../helper-repository/skill-set.js";
 import { NPCsSpellcasterData } from "../helper-repository/spellcaster-data.js";
 import { NPCsSpell } from "../helper-repository/spell.js";
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { NPCsName } from "../helper-repository/name.js";
 
 export type NPCsRaceArchetype = "human"
@@ -137,11 +137,11 @@ export class NPCsRace {
 
     // generate and assign alignment
 
-    let alignmentChoice = Math.ceil(Math.random() * (Leylights.Array.get.sum(optionAffinities)));
+    let alignmentChoice = Math.ceil(Math.random() * (Molasses.Array.get.sum(optionAffinities)));
 
     if (alignmentChoice <= optionAffinities[0])
       return options[0];
-    else if (alignmentChoice <= Leylights.Array.get.sum(optionAffinities, 0, 2))
+    else if (alignmentChoice <= Molasses.Array.get.sum(optionAffinities, 0, 2))
       return options[1];
     else
       return options[2];
@@ -181,7 +181,7 @@ export class NPCsRace {
       const TIMEOUT = 25;
 
       for (let i = 0; i < TIMEOUT; i++) {
-        const newLang = Leylights.Array.get.randomElement(languageOptions);
+        const newLang = Molasses.Array.get.randomElement(languageOptions);
 
         const languagePreexists = selectedLanguages.filter((a: NPCsLanguageType) => { return a === newLang }).length !== 0;
 
@@ -205,20 +205,20 @@ export class NPCsRace {
 
     switch (this.archetype) {
       case "dwarf":
-        names[0] = Leylights.Array.get.randomElement(list.firstNames.dwarf).name;
-        names[1] = Leylights.Array.get.randomElement(list.lastNames.dwarf).name;
+        names[0] = Molasses.Array.get.randomElement(list.firstNames.dwarf).name;
+        names[1] = Molasses.Array.get.randomElement(list.lastNames.dwarf).name;
         break;
       case "elf":
-        names[0] = Leylights.Array.get.randomElement(list.firstNames.elf).name;
-        names[1] = Leylights.Array.get.randomElement(list.lastNames.elf).name;
+        names[0] = Molasses.Array.get.randomElement(list.firstNames.elf).name;
+        names[1] = Molasses.Array.get.randomElement(list.lastNames.elf).name;
         break;
       case "halfling":
-        names[0] = Leylights.Array.get.randomElement(list.firstNames.halfling).name;
-        names[1] = Leylights.Array.get.randomElement(list.lastNames.halfling).name;
+        names[0] = Molasses.Array.get.randomElement(list.firstNames.halfling).name;
+        names[1] = Molasses.Array.get.randomElement(list.lastNames.halfling).name;
         break;
       case "human":
-        names[0] = Leylights.Array.get.randomElement(list.firstNames.human).name;
-        names[1] = Leylights.Array.get.randomElement(list.lastNames.human).name;
+        names[0] = Molasses.Array.get.randomElement(list.firstNames.human).name;
+        names[1] = Molasses.Array.get.randomElement(list.lastNames.human).name;
         break;
     }
 
@@ -468,13 +468,13 @@ export class NPCsRace {
   };
 
   static get archetypes(): NPCsRaceArchetype[] {
-    const allArchetypes = Leylights.Object.values(NPCsRace.list).map((race: NPCsRace) => {
+    const allArchetypes = Molasses.Object.values(NPCsRace.list).map((race: NPCsRace) => {
       return race.archetype;
     });
 
     let result: NPCsRaceArchetype[] = [];
     allArchetypes.forEach((archetype: NPCsRaceArchetype) => {
-      if (!Leylights.Array.includes(result, archetype))
+      if (!Molasses.Array.includes(result, archetype))
         result.push(archetype);
     });
 
@@ -482,7 +482,7 @@ export class NPCsRace {
   }
 
   static getRaceByName(name: string): NPCsRace {
-    const result: NPCsRace[] = Leylights.Object.values(NPCsRace.list).filter((r: NPCsRace) => {
+    const result: NPCsRace[] = Molasses.Object.values(NPCsRace.list).filter((r: NPCsRace) => {
       return r.name.toLowerCase() === name.toLowerCase();
     });
 
@@ -492,7 +492,7 @@ export class NPCsRace {
   }
 
   static getRandomRace(): NPCsRace {
-    let options: NPCsRace[] = Leylights.Object.values(NPCsRace.list);
-    return Leylights.Array.get.randomElement(options);
+    let options: NPCsRace[] = Molasses.Object.values(NPCsRace.list);
+    return Molasses.Array.get.randomElement(options);
   }
 }

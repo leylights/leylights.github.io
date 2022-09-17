@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { NPCsAction } from "./action.js";
 import { DEX, NPCsDice, NPCsHelper, STR } from "./general.js";
 export class NPCsAttack extends NPCsAction {
@@ -117,7 +117,7 @@ export class NPCsAttack extends NPCsAction {
     getHTML(data) {
         let attackType = this.attackType == 'Mixed' ? 'Melee or Ranged' : this.attackType;
         return `<i>${attackType} Weapon Attack:</i> ${NPCsHelper.abilityToStr(this.ability, false)}_WITH_PROF to hit, 
-    ${this.getHTMLRangeOrReach()}, ${Leylights.numberToString(this.targetCount)} target. <i>Hit:</i> ${this.getAttacksListHTML(data)} ${this.damageType} damage${this.additionalEndText || '.'}`;
+    ${this.getHTMLRangeOrReach()}, ${Molasses.numberToString(this.targetCount)} target. <i>Hit:</i> ${this.getAttacksListHTML(data)} ${this.damageType} damage${this.additionalEndText || '.'}`;
     }
 }
 //# sourceMappingURL=action-attack.js.map

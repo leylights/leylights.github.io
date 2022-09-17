@@ -1,29 +1,29 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { Button } from "../../../components/button.component.js";
 import { SummonsCreatureFactory } from "../creature-factory.js";
 export class SummonsCreatureAddButton {
     constructor(parentElement, addNewViewComponent, addNewCreature) {
         const me = this;
         // create select
-        this.selector = Leylights.createElement({
+        this.selector = Molasses.createElement({
             type: 'select',
             classList: 'create-select'
         });
         // fill select options
-        const names = Leylights.Object.values(SummonsCreatureFactory.creatures).map((c) => { return c.name; });
+        const names = Molasses.Object.values(SummonsCreatureFactory.creatures).map((c) => { return c.name; });
         names.forEach((name) => {
-            me.selector.appendChild(Leylights.createElement({
+            me.selector.appendChild(Molasses.createElement({
                 type: 'option',
                 innerText: name.toUpperCase(),
             }));
         });
-        me.selector.appendChild(Leylights.createElement({
+        me.selector.appendChild(Molasses.createElement({
             type: 'option',
             innerText: SummonsCreatureAddButton.NEW_CREATURE_NAME.toUpperCase(),
         }));
         // create table
-        this.table = Leylights.createTable({
-            body: [[Leylights.createElement({
+        this.table = Molasses.createTable({
+            body: [[Molasses.createElement({
                         type: 'div',
                         classList: 'create-button'
                     }), this.selector]]
@@ -35,7 +35,7 @@ export class SummonsCreatureAddButton {
                 addNewCreature();
             }
             else {
-                const createdCreature = Array.from(Leylights.Object.values(SummonsCreatureFactory.creatures)).filter((c) => {
+                const createdCreature = Array.from(Molasses.Object.values(SummonsCreatureFactory.creatures)).filter((c) => {
                     return c.name.toUpperCase() === selectedCreature;
                 })[0].creator();
                 addNewViewComponent(createdCreature);

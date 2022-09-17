@@ -3,11 +3,11 @@
  * 
  * Handles the mobile menu
  * 
- * @author Cole Stanley
+ * @author River Stanley
  * Created: 2017
  */
 
-import { Leylights } from '../leylights.js';
+import { Molasses } from '../molasses.js';
 import { Button } from '../components/button.component.js';
 import { MenuItemMulti } from './menus/menu-item-multi.js';
 import { MenuItemSingle } from './menus/menu-item-single.js';
@@ -49,7 +49,7 @@ export class SideMenuService {
     newItem.classList.add('side-menu-item');
     newItem.id = `menu-item-${SideMenuService.itemNo}`;
     if (item instanceof MenuItemSingle)
-      newItem.appendChild(Leylights.createElement({
+      newItem.appendChild(Molasses.createElement({
         type: 'a',
         innerText: item.shortName,
         otherNodes: { href: item.singleLinks.href },
@@ -88,11 +88,11 @@ export class SideMenuService {
 
   private static buildMenuStructure(): HTMLElement {
     function createCategory(name: string, type: string, content?: HTMLElement[]): HTMLElement {
-      return Leylights.createElement({
+      return Molasses.createElement({
         type: 'div',
         id: `${type}-dropdown-category`,
         classList: 'side-menu-dropdown-category side-menu-top-level-item',
-        children: (content || []).concat([Leylights.createElement({
+        children: (content || []).concat([Molasses.createElement({
           type: 'button',
           classList: 'side-menu-top-level-button',
           innerHTML: name,
@@ -101,10 +101,10 @@ export class SideMenuService {
     }
 
     function createTopLevelButton(name: string, link: string): HTMLElement {
-      return Leylights.createElement({
+      return Molasses.createElement({
         type: 'div',
         classList: 'side-menu-top-level-item',
-        children: [Leylights.createElement({
+        children: [Molasses.createElement({
           type: 'a',
           classList: 'side-menu-top-level-button',
           otherNodes: [{ type: 'href', value: link }],
@@ -113,18 +113,18 @@ export class SideMenuService {
       });
     }
 
-    const sideMenu = Leylights.createElement({
+    const sideMenu = Molasses.createElement({
       type: 'nav',
       id: 'side-menu',
       children: [
-        Leylights.createElement({
+        Molasses.createElement({
           type: 'div',
           id: 'side-menu-content',
           children: [
-            Leylights.createElement({
+            Molasses.createElement({
               type: 'div',
               id: 'side-menu-title-container',
-              children: [Leylights.createElement({
+              children: [Molasses.createElement({
                 type: 'h1',
                 id: 'side-menu-title',
                 innerText: 'menu',
@@ -134,19 +134,19 @@ export class SideMenuService {
             createCategory('Tools', 'tools'),
             createTopLevelButton('Archive', '/pages/archive.html'),
             createTopLevelButton('Resume', '/pages/resume.html'),
-            Leylights.createElement({
+            Molasses.createElement({
               type: 'button',
               id: 'side-menu-end-button',
-              children: [Leylights.createElement({
+              children: [Molasses.createElement({
                 type: 'img',
                 otherNodes: [{ type: 'src', value: '/siteimages/closebutton.png' }],
               })]
             }),
-            Leylights.createElement({
+            Molasses.createElement({
               type: 'div',
               classList: 'dark-mode-container',
               children: [
-                Leylights.createElement({
+                Molasses.createElement({
                   type: 'span',
                   innerText: 'Dark mode'
                 }),

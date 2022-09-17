@@ -1,4 +1,4 @@
-import { Leylights } from "../leylights.js";
+import { Molasses } from "../molasses.js";
 import { KeyboardListener } from "../tools/keyboard-listener.js";
 import { DarkModeService } from "../services/dark-mode.service.js";
 
@@ -235,7 +235,7 @@ export class Canvas {
    */
 
   drawTriangle(this: Canvas, x: number, y: number, w: number, h: number, colour: string, center: boolean, angle: number) {
-    angle = Leylights.toRadians(angle);
+    angle = Molasses.toRadians(angle);
 
     this.context.beginPath();
     this.context.fillStyle = colour;
@@ -376,7 +376,7 @@ export class Canvas {
 
   rebuildElement(parentElement?: HTMLElement): HTMLCanvasElement {
     const me = this,
-      canvas = Leylights.createElement({
+      canvas = Molasses.createElement({
         type: 'canvas',
       });
 

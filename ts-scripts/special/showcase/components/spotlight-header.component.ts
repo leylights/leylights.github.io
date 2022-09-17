@@ -1,4 +1,5 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
+import { CoreDataService } from "../../../services/core-data.service.js";
 
 type Season = 'fall' | 'winter' | 'spring' | 'summer';
 interface SpotlightHeaderElements {
@@ -16,13 +17,13 @@ export class SpotlightHeader {
   private getSpotlightImage(this: SpotlightHeader): HTMLElement {
     const season: Season = getSeason();
     const options: string[] = SpotlightHeader.SPOTLIGHT_IMAGES[season];
-    const imageSource: string = Leylights.Array.get.randomElement(options);
+    const imageSource: string = Molasses.Array.get.randomElement(options);
 
-    return Leylights.createElement({
+    return Molasses.createElement({
       type: 'div',
       id: this.elements?.spotlightImage.id ?? 'showcase-main-spotlight-image',
       classList: this.elements?.spotlightImage.className,
-      style: `background-image: url("${Leylights.getRelativeUrlPath(`siteimages/showcase/${season}/${imageSource}`)}");`,
+      style: `background-image: url("${Molasses.getRelativeUrlPath(`siteimages/showcase/${season}/${imageSource}`)}");`,
     });
 
     function getSeason(): Season {
@@ -61,19 +62,19 @@ export class SpotlightHeader {
         ?.querySelector('#big-logo') as HTMLImageElement)
         ?.src.replace(window.location.origin + '/', '') || 'siteimages/logo-w.svg',
 
-      logo: HTMLImageElement = Leylights.createElement({
+      logo: HTMLImageElement = Molasses.createElement({
         type: 'img',
         id: 'big-logo',
         classList: 'site-logo',
         otherNodes: [{
           type: 'src',
-          value: Leylights.getRelativeUrlPath(logoSource)
+          value: Molasses.getRelativeUrlPath(logoSource)
         }, {
           type: 'alt',
-          value: 'colestanley.ca'
+          value: CoreDataService.siteName
         }],
       }),
-      container: HTMLElement = Leylights.createElement({
+      container: HTMLElement = Molasses.createElement({
         type: 'div',
         id: 'showcase-main-spotlight',
         children: [

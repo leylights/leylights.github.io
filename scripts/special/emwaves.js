@@ -1,11 +1,11 @@
 /* eslint-disable no-var */
-import { Leylights } from "../leylights.js";
+import { Molasses } from "../molasses.js";
 /**
  * EM Wave Generator
  *
  * This program animates an em wave.
  *
- * Cole Stanley
+ * River Stanley
  *
  * Start Date: February 20th, 2020
  * Proposal Deadline: March 5th, 2020
@@ -121,7 +121,7 @@ const myCanvas = {
         resizeCanvas(); // centralizes canvas sizing
         this.canvas.style.backgroundColor = "white";
         this.canvas.style.transition = "all 0.5s linear";
-        this.canvas.setAttributeNode(Leylights.betterCreateAttr("oncontextmenu", "return false;"));
+        this.canvas.setAttributeNode(Molasses.betterCreateAttr("oncontextmenu", "return false;"));
         this.isClicking = false;
         this.recentClick = false;
         this.clickLeft = true;
@@ -172,7 +172,7 @@ const myCanvas = {
         this.clear();
     },
     clear: function () {
-        Leylights.fillRect(0, 0, this.canvas.width, this.canvas.height, "rgb(" + bgC + "," + bgC + "," + bgC + ")", myCanvas.context);
+        Molasses.fillRect(0, 0, this.canvas.width, this.canvas.height, "rgb(" + bgC + "," + bgC + "," + bgC + ")", myCanvas.context);
     }
 };
 function init(firstTime) {
@@ -212,15 +212,15 @@ function init(firstTime) {
             doResize = true;
         });
         document.getElementById("waveSpeedInput").value = "" + waveSpeed;
-        Leylights.getInputElementById("axisStretchInput").value = "" + customPreset.AXIS_MULTIPLIER * 100;
-        Leylights.getInputElementById("electricAmplitudeText").value = "" + customPreset.BLUE_AMPLITUDE;
-        Leylights.getInputElementById("gridlinesText").value = "" + customPreset.GRIDLINES;
-        Leylights.getInputElementById("vectorText").value = "" + customPreset.VECTOR_SPACING;
-        Leylights.getInputElementById("xAngleInput").value = "" + customPreset.X_ANGLE;
-        Leylights.getInputElementById("xLenInput").value = "" + customPreset.X_LENGTH;
-        Leylights.getInputElementById("wavesText").value = "" + Math.round((customPreset.Z_LENGTH / customPreset.WAVES) * 100) / 100;
-        Leylights.getInputElementById("zAngleInput").value = "" + customPreset.Z_ANGLE;
-        Leylights.getInputElementById("zLenInput").value = "" + Math.round(customPreset.Z_LENGTH / Math.cos((customPreset.Z_ANGLE - 90) / 180 * Math.PI));
+        Molasses.getInputElementById("axisStretchInput").value = "" + customPreset.AXIS_MULTIPLIER * 100;
+        Molasses.getInputElementById("electricAmplitudeText").value = "" + customPreset.BLUE_AMPLITUDE;
+        Molasses.getInputElementById("gridlinesText").value = "" + customPreset.GRIDLINES;
+        Molasses.getInputElementById("vectorText").value = "" + customPreset.VECTOR_SPACING;
+        Molasses.getInputElementById("xAngleInput").value = "" + customPreset.X_ANGLE;
+        Molasses.getInputElementById("xLenInput").value = "" + customPreset.X_LENGTH;
+        Molasses.getInputElementById("wavesText").value = "" + Math.round((customPreset.Z_LENGTH / customPreset.WAVES) * 100) / 100;
+        Molasses.getInputElementById("zAngleInput").value = "" + customPreset.Z_ANGLE;
+        Molasses.getInputElementById("zLenInput").value = "" + Math.round(customPreset.Z_LENGTH / Math.cos((customPreset.Z_ANGLE - 90) / 180 * Math.PI));
         document.getElementById("general-button").addEventListener("click", () => {
             handleDropdownOpener(document.getElementById("general-button"));
         });
@@ -353,7 +353,7 @@ function checkCustomInput() {
     // axis stretch
     setNumFromInput(document.getElementById("axisStretchInput"), "axis");
     // back axes
-    customPreset.BACK_AXES = Leylights.getInputElementById("backAxesInput").checked;
+    customPreset.BACK_AXES = Molasses.getInputElementById("backAxesInput").checked;
     // gridlines
     setNumFromInput(document.getElementById("gridlinesText"), "gridlines");
     // vectors
@@ -372,16 +372,16 @@ function checkCustomInput() {
     setNumFromInput(document.getElementById("wavesText"), "waves");
     preset = customPreset;
     // change placeholders
-    Leylights.getInputElementById("axisStretchInput").placeholder = "" + customPreset.AXIS_MULTIPLIER * 100;
-    Leylights.getInputElementById("electricAmplitudeText").placeholder = "" + customPreset.BLUE_AMPLITUDE;
-    Leylights.getInputElementById("backAxesInput").checked = customPreset.BACK_AXES;
-    Leylights.getInputElementById("gridlinesText").placeholder = "" + customPreset.GRIDLINES;
-    Leylights.getInputElementById("vectorText").placeholder = "" + customPreset.VECTOR_SPACING;
-    Leylights.getInputElementById("xAngleInput").placeholder = "" + customPreset.X_ANGLE;
-    Leylights.getInputElementById("xLenInput").placeholder = "" + customPreset.X_LENGTH;
-    Leylights.getInputElementById("wavesText").placeholder = "" + customPreset.WAVES;
-    Leylights.getInputElementById("zAngleInput").placeholder = "" + customPreset.Z_ANGLE;
-    Leylights.getInputElementById("zLenInput").placeholder = "" + customPreset.Z_LENGTH;
+    Molasses.getInputElementById("axisStretchInput").placeholder = "" + customPreset.AXIS_MULTIPLIER * 100;
+    Molasses.getInputElementById("electricAmplitudeText").placeholder = "" + customPreset.BLUE_AMPLITUDE;
+    Molasses.getInputElementById("backAxesInput").checked = customPreset.BACK_AXES;
+    Molasses.getInputElementById("gridlinesText").placeholder = "" + customPreset.GRIDLINES;
+    Molasses.getInputElementById("vectorText").placeholder = "" + customPreset.VECTOR_SPACING;
+    Molasses.getInputElementById("xAngleInput").placeholder = "" + customPreset.X_ANGLE;
+    Molasses.getInputElementById("xLenInput").placeholder = "" + customPreset.X_LENGTH;
+    Molasses.getInputElementById("wavesText").placeholder = "" + customPreset.WAVES;
+    Molasses.getInputElementById("zAngleInput").placeholder = "" + customPreset.Z_ANGLE;
+    Molasses.getInputElementById("zLenInput").placeholder = "" + customPreset.Z_LENGTH;
     // reinitialize
     init(false);
 }
@@ -452,9 +452,9 @@ function drawArrowCap(line, angle, bothEnds, x, y) {
         ax = x;
         ay = y;
     }
-    Leylights.fillTriangle(ax, ay, w, h, line.colour, true, angle, myCanvas.context);
+    Molasses.fillTriangle(ax, ay, w, h, line.colour, true, angle, myCanvas.context);
     if (bothEnds)
-        Leylights.fillTriangle(line.startX, line.startY, w, h, line.colour, true, 180 - angle, myCanvas.context);
+        Molasses.fillTriangle(line.startX, line.startY, w, h, line.colour, true, 180 - angle, myCanvas.context);
 }
 function drawGridlines() {
     if (!showGridlines)
@@ -574,7 +574,7 @@ function drawVectors(axis, wave) {
                 angle = 180;
             else
                 angle = -1;
-            arrowOffsets.y = arrow.h / 2 * Math.cos(Leylights.toRadians(angle));
+            arrowOffsets.y = arrow.h / 2 * Math.cos(Molasses.toRadians(angle));
         }
         else {
             if (waveY < -arrow.h)
@@ -583,16 +583,16 @@ function drawVectors(axis, wave) {
                 angle = 360 - preset.X_ANGLE;
             else
                 angle = -1;
-            arrowOffsets.x = -arrow.h / 2 * Math.sin(Leylights.toRadians(angle));
-            arrowOffsets.y = arrow.h / 2 * Math.cos(Leylights.toRadians(angle));
+            arrowOffsets.x = -arrow.h / 2 * Math.sin(Molasses.toRadians(angle));
+            arrowOffsets.y = arrow.h / 2 * Math.cos(Molasses.toRadians(angle));
         }
         // draws the arrow
         if (angle >= 0) { // do not draw if too close to axis (based on earlier setting of angle = -1)
             if (wave.colour == redWave.colour) { // ensuring no wave overlap
                 // calculating the locations of the bottom-right corner of the triangle 
                 const bottomRightCornerAngle = Math.atan((arrow.h / 2) / (arrow.w / 2)) / (2 * Math.PI) * 360;
-                const bottomCornerLen = Leylights.pythagorean(arrow.w / 2, arrow.h / 2, null);
-                const bottomRight = { x: finalX + arrowOffsets.x + Math.round((bottomCornerLen) * Math.cos(Leylights.toRadians(bottomRightCornerAngle + angle))), y: finalY + arrowOffsets.y + Math.round((bottomCornerLen) * Math.sin(Leylights.toRadians(bottomRightCornerAngle + angle))) };
+                const bottomCornerLen = Molasses.pythagorean(arrow.w / 2, arrow.h / 2, null);
+                const bottomRight = { x: finalX + arrowOffsets.x + Math.round((bottomCornerLen) * Math.cos(Molasses.toRadians(bottomRightCornerAngle + angle))), y: finalY + arrowOffsets.y + Math.round((bottomCornerLen) * Math.sin(Molasses.toRadians(bottomRightCornerAngle + angle))) };
                 // determining if overlap is occurring
                 if (angle > 180 && getYComponent(bottomRight.x - graphOrigin.x) > bottomRight.y) { // SW arrows
                     continue;
@@ -601,7 +601,7 @@ function drawVectors(axis, wave) {
                     continue;
                 }
             }
-            Leylights.fillTriangle(finalX + arrowOffsets.x, finalY + arrowOffsets.y, arrow.w, arrow.h, wave.colour, true, angle, myCanvas.context);
+            Molasses.fillTriangle(finalX + arrowOffsets.x, finalY + arrowOffsets.y, arrow.w, arrow.h, wave.colour, true, angle, myCanvas.context);
         }
     }
     c.stroke();
@@ -894,9 +894,9 @@ function redraw() {
     drawArrowCap(zAxis, preset.Z_ANGLE, false);
     // letters
     if (SHOW_AXIS_NAMES) {
-        Leylights.drawText("x", Math.round(xAxis.cosmeticEndX * 0.95), Math.round(xAxis.cosmeticEndY * 1.05), "black", true, 16, null, myCanvas.context);
-        Leylights.drawText("y", Math.round(yAxis.cosmeticEndX), Math.round(-ARROWCAP.h / 2 + yAxis.cosmeticEndY * 0.85), "black", true, 16, null, myCanvas.context);
-        Leylights.drawText("z", Math.round(zAxis.cosmeticEndX * 1.02), Math.round(zAxis.cosmeticEndY * 1.02), "black", true, 16, null, myCanvas.context);
+        Molasses.drawText("x", Math.round(xAxis.cosmeticEndX * 0.95), Math.round(xAxis.cosmeticEndY * 1.05), "black", true, 16, null, myCanvas.context);
+        Molasses.drawText("y", Math.round(yAxis.cosmeticEndX), Math.round(-ARROWCAP.h / 2 + yAxis.cosmeticEndY * 0.85), "black", true, 16, null, myCanvas.context);
+        Molasses.drawText("z", Math.round(zAxis.cosmeticEndX * 1.02), Math.round(zAxis.cosmeticEndY * 1.02), "black", true, 16, null, myCanvas.context);
     }
 }
 function resizeCanvas() {
@@ -973,7 +973,7 @@ function setNumFromInput(element, targetName) {
                 if (num < 0)
                     valid = false;
                 if (valid)
-                    customPreset.Z_LENGTH = Math.round(num * Math.cos(Leylights.toRadians(preset.Z_ANGLE - 90)));
+                    customPreset.Z_LENGTH = Math.round(num * Math.cos(Molasses.toRadians(preset.Z_ANGLE - 90)));
                 break;
             default:
                 console.log("unrecognized input:" + element.value);

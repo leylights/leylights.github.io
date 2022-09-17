@@ -1,4 +1,4 @@
-import { Leylights } from "../leylights.js";
+import { Molasses } from "../molasses.js";
 
 /** 
  * Algebra Calculator
@@ -9,7 +9,7 @@ import { Leylights } from "../leylights.js";
     * 2) Displaying
     * 3) Calculation Algorithm
     * 
-* @author Cole Stanley
+* @author River Stanley
 */
 
 /* Appeasing TypeScript: May 2021 */
@@ -1906,7 +1906,7 @@ checkExpect(isOperator("+"), true);
 checkExpect(isOperator("x"), false);
 
 function isOperator(str) {
-  return Leylights.orEquals(str, ["+", "-", "*", "/", "^"]);
+  return Molasses.orEquals(str, ["+", "-", "*", "/", "^"]);
 }
 
 // Tests
@@ -1950,7 +1950,7 @@ function isVariable(s) {
  */
 
 function isBracket(str) {
-  return Leylights.orEquals(str, ["(", ")"]);
+  return Molasses.orEquals(str, ["(", ")"]);
 }
 
 /**

@@ -1,4 +1,4 @@
-import { Leylights } from "../leylights.js";
+import { Molasses } from "../molasses.js";
 import { BASE_TEMP_HIGHLIGHT_TIME } from "./general.js";
 var ButtonCreationMethod;
 (function (ButtonCreationMethod) {
@@ -156,7 +156,7 @@ export class Button {
      * @returns The HTML Element for a new button
      */
     static generateHTML(data) {
-        let el = Leylights.createElement({
+        let el = Molasses.createElement({
             type: 'div',
             id: data.id,
             classList: data.giveButtonClass

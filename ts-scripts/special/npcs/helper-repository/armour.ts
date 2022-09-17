@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 
 export enum NPCsArmourWeightEnum {
   light = "light",
@@ -55,7 +55,7 @@ export class NPCsArmour {
   }
 
   static getArmourByName(name: string) {
-    const result: NPCsArmour[] = Leylights.Object.values(NPCsArmour.list).filter((a: NPCsArmour) => {
+    const result: NPCsArmour[] = Molasses.Object.values(NPCsArmour.list).filter((a: NPCsArmour) => {
       return a.name.toLowerCase() === name.toLowerCase();
     });
 
@@ -65,11 +65,11 @@ export class NPCsArmour {
   }
 
   static getNextBestArmour(armour: NPCsArmour) {
-    if (Leylights.orEquals(
+    if (Molasses.orEquals(
       armour.name,
-      Leylights.Object.values(NPCsArmour.list).map((a: NPCsArmour) => { return a.name }))
+      Molasses.Object.values(NPCsArmour.list).map((a: NPCsArmour) => { return a.name }))
     ) {
-      let armours = Leylights.Object.values(NPCsArmour.list);
+      let armours = Molasses.Object.values(NPCsArmour.list);
       let indexOfCurrent = armours.map((mappedArmour: NPCsArmour) => {
         return mappedArmour.name;
       }).indexOf(armour.name);
@@ -86,11 +86,11 @@ export class NPCsArmour {
   }
 
   static getNextWorstArmour(armour: NPCsArmour) {
-    if (Leylights.orEquals(
+    if (Molasses.orEquals(
       armour.name,
-      Leylights.Object.values(NPCsArmour.list).map((a: NPCsArmour) => { return a.name }))
+      Molasses.Object.values(NPCsArmour.list).map((a: NPCsArmour) => { return a.name }))
     ) {
-      let armours = Leylights.Object.values(NPCsArmour.list);
+      let armours = Molasses.Object.values(NPCsArmour.list);
       let indexOfCurrent = armours.map((mappedArmour: NPCsArmour) => {
         return mappedArmour.name;
       }).indexOf(armour.name);

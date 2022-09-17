@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 export class NPCsAttribute {
     constructor(data) {
         this.name = data.name;
@@ -36,7 +36,7 @@ export class NPCsAttribute {
         return classAtrributesList;
     }
     static getAttributeByName(name) {
-        const result = Leylights.Object.values(NPCsAttribute.list).filter((a) => { return a.name === name; });
+        const result = Molasses.Object.values(NPCsAttribute.list).filter((a) => { return a.name === name; });
         if (result.length > 0)
             return result[0];
         else

@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { NPCsArmour } from "../helper-repository/armour.js";
 import { NPCsAttribute } from "../helper-repository/attribute.js";
 import { NPCsConditionTypes } from "../helper-repository/condition-types.js";
@@ -23,7 +23,7 @@ export class NPCsClass {
         this.spells = data.spells;
     }
     static getClassByName(name) {
-        const result = Leylights.Object.values(NPCsClass.list).filter((c) => {
+        const result = Molasses.Object.values(NPCsClass.list).filter((c) => {
             return c.name.toLowerCase() === name.toLowerCase();
         });
         if (result.length === 1)
@@ -32,8 +32,8 @@ export class NPCsClass {
             throw new Error('No such class found: ' + name);
     }
     static getRandomClass() {
-        let options = Leylights.Object.values(NPCsClass.list);
-        return Leylights.Array.get.randomElement(options);
+        let options = Molasses.Object.values(NPCsClass.list);
+        return Molasses.Array.get.randomElement(options);
     }
 }
 NPCsClass.list = {

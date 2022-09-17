@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { InputComponent } from "../../../components/input.component.js";
 import { LineChartComponent } from "../../../components/line-chart.component.js";
 import { COVIDDataBridge } from "../model/covid-data-bridge.js";
@@ -25,7 +25,7 @@ export class COVIDTimeSeriesChart {
             config.averageDays = 1;
         this.averageDays = config.averageDays;
         // create html
-        const lineChartContainer = Leylights.createElement({
+        const lineChartContainer = Molasses.createElement({
             type: 'div',
             classList: 'covid-line-chart-container'
         });
@@ -43,16 +43,16 @@ export class COVIDTimeSeriesChart {
     }
     buildTimeRangeInputs() {
         const me = this, start = new InputComponent({
-            element: Leylights.createElement({
+            element: Molasses.createElement({
                 type: 'input',
                 classList: ['time-series-start-date-input', 'time-series-range-input'],
             })
         }), end = new InputComponent({
-            element: Leylights.createElement({
+            element: Molasses.createElement({
                 type: 'input',
                 classList: ['time-series-end-date-input', 'time-series-range-input'],
             })
-        }), container = Leylights.createElement({
+        }), container = Molasses.createElement({
             type: 'div',
             classList: 'time-series-range-selectors',
             children: [
@@ -67,12 +67,12 @@ export class COVIDTimeSeriesChart {
         };
         function buildInputContainer(input, name) {
             input.placeholder = 'yyyy-mm-dd';
-            return Leylights.createElement({
+            return Molasses.createElement({
                 type: 'div',
                 classList: 'time-series-range-input-container',
                 children: [
                     input.element,
-                    Leylights.createElement({
+                    Molasses.createElement({
                         type: 'h3',
                         innerText: name,
                         classList: 'time-series-range-input-title'
@@ -101,7 +101,7 @@ export class COVIDTimeSeriesChart {
             .map((day) => {
             var _a;
             return {
-                x: ((_a = me.config.days) !== null && _a !== void 0 ? _a : me.fullTimeSeries.length) - Leylights.daysBetween(today, new Date(day.date)),
+                x: ((_a = me.config.days) !== null && _a !== void 0 ? _a : me.fullTimeSeries.length) - Molasses.daysBetween(today, new Date(day.date)),
                 y: day.property,
                 label: day.date,
             };

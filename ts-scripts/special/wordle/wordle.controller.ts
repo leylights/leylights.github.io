@@ -1,4 +1,4 @@
-import { Leylights } from "../../leylights.js";
+import { Molasses } from "../../molasses.js";
 import { WordleLetterState } from "./data/wordle-letter-state.js";
 import { WordleWordCheckResponse } from "./data/wordle-word-check-response.js";
 import { WordleView } from "./wordle.view.js";
@@ -71,12 +71,12 @@ export class WordleController {
   private async selectWord(this: WordleController): Promise<string> {
     const upperSelectionLimit: number = 2300;
     const today: number = Math.floor((Date.now() - new Date().getTimezoneOffset() * 60 * 1000) / (1000 * 60 * 60 * 24));
-    return ((await Leylights.getJSONFile('/json-data/wordle/words.json')).splice(0, 2300) as string[])[today % upperSelectionLimit].toLowerCase();
+    return ((await Molasses.getJSONFile('/json-data/wordle/words.json')).splice(0, 2300) as string[])[today % upperSelectionLimit].toLowerCase();
   }
 
   private async validateWord(this: WordleController, word: string): Promise<boolean> {
     const lowercaseWord = word.toLowerCase();
-    const words = await Leylights.getJSONFile('/json-data/wordle/words.json') as string[];
+    const words = await Molasses.getJSONFile('/json-data/wordle/words.json') as string[];
 
     return !!words.find((value) => { return value.toLowerCase() === lowercaseWord; });
   }

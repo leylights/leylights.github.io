@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 export class ShowcaseItem {
     constructor() {
         this._id = ShowcaseItem.next_id++;
@@ -18,24 +18,24 @@ export class ShowcaseItem {
     }
     rebuildContainer(parent, children, config) {
         var _a;
-        const content = Leylights.createElement({
+        const content = Molasses.createElement({
             type: 'div',
             classList: 'showcase-item-content',
             children: config.isLeftAligned ? children.reverse() : children,
-        }), container = Leylights.createElement({
+        }), container = Molasses.createElement({
             type: 'div',
             classList: ['showcase-item-container']
                 .concat((_a = config.classList) !== null && _a !== void 0 ? _a : [])
                 .concat(config.highlightType > 0 ? [`highlight`, `highlight-${config.highlightType}`] : []),
             children: [
-                Leylights.createElement({
+                Molasses.createElement({
                     type: 'div',
                     id: `showcase_item_${this.id}`,
                     classList: ['showcase-item']
                         .concat(config.isSecret ? ['secret-item'] : [])
                         .concat(!config.isLeftAligned ? ['right-aligned-item'] : []),
                     children: config.href ? [
-                        Leylights.createElement({
+                        Molasses.createElement({
                             type: 'a',
                             otherNodes: [{ type: 'href', value: config.href }],
                             children: [
@@ -54,11 +54,11 @@ export class ShowcaseItem {
         parent.appendChild(this.container);
     }
     rebuildImage(item) {
-        return Leylights.createElement({
+        return Molasses.createElement({
             type: 'div',
             classList: 'image-shadow-container no-opacity',
             children: [
-                Leylights.createElement({
+                Molasses.createElement({
                     type: 'img',
                     classList: [ShowcaseItem.classNames.image, 'single-item-image']
                         .concat(item.invertOnDark ? ['dark-invert-filter'] : [])

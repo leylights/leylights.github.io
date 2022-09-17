@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { ResumeExperienceItemComponent } from "./experience-item.component.js";
 
 interface Config {
@@ -17,7 +17,7 @@ export class ResumeSmallExperienceItem {
   }
 
   rebuild(config: Config) {
-    const container = Leylights.createElement({
+    const container = Molasses.createElement({
       type: 'div',
       classList: 'small-experience-item',
       innerHTML: `

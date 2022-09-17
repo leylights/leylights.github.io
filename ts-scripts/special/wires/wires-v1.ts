@@ -1,4 +1,4 @@
-import { Leylights } from "../../leylights.js";
+import { Molasses } from "../../molasses.js";
 
 var tiles = [];
 var sprites = [];
@@ -62,7 +62,7 @@ var myCanvas = {
     this.canvas.style.backgroundColor = "white";
     this.canvas.style.transition = "all 0.5s linear";
     this.canvas.setAttributeNode(
-      Leylights.betterCreateAttr("oncontextmenu", "return false;")
+      Molasses.betterCreateAttr("oncontextmenu", "return false;")
     );
 
     this.isClicking = false;
@@ -151,7 +151,7 @@ var myCanvas = {
   },
 
   clear: function () {
-    Leylights.fillRect(
+    Molasses.fillRect(
       0,
       0,
       this.canvas.width,
@@ -1386,8 +1386,8 @@ window.addEventListener("resize", resizeCanvas);
 function addSprite(src) {
   var newimg = document.createElement("img");
   var truesrc = "/siteimages/energy/" + src + ".png";
-  newimg.setAttributeNode(Leylights.betterCreateAttr("src", truesrc));
-  newimg.setAttributeNode(Leylights.betterCreateAttr("id", truesrc));
+  newimg.setAttributeNode(Molasses.betterCreateAttr("src", truesrc));
+  newimg.setAttributeNode(Molasses.betterCreateAttr("id", truesrc));
   document.getElementById("imgs").appendChild(newimg);
   return newimg;
 }
@@ -1399,11 +1399,11 @@ function addSprite(src) {
 //   }
 
 function drawImg(img, x, y, w, h) {
-  Leylights.drawImg(img, x, y, w, h, myCanvas.context);
+  Molasses.drawImg(img, x, y, w, h, myCanvas.context);
 }
 
 function drawText(text, x, y, colour, centered, size, type) {
-  Leylights.drawText(text, x, y, colour, centered, size, type, myCanvas.context);
+  Molasses.drawText(text, x, y, colour, centered, size, type, myCanvas.context);
 }
 
 function isClicked(x, y, w, h) {
@@ -1449,7 +1449,7 @@ function mouseUp() {
 //   }
 
 function rect(x: number, y: number, w: number, h: number, colour: string) {
-  Leylights.fillRect(x, y, w, h, colour, myCanvas.context);
+  Molasses.fillRect(x, y, w, h, colour, myCanvas.context);
 }
 
 //   function switchToMobile() {

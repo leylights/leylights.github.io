@@ -1,4 +1,4 @@
-import { Leylights } from "../../leylights.js";
+import { Molasses } from "../../molasses.js";
 import { Button } from "../../components/button.component.js";
 import { ResizingInput } from "../../components/resizing-input.component.js";
 import { NPCsReplacerSpan } from "./components/npcs-creator-replacer-span.component.js";
@@ -271,7 +271,7 @@ class NPCsCreator {
     }
 
     function getAccordionSelections(accordionContainer: HTMLDivElement): string[] {
-      const selections: Node[] = Leylights.Array.from.NodeListOf(accordionContainer.querySelectorAll('.accordion')).filter((accordion: HTMLElement) => {
+      const selections: Node[] = Molasses.Array.from.NodeListOf(accordionContainer.querySelectorAll('.accordion')).filter((accordion: HTMLElement) => {
         return accordion.querySelector('.toggle-selector').classList.contains('selected');
       });
 
@@ -281,7 +281,7 @@ class NPCsCreator {
     }
 
     function getActions(): NPCsAction[] {
-      const miscActionsList = Leylights.Object.values(NPCsInventory.actionsList.misc);
+      const miscActionsList = Molasses.Object.values(NPCsInventory.actionsList.misc);
       const miscActions: NPCsAction[] = getAccordionSelections(me.HTML.actionsContainer).map((name: string) => {
         return miscActionsList.filter((action: NPCsAction) => {
           return action.uniqueName === name;
@@ -295,15 +295,15 @@ class NPCsCreator {
         equipped = 3,
       };
 
-      const selectedAttacks: NPCsAction[] = Leylights.Array.from.NodeListOf(me.HTML.attacksContainer.querySelectorAll('tr')).filter((row: HTMLTableRowElement) => {
-        const cells: HTMLTableCellElement[] = Leylights.Array.from.NodeListOf(row.querySelectorAll('td')) as HTMLTableCellElement[];
+      const selectedAttacks: NPCsAction[] = Molasses.Array.from.NodeListOf(me.HTML.attacksContainer.querySelectorAll('tr')).filter((row: HTMLTableRowElement) => {
+        const cells: HTMLTableCellElement[] = Molasses.Array.from.NodeListOf(row.querySelectorAll('td')) as HTMLTableCellElement[];
 
         return cells[columnMap.equipped]
           && cells[columnMap.equipped].querySelector('.toggle-selector')
           && cells[columnMap.equipped].querySelector('.toggle-selector').classList.contains('selected')
           && window.getComputedStyle(cells[columnMap.damage]).visibility !== 'hidden';
       }).map((row: HTMLTableRowElement) => {
-        const cells: HTMLTableCellElement[] = Leylights.Array.from.NodeListOf(row.querySelectorAll('td')) as HTMLTableCellElement[];
+        const cells: HTMLTableCellElement[] = Molasses.Array.from.NodeListOf(row.querySelectorAll('td')) as HTMLTableCellElement[];
         return NPCsInventory.getAttackByName(cells[columnMap.name].innerText.trim());
       });
 
@@ -356,7 +356,7 @@ class NPCsCreator {
      * @returns [values[], isExpertiseSelected[]]
      */
     function getBooleanSelectorSelections(booleanSelectorContainer: HTMLDivElement, searchForExpertise?: boolean): [string[], boolean[]] {
-      const selectors: Node[] = Leylights.Array.from.NodeListOf(booleanSelectorContainer.querySelectorAll('.toggle-selector.selected'));
+      const selectors: Node[] = Molasses.Array.from.NodeListOf(booleanSelectorContainer.querySelectorAll('.toggle-selector.selected'));
       const expertiseSelections: boolean[] = [];
 
       if (searchForExpertise) {
@@ -421,7 +421,7 @@ class NPCsCreator {
     }
 
     function getReactions(): NPCsReaction[] {
-      const reactions = Leylights.Object.values(NPCsInventory.actionsList.reactions);
+      const reactions = Molasses.Object.values(NPCsInventory.actionsList.reactions);
       return getAccordionSelections(me.HTML.reactionsContainer).map((name: string) => {
         return reactions.filter((reaction: NPCsReaction) => {
           return reaction.name === name;
@@ -468,7 +468,7 @@ class NPCsCreator {
       const selectedSpells = selectedSpellSelectors.map((name: HTMLElement) => { return NPCsSpell.getSpellByName(name.innerText) });
 
       // get spellcasting ability only if there are actually spells
-      const abilitySelectors: HTMLElement[] = Leylights.Array.from.NodeListOf(me.HTML.spellsContainer.querySelectorAll('.spellcasting-ability-selector.selected')) as HTMLElement[];
+      const abilitySelectors: HTMLElement[] = Molasses.Array.from.NodeListOf(me.HTML.spellsContainer.querySelectorAll('.spellcasting-ability-selector.selected')) as HTMLElement[];
       if (abilitySelectors.length !== 1)
         throw new Error('No spellcasting ability selected.');
       else {
@@ -488,7 +488,7 @@ class NPCsCreator {
     }
 
     function getSelectedSpellSelectors(): HTMLElement[] {
-      return Leylights.Array.from.NodeListOf(me.HTML.spellsContainer.querySelectorAll('.toggle-selector.selected'))
+      return Molasses.Array.from.NodeListOf(me.HTML.spellsContainer.querySelectorAll('.toggle-selector.selected'))
         .filter((selector: HTMLButtonElement) => {
           for (let i = 0; i < 6; i++)
             if (selector.innerText === NPCsHelper.abilityToStr(i as NPCsAbility, true))
@@ -516,7 +516,7 @@ class NPCsCreator {
     }
 
     function activateSpellcastingAttribute(spellcastingAttributeName: string): void {
-      const spellcastingAttribute: HTMLElement = Leylights.Array.from.NodeListOf(me.HTML.attributesContainer.querySelectorAll('.accordion'))
+      const spellcastingAttribute: HTMLElement = Molasses.Array.from.NodeListOf(me.HTML.attributesContainer.querySelectorAll('.accordion'))
         .filter((accordion: HTMLElement) => {
           return (accordion.querySelector('.accordion-name').querySelector('h4') as HTMLElement).innerText === spellcastingAttributeName;
         })[0] as HTMLElement;
@@ -576,7 +576,7 @@ class NPCsCreator {
       const accordions = getAccordions(parentElement);
 
       accordions.forEach((accordionObject) => {
-        if (Leylights.Array.contains(selectedNames, accordionObject.innerNameElement.innerText)) {
+        if (Molasses.Array.contains(selectedNames, accordionObject.innerNameElement.innerText)) {
           accordionObject.heading.classList.add('selected');
           accordionObject.selector.classList.add('selected');
           accordionObject.selector.innerText = 'Remove';
@@ -593,7 +593,7 @@ class NPCsCreator {
     }
 
     function setAlignment() {
-      const alignmentCells: HTMLTableCellElement[] = Leylights.Array.from.NodeListOf(me.HTML.alignmentContainer.querySelectorAll('td')) as HTMLTableCellElement[];
+      const alignmentCells: HTMLTableCellElement[] = Molasses.Array.from.NodeListOf(me.HTML.alignmentContainer.querySelectorAll('td')) as HTMLTableCellElement[];
       alignmentCells.forEach((cell: HTMLTableCellElement) => {
         if (cell.innerText.toLowerCase() === data.alignment.toLowerCase())
           cell.classList.add('selected');
@@ -614,8 +614,8 @@ class NPCsCreator {
         equipped = 3,
       };
 
-      const attackRows: HTMLTableRowElement[] = Leylights.Array.from.NodeListOf(me.HTML.attacksContainer.querySelectorAll('tr')).filter((row: HTMLTableRowElement) => {
-        const cells: HTMLTableCellElement[] = Leylights.Array.from.NodeListOf(row.querySelectorAll('td')) as HTMLTableCellElement[];
+      const attackRows: HTMLTableRowElement[] = Molasses.Array.from.NodeListOf(me.HTML.attacksContainer.querySelectorAll('tr')).filter((row: HTMLTableRowElement) => {
+        const cells: HTMLTableCellElement[] = Molasses.Array.from.NodeListOf(row.querySelectorAll('td')) as HTMLTableCellElement[];
 
         return cells[columnMap.equipped]
           && cells[columnMap.equipped].querySelector('.toggle-selector')
@@ -629,7 +629,7 @@ class NPCsCreator {
 
       attackRows.forEach((row: HTMLTableRowElement) => {
         const selector = row.cells[columnMap.equipped].querySelector('.toggle-selector');
-        if (Leylights.Array.contains(dataAttackNames, row.cells[columnMap.name].innerText.trim().toLowerCase())) {
+        if (Molasses.Array.contains(dataAttackNames, row.cells[columnMap.name].innerText.trim().toLowerCase())) {
           selector.classList.add('selected');
           selector.innerHTML = 'Unequip';
         } else {
@@ -645,7 +645,7 @@ class NPCsCreator {
     }
 
     function setBooleanListSelectors(accordion: HTMLDivElement, values: NPCsBooleanList) {
-      const selectors: HTMLButtonElement[] = Leylights.Array.from.NodeListOf(accordion.querySelectorAll('.toggle-selector')) as HTMLButtonElement[];
+      const selectors: HTMLButtonElement[] = Molasses.Array.from.NodeListOf(accordion.querySelectorAll('.toggle-selector')) as HTMLButtonElement[];
       selectors.forEach((selector: HTMLButtonElement) => {
         const shouldBeSelected = values[selector.innerText.toLowerCase()];
         if (shouldBeSelected) selector.classList.add('selected');
@@ -672,9 +672,9 @@ class NPCsCreator {
     }
 
     function setLanguages() {
-      const selectors: HTMLButtonElement[] = Leylights.Array.from.NodeListOf(me.HTML.selectorContainers.languages.querySelectorAll('.toggle-selector')) as HTMLButtonElement[];
+      const selectors: HTMLButtonElement[] = Molasses.Array.from.NodeListOf(me.HTML.selectorContainers.languages.querySelectorAll('.toggle-selector')) as HTMLButtonElement[];
       selectors.forEach((selector: HTMLButtonElement) => {
-        const shouldBeSelected = Leylights.Array.includes(data.languages, selector.innerText);
+        const shouldBeSelected = Molasses.Array.includes(data.languages, selector.innerText);
         if (shouldBeSelected) selector.classList.add('selected');
         else selector.classList.remove('selected');
       });
@@ -706,7 +706,7 @@ class NPCsCreator {
     }
 
     function setSkills() {
-      const selectors: HTMLButtonElement[] = Leylights.Array.from.NodeListOf(me.HTML.selectorContainers.skills.querySelectorAll('.toggle-selector')) as HTMLButtonElement[];
+      const selectors: HTMLButtonElement[] = Molasses.Array.from.NodeListOf(me.HTML.selectorContainers.skills.querySelectorAll('.toggle-selector')) as HTMLButtonElement[];
 
       selectors.forEach((selector: HTMLButtonElement) => {
         const correspondingSkill: NPCsSkill = data.skills.getSkillByName((selector.querySelector('.skill-name') as HTMLElement).innerText);
@@ -730,7 +730,7 @@ class NPCsCreator {
 
     function setSpells() {
       // set the spellcasting ability 
-      const abilitySelectors: HTMLElement[] = Leylights.Array.from.NodeListOf(me.HTML.spellsContainer.querySelectorAll('.toggle-selector.spellcasting-ability-selector'));
+      const abilitySelectors: HTMLElement[] = Molasses.Array.from.NodeListOf(me.HTML.spellsContainer.querySelectorAll('.toggle-selector.spellcasting-ability-selector'));
       abilitySelectors.forEach((selector: HTMLElement) => {
         if (data.spells && NPCsHelper.abilityToStr(data.spells.spellcastingAbility, true).toLowerCase() === selector.innerText.trim().toLowerCase())
           selector.classList.add('selected');
@@ -742,7 +742,7 @@ class NPCsCreator {
       setInput(me.HTML.spellLevelInput, data.spells ? data.spells.spellcastingLevel : '3');
 
       // set spells
-      const spellSelectors: HTMLElement[] = Leylights.Array.from.NodeListOf(me.HTML.spellsContainer.querySelectorAll('.toggle-selector'))
+      const spellSelectors: HTMLElement[] = Molasses.Array.from.NodeListOf(me.HTML.spellsContainer.querySelectorAll('.toggle-selector'))
         .filter((el: HTMLElement) => {
           return !el.classList.contains('spellcasting-ability-selector');
         }) as HTMLElement[],
@@ -750,7 +750,7 @@ class NPCsCreator {
 
 
       spellSelectors.forEach((selector: HTMLElement) => {
-        if (Leylights.Array.contains(dataSpellNames, selector.innerText.trim().toLowerCase())) {
+        if (Molasses.Array.contains(dataSpellNames, selector.innerText.trim().toLowerCase())) {
           selector.classList.add('selected');
         } else selector.classList.remove('selected');
       });
@@ -765,7 +765,7 @@ class NPCsCreator {
     }
 
     function getAccordions(parentElement: HTMLElement) {
-      return Leylights.Array.from.NodeListOf(parentElement.querySelectorAll('.accordion')).map((accordionEl: HTMLElement) => {
+      return Molasses.Array.from.NodeListOf(parentElement.querySelectorAll('.accordion')).map((accordionEl: HTMLElement) => {
         const accordionHeading = accordionEl.querySelector('.accordion-name') as HTMLElement;
 
         return {
@@ -825,7 +825,7 @@ class NPCsCreator {
     this.HTML.selectorContainers.conditionImmunities = loadBooleanSelector('Condition Immunities', 'condition');
     this.HTML.selectorContainers.languages = loadBooleanSelector('Languages', 'language');
     this.HTML.selectorContainers.skills = loadBooleanSelector('Skills', 'skills');
-    Leylights.Array.from.NodeListOf(this.HTML.selectorContainers.skills.querySelectorAll('.toggle-selector'))
+    Molasses.Array.from.NodeListOf(this.HTML.selectorContainers.skills.querySelectorAll('.toggle-selector'))
       .filter((element: HTMLElement) => {
         return element.innerHTML.toLowerCase().includes(NPCsSkillset.baseSkillset.perception.name.toLowerCase());
       })[0].addEventListener('click', (e: Event) => {
@@ -968,7 +968,7 @@ class NPCsCreator {
     }
 
     function loadArmours() {
-      const armourArray: NPCsArmour[] = Leylights.Object.values(NPCsArmour.list);
+      const armourArray: NPCsArmour[] = Molasses.Object.values(NPCsArmour.list);
       me.HTML.armourSelect = document.getElementById('armour-selector') as HTMLSelectElement;
       loadGenericSelect(
         me.HTML.armourSelect,
@@ -981,7 +981,7 @@ class NPCsCreator {
     }
 
     function loadActions() {
-      const actionsArray: NPCsAction[] = Leylights.Object.values(NPCsInventory.actionsList.misc);
+      const actionsArray: NPCsAction[] = Molasses.Object.values(NPCsInventory.actionsList.misc);
       const names: string[] = [],
         bodies: NPCsReplacerSpan[] = [];
 
@@ -1010,23 +1010,23 @@ class NPCsCreator {
       const morals: NPCsCharacterAlignmentMoral[] = ['good', 'neutral', 'evil'];
 
       const accordionBody = me.HTML.alignmentContainer.querySelector('.accordion-body');
-      const grid = Leylights.createElement({
+      const grid = Molasses.createElement({
         type: 'table',
         id: 'alignment-table',
       });
 
-      const tbody = Leylights.createElement({
+      const tbody = Molasses.createElement({
         type: 'tbody'
       });
       grid.appendChild(tbody);
 
       for (let y = 0; y < 3; y++) {
-        const row = Leylights.createElement({
+        const row = Molasses.createElement({
           type: 'tr',
         });
 
         for (let x = 0; x < 3; x++) {
-          const alignmentCell = Leylights.createElement({
+          const alignmentCell = Molasses.createElement({
             type: 'td',
           });
 
@@ -1036,7 +1036,7 @@ class NPCsCreator {
           alignmentCell.innerHTML = `${orderAlignment} ${morals[y]}`;
 
           alignmentCell.addEventListener('click', () => {
-            const cells = Leylights.Array.from.NodeListOf(tbody.querySelectorAll('td'));
+            const cells = Molasses.Array.from.NodeListOf(tbody.querySelectorAll('td'));
             cells.forEach((cell: HTMLElement) => {
               cell.classList.remove('selected');
             });
@@ -1073,7 +1073,7 @@ class NPCsCreator {
       me.HTML.attacksContainer.querySelector('.accordion-body').appendChild(table);
 
       function getAttacks(inventory: Record<string, NPCsAttack>, mixedType?: 'Melee' | 'Ranged'): NPCsAttack[] {
-        const attacks = Leylights.Object.values(inventory);
+        const attacks = Molasses.Object.values(inventory);
 
         if (mixedType)
           mixedAttacks.forEach((attack: NPCsAttackMixed) => {
@@ -1117,7 +1117,7 @@ class NPCsCreator {
     }
 
     function loadAttributes() {
-      const attributeArray: NPCsAttribute[] = Leylights.Object.values(NPCsAttribute.list);
+      const attributeArray: NPCsAttribute[] = Molasses.Object.values(NPCsAttribute.list);
       const names = [],
         bodies = [];
 
@@ -1168,10 +1168,10 @@ class NPCsCreator {
 
       switch (type) {
         case 'condition':
-          rootOptions = Object.keys(NPCsConditionTypes.list).map((type: string) => { return Leylights.toCapitalized(type) });
+          rootOptions = Object.keys(NPCsConditionTypes.list).map((type: string) => { return Molasses.toCapitalized(type) });
           break;
         case 'damage':
-          rootOptions = Object.keys(NPCsDamageTypes.list).map((type: string) => { return Leylights.toCapitalized(type) });
+          rootOptions = Object.keys(NPCsDamageTypes.list).map((type: string) => { return Molasses.toCapitalized(type) });
           break;
         case 'language':
           rootOptions = NPCsLanguages;
@@ -1185,21 +1185,21 @@ class NPCsCreator {
       rootOptions.sort().forEach((option: string) => {
         let innerContent: HTMLSpanElement;
         if (type === 'skills') {
-          innerContent = Leylights.createElement({
+          innerContent = Molasses.createElement({
             type: 'span',
-            children: [Leylights.createElement({
+            children: [Molasses.createElement({
               type: 'span',
               classList: 'skill-name',
               innerText: option,
             }),
-            Leylights.createElement({
+            Molasses.createElement({
               type: 'div',
               classList: 'skill-expertise',
-              children: [Leylights.createElement({
+              children: [Molasses.createElement({
                 type: 'span',
                 innerText: 'Exp.',
                 classList: 'desktop-only'
-              }), Leylights.createElement({
+              }), Molasses.createElement({
                 type: 'span',
                 innerText: 'Expertise?',
                 classList: 'mobile-only'
@@ -1210,7 +1210,7 @@ class NPCsCreator {
           const expertiseSelector = innerContent.querySelector('.skill-expertise') as HTMLDivElement;
 
           expertiseSelector.addEventListener('click', () => {
-            const parentSelector = Leylights.findParentElementByClassName(expertiseSelector, 'toggle-selector');
+            const parentSelector = Molasses.findParentElementByClassName(expertiseSelector, 'toggle-selector');
             if (!parentSelector.classList.contains('selected')) {
               parentSelector.classList.add('selected')
             }
@@ -1222,12 +1222,12 @@ class NPCsCreator {
             }
           });
         } else
-          innerContent = Leylights.createElement({
+          innerContent = Molasses.createElement({
             type: 'span',
             innerText: option,
           });
 
-        const selector = Leylights.createElement({
+        const selector = Molasses.createElement({
           type: 'button',
           classList: ['toggle-selector'],
         });
@@ -1255,7 +1255,7 @@ class NPCsCreator {
         });
 
         if (type === 'skills') {
-          const skillContainer = Leylights.createElement({
+          const skillContainer = Molasses.createElement({
             type: 'div',
             classList: 'skill-container',
           });
@@ -1274,7 +1274,7 @@ class NPCsCreator {
     }
 
     function loadClasses() {
-      const classArray: NPCsClass[] = Leylights.Object.values(NPCsClass.list);
+      const classArray: NPCsClass[] = Molasses.Object.values(NPCsClass.list);
       loadGenericSelect(
         me.HTML.classSelector,
         classArray.map((c: NPCsClass) => { return c.name.toLowerCase() }),
@@ -1290,9 +1290,9 @@ class NPCsCreator {
     }
 
     function loadDirtyWatcher() {
-      const toggleSelectors = Leylights.Array.from.NodeListOf(me.HTML.container.querySelectorAll('.toggle-selector')),
-        selects = Leylights.Array.from.NodeListOf(me.HTML.container.querySelectorAll('select')),
-        inputs = Leylights.Array.from.NodeListOf(me.HTML.container.querySelectorAll('input'));
+      const toggleSelectors = Molasses.Array.from.NodeListOf(me.HTML.container.querySelectorAll('.toggle-selector')),
+        selects = Molasses.Array.from.NodeListOf(me.HTML.container.querySelectorAll('select')),
+        inputs = Molasses.Array.from.NodeListOf(me.HTML.container.querySelectorAll('input'));
 
       toggleSelectors.forEach((selector: HTMLElement) => {
         selector.addEventListener('click', () => {
@@ -1301,7 +1301,7 @@ class NPCsCreator {
       });
 
       selects.forEach((select: HTMLSelectElement) => {
-        if (!Leylights.orEquals(select.id, [me.HTML.classSelector.id, me.HTML.raceSelector.id]))
+        if (!Molasses.orEquals(select.id, [me.HTML.classSelector.id, me.HTML.raceSelector.id]))
           select.addEventListener('change', () => {
             me.isDirty = true;
           });
@@ -1315,7 +1315,7 @@ class NPCsCreator {
     }
 
     function loadRaces() {
-      const raceArray: NPCsRace[] = Leylights.Object.values(NPCsRace.list);
+      const raceArray: NPCsRace[] = Molasses.Object.values(NPCsRace.list);
       loadGenericSelect(
         me.HTML.raceSelector,
         raceArray.map((r: NPCsRace) => { return r.name }),
@@ -1331,7 +1331,7 @@ class NPCsCreator {
     }
 
     function loadGenericSelect(selectEl: HTMLSelectElement, names: string[], autoFocusName: string, values?: string[] | null) {
-      if (!Leylights.Array.includes(names, autoFocusName))
+      if (!Molasses.Array.includes(names, autoFocusName))
         throw new Error(`AutoFocusName ${autoFocusName} not found in names array`);
 
       for (let i = 0; i < names.length; i++) {
@@ -1346,7 +1346,7 @@ class NPCsCreator {
     }
 
     function loadReactions() {
-      const reactionsArray: NPCsReaction[] = Leylights.Object.values(NPCsInventory.actionsList.reactions);
+      const reactionsArray: NPCsReaction[] = Molasses.Object.values(NPCsInventory.actionsList.reactions);
       const names = [],
         bodies = [];
 
@@ -1388,7 +1388,7 @@ class NPCsCreator {
         const spellcastingSelectorClassName = 'spellcasting-ability-selector';
 
         for (let i = 0; i < 6; i++) {
-          const abililty = Leylights.createElement({
+          const abililty = Molasses.createElement({
             type: 'div',
             classList: ['toggle-selector', spellcastingSelectorClassName],
             innerText: NPCsHelper.abilityToStr(i as NPCsAbility, true),
@@ -1398,7 +1398,7 @@ class NPCsCreator {
                 if (abililty.classList.contains('selected'))
                   abililty.classList.remove('selected');
                 else {
-                  const selectors = Leylights.Array.from.NodeListOf(abilityBody.querySelectorAll(`.${spellcastingSelectorClassName}`));
+                  const selectors = Molasses.Array.from.NodeListOf(abilityBody.querySelectorAll(`.${spellcastingSelectorClassName}`));
                   selectors.forEach((selector: HTMLElement) => {
                     selector.classList.remove('selected');
                   });
@@ -1416,20 +1416,20 @@ class NPCsCreator {
       function loadLevelSelector() {
         const levelAccordion: HTMLDivElement = NPCsCreator.createAccordion(accordion, '<strong>Spellcasting Level</strong>'),
           levelBody = levelAccordion.querySelector('.accordion-body'),
-          label = Leylights.createElement({
+          label = Molasses.createElement({
             type: 'h3',
             innerText: 'Spellcasting Level',
             style: 'text-align: center'
           }),
-          inputWrapper = Leylights.createElement({
+          inputWrapper = Molasses.createElement({
             type: 'h5',
             style: 'text-align: center'
           }),
-          input = Leylights.createElement({
+          input = Molasses.createElement({
             type: 'input',
             id: 'spellcasting-ability-level'
           }),
-          container = Leylights.createElement({
+          container = Molasses.createElement({
             type: 'div',
             classList: 'spellcasting-level-container'
           });
@@ -1452,12 +1452,12 @@ class NPCsCreator {
       function loadLevel(level: number) {
         const levelAccordion = NPCsCreator.createAccordion(body, `<strong>${level === 0 ? 'Cantrips' : `Level ${level}`}</strong>`, '');
         const levelBody = levelAccordion.querySelector('.accordion-body');
-        const spellsList = Leylights.Object.values(NPCsSpell.list[level]).sort((a, b) => {
+        const spellsList = Molasses.Object.values(NPCsSpell.list[level]).sort((a, b) => {
           return a.name < b.name ? -1 : 1;
         });
 
         for (let i = 0; i < spellsList.length; i++) {
-          const newSpell = Leylights.createElement({
+          const newSpell = Molasses.createElement({
             type: 'div',
             classList: ['spell-selector', 'toggle-selector'],
             innerText: spellsList[i].name,
@@ -1527,19 +1527,19 @@ class NPCsCreator {
   }
 
   static createAccordion(parent: Element, name: string, body?: string | NPCsReplacerSpan): HTMLTableElement {
-    const newAccordion = Leylights.createElement({
+    const newAccordion = Molasses.createElement({
       type: 'table',
       classList: ['accordion', 'closed'],
       children: [
-        Leylights.createElement({
+        Molasses.createElement({
           type: 'tbody',
           children: [
-            Leylights.createElement({
+            Molasses.createElement({
               type: 'tr',
               children: [
-                Leylights.createElement({
+                Molasses.createElement({
                   type: 'td',
-                  children: [Leylights.createElement({
+                  children: [Molasses.createElement({
                     type: 'span',
                     innerHTML: '+',
                   })],
@@ -1549,20 +1549,20 @@ class NPCsCreator {
                     value: '20'
                   }]
                 }),
-                Leylights.createElement({
+                Molasses.createElement({
                   type: 'td',
                   innerHTML: name,
                   classList: 'accordion-name',
                 }),
               ]
             }),
-            Leylights.createElement({
+            Molasses.createElement({
               type: 'tr',
               children: [
-                Leylights.createElement({
+                Molasses.createElement({
                   type: 'td',
                 }),
-                Leylights.createElement({
+                Molasses.createElement({
                   type: 'td',
                   children: [getBody()]
                 }),
@@ -1593,13 +1593,13 @@ class NPCsCreator {
 
     function getBody(): HTMLSpanElement {
       if (body instanceof NPCsReplacerSpan) {
-        return Leylights.createElement({
+        return Molasses.createElement({
           type: 'p',
           classList: 'accordion-body',
           children: [body.element],
         });
       } else
-        return Leylights.createElement({
+        return Molasses.createElement({
           type: 'p',
           classList: 'accordion-body',
           innerHTML: body,

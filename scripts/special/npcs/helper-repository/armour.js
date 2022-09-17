@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 export var NPCsArmourWeightEnum;
 (function (NPCsArmourWeightEnum) {
     NPCsArmourWeightEnum["light"] = "light";
@@ -38,7 +38,7 @@ export class NPCsArmour {
         return this._stealthDisadvantage;
     }
     static getArmourByName(name) {
-        const result = Leylights.Object.values(NPCsArmour.list).filter((a) => {
+        const result = Molasses.Object.values(NPCsArmour.list).filter((a) => {
             return a.name.toLowerCase() === name.toLowerCase();
         });
         if (result.length === 1)
@@ -47,8 +47,8 @@ export class NPCsArmour {
             throw new Error('No such armour found: ' + name);
     }
     static getNextBestArmour(armour) {
-        if (Leylights.orEquals(armour.name, Leylights.Object.values(NPCsArmour.list).map((a) => { return a.name; }))) {
-            let armours = Leylights.Object.values(NPCsArmour.list);
+        if (Molasses.orEquals(armour.name, Molasses.Object.values(NPCsArmour.list).map((a) => { return a.name; }))) {
+            let armours = Molasses.Object.values(NPCsArmour.list);
             let indexOfCurrent = armours.map((mappedArmour) => {
                 return mappedArmour.name;
             }).indexOf(armour.name);
@@ -63,8 +63,8 @@ export class NPCsArmour {
         }
     }
     static getNextWorstArmour(armour) {
-        if (Leylights.orEquals(armour.name, Leylights.Object.values(NPCsArmour.list).map((a) => { return a.name; }))) {
-            let armours = Leylights.Object.values(NPCsArmour.list);
+        if (Molasses.orEquals(armour.name, Molasses.Object.values(NPCsArmour.list).map((a) => { return a.name; }))) {
+            let armours = Molasses.Object.values(NPCsArmour.list);
             let indexOfCurrent = armours.map((mappedArmour) => {
                 return mappedArmour.name;
             }).indexOf(armour.name);

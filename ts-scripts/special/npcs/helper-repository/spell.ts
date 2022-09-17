@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 
 type NPCsCantripData = {
   name: string,
@@ -57,7 +57,7 @@ export class NPCsSpell {
 
   static getSpellByName(name: string): NPCsSpell {
     for (const spellLevel of NPCsSpell.list) {
-      const spells = Leylights.Object.values(spellLevel);
+      const spells = Molasses.Object.values(spellLevel);
       for (const spell of spells) {
         if (name.toLowerCase() === spell.name.toLowerCase())
           return spell;

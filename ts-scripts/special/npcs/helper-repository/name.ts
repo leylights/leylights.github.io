@@ -1,4 +1,4 @@
-import { Leylights } from "../../../leylights.js";
+import { Molasses } from "../../../molasses.js";
 import { NPCsRace, NPCsRaceArchetype } from "../core/race.js";
 
 interface RawNamesList {
@@ -27,8 +27,8 @@ export class NPCsName {
 
   get ownerRaces(): NPCsRace[] {
     const me = this;
-    return Leylights.Object.values(NPCsRace.list).filter((race: NPCsRace) => {
-      return Leylights.Array.includes(me.owners, race.archetype);
+    return Molasses.Object.values(NPCsRace.list).filter((race: NPCsRace) => {
+      return Molasses.Array.includes(me.owners, race.archetype);
     });
   }
 
@@ -75,7 +75,7 @@ export class NPCsName {
     });
 
     if (archetype)
-      return nameArray.filter((name: NPCsName) => { return Leylights.Array.includes(name.owners, archetype) });
+      return nameArray.filter((name: NPCsName) => { return Molasses.Array.includes(name.owners, archetype) });
     else
       return nameArray;
   }

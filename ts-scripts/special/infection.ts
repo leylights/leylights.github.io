@@ -1,12 +1,12 @@
 /* eslint-disable */
-import {Leylights} from "../leylights.js";
+import {Molasses} from "../molasses.js";
 
 /**
  * Infection Spread Modeller
  * 
  * This program models the spread of a virus through a population.
  * 
- * @author Cole Stanley
+ * @author River Stanley
  * 
  * Start Date: April 21st, 2021
  * End Date: April 27th, 2021
@@ -112,7 +112,7 @@ const canvas = {
     this.element.width = this.element.getBoundingClientRect().width;
     this.element.height = this.element.getBoundingClientRect().height;
     this.element.setAttributeNode(
-      Leylights.betterCreateAttr("oncontextmenu", "return false;")
+      Molasses.betterCreateAttr("oncontextmenu", "return false;")
     );
 
     this.context = this.element.getContext("2d", {
@@ -152,9 +152,9 @@ const canvas = {
     },
 
     draw: function () {
-      Leylights.fillRect(0, canvas.outerHeight - this.outerHeight, this.width, this.borderWidth, this.borderColour, canvas.context);
-      Leylights.fillRect(0, this.innerY, this.width, this.innerHeight, canvas.element.style.backgroundColor, canvas.context);
-      Leylights.drawText("Symptomatic Isolation:", 10, this.innerY + ((this.innerHeight + ISOLATION_BAR_TEXT_SIZE) / 2),
+      Molasses.fillRect(0, canvas.outerHeight - this.outerHeight, this.width, this.borderWidth, this.borderColour, canvas.context);
+      Molasses.fillRect(0, this.innerY, this.width, this.innerHeight, canvas.element.style.backgroundColor, canvas.context);
+      Molasses.drawText("Symptomatic Isolation:", 10, this.innerY + ((this.innerHeight + ISOLATION_BAR_TEXT_SIZE) / 2),
         "#000", false, ISOLATION_BAR_TEXT_SIZE, null, canvas.context);
     }
   },
@@ -180,7 +180,7 @@ const canvas = {
   },
 
   clear: function () {
-    Leylights.fillRect(
+    Molasses.fillRect(
       0,
       0,
       this.element.width,
@@ -247,7 +247,7 @@ const chart = {
   },
 
   clear: function () {
-    Leylights.fillRect(
+    Molasses.fillRect(
       0,
       0,
       this.element.width,
@@ -260,7 +260,7 @@ const chart = {
 
 /**
  * A representation of an individual in the World
- * @author Cole Stanley
+ * @author River Stanley
  */
 
 class Cell {
@@ -513,10 +513,10 @@ class Cell {
    */
 
   static drawCell(x: number, y: number, colour: string, dotColour?: string | null): void {
-    Leylights.fillCircle(x, y, Cell.radius, colour, false, canvas.context);
+    Molasses.fillCircle(x, y, Cell.radius, colour, false, canvas.context);
 
     if (dotColour != null) {
-      Leylights.fillCircle(x + Cell.radius - Cell.dotRadius, y + Cell.radius - Cell.dotRadius, Cell.dotRadius, dotColour, false, canvas.context);
+      Molasses.fillCircle(x + Cell.radius - Cell.dotRadius, y + Cell.radius - Cell.dotRadius, Cell.dotRadius, dotColour, false, canvas.context);
     }
   }
 
@@ -555,7 +555,7 @@ class Cell {
 
 /**
  * A class to handle two-dimensional Euclidean vectors
- * @author Cole Stanley
+ * @author River Stanley
  */
 
 class MathVector {
@@ -693,7 +693,7 @@ class MathVector {
 
 /**
  * A class to handle the collision of two Cells against each other
- * @author Cole Stanley
+ * @author River Stanley
  */
 
 class Reflection {
@@ -817,7 +817,7 @@ class Reflection {
 
 /**
  * Functions to handle the controls bar
- * @author Cole Stanley
+ * @author River Stanley
  */
 
 class Controls {
@@ -862,15 +862,15 @@ class Controls {
    */
 
   static prepare = function (firstTime: boolean) {
-    Leylights.getInputElementById("secondsUntilAsymptomatic").value = secondsToAsymptomatic + "";
-    Leylights.getInputElementById("secondsUntilSymptomatic").value = secondsToSymptomatic + "";
-    Leylights.getInputElementById("secondsUntilConclusion").value = secondsToSurvival + "";
-    Leylights.getInputElementById("mortalityRate").value = (mortalityRate * 100) + "";
+    Molasses.getInputElementById("secondsUntilAsymptomatic").value = secondsToAsymptomatic + "";
+    Molasses.getInputElementById("secondsUntilSymptomatic").value = secondsToSymptomatic + "";
+    Molasses.getInputElementById("secondsUntilConclusion").value = secondsToSurvival + "";
+    Molasses.getInputElementById("mortalityRate").value = (mortalityRate * 100) + "";
     document.getElementById("mortalityDisplay").innerText = (mortalityRate * 100) + "";
-    Leylights.getInputElementById("asymptomaticRate").value = (asymptomaticRate * 100) + "";
+    Molasses.getInputElementById("asymptomaticRate").value = (asymptomaticRate * 100) + "";
     document.getElementById("asymptomaticDisplay").innerText = (asymptomaticRate * 100) + "";
-    Leylights.getInputElementById("isolateSymptomatic").checked = isolateSymptomatic;
-    Leylights.getInputElementById("showNonContagious").checked = showNonContagious;
+    Molasses.getInputElementById("isolateSymptomatic").checked = isolateSymptomatic;
+    Molasses.getInputElementById("showNonContagious").checked = showNonContagious;
 
     if (firstTime) {
       let accordionHeads: HTMLCollection = document.getElementsByClassName("accordionHead");
@@ -886,11 +886,11 @@ class Controls {
       }
 
       document.getElementById("mortalityRate").addEventListener("change", function (e) {
-        document.getElementById("mortalityDisplay").innerText = Math.round(parseFloat(Leylights.getInputElementById("mortalityRate").value)) + "";
+        document.getElementById("mortalityDisplay").innerText = Math.round(parseFloat(Molasses.getInputElementById("mortalityRate").value)) + "";
       });
 
       document.getElementById("asymptomaticRate").addEventListener("change", function (e) {
-        document.getElementById("asymptomaticDisplay").innerText = Math.round(parseFloat(Leylights.getInputElementById("asymptomaticRate").value)) + "";
+        document.getElementById("asymptomaticDisplay").innerText = Math.round(parseFloat(Molasses.getInputElementById("asymptomaticRate").value)) + "";
       });
 
       document.getElementById("restartNoCovid").addEventListener("click", () => { restartSimulation(false); });
@@ -899,14 +899,14 @@ class Controls {
 
     // anti-infection measures
 
-    Leylights.getInputElementById("vaccinationRate").value = (vaccinationRate * 100) + "";
+    Molasses.getInputElementById("vaccinationRate").value = (vaccinationRate * 100) + "";
     document.getElementById("vaccinationDisplay").innerText = (vaccinationRate * 100) + "";
 
-    Leylights.getInputElementById("physDistancing").value = (populationSpacing - 1) + "";
+    Molasses.getInputElementById("physDistancing").value = (populationSpacing - 1) + "";
 
     if (firstTime) {
       document.getElementById("vaccinationRate").addEventListener("change", function (e) {
-        document.getElementById("vaccinationDisplay").innerText = Math.round(parseFloat(Leylights.getInputElementById("vaccinationRate").value)) + "";
+        document.getElementById("vaccinationDisplay").innerText = Math.round(parseFloat(Molasses.getInputElementById("vaccinationRate").value)) + "";
       });
     }
 
@@ -935,9 +935,9 @@ class Controls {
     mortalityRate = Controls.numOrZero(document.getElementById("mortalityRate")) / 100;
     asymptomaticRate = Controls.numOrZero(document.getElementById("asymptomaticRate")) / 100;
     vaccinationRate = Controls.numOrZero(document.getElementById("vaccinationRate")) / 100;
-    populationSpacing = parseInt(Leylights.getInputElementById("physDistancing").value) + 1;
-    isolateSymptomatic = Leylights.getInputElementById("isolateSymptomatic").checked;
-    showNonContagious = Leylights.getInputElementById("showNonContagious").checked;
+    populationSpacing = parseInt(Molasses.getInputElementById("physDistancing").value) + 1;
+    isolateSymptomatic = Molasses.getInputElementById("isolateSymptomatic").checked;
+    showNonContagious = Molasses.getInputElementById("showNonContagious").checked;
   }
 
   /**
@@ -1059,8 +1059,8 @@ function makeBackup() {
 
   next_population_backup = now + POPULATION_BACKUP_INTERVAL;
 
-  Leylights.fillRect(0, canvas.bodyHeight - 20, 20, 20, "orange", canvas.context);
-  Leylights.drawText("B", 10, canvas.bodyHeight - 10, "white", true, 20, null, canvas.context);
+  Molasses.fillRect(0, canvas.bodyHeight - 20, 20, 20, "orange", canvas.context);
+  Molasses.drawText("B", 10, canvas.bodyHeight - 10, "white", true, 20, null, canvas.context);
 }
 
 /**
@@ -1137,8 +1137,8 @@ function redrawCanvas() {
       let x = canvas.width - (i + 1) * (2 * Cell.radius + 10)
 
       if (x < 20 + canvas.context.measureText("Symptomatic Isolation").width) {
-        Leylights.drawLine(x + (2 * Cell.radius + 10) + padding, y + Cell.radius, x + (4 * Cell.radius + 10) - padding, y + Cell.radius, "white", 2, canvas.context);
-        Leylights.drawLine(x + (3 * Cell.radius + 10), y + padding, x + (3 * Cell.radius + 10), y + (2 * Cell.radius) - padding, "white", 2, canvas.context);
+        Molasses.drawLine(x + (2 * Cell.radius + 10) + padding, y + Cell.radius, x + (4 * Cell.radius + 10) - padding, y + Cell.radius, "white", 2, canvas.context);
+        Molasses.drawLine(x + (3 * Cell.radius + 10), y + padding, x + (3 * Cell.radius + 10), y + (2 * Cell.radius) - padding, "white", 2, canvas.context);
         break;
       } else {
         Cell.drawCell(x, y, Cell.colours[INF_STATES.SYMPTOMATIC]);
@@ -1164,10 +1164,10 @@ function redrawChart() {
   let gridSpace = chart.gridlineSpace;
 
   for (let x = 0; x < chartRect.w; x += gridSpace.horizontal) {
-    Leylights.drawLine(x, 0, x, chart.height, GRIDLINE_COLOUR, 1, chart.context);
+    Molasses.drawLine(x, 0, x, chart.height, GRIDLINE_COLOUR, 1, chart.context);
   }
   for (let y = chartRect.h; y > 0; y -= gridSpace.horizontal) {
-    Leylights.drawLine(0, y, chart.width, y, GRIDLINE_COLOUR, 1, chart.context);
+    Molasses.drawLine(0, y, chart.width, y, GRIDLINE_COLOUR, 1, chart.context);
   }
 
   // redraw the statistics
@@ -1175,9 +1175,9 @@ function redrawChart() {
   for (let i = 0; i < stats.length; i++) {
     if (shownStatistics[i]) {
       for (let j = 0; j < stats[i].length; j++) {
-        Leylights.fillCircle(j * chart.gridlineSpace.horizontal, chart.height - chart.height * (stats[i][j] / population.length), DATAPOINT_RADIUS, Cell.colours[i], true, chart.context);
+        Molasses.fillCircle(j * chart.gridlineSpace.horizontal, chart.height - chart.height * (stats[i][j] / population.length), DATAPOINT_RADIUS, Cell.colours[i], true, chart.context);
         if (j > 0) {
-          Leylights.drawLine((j - 1) * chart.gridlineSpace.horizontal, chart.height - chart.height * (stats[i][j - 1] / population.length), j * chart.gridlineSpace.horizontal, chart.height - chart.height * (stats[i][j] / population.length), Cell.colours[i], 1, chart.context);
+          Molasses.drawLine((j - 1) * chart.gridlineSpace.horizontal, chart.height - chart.height * (stats[i][j - 1] / population.length), j * chart.gridlineSpace.horizontal, chart.height - chart.height * (stats[i][j] / population.length), Cell.colours[i], 1, chart.context);
         }
       }
     }
@@ -1413,7 +1413,7 @@ function updateChart() {
     shownStatistics[i] = (document.getElementById("showLines").children[0].children[i].children[0].children[0] as HTMLInputElement).checked;
   }
   // determine chart locking
-  keepRight = !Leylights.getInputElementById("unlockChart").checked;
+  keepRight = !Molasses.getInputElementById("unlockChart").checked;
 }
 
 /**
