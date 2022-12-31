@@ -12,7 +12,7 @@ export class CoreDataService {
     }
 }
 _a = CoreDataService;
-CoreDataService.publicSiteUrl = 'colestanley.ca';
+CoreDataService.publicSiteUrls = ['colestanley.ca', 'some-molasses.github.io'];
 CoreDataService.shouldRiverify = !window.location.hostname.includes('colestanley');
 CoreDataService.personalName = CoreDataService.shouldRiverify ? 'River Stanley' : 'Cole Stanley';
 CoreDataService.siteName = _a.getSiteName();
