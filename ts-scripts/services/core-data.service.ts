@@ -1,5 +1,5 @@
 export class CoreDataService {
-  public static publicSiteUrl: string = 'colestanley.ca';
+  public static publicSiteUrls: string[] = ['colestanley.ca', 'some-molasses.github.io'];
 
   public static shouldRiverify = !window.location.hostname.includes('colestanley');
   public static personalName = CoreDataService.shouldRiverify ? 'River Stanley' : 'Cole Stanley';

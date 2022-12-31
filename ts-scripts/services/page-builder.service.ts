@@ -120,24 +120,15 @@ export class PageBuilder {
   }
 
   private static buildGoogleAnalytics() {
-    // exit on dev
-    if (!window.location.origin.includes(CoreDataService.publicSiteUrl)) {
+    if (!CoreDataService.isDev) {
       console.log('Hidden from google analytics: on development environment.');
       return;
     } else if (CookieInterface.getCookieValue(GoogleAnalyticsController.HIDE_COOKIE)) {
       console.log('Hidden from google analytics: cookie set.');
       return;
     }
-
+    
     GoogleAnalyticsController.init();
-
-    document.head.insertAdjacentElement('afterbegin', Molasses.createElement({
-      type: 'script',
-      otherNodes: [
-        { type: 'async', value: '', },
-        { type: 'src', value: 'https://www.google-analytics.com/analytics.js', },
-      ],
-    }));
   }
 
   private static getCurrentPageData(): MenuItemSingle {

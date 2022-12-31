@@ -100,8 +100,7 @@ export class PageBuilder {
         document.head.appendChild(poppins);
     }
     static buildGoogleAnalytics() {
-        // exit on dev
-        if (!window.location.origin.includes(CoreDataService.publicSiteUrl)) {
+        if (!CoreDataService.isDev) {
             console.log('Hidden from google analytics: on development environment.');
             return;
         }
@@ -110,13 +109,6 @@ export class PageBuilder {
             return;
         }
         GoogleAnalyticsController.init();
-        document.head.insertAdjacentElement('afterbegin', Molasses.createElement({
-            type: 'script',
-            otherNodes: [
-                { type: 'async', value: '', },
-                { type: 'src', value: 'https://www.google-analytics.com/analytics.js', },
-            ],
-        }));
     }
     static getCurrentPageData() {
         const currentPage = transformLink(window.location.pathname);
