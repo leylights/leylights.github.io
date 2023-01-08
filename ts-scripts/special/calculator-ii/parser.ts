@@ -79,7 +79,7 @@ export class CalculatorParser extends CalculatorComponent {
     this.log(`parsing: ${input}`);
     this.iterations++;
 
-    if (this.iterations > 50) throw new Error(`Parser loop`);
+    if (this.iterations > 3000) throw new Error(`Parser loop`);
 
     // add in brackets
     if (!CalculatorParser.areBracketsBalanced(input)) throw new Error('Recursive brackets unbalanced');

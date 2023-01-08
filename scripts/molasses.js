@@ -81,7 +81,8 @@ export class Molasses {
             });
         if (data.children)
             data.children.forEach((childEl) => {
-                element.appendChild(childEl);
+                if (childEl) // not null
+                    element.appendChild(childEl);
             });
         if (data.otherNodes) {
             if (Array.isArray(data.otherNodes)) {

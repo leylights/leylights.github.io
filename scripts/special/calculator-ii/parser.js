@@ -66,7 +66,7 @@ export class CalculatorParser extends CalculatorComponent {
     parseRecurse(input) {
         this.log(`parsing: ${input}`);
         this.iterations++;
-        if (this.iterations > 50)
+        if (this.iterations > 3000)
             throw new Error(`Parser loop`);
         // add in brackets
         if (!CalculatorParser.areBracketsBalanced(input))
