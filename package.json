@@ -24,10 +24,15 @@
     "webpack-cli": "^5.0.2"
   },
   "scripts": {
-    "wipe-sass": "powershell Remove-Item stylesheets/* -Recurse",
-    "dev": "npm-run-all --parallel watch-sass watch-ts start",
+    "build": "npm-run-all sass-build ts-build",
+    "dev": "npm-run-all --parallel sass-watch ts-watch start",
     "start": "http-server",
-    "watch-sass": "sass --watch sass:stylesheets --no-source-map",
-    "watch-ts": "webpack --config webpack.config.js --watch"
+
+    "sass-build": "sass sass:stylesheets --no-source-map",
+    "sass-watch": "sass --watch sass:stylesheets --no-source-map",
+    "sass-wipe": "powershell Remove-Item stylesheets/* -Recurse",
+    
+    "ts-build": "webpack --config webpack.config.js",
+    "ts-watch": "webpack --config webpack.config.js --watch"
   }
 }
