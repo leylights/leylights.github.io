@@ -1,8 +1,8 @@
-import { Molasses } from "../../../molasses.js";
-import { Button } from "../../../components/button.component.js";
-import { NPCsMemorySaveBarComponent } from "../components/npcs-memory-save-bar.component.js";
-import { NPCsCharacterData } from "./character-data.js";
-import { NPCsClassicCard } from "./classic-card.js";
+import { Molasses } from "../../../molasses";
+import { Button } from "../../../components/button.component";
+import { NPCsMemorySaveBarComponent } from "../components/npcs-memory-save-bar.component";
+import { NPCsCharacterData } from "./character-data";
+import { NPCsClassicCard } from "./classic-card";
 
 const SPLITTER = '||breakpoint||';
 const STORAGE_KEY = 'npcsSavedCharacters';

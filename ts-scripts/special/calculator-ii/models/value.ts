@@ -1,8 +1,8 @@
-import { Molasses } from "../../../molasses.js";
-import { MathFrac } from "../../../tools/math/fraction.js";
-import { MathNum } from "../../../tools/math/number.js";
-import { CalculatorSingular } from "./singular.js";
-import { CalculatorTerm } from "./term.js";
+import { Molasses } from "../../../molasses";
+import { MathFrac } from "../../../tools/math/fraction";
+import { MathNum } from "../../../tools/math/number";
+import { CalculatorSingular } from "./singular";
+import { CalculatorTerm } from "./term";
 
 export class CalculatorValue extends CalculatorSingular {
   value: MathNum;

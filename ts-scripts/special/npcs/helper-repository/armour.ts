@@ -1,4 +1,4 @@
-import { Molasses } from "../../../molasses.js";
+import { Molasses } from "../../../molasses";
 
 export enum NPCsArmourWeightEnum {
   light = "light",

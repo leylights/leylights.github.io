@@ -1,6 +1,6 @@
-import { Molasses } from "../../../molasses.js";
-import { MenuItemMulti } from "../../../services/menus/menu-item-multi.js";
-import { ShowcaseItem } from "./showcase-item.component.js";
+import { Molasses } from "../../../molasses";
+import { MenuItemMulti } from "../../../services/menus/menu-item-multi";
+import { ShowcaseItem } from "./showcase-item.component";
 
 export class ShowcaseMultiItem extends ShowcaseItem {
   item: MenuItemMulti;

@@ -1,6 +1,6 @@
-import { InputComponent } from "../../components/input.component.js";
-import { Molasses } from "../../molasses.js";
-import { CalculatorUserError } from "./models/user-facing-error.js";
+import { InputComponent } from "../../components/input.component";
+import { Molasses } from "../../molasses";
+import { CalculatorUserError } from "./models/user-facing-error";
 
 export class CalculatorView {
   static readonly inputField: InputComponent = new InputComponent({ element: document.getElementById('formula-input') as HTMLInputElement });
@@ -14,7 +14,7 @@ export class CalculatorView {
   }
 
   private static waitingLogs: { value: string, type: string, title: string }[] = [];
-  private static logTimeouts: number[] = [];
+  private static logTimeouts: ReturnType<typeof setTimeout>[] = [];
 
   private static get LOG_DELAY(): number {
     let step: HTMLElement = this.stepsPreview.querySelector('.step');

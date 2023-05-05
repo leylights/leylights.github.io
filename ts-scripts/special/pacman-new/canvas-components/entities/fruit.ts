@@ -1,11 +1,11 @@
-import { Molasses } from "../../../../molasses.js";
-import { Canvas } from "../../../../components/canvas.component.js";
-import { PacmanEntityEnum } from "../../helper.js";
-import { PacmanConstants } from "../constants.js";
-import { PacmanMapNode } from "../map-node.js";
-import { PacmanSprites } from "../sprites.js";
-import { PacmanState } from "../state.js";
-import { PacmanPickup } from "./pickup.js";
+import { Molasses } from "../../../../molasses";
+import { Canvas } from "../../../../components/canvas.component";
+import { PacmanEntityEnum } from "../../helper";
+import { PacmanConstants } from "../constants";
+import { PacmanMapNode } from "../map-node";
+import { PacmanSprites } from "../sprites";
+import { PacmanState } from "../state";
+import { PacmanPickup } from "./pickup";
 
 export class PacmanFruit extends PacmanPickup {
   fruitId: number;

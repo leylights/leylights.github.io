@@ -1,11 +1,11 @@
-import { Canvas } from "../../../../components/canvas.component.js";
-import { PacmanEntityEnum, PacmanDirectionEnum, PacmanStateEnum } from "../../helper.js";
-import { PacmanCharacter } from "./character.js";
-import { PacmanConstants } from "../constants.js";
-import { PacmanMapNode } from "../map-node.js";
-import { PacmanSprites } from "../sprites.js";
-import { PacmanState } from "../state.js";
-import { PacmanRestartTypesEnum } from "../../pacman.page.js";
+import { Canvas } from "../../../../components/canvas.component";
+import { PacmanEntityEnum, PacmanDirectionEnum, PacmanStateEnum } from "../../helper";
+import { PacmanCharacter } from "./character";
+import { PacmanConstants } from "../constants";
+import { PacmanMapNode } from "../map-node";
+import { PacmanSprites } from "../sprites";
+import { PacmanState } from "../state";
+import { PacmanRestartTypesEnum } from "../../pacman.page";
 
 export class PacmanPlayer extends PacmanCharacter {
   deathTime: number = null;

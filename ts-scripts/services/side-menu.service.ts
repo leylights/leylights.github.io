@@ -7,13 +7,13 @@
  * Created: 2017
  */
 
-import { Molasses } from '../molasses.js';
-import { Button } from '../components/button.component.js';
-import { MenuItemMulti } from './menus/menu-item-multi.js';
-import { MenuItemSingle } from './menus/menu-item-single.js';
-import { MenuItem } from './menus/menu-item.js';
-import { MenuLayouts } from './menus/menu-layouts.data.js';
-import { TopMenuService } from './top-menu.service.js';
+import { Molasses } from '../molasses';
+import { Button } from '../components/button.component';
+import { MenuItemMulti } from './menus/menu-item-multi';
+import { MenuItemSingle } from './menus/menu-item-single';
+import { MenuItem } from './menus/menu-item';
+import { MenuLayouts } from './menus/menu-layouts.data';
+import { TopMenuService } from './top-menu.service';
 
 export class SideMenuService {
   private static itemNo = 0;

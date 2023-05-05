@@ -1,17 +1,17 @@
-import { Molasses } from "../../molasses.js"; import { Button } from "../../components/button.component.js";
-import { KeyboardListener } from "../../tools/keyboard-listener.js";
-import { NPCsCharacterData } from "./core/character-data.js";
-import { NPCsClass } from "./core/class.js";
-import { NPCsClassicCard } from "./core/classic-card.js";
-import { NPCsMemory } from "./core/npcs-memory.js";
-import { NPCsRace } from "./core/race.js";
+import { Molasses } from "../../molasses"; import { Button } from "../../components/button.component";
+import { KeyboardListener } from "../../tools/keyboard-listener";
+import { NPCsCharacterData } from "./core/character-data";
+import { NPCsClass } from "./core/class";
+import { NPCsClassicCard } from "./core/classic-card";
+import { NPCsMemory } from "./core/npcs-memory";
+import { NPCsRace } from "./core/race";
 
 const CR_SHIFT_RANGE: number = 1.5;
 const CSS_TOP_PADDING: number = 20;
 const SCROLL_BUFFER: number = 10;
 
 var autoGenerating: boolean = false;
-var autoGenerationInterval: number = null;
+var autoGenerationInterval: ReturnType<typeof setInterval> = null;
 
 var keyListener: KeyboardListener = new KeyboardListener(window);
 

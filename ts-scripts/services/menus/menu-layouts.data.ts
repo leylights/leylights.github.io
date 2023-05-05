@@ -1,8 +1,8 @@
-import { Molasses } from "../../molasses.js";
-import { MenuItemMulti } from "./menu-item-multi.js";
-import { MenuItemSingle } from "./menu-item-single.js";
-import { MenuItem } from "./menu-item.js";
-import { MenuItems } from "./menu-items.data.js";
+import { Molasses } from "../../molasses";
+import { MenuItemMulti } from "./menu-item-multi";
+import { MenuItemSingle } from "./menu-item-single";
+import { MenuItem } from "./menu-item";
+import { MenuItems } from "./menu-items.data";
 
 export class MenuLayouts {
   private static readonly MULTI_ITEMS: Record<string, MenuItemMulti> = {

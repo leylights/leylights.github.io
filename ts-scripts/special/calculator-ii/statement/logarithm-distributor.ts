@@ -1,14 +1,14 @@
-import { MathNum } from "../../../tools/math/number.js";
-import { CalculatorComponent } from "../calculator-component.js";
-import { CalculatorFunction, CalculatorOperator } from "../models/function.js";
-import { CalculatorLogarithmFunction } from "../models/logarithm.js";
-import { CalculatorSingular } from "../models/singular.js";
-import { CalculatorTerm } from "../models/term.js";
-import { CalculatorValue } from "../models/value.js";
-import { CalculatorVariable } from "../models/variable.js";
-import { CalculatorParser } from "../parser.js";
-import { CalculatorTester } from "../tester.js";
-import { CalculatorEvaluator } from "./evaluator.js";
+import { MathNum } from "../../../tools/math/number";
+import { CalculatorComponent } from "../calculator-component";
+import { CalculatorFunction, CalculatorOperator } from "../models/function";
+import { CalculatorLogarithmFunction } from "../models/logarithm";
+import { CalculatorSingular } from "../models/singular";
+import { CalculatorTerm } from "../models/term";
+import { CalculatorValue } from "../models/value";
+import { CalculatorVariable } from "../models/variable";
+import { CalculatorParser } from "../parser";
+import { CalculatorTester } from "../tester";
+import { CalculatorEvaluator } from "./evaluator";
 
 export class CalculatorLogarithmDistributor extends CalculatorComponent {
   static distribute(input: CalculatorTerm): CalculatorTerm {

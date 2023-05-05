@@ -6,20 +6,20 @@
  * End Date: September 7th, 2021
  */
 
-import { Molasses } from "../../molasses.js";
-import { Canvas } from "../../components/canvas.component.js";
-import { PacmanCharacter } from "./canvas-components/entities/character.js";
-import { PacmanConstants } from "./canvas-components/constants.js";
-import { PacmanGhost } from "./canvas-components/entities/ghost.js";
-import { PacmanMapNode } from "./canvas-components/map-node.js";
-import { PacmanPickup } from "./canvas-components/entities/pickup.js";
-import { PacmanPlayer } from "./canvas-components/entities/player.js";
-import { PacmanSprites } from "./canvas-components/sprites.js";
-import { PacmanState } from "./canvas-components/state.js";
-import { PacmanDirectionEnum, PacmanHelper, PacmanStateEnum } from "./helper.js";
-import { PacmanPowerPellet } from "./canvas-components/entities/power-pellet.js";
-import { PacmanNormalPellet } from "./canvas-components/entities/normal-pellet.js";
-import { PacmanFruit } from "./canvas-components/entities/fruit.js";
+import { Molasses } from "../../molasses";
+import { Canvas } from "../../components/canvas.component";
+import { PacmanCharacter } from "./canvas-components/entities/character";
+import { PacmanConstants } from "./canvas-components/constants";
+import { PacmanGhost } from "./canvas-components/entities/ghost";
+import { PacmanMapNode } from "./canvas-components/map-node";
+import { PacmanPickup } from "./canvas-components/entities/pickup";
+import { PacmanPlayer } from "./canvas-components/entities/player";
+import { PacmanSprites } from "./canvas-components/sprites";
+import { PacmanState } from "./canvas-components/state";
+import { PacmanDirectionEnum, PacmanHelper, PacmanStateEnum } from "./helper";
+import { PacmanPowerPellet } from "./canvas-components/entities/power-pellet";
+import { PacmanNormalPellet } from "./canvas-components/entities/normal-pellet";
+import { PacmanFruit } from "./canvas-components/entities/fruit";
 
 export enum PacmanRestartTypesEnum {
   FULL,
@@ -34,7 +34,7 @@ export class PacmanPage {
     clearColour: 'black'
   });
   maxPelletCount: number;
-  stupidiferInterval: number;
+  stupidiferInterval: ReturnType<typeof setInterval>;
 
   constructor() {
     PacmanMapNode.generateMap(this.canvas);

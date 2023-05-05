@@ -1,12 +1,12 @@
-import { CalculatorComponent } from "../calculator-component.js"
-import { CalculatorEquationType } from "../models/equation-type.js";
-import { CalculatorFunction, CalculatorOperator } from "../models/function.js";
-import { CalculatorTerm } from "../models/term.js";
-import { CalculatorValue } from "../models/value.js";
-import { CalculatorVariable } from "../models/variable.js";
-import { CalculatorParser } from "../parser.js";
-import { CalculatorUtil } from "../statement/util.js";
-import { CalculatorTester } from "../tester.js";
+import { CalculatorComponent } from "../calculator-component"
+import { CalculatorEquationType } from "../models/equation-type";
+import { CalculatorFunction, CalculatorOperator } from "../models/function";
+import { CalculatorTerm } from "../models/term";
+import { CalculatorValue } from "../models/value";
+import { CalculatorVariable } from "../models/variable";
+import { CalculatorParser } from "../parser";
+import { CalculatorUtil } from "../statement/util";
+import { CalculatorTester } from "../tester";
 
 export class CalculatorIdentifier extends CalculatorComponent {
   static identify(input: CalculatorTerm, terms: CalculatorTerm[], debug: boolean): {

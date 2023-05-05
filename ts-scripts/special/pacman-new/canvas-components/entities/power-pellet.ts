@@ -1,8 +1,8 @@
-import { Canvas } from "../../../../components/canvas.component.js";
-import { PacmanEntityEnum } from "../../helper.js";
-import { PacmanConstants } from "../constants.js";
-import { PacmanState } from "../state.js";
-import { PacmanPickup } from "./pickup.js";
+import { Canvas } from "../../../../components/canvas.component";
+import { PacmanEntityEnum } from "../../helper";
+import { PacmanConstants } from "../constants";
+import { PacmanState } from "../state";
+import { PacmanPickup } from "./pickup";
 
 export class PacmanPowerPellet extends PacmanPickup {
   constructor(x: number, y: number) {

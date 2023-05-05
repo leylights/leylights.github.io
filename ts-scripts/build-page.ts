@@ -1,3 +1,3 @@
-import { PageBuilder } from "./services/page-builder.service.js";
+import { PageBuilder } from "./services/page-builder.service";
 
 PageBuilder.init(true);

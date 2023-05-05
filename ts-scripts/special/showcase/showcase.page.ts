@@ -1,14 +1,14 @@
-import { KeyboardListener } from "../../tools/keyboard-listener.js";
-import { MenuItemMulti } from "../../services/menus/menu-item-multi.js";
-import { MenuItemSingle } from "../../services/menus/menu-item-single.js";
-import { MenuItem } from "../../services/menus/menu-item.js";
-import { MenuLayouts } from "../../services/menus/menu-layouts.data.js";
-import { PageBuilder } from "../../services/page-builder.service.js";
-import { ShowcaseItemSpotlight } from "./components/item-spotlight.component.js";
-import { ShowcaseMultiItem } from "./components/multi-item.component.js";
-import { ShowcaseItem } from "./components/showcase-item.component.js";
-import { ShowcaseSingleItem } from "./components/single-item.component.js";
-import { SpotlightHeader } from "./components/spotlight-header.component.js";
+import { KeyboardListener } from "../../tools/keyboard-listener";
+import { MenuItemMulti } from "../../services/menus/menu-item-multi";
+import { MenuItemSingle } from "../../services/menus/menu-item-single";
+import { MenuItem } from "../../services/menus/menu-item";
+import { MenuLayouts } from "../../services/menus/menu-layouts.data";
+import { PageBuilder } from "../../services/page-builder.service";
+import { ShowcaseItemSpotlight } from "./components/item-spotlight.component";
+import { ShowcaseMultiItem } from "./components/multi-item.component";
+import { ShowcaseItem } from "./components/showcase-item.component";
+import { ShowcaseSingleItem } from "./components/single-item.component";
+import { SpotlightHeader } from "./components/spotlight-header.component";
 
 export class ShowcasePage {
   items: ShowcaseItem[] = [];
@@ -18,7 +18,6 @@ export class ShowcasePage {
   private secretsCreated: boolean = false;
 
   private static isInitialized = false;
-
   private elements = {
     mainSpotlight: document.getElementById('showcase-main-spotlight'),
     mainSpotlightImage: document.getElementById('showcase-main-spotlight-image'),
@@ -121,10 +120,8 @@ export class ShowcasePage {
       });
     }
 
-    PageBuilder.registerLoadListener(() => {
-      fadeListener();
-      window.addEventListener('scroll', fadeListener);
-    });
+    fadeListener();
+    window.addEventListener('scroll', fadeListener);
   }
 }
 

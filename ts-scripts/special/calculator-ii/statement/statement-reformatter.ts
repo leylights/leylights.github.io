@@ -1,11 +1,11 @@
-import { CalculatorComponent } from "../calculator-component.js";
-import { CalculatorTerm } from "../models/term.js";
-import { CalculatorView } from "../view.js";
-import { CalculatorCollector } from "./collector.js";
-import { CalculatorCommuter } from "./commuter.js";
-import { CalculatorDistributor } from "./distributor.js";
-import { CalculatorEvaluator } from "./evaluator.js";
-import { CalculatorExponentExpander } from "./exponent-expansion.js";
+import { CalculatorComponent } from "../calculator-component";
+import { CalculatorTerm } from "../models/term";
+import { CalculatorView } from "../view";
+import { CalculatorCollector } from "./collector";
+import { CalculatorCommuter } from "./commuter";
+import { CalculatorDistributor } from "./distributor";
+import { CalculatorEvaluator } from "./evaluator";
+import { CalculatorExponentExpander } from "./exponent-expansion";
 
 interface Config {
   log?: boolean,

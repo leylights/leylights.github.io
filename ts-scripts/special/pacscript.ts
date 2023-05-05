@@ -2546,3 +2546,5 @@ function addHighScore(inname, inscore) {
   }
   localStorage.setItem("numOfScores", lnumOfScores);
 }
+
+startGame();

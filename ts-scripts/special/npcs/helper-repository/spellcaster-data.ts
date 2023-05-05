@@ -1,6 +1,6 @@
-import { NPCsCharacterData } from "../core/character-data.js";
-import { NPCsAbility } from "./general.js";
-import { NPCsSpell } from "./spell.js";
+import { NPCsCharacterData } from "../core/character-data";
+import { NPCsAbility } from "./general";
+import { NPCsSpell } from "./spell";
 
 type NPCsDividedSpellList = [NPCsSpell[], NPCsSpell[], NPCsSpell[], NPCsSpell[], NPCsSpell[], NPCsSpell[], NPCsSpell[], NPCsSpell[], NPCsSpell[], NPCsSpell[]];
 

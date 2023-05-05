@@ -1,7 +1,7 @@
-import { Molasses } from "../../molasses.js";
-import { WordleLetterState } from "./data/wordle-letter-state.js";
-import { WordleWordCheckResponse } from "./data/wordle-word-check-response.js";
-import { WordleView } from "./wordle.view.js";
+import { Molasses } from "../../molasses";
+import { WordleLetterState } from "./data/wordle-letter-state";
+import { WordleWordCheckResponse } from "./data/wordle-word-check-response";
+import { WordleView } from "./wordle.view";
 
 export class WordleController {
   private view: WordleView = new WordleView(this);

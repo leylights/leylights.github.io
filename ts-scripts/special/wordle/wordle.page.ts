@@ -1,5 +1,5 @@
-import { DarkModeService } from "../../services/dark-mode.service.js";
-import { WordleController } from "./wordle.controller.js";
+import { DarkModeService } from "../../services/dark-mode.service";
+import { WordleController } from "./wordle.controller";
 
 class WordlePage {
   static init() {

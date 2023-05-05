@@ -1,9 +1,9 @@
-import { Molasses } from "../../molasses.js";
-import { Button } from "../../components/button.component.js";
-import { InputComponent } from "../../components/input.component.js";
-import { LineChartComponent, LineChartPoint } from "../../components/line-chart.component.js";
-import { BadInput } from "../errors/bad-input.error.js";
-import { NPCsSignedDice } from "./helper-repository/histogram/signed-dice.js";
+import { Molasses } from "../../molasses";
+import { Button } from "../../components/button.component";
+import { InputComponent } from "../../components/input.component";
+import { LineChartComponent, LineChartPoint } from "../../components/line-chart.component";
+import { BadInput } from "../errors/bad-input.error";
+import { NPCsSignedDice } from "./helper-repository/histogram/signed-dice";
 
 export class NPCsDiceHistogramPage {
   text = {

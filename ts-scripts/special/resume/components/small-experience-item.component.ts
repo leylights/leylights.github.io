@@ -1,5 +1,5 @@
-import { Molasses } from "../../../molasses.js";
-import { ResumeExperienceItemComponent } from "./experience-item.component.js";
+import { Molasses } from "../../../molasses";
+import { ResumeExperienceItemComponent } from "./experience-item.component";
 
 interface Config {
   title: string;

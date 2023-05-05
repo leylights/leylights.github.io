@@ -1,4 +1,4 @@
-import { DataBridge } from "../../../components/data-bridge.component.js";
+import { DataBridge } from "../../../components/data-bridge.component";
 
 /**
  * Handles retrieval of data from the API

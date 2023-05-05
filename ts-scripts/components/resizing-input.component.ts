@@ -1,4 +1,4 @@
-import { InputComponent } from "./input.component.js";
+import { InputComponent } from "./input.component";
 
 /**
  * An HTMLInputElement that resizes to the width of its contents and placeholder

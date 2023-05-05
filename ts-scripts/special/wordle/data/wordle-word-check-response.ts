@@ -1,4 +1,4 @@
-import { WordleLetterState } from "./wordle-letter-state.js";
+import { WordleLetterState } from "./wordle-letter-state";
 
 interface WordleWordCheckResponseConfig {
   errorMessage?: string,

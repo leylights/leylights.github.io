@@ -1,6 +1,6 @@
-import { Molasses } from "../molasses.js";
-import { DarkModeService } from "../services/dark-mode.service.js";
-import { Canvas, CanvasCreationData } from "./canvas.component.js";
+import { Molasses } from "../molasses";
+import { DarkModeService } from "../services/dark-mode.service";
+import { Canvas, CanvasCreationData } from "./canvas.component";
 
 export interface LineChartPoint {
   x: number;

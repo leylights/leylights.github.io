@@ -1,15 +1,15 @@
-import { Molasses } from "../../../molasses.js";
-import { NPCsAction } from "../helper-repository/action.js";
-import { NPCsReaction } from "../helper-repository/action-reaction.js";
-import { NPCsAttribute } from "../helper-repository/attribute.js";
-import { NPCsBooleanList } from "../helper-repository/boolean-list.js";
-import { CHA, CON, DEX, INT, NPCsAbility, NPCsAbilityShortNames, NPCsDice, NPCsHelper, STR, WIS } from "../helper-repository/general.js";
-import { NPCsSpell } from "../helper-repository/spell.js";
-import { NPCsSpellcasterData } from "../helper-repository/spellcaster-data.js";
-import { NPCsCharacterData, NPCsCharacterDataBooleanTypes } from "./character-data.js";
-import { NPCsAttack } from "../helper-repository/action-attack.js";
-import { Button } from "../../../components/button.component.js";
-import { NPCsMemory } from "./npcs-memory.js";
+import { Molasses } from "../../../molasses";
+import { NPCsAction } from "../helper-repository/action";
+import { NPCsReaction } from "../helper-repository/action-reaction";
+import { NPCsAttribute } from "../helper-repository/attribute";
+import { NPCsBooleanList } from "../helper-repository/boolean-list";
+import { CHA, CON, DEX, INT, NPCsAbility, NPCsAbilityShortNames, NPCsDice, NPCsHelper, STR, WIS } from "../helper-repository/general";
+import { NPCsSpell } from "../helper-repository/spell";
+import { NPCsSpellcasterData } from "../helper-repository/spellcaster-data";
+import { NPCsCharacterData, NPCsCharacterDataBooleanTypes } from "./character-data";
+import { NPCsAttack } from "../helper-repository/action-attack";
+import { Button } from "../../../components/button.component";
+import { NPCsMemory } from "./npcs-memory";
 
 const SAVE_CLASS = 'save-npc';
 

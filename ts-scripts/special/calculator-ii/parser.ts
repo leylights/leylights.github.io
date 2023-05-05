@@ -1,13 +1,13 @@
-import { Molasses } from "../../molasses.js";
-import { CalculatorComponent } from "./calculator-component.js";
-import { CalculatorFunction, CalculatorOperator } from "./models/function.js";
-import { CalculatorLogarithmFunction } from "./models/logarithm.js";
-import { CalculatorSingular } from "./models/singular.js";
-import { CalculatorTerm } from "./models/term.js";
-import { CalculatorUserError } from "./models/user-facing-error.js";
-import { CalculatorValue } from "./models/value.js";
-import { CalculatorVariable } from "./models/variable.js";
-import { CalculatorTester } from "./tester.js";
+import { Molasses } from "../../molasses";
+import { CalculatorComponent } from "./calculator-component";
+import { CalculatorFunction, CalculatorOperator } from "./models/function";
+import { CalculatorLogarithmFunction } from "./models/logarithm";
+import { CalculatorSingular } from "./models/singular";
+import { CalculatorTerm } from "./models/term";
+import { CalculatorUserError } from "./models/user-facing-error";
+import { CalculatorValue } from "./models/value";
+import { CalculatorVariable } from "./models/variable";
+import { CalculatorTester } from "./tester";
 
 export class CalculatorParser extends CalculatorComponent {
   readonly firstInput: string;

@@ -1,5 +1,5 @@
-import { Molasses } from "../../../molasses.js";
-import { BST } from "../../../tools/bst.js";
+import { Molasses } from "../../../molasses";
+import { BST } from "../../../tools/bst";
 
 const PRIMARY_CONTAINER: HTMLElement = document.getElementById('sprites-container');
 

@@ -1,12 +1,12 @@
-import { NPCsAttribute } from "../helper-repository/attribute.js";
-import { NPCsConditionTypes } from "../helper-repository/condition-types.js";
-import { NPCsDamageTypes } from "../helper-repository/damage-types.js";
-import { CHA, INT, NPCsCharacterAlignmentMoral, NPCsCharacterAlignmentOrder, NPCsCharacterSize, NPCsLanguages, NPCsLanguageType } from "../helper-repository/general.js";
-import { NPCsSkillCreationData, NPCsSkillset } from "../helper-repository/skill-set.js";
-import { NPCsSpellcasterData } from "../helper-repository/spellcaster-data.js";
-import { NPCsSpell } from "../helper-repository/spell.js";
-import { Molasses } from "../../../molasses.js";
-import { NPCsName } from "../helper-repository/name.js";
+import { NPCsAttribute } from "../helper-repository/attribute";
+import { NPCsConditionTypes } from "../helper-repository/condition-types";
+import { NPCsDamageTypes } from "../helper-repository/damage-types";
+import { CHA, INT, NPCsCharacterAlignmentMoral, NPCsCharacterAlignmentOrder, NPCsCharacterSize, NPCsLanguages, NPCsLanguageType } from "../helper-repository/general";
+import { NPCsSkillCreationData, NPCsSkillset } from "../helper-repository/skill-set";
+import { NPCsSpellcasterData } from "../helper-repository/spellcaster-data";
+import { NPCsSpell } from "../helper-repository/spell";
+import { Molasses } from "../../../molasses";
+import { NPCsName } from "../helper-repository/name";
 
 export type NPCsRaceArchetype = "human"
   | "elf"

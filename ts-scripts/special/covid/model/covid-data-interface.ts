@@ -1,5 +1,5 @@
-import { Molasses } from "../../../molasses.js";
-import { COVIDDataBridge, COVIDRegionLevel } from "./covid-data-bridge.js";
+import { Molasses } from "../../../molasses";
+import { COVIDDataBridge, COVIDRegionLevel } from "./covid-data-bridge";
 
 export class COVIDDataInterface {
   static async getLastUpdate(): Promise<string> {

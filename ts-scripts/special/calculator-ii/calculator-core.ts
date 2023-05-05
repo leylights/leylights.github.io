@@ -1,10 +1,10 @@
-import { CalculatorTerm } from "./models/term.js";
-import { CalculatorParser } from "./parser.js";
-import { CalculatorView } from "./view.js";
-import { CalculatorFunction, CalculatorOperator } from "./models/function.js";
-import { CalculatorSolver } from "./equation/solver.js";
-import { CalculatorTester } from "./tester.js";
-import { CalculatorStatementReformatter } from "./statement/statement-reformatter.js";
+import { CalculatorTerm } from "./models/term";
+import { CalculatorParser } from "./parser";
+import { CalculatorView } from "./view";
+import { CalculatorFunction, CalculatorOperator } from "./models/function";
+import { CalculatorSolver } from "./equation/solver";
+import { CalculatorTester } from "./tester";
+import { CalculatorStatementReformatter } from "./statement/statement-reformatter";
 
 interface Config {
   debug: boolean,

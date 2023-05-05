@@ -1,8 +1,8 @@
-import { Molasses } from "../../../molasses.js";
-import { Button } from "../../../components/button.component.js";
-import { ResizingInput } from "../../../components/resizing-input.component.js";
-import { SummonsCreature, SummonsCreatureAttack } from "../creature.js";
-import { SummonsCreatureViewComponent } from "./creature-view.component.js";
+import { Molasses } from "../../../molasses";
+import { Button } from "../../../components/button.component";
+import { ResizingInput } from "../../../components/resizing-input.component";
+import { SummonsCreature, SummonsCreatureAttack } from "../creature";
+import { SummonsCreatureViewComponent } from "./creature-view.component";
 
 export class SummonsCreatureCardComponent implements SummonsCreatureViewComponent {
   private element: HTMLElement;

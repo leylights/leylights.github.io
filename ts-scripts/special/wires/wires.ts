@@ -1,10 +1,10 @@
-﻿import { Molasses } from "../../molasses.js";
-import { KeyboardListener } from "../../tools/keyboard-listener.js";
-import { Canvas } from "../../components/canvas.component.js";
-import { WiresConstants } from "./constants.js";
-import { WiresMenuTile } from "./menu-tile.js";
-import { WiresState, WiresWinStateEnum } from "./state.js";
-import { WiresTile } from "./tile.js";
+﻿import { Molasses } from "../../molasses";
+import { KeyboardListener } from "../../tools/keyboard-listener";
+import { Canvas } from "../../components/canvas.component";
+import { WiresConstants } from "./constants";
+import { WiresMenuTile } from "./menu-tile";
+import { WiresState, WiresWinStateEnum } from "./state";
+import { WiresTile } from "./tile";
 
 class WiresPage {
   canvas: Canvas = new Canvas(document.getElementById('canvasFoundation'));

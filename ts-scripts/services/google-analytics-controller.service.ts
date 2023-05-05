@@ -1,4 +1,4 @@
-import { Molasses } from "../molasses.js";
+import { Molasses } from "../molasses";
 
 export class GoogleAnalyticsController {
   static HIDE_COOKIE = 'hideFromAnalytics';

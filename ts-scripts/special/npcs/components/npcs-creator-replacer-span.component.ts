@@ -1,5 +1,5 @@
-import { Molasses } from "../../../molasses.js";
-import { NPCsCharacterData } from "../core/character-data.js";
+import { Molasses } from "../../../molasses";
+import { NPCsCharacterData } from "../core/character-data";
 
 export class NPCsReplacerSpan {
   private _originalBody: string;

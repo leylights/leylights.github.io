@@ -1,8 +1,8 @@
-import { MathVector } from "../../../tools/math/vector.js";
-import { Canvas } from "../../../components/canvas.component.js";
-import { PacmanDirectionEnum, PacmanHelper } from "../helper.js";
-import { PacmanCharacter } from "./entities/character.js";
-import { PacmanConstants } from "./constants.js";
+import { MathVector } from "../../../tools/math/vector";
+import { Canvas } from "../../../components/canvas.component";
+import { PacmanDirectionEnum, PacmanHelper } from "../helper";
+import { PacmanCharacter } from "./entities/character";
+import { PacmanConstants } from "./constants";
 
 /**
  * A node representing a navigational node on the map

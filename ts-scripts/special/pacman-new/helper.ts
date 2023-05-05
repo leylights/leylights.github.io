@@ -1,4 +1,4 @@
-import { MathVector } from "../../tools/math/vector.js";
+import { MathVector } from "../../tools/math/vector";
 
 export enum PacmanDirectionEnum {
   STILL = "s",

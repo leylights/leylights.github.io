@@ -1,6 +1,6 @@
-import { Molasses } from "../../../molasses.js";
-import { ResumePage } from "../resume.page.js";
-import { ResumeSkillComponent } from "./skill.component.js";
+import { Molasses } from "../../../molasses";
+import { ResumePage } from "../resume.page";
+import { ResumeSkillComponent } from "./skill.component";
 
 interface ResumeExperienceItemComponentCreationData {
   parentElement: HTMLElement;

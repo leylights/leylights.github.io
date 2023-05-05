@@ -1,9 +1,9 @@
-import { Molasses } from "../../../molasses.js";
-import { InputComponent } from "../../../components/input.component.js";
-import { LineChartComponent, LineChartPoint } from "../../../components/line-chart.component.js";
-import { COVIDDataBridge, COVIDRegionLevel, COVIDTimeSeriesDayResponse, COVIDTimeSeriesType } from "../model/covid-data-bridge.js";
-import { COVIDSectionCollection } from "./section-collection.component.js";
-import { COVIDSection } from "./section.component.js";
+import { Molasses } from "../../../molasses";
+import { InputComponent } from "../../../components/input.component";
+import { LineChartComponent, LineChartPoint } from "../../../components/line-chart.component";
+import { COVIDDataBridge, COVIDRegionLevel, COVIDTimeSeriesDayResponse, COVIDTimeSeriesType } from "../model/covid-data-bridge";
+import { COVIDSectionCollection } from "./section-collection.component";
+import { COVIDSection } from "./section.component";
 
 interface COVIDTimeSeriesChartConfig {
   days?: number,

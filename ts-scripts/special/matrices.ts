@@ -1,7 +1,7 @@
-import { Molasses } from "../molasses.js";
-import { MathNum } from "../tools/math/number.js";
-import { Button } from "../components/button.component.js";
-import { BASE_TEMP_HIGHLIGHT_TIME } from "../components/general.js";
+import { Molasses } from "../molasses";
+import { MathNum } from "../tools/math/number";
+import { Button } from "../components/button.component";
+import { BASE_TEMP_HIGHLIGHT_TIME } from "../components/general";
 
 /**
  * A program to handle complex number arithmetic.

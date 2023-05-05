@@ -1,6 +1,6 @@
-import { Molasses } from "../../../molasses.js";
-import { MenuItemSingle } from "../../../services/menus/menu-item-single.js";
-import { ShowcaseItem } from "./showcase-item.component.js";
+import { Molasses } from "../../../molasses";
+import { MenuItemSingle } from "../../../services/menus/menu-item-single";
+import { ShowcaseItem } from "./showcase-item.component";
 
 interface ShowcaseSingleItemConfig {
   unused_config_variable: null;

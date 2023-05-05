@@ -1,7 +1,7 @@
-import { CalculatorFunction, CalculatorOperator } from "../models/function.js";
-import { CalculatorSingular } from "../models/singular.js";
-import { CalculatorTerm } from "../models/term.js";
-import { CalculatorUnaryFunction } from "../models/unary-function.js";
+import { CalculatorFunction, CalculatorOperator } from "../models/function";
+import { CalculatorSingular } from "../models/singular";
+import { CalculatorTerm } from "../models/term";
+import { CalculatorUnaryFunction } from "../models/unary-function";
 
 export class CalculatorUtil {
   static disjunctiveTermsCache = {};

@@ -1,5 +1,5 @@
-import { MenuItemSingle } from "./menu-item-single.js";
-import { MenuItem, MenuItemConfig } from "./menu-item.js";
+import { MenuItemSingle } from "./menu-item-single";
+import { MenuItem, MenuItemConfig } from "./menu-item";
 
 type MenuItemMultiConfig = MenuItemConfig & {
   children: MenuItemSingle[];

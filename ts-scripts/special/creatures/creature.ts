@@ -1,4 +1,4 @@
-import { NPCsDice } from "../npcs/helper-repository/general.js";
+import { NPCsDice } from "../npcs/helper-repository/general";
 
 interface SummonsCreatureCreationData {
   name: string;

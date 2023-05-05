@@ -1,5 +1,5 @@
-import { CoreDataService } from "../core-data.service.js";
-import { MenuItem, MenuItemConfig } from "./menu-item.js";
+import { CoreDataService } from "../core-data.service";
+import { MenuItem, MenuItemConfig } from "./menu-item";
 
 type MenuItemSingleConfig = MenuItemConfig & {
   date: string,

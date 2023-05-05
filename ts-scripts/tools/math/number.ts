@@ -1,4 +1,4 @@
-import { MathFrac } from "./fraction.js";
+import { MathFrac } from "./fraction";
 
 export class MathNum {
   realPart: MathFrac;

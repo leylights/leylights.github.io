@@ -1,7 +1,7 @@
-import { Canvas } from "../../components/canvas.component.js";
-import { WiresConstants } from "./constants.js";
-import { WiresState } from "./state.js";
-import { WiresTile } from "./tile.js";
+import { Canvas } from "../../components/canvas.component";
+import { WiresConstants } from "./constants";
+import { WiresState } from "./state";
+import { WiresTile } from "./tile";
 
 type WiresGameMode = 'competitive' | 'casual' | 'both';
 

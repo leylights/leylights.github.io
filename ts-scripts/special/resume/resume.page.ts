@@ -1,12 +1,12 @@
-import { SpotlightHeader } from "../showcase/components/spotlight-header.component.js";
-import { CoreDataService } from "../../services/core-data.service.js";
-import { PageBuilder } from "../../services/page-builder.service.js";
-import { ResumeExperienceItemComponent } from "./components/experience-item.component.js";
-import { ResumeLanguageComponent } from "./components/language-item.component.js";
-import { ResumeOccupationItemComponent } from "./components/occupation-item.component.js";
-import { ResumeSkillComponent } from "./components/skill.component.js";
-import { ResumeSmallExperienceItem } from "./components/small-experience-item.component.js";
-import { Molasses } from "../../molasses.js";
+import { SpotlightHeader } from "../showcase/components/spotlight-header.component";
+import { CoreDataService } from "../../services/core-data.service";
+import { PageBuilder } from "../../services/page-builder.service";
+import { ResumeExperienceItemComponent } from "./components/experience-item.component";
+import { ResumeLanguageComponent } from "./components/language-item.component";
+import { ResumeOccupationItemComponent } from "./components/occupation-item.component";
+import { ResumeSkillComponent } from "./components/skill.component";
+import { ResumeSmallExperienceItem } from "./components/small-experience-item.component";
+import { Molasses } from "../../molasses";
 
 export class ResumePage {
   static experienceItems: ResumeOccupationItemComponent[] = [];
@@ -270,7 +270,7 @@ export class ResumePage {
   private static setFadeListeners(): void {
     return; // disable
 
-    for (const degree of document.querySelectorAll('#education-degrees>div'))
+    for (const degree of Array.from(document.querySelectorAll('#education-degrees>div')))
       ResumePage.setFadeListener(degree as HTMLElement);
 
     const fadeListener = () => {

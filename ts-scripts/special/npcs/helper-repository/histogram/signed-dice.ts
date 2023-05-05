@@ -1,4 +1,4 @@
-import { NPCsDice } from "../general.js";
+import { NPCsDice } from "../general";
 
 export class NPCsSignedDice extends NPCsDice {
     sign: 1 | -1;

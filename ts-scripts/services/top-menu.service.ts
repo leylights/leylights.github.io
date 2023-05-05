@@ -6,14 +6,14 @@
  * Start Date: January 2021
  */
 
-import { Molasses } from '../molasses.js';
-import { CoreDataService } from './core-data.service.js';
-import { DarkModeService } from './dark-mode.service.js';
-import { MenuItemMulti } from './menus/menu-item-multi.js';
-import { MenuItemSingle } from './menus/menu-item-single.js';
-import { MenuItem } from './menus/menu-item.js';
-import { MenuLayouts } from './menus/menu-layouts.data.js';
-import { SideMenuService } from './side-menu.service.js';
+import { Molasses } from '../molasses';
+import { CoreDataService } from './core-data.service';
+import { DarkModeService } from './dark-mode.service';
+import { MenuItemMulti } from './menus/menu-item-multi';
+import { MenuItemSingle } from './menus/menu-item-single';
+import { MenuItem } from './menus/menu-item';
+import { MenuLayouts } from './menus/menu-layouts.data';
+import { SideMenuService } from './side-menu.service';
 
 export class TopMenuService {
   private static header: HTMLElement;
@@ -220,7 +220,7 @@ export class TopMenuService {
     toggle.querySelector('input').addEventListener('click', function () {
       DarkModeService.toggleDarkMode();
 
-      for (const input of document.querySelectorAll('.dark-mode-toggle input')) {
+      for (const input of Array.from(document.querySelectorAll('.dark-mode-toggle input'))) {
         if (input !== this) (input as HTMLInputElement).checked = !(input as HTMLInputElement).checked;
       }
     });

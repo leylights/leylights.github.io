@@ -1,7 +1,7 @@
-import { Molasses } from "../../../molasses.js";
-import { COVIDDataInterface } from "./covid-data-interface.js";
-import { COVIDHealthUnit } from "./health-unit.js";
-import { COVIDProvince } from "./province.js";
+import { Molasses } from "../../../molasses";
+import { COVIDDataInterface } from "./covid-data-interface";
+import { COVIDHealthUnit } from "./health-unit";
+import { COVIDProvince } from "./province";
 
 export class COVIDRegionsController {
   readonly provinces: COVIDProvince[] = [];

@@ -8,20 +8,20 @@
  */
 
 
-import { Molasses } from "../../molasses.js";
-import { Button } from "../../components/button.component.js";
-import { COVIDCardGrid, COVIDGridCardConfig } from "./components/card-grid.component.js";
-import { COVIDSectionCollection } from "./components/section-collection.component.js";
-import { COVIDSection } from "./components/section.component.js";
-import { COVIDTimeSeriesChart } from "./components/time-series-chart.component.js";
-import { COVIDDataBridge, COVIDRegionLevel, COVIDSummaryResponse, COVIDTimeSeriesDayResponse, COVIDTimeSeriesType } from "./model/covid-data-bridge.js";
-import { COVIDHelper } from "./helper.js";
-import { COVIDHealthUnit } from "./model/health-unit.js";
-import { COVIDProvince } from "./model/province.js";
-import { COVIDRegion } from "./model/region.js";
-import { COVIDRegionsController } from "./model/regions.controller.js";
-import { DarkModeService } from "../../services/dark-mode.service.js";
-import { COVIDDataInterface } from "./model/covid-data-interface.js";
+import { Molasses } from "../../molasses";
+import { Button } from "../../components/button.component";
+import { COVIDCardGrid, COVIDGridCardConfig } from "./components/card-grid.component";
+import { COVIDSectionCollection } from "./components/section-collection.component";
+import { COVIDSection } from "./components/section.component";
+import { COVIDTimeSeriesChart } from "./components/time-series-chart.component";
+import { COVIDDataBridge, COVIDRegionLevel, COVIDSummaryResponse, COVIDTimeSeriesDayResponse, COVIDTimeSeriesType } from "./model/covid-data-bridge";
+import { COVIDHelper } from "./helper";
+import { COVIDHealthUnit } from "./model/health-unit";
+import { COVIDProvince } from "./model/province";
+import { COVIDRegion } from "./model/region";
+import { COVIDRegionsController } from "./model/regions.controller";
+import { DarkModeService } from "../../services/dark-mode.service";
+import { COVIDDataInterface } from "./model/covid-data-interface";
 
 class COVIDDashboardPage {
   private elements: {

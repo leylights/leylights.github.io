@@ -1,16 +1,16 @@
-import { CalculatorCore } from "./calculator-core.js";
-import { CalculatorParser } from "./parser.js";
-import { CalculatorView } from "./view.js";
-import { CalculatorCollector } from "./statement/collector.js";
-import { CalculatorCommuter } from "./statement/commuter.js";
-import { CalculatorDistributor } from "./statement/distributor.js";
-import { CalculatorExponentExpander } from "./statement/exponent-expansion.js";
-import { CoreDataService } from "../../services/core-data.service.js";
-import { CalculatorIdentifier } from "./equation/identifier.js";
-import { CalculatorSolver } from "./equation/solver.js";
-import { CalculatorUserError } from "./models/user-facing-error.js";
-import { CalculatorLogarithmDistributor } from "./statement/logarithm-distributor.js";
-import { CalculatorEvaluator } from "./statement/evaluator.js";
+import { CalculatorCore } from "./calculator-core";
+import { CalculatorParser } from "./parser";
+import { CalculatorView } from "./view";
+import { CalculatorCollector } from "./statement/collector";
+import { CalculatorCommuter } from "./statement/commuter";
+import { CalculatorDistributor } from "./statement/distributor";
+import { CalculatorExponentExpander } from "./statement/exponent-expansion";
+import { CoreDataService } from "../../services/core-data.service";
+import { CalculatorIdentifier } from "./equation/identifier";
+import { CalculatorSolver } from "./equation/solver";
+import { CalculatorUserError } from "./models/user-facing-error";
+import { CalculatorLogarithmDistributor } from "./statement/logarithm-distributor";
+import { CalculatorEvaluator } from "./statement/evaluator";
 
 const PRINT_DEBUG_LOGS: boolean = false;
 

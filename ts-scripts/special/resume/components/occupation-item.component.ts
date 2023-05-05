@@ -1,4 +1,4 @@
-import { ResumeExperienceItemComponent } from "./experience-item.component.js";
+import { ResumeExperienceItemComponent } from "./experience-item.component";
 
 interface ResumeOccupationItemComponentCreationData {
   parentElement: HTMLElement;

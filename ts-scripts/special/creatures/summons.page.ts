@@ -1,11 +1,11 @@
-import { Molasses } from "../../molasses.js";
-import { Button } from "../../components/button.component.js";
-import { InputComponent } from "../../components/input.component.js";
-import { NPCsDice } from "../npcs/helper-repository/general.js";
-import { SummonsCreatureAddButton } from "./components/creature-add-button.component.js";
-import { SummonsCreatureCardComponent } from "./components/creature-card.component.js";
-import { SummonsCreatureFactory } from "./creature-factory.js";
-import { SummonsCreature } from "./creature.js";
+import { Molasses } from "../../molasses";
+import { Button } from "../../components/button.component";
+import { InputComponent } from "../../components/input.component";
+import { NPCsDice } from "../npcs/helper-repository/general";
+import { SummonsCreatureAddButton } from "./components/creature-add-button.component";
+import { SummonsCreatureCardComponent } from "./components/creature-card.component";
+import { SummonsCreatureFactory } from "./creature-factory";
+import { SummonsCreature } from "./creature";
 
 interface CreatureInstance {
   display: SummonsCreatureCardComponent;
