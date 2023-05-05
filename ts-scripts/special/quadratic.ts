@@ -12,6 +12,9 @@ function getCalc() {
   document.getElementById("answer").innerHTML = s;
 }
 
+document.getElementById('calcButton').addEventListener('click', getCalc);
+Array.from(document.getElementsByClassName('input')).forEach((input) => input.addEventListener('blur', getCalc));
+
 /**
  * Added in 2021 with TS overhaul
  */

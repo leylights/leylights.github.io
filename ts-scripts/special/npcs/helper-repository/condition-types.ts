@@ -1,4 +1,4 @@
-import { NPCsBooleanList } from "./boolean-list.js";
+import { NPCsBooleanList } from "./boolean-list";
 
 type NPCsConditionTypesCreationData = {
   blinded?: boolean;

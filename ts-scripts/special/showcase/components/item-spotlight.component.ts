@@ -1,5 +1,5 @@
-import { Molasses } from "../../../molasses.js";
-import { MenuItem } from "../../../services/menus/menu-item.js";
+import { Molasses } from "../../../molasses";
+import { MenuItem } from "../../../services/menus/menu-item";
 
 export class ShowcaseItemSpotlight {
   private static next_id = 0;

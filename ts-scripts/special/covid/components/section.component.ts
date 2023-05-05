@@ -1,5 +1,5 @@
-import { Molasses } from "../../../molasses.js";
-import { COVIDSectionCollection } from "./section-collection.component.js";
+import { Molasses } from "../../../molasses";
+import { COVIDSectionCollection } from "./section-collection.component";
 
 export class COVIDSection {
   private _body: HTMLElement;

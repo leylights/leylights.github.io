@@ -1,9 +1,9 @@
-import { Canvas } from "../../components/canvas.component.js";
-import { WiresState } from "./state.js";
+import { Canvas } from "../../components/canvas.component";
+import { WiresState } from "./state";
 
 export class WiresTile {
   static tiles: WiresTile[][] = [];
-  static sprites: (HTMLImageElement | HTMLImageElement[]) = [];
+  static sprites: any = [];
 
   x: number;
   y: number;

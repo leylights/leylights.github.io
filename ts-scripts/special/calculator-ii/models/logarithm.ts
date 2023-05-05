@@ -1,5 +1,5 @@
-import { CalculatorTerm } from "./term.js";
-import { CalculatorUnaryFunction } from "./unary-function.js";
+import { CalculatorTerm } from "./term";
+import { CalculatorUnaryFunction } from "./unary-function";
 
 export class CalculatorLogarithmFunction extends CalculatorUnaryFunction {
   constructor(parameter: CalculatorTerm) {

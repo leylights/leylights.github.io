@@ -1,4 +1,4 @@
-import { SummonsCreature } from "./creature.js";
+import { SummonsCreature } from "./creature";
 
 export class SummonsCreatureFactory {
   static creatures = {

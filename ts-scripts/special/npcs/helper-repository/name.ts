@@ -1,5 +1,5 @@
-import { Molasses } from "../../../molasses.js";
-import { NPCsRace, NPCsRaceArchetype } from "../core/race.js";
+import { Molasses } from "../../../molasses";
+import { NPCsRace, NPCsRaceArchetype } from "../core/race";
 
 interface RawNamesList {
   firstNames: NPCsNameCreationData[],

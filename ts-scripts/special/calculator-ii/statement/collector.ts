@@ -1,13 +1,13 @@
-import { MathNum } from "../../../tools/math/number.js";
-import { CalculatorComponent } from "../calculator-component.js";
-import { CalculatorFunction, CalculatorOperator } from "../models/function.js";
-import { CalculatorTerm } from "../models/term.js";
-import { CalculatorUnaryFunction } from "../models/unary-function.js";
-import { CalculatorValue } from "../models/value.js";
-import { CalculatorVariable } from "../models/variable.js";
-import { CalculatorParser } from "../parser.js";
-import { CalculatorTester } from "../tester.js";
-import { CalculatorUtil } from "./util.js";
+import { MathNum } from "../../../tools/math/number";
+import { CalculatorComponent } from "../calculator-component";
+import { CalculatorFunction, CalculatorOperator } from "../models/function";
+import { CalculatorTerm } from "../models/term";
+import { CalculatorUnaryFunction } from "../models/unary-function";
+import { CalculatorValue } from "../models/value";
+import { CalculatorVariable } from "../models/variable";
+import { CalculatorParser } from "../parser";
+import { CalculatorTester } from "../tester";
+import { CalculatorUtil } from "./util";
 
 export class CalculatorCollector extends CalculatorComponent {
   /**

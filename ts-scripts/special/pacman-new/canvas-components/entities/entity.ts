@@ -1,7 +1,7 @@
-import { Molasses } from "../../../../molasses.js";
-import { MathVector } from "../../../../tools/math/vector.js";
-import { PacmanEntityEnum, PacmanHelper } from "../../helper.js";
-import { PacmanConstants } from "../constants.js";
+import { Molasses } from "../../../../molasses";
+import { MathVector } from "../../../../tools/math/vector";
+import { PacmanEntityEnum, PacmanHelper } from "../../helper";
+import { PacmanConstants } from "../constants";
 
 export class PacmanEntity {
   x: number;

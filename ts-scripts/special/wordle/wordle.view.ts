@@ -1,8 +1,8 @@
-import { Molasses } from "../../molasses.js";
-import { WordleAnswerTile } from "./components/answer-tile.component.js";
-import { WordleKeyTile } from "./components/keyboard-tile.component.js";
-import { WordleLetterState } from "./data/wordle-letter-state.js";
-import { WordleController } from "./wordle.controller.js";
+import { Molasses } from "../../molasses";
+import { WordleAnswerTile } from "./components/answer-tile.component";
+import { WordleKeyTile } from "./components/keyboard-tile.component";
+import { WordleLetterState } from "./data/wordle-letter-state";
+import { WordleController } from "./wordle.controller";
 
 export class WordleView {
   private alertMessageBox: HTMLElement = null;

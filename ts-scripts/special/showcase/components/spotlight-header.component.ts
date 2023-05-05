@@ -1,5 +1,5 @@
-import { Molasses } from "../../../molasses.js";
-import { CoreDataService } from "../../../services/core-data.service.js";
+import { Molasses } from "../../../molasses";
+import { CoreDataService } from "../../../services/core-data.service";
 
 type Season = 'fall' | 'winter' | 'spring' | 'summer';
 interface SpotlightHeaderElements {

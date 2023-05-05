@@ -1,5 +1,5 @@
 /* eslint-disable no-var */
-import { Molasses } from "../molasses.js";
+import { Molasses } from "../molasses";
 
 /**
  * EM Wave Generator

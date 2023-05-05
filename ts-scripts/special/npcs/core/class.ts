@@ -1,14 +1,14 @@
-import { Molasses } from "../../../molasses.js";
-import { NPCsAction } from "../helper-repository/action.js";
-import { NPCsReaction } from "../helper-repository/action-reaction.js";
-import { NPCsArmour } from "../helper-repository/armour.js";
-import { NPCsAttribute } from "../helper-repository/attribute.js";
-import { NPCsConditionTypes } from "../helper-repository/condition-types.js";
-import { CHA, NPCsDice, WIS } from "../helper-repository/general.js";
-import { NPCsSkillCreationData, NPCsSkillset } from "../helper-repository/skill-set.js";
-import { NPCsSpellcasterData } from "../helper-repository/spellcaster-data.js";
-import { NPCsInventory } from "../helper-repository/inventory.js";
-import { NPCsSpell } from "../helper-repository/spell.js";
+import { Molasses } from "../../../molasses";
+import { NPCsAction } from "../helper-repository/action";
+import { NPCsReaction } from "../helper-repository/action-reaction";
+import { NPCsArmour } from "../helper-repository/armour";
+import { NPCsAttribute } from "../helper-repository/attribute";
+import { NPCsConditionTypes } from "../helper-repository/condition-types";
+import { CHA, NPCsDice, WIS } from "../helper-repository/general";
+import { NPCsSkillCreationData, NPCsSkillset } from "../helper-repository/skill-set";
+import { NPCsSpellcasterData } from "../helper-repository/spellcaster-data";
+import { NPCsInventory } from "../helper-repository/inventory";
+import { NPCsSpell } from "../helper-repository/spell";
 
 type NPCsClassCreationData = {
   name: string;

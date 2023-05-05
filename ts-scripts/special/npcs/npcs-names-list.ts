@@ -1,7 +1,7 @@
-import { Molasses } from "../../molasses.js";
-import { Button } from "../../components/button.component.js";
-import { NPCsName } from "./helper-repository/name.js";
-import { NPCsRace, NPCsRaceArchetype } from "./core/race.js";
+import { Molasses } from "../../molasses";
+import { Button } from "../../components/button.component";
+import { NPCsName } from "./helper-repository/name";
+import { NPCsRace, NPCsRaceArchetype } from "./core/race";
 
 export class NPCsNamesList {
   pageContent: HTMLDivElement = document.body.querySelector('.content');

@@ -1,4 +1,4 @@
-import { COVIDRegion } from "./region.js";
+import { COVIDRegion } from "./region";
 
 interface ProvinceConfig {
   pop: number;

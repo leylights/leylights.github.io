@@ -1,12 +1,12 @@
-import { MathNum } from "../../../tools/math/number.js";
-import { CalculatorComponent } from "../calculator-component.js";
-import { CalculatorFunction, CalculatorOperator } from "../models/function.js";
-import { CalculatorLogarithmFunction } from "../models/logarithm.js";
-import { CalculatorTerm } from "../models/term.js";
-import { CalculatorValue } from "../models/value.js";
-import { CalculatorVariable } from "../models/variable.js";
-import { CalculatorParser } from "../parser.js";
-import { CalculatorTester } from "../tester.js";
+import { MathNum } from "../../../tools/math/number";
+import { CalculatorComponent } from "../calculator-component";
+import { CalculatorFunction, CalculatorOperator } from "../models/function";
+import { CalculatorLogarithmFunction } from "../models/logarithm";
+import { CalculatorTerm } from "../models/term";
+import { CalculatorValue } from "../models/value";
+import { CalculatorVariable } from "../models/variable";
+import { CalculatorParser } from "../parser";
+import { CalculatorTester } from "../tester";
 
 export class CalculatorEvaluator extends CalculatorComponent {
   static evaluate(input: CalculatorTerm): CalculatorTerm {

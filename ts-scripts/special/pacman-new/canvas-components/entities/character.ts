@@ -1,11 +1,11 @@
-import { Molasses } from "../../../../molasses.js";
-import { Canvas } from "../../../../components/canvas.component.js";
-import { PacmanEntityEnum, PacmanDirectionEnum, PacmanStateEnum } from "../../helper.js";
-import { PacmanConstants } from "../constants.js";
-import { PacmanEntity } from "./entity.js";
-import { PacmanMapNode } from "../map-node.js";
-import { PacmanSprites } from "../sprites.js";
-import { PacmanState } from "../state.js";
+import { Molasses } from "../../../../molasses";
+import { Canvas } from "../../../../components/canvas.component";
+import { PacmanEntityEnum, PacmanDirectionEnum, PacmanStateEnum } from "../../helper";
+import { PacmanConstants } from "../constants";
+import { PacmanEntity } from "./entity";
+import { PacmanMapNode } from "../map-node";
+import { PacmanSprites } from "../sprites";
+import { PacmanState } from "../state";
 
 interface PacmanCharacterCreationData {
   name: PacmanEntityEnum;

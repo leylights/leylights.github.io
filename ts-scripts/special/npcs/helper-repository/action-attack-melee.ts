@@ -1,6 +1,6 @@
-import { NPCsAttack } from "./action-attack.js";
-import { NPCsDamageTypes } from "./damage-types.js";
-import { NPCsAbility, NPCsDice, } from "./general.js";
+import { NPCsAttack } from "./action-attack";
+import { NPCsDamageTypes } from "./damage-types";
+import { NPCsAbility, NPCsDice, } from "./general";
 
 type NPCsAttackMeleeCreationData = {
   name: string,

@@ -1,5 +1,5 @@
-import { Molasses } from "../molasses.js";
-import { BASE_TEMP_HIGHLIGHT_TIME } from "./general.js";
+import { Molasses } from "../molasses";
+import { BASE_TEMP_HIGHLIGHT_TIME } from "./general";
 
 type ButtonData = {
   innerText: string,

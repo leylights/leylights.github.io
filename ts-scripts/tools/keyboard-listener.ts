@@ -1,4 +1,4 @@
-import { BST } from "./bst.js";
+import { BST } from "./bst";
 
 type ListenerCondition = (keyboardListenerInstance: KeyboardListener, e: KeyboardEvent) => (boolean | Promise<boolean>);
 type ListenerAction = (keyboardListenerInstance: KeyboardListener, e: KeyboardEvent) => void;

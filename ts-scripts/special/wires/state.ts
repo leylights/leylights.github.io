@@ -1,4 +1,4 @@
-import { WiresConstants } from "./constants.js";
+import { WiresConstants } from "./constants";
 
 export enum WiresWinStateEnum {
   win = 1,

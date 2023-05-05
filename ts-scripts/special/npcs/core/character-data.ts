@@ -5,22 +5,22 @@
  * @todo implement overwriteData
  */
 
-import { Molasses } from "../../../molasses.js";
-import { NPCsAction } from "../helper-repository/action.js";
-import { NPCsReaction } from "../helper-repository/action-reaction.js";
-import { NPCsArmour } from "../helper-repository/armour.js";
-import { NPCsAttribute } from "../helper-repository/attribute.js";
-import { NPCsClass } from "./class.js";
-import { NPCsDamageTypes } from "../helper-repository/damage-types.js";
-import { STR, DEX, CON, INT, WIS, CHA, NPCsCharacterAlignmentOrder, NPCsCharacterAlignmentMoral, NPCsDice, NPCsHelper, NPCsLanguageType, NPCsCharacterSize, NPCsAbility } from "../helper-repository/general.js";
-import { NPCsRace } from "./race.js";
-import { NPCsSkill, NPCsSkillNames as NPCsSkillName, NPCsSkillset } from "../helper-repository/skill-set.js";
-import { NPCsBooleanList } from "../helper-repository/boolean-list.js";
-import { NPCsSpellcasterData } from "../helper-repository/spellcaster-data.js";
-import { NPCsConditionTypes } from "../helper-repository/condition-types.js";
-import { NPCsInventory } from "../helper-repository/inventory.js";
-import { NPCsSpell } from "../helper-repository/spell.js";
-import { NPCsMemory } from "./npcs-memory.js";
+import { Molasses } from "../../../molasses";
+import { NPCsAction } from "../helper-repository/action";
+import { NPCsReaction } from "../helper-repository/action-reaction";
+import { NPCsArmour } from "../helper-repository/armour";
+import { NPCsAttribute } from "../helper-repository/attribute";
+import { NPCsClass } from "./class";
+import { NPCsDamageTypes } from "../helper-repository/damage-types";
+import { STR, DEX, CON, INT, WIS, CHA, NPCsCharacterAlignmentOrder, NPCsCharacterAlignmentMoral, NPCsDice, NPCsHelper, NPCsLanguageType, NPCsCharacterSize, NPCsAbility } from "../helper-repository/general";
+import { NPCsRace } from "./race";
+import { NPCsSkill, NPCsSkillNames as NPCsSkillName, NPCsSkillset } from "../helper-repository/skill-set";
+import { NPCsBooleanList } from "../helper-repository/boolean-list";
+import { NPCsSpellcasterData } from "../helper-repository/spellcaster-data";
+import { NPCsConditionTypes } from "../helper-repository/condition-types";
+import { NPCsInventory } from "../helper-repository/inventory";
+import { NPCsSpell } from "../helper-repository/spell";
+import { NPCsMemory } from "./npcs-memory";
 
 export enum NPCsCharacterDataBooleanTypes {
   damageVulnerabilities,

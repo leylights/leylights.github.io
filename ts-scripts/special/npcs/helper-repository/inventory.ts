@@ -1,11 +1,11 @@
-import { Molasses } from "../../../molasses.js";
-import { NPCsAttackMelee } from "./action-attack-melee.js";
-import { NPCsAttackMixed } from "./action-attack-mixed.js";
-import { NPCsAttackRanged } from "./action-attack-ranged.js";
-import { NPCsAttack } from "./action-attack.js";
-import { NPCsReaction } from "./action-reaction.js";
-import { NPCsAction } from "./action.js";
-import { DEX, NPCsDice, STR } from "./general.js";
+import { Molasses } from "../../../molasses";
+import { NPCsAttackMelee } from "./action-attack-melee";
+import { NPCsAttackMixed } from "./action-attack-mixed";
+import { NPCsAttackRanged } from "./action-attack-ranged";
+import { NPCsAttack } from "./action-attack";
+import { NPCsReaction } from "./action-reaction";
+import { NPCsAction } from "./action";
+import { DEX, NPCsDice, STR } from "./general";
 
 export class NPCsInventory {
   static getActionByUniqueName(name: string) {

@@ -1,5 +1,5 @@
-import { Molasses } from "../../../molasses.js";
-import { NPCsAbility, NPCsDice } from "./general.js";
+import { Molasses } from "../../../molasses";
+import { NPCsAbility, NPCsDice } from "./general";
 
 export type NPCsAttributeFullList = {
   archersEye: NPCsAttribute;

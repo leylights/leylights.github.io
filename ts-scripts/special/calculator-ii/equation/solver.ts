@@ -1,20 +1,20 @@
-import { Molasses } from "../../../molasses.js";
-import { MathNum } from "../../../tools/math/number.js";
-import { CalculatorComponent } from "../calculator-component.js";
-import { CalculatorEquationType } from "../models/equation-type.js";
-import { CalculatorFunction, CalculatorOperator } from "../models/function.js";
-import { CalculatorLogarithmFunction } from "../models/logarithm.js";
-import { CalculatorTerm } from "../models/term.js";
-import { CalculatorValue } from "../models/value.js";
-import { CalculatorVariable } from "../models/variable.js";
-import { CalculatorParser } from "../parser.js";
-import { CalculatorEvaluator } from "../statement/evaluator.js";
-import { CalculatorLogarithmDistributor } from "../statement/logarithm-distributor.js";
-import { CalculatorStatementReformatter } from "../statement/statement-reformatter.js";
-import { CalculatorUtil } from "../statement/util.js";
-import { CalculatorTester } from "../tester.js";
-import { CalculatorView } from "../view.js";
-import { CalculatorIdentifier } from "./identifier.js";
+import { Molasses } from "../../../molasses";
+import { MathNum } from "../../../tools/math/number";
+import { CalculatorComponent } from "../calculator-component";
+import { CalculatorEquationType } from "../models/equation-type";
+import { CalculatorFunction, CalculatorOperator } from "../models/function";
+import { CalculatorLogarithmFunction } from "../models/logarithm";
+import { CalculatorTerm } from "../models/term";
+import { CalculatorValue } from "../models/value";
+import { CalculatorVariable } from "../models/variable";
+import { CalculatorParser } from "../parser";
+import { CalculatorEvaluator } from "../statement/evaluator";
+import { CalculatorLogarithmDistributor } from "../statement/logarithm-distributor";
+import { CalculatorStatementReformatter } from "../statement/statement-reformatter";
+import { CalculatorUtil } from "../statement/util";
+import { CalculatorTester } from "../tester";
+import { CalculatorView } from "../view";
+import { CalculatorIdentifier } from "./identifier";
 
 interface Config {
   debug?: boolean,

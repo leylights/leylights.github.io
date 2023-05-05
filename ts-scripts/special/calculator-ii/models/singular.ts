@@ -1,4 +1,4 @@
-import { CalculatorTerm } from "./term.js";
+import { CalculatorTerm } from "./term";
 
 export class CalculatorSingular implements CalculatorTerm {
   displayName: string;

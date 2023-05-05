@@ -1,6 +1,6 @@
-import { CalculatorTerm } from "./term.js";
-import { CalculatorUnaryFunction } from "./unary-function.js";
-import { CalculatorValue } from "./value.js";
+import { CalculatorTerm } from "./term";
+import { CalculatorUnaryFunction } from "./unary-function";
+import { CalculatorValue } from "./value";
 
 export enum CalculatorOperator {
   add = '+',

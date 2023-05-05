@@ -1,4 +1,4 @@
-import { SummonsCreatureAttack } from "../creature.js";
+import { SummonsCreatureAttack } from "../creature";
 
 // This class should never be constructed
 export class SummonsCreatureViewComponent {

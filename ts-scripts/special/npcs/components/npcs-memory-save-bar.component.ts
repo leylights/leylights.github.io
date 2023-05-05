@@ -1,7 +1,7 @@
-import { Molasses } from "../../../molasses.js";
-import { Button } from "../../../components/button.component.js";
-import { NPCsCharacterData } from "../core/character-data.js";
-import { NPCsMemory } from "../core/npcs-memory.js";
+import { Molasses } from "../../../molasses";
+import { Button } from "../../../components/button.component";
+import { NPCsCharacterData } from "../core/character-data";
+import { NPCsMemory } from "../core/npcs-memory";
 
 interface NPCsMemorySaveBarComponentHTML {
   footerElement: HTMLDivElement,

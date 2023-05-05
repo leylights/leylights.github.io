@@ -1,5 +1,5 @@
-import { Molasses } from "../../molasses.js";
-import { Canvas } from "../../components/canvas.component.js";
+import { Molasses } from "../../molasses";
+import { Canvas } from "../../components/canvas.component";
 
 const ARROW = {
   w: 5,

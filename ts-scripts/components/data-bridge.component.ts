@@ -1,4 +1,4 @@
-import { Molasses } from "../molasses.js";
+import { Molasses } from "../molasses";
 
 /**
  * Handles retrieval of data from the API
@@ -29,7 +29,7 @@ type DataBridgeRequest = {
 export class DataBridge {
   private APIHostname: string;
 
-  private requestSendInterval: number;
+  private requestSendInterval: ReturnType<typeof setInterval>;
   private isRunning: boolean = false;
   private consecutiveEmptySends: number = 0;
 

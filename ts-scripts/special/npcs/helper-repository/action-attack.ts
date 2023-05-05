@@ -1,9 +1,9 @@
-import { Molasses } from "../../../molasses.js";
-import { NPCsCharacterData } from "../core/character-data.js";
-import { NPCsAction } from "./action.js";
-import { NPCsAttribute } from "./attribute.js";
-import { NPCsDamageTypes } from "./damage-types.js";
-import { DEX, NPCsAbility, NPCsDice, NPCsHelper, STR } from "./general.js";
+import { Molasses } from "../../../molasses";
+import { NPCsCharacterData } from "../core/character-data";
+import { NPCsAction } from "./action";
+import { NPCsAttribute } from "./attribute";
+import { NPCsDamageTypes } from "./damage-types";
+import { DEX, NPCsAbility, NPCsDice, NPCsHelper, STR } from "./general";
 
 export type NPCsAttackCreationData = {
   name: string,

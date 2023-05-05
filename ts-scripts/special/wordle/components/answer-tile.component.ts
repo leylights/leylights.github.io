@@ -1,4 +1,4 @@
-import { WordleTile } from "./wordle-tile.component.js";
+import { WordleTile } from "./wordle-tile.component";
 
 export class WordleAnswerTile extends WordleTile {
   index: number;

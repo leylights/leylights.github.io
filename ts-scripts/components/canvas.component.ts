@@ -1,6 +1,6 @@
-import { Molasses } from "../molasses.js";
-import { KeyboardListener } from "../tools/keyboard-listener.js";
-import { DarkModeService } from "../services/dark-mode.service.js";
+import { Molasses } from "../molasses";
+import { KeyboardListener } from "../tools/keyboard-listener";
+import { DarkModeService } from "../services/dark-mode.service";
 
 type EventListenerData = {
   type: keyof GlobalEventHandlersEventMap;

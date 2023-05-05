@@ -1,7 +1,7 @@
-import { Molasses } from "../../../molasses.js";
-import { COVIDHelper } from "../helper.js";
-import { COVIDDisplayCard } from "./display-card.component.js";
-import { COVIDSection } from "./section.component.js";
+import { Molasses } from "../../../molasses";
+import { COVIDHelper } from "../helper";
+import { COVIDDisplayCard } from "./display-card.component";
+import { COVIDSection } from "./section.component";
 
 export type COVIDGridCardConfig = {
   title: string,

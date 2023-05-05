@@ -1,4 +1,4 @@
-import { MenuItemSingle } from './menu-item-single.js';
+import { MenuItemSingle } from './menu-item-single';
 
 const PRESENT_MONTH: string = new Date(Date.now()).toLocaleDateString('en-GB', { year: 'numeric', month: 'long' });
 

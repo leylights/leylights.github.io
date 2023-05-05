@@ -1,5 +1,5 @@
 
-import { WordleTile } from "./wordle-tile.component.js";
+import { WordleTile } from "./wordle-tile.component";
 
 export class WordleKeyTile extends WordleTile {
   tile: HTMLElement;

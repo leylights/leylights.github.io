@@ -1,4 +1,4 @@
-import { Molasses } from "../molasses.js";
+import { Molasses } from "../molasses";
 
 /** 
  * Algebra Calculator
@@ -253,7 +253,7 @@ function solve(equation, displaySteps?) {
 
       // EXPONENTS ONLY
 
-      function expIsEven(e) {
+      const expIsEven = (e: number | mathFrac) => {
         if (typeof e === "number") {
           if (e % 2 === 0)
             return true;
@@ -460,6 +460,9 @@ function solveFromHTML() {
   } else
     (document.getElementById("calcOutputField") as HTMLInputElement).value = solve(input);
 }
+
+document.getElementById('calcButton').addEventListener('click', solveFromHTML);
+document.getElementById('calculatorInput').addEventListener('blur', solveFromHTML);
 
 /**
  * Applies the Extended Euclidean Algorithm to Numbers a, b to find their Certificate of Correctness and corresponding GCD
@@ -1006,10 +1009,7 @@ function collect(ieqn) {
 
     if (hasBracketedTerm) {
 
-      multResult = coefficientsFirst(distributeIntoBrackets(toDistributible(factors)));
-      multResult.push("+");
-
-      function toDistributible(inFacs) {
+      const toDistributible = (inFacs) => {
         let output = [];
 
         for (let f = 0; f < inFacs.length; f++) {
@@ -1022,6 +1022,8 @@ function collect(ieqn) {
         return output;
       }
 
+      multResult = coefficientsFirst(distributeIntoBrackets(toDistributible(factors)));
+      multResult.push("+");
     } else { // no brackets present
       for (let i = 0; i < factors.length; i++) {
         multResult = multResult.concat(factors[i]);
@@ -1410,11 +1412,9 @@ function distributeIntoBrackets(factors) {
       if (outputParts[i].filter(x => Array.isArray(x)).length > 0)
         console.log("weird:", outputParts[i])
       else {
-        let buffer = removeParsePlus(parse(displayPlainText(outputParts[i].slice(0))));
-
         // remove subtraction formatting from brackets
 
-        function removeParsePlus(arr) {
+        const removeParsePlus = (arr) => {
           for (let j = 0; j < arr.length - 1; j++) {
             if (arr[j] === "+" && isNumeric(arr[j + 1])) {
               if (typeof arr[j + 1] === "number") {
@@ -1428,6 +1428,8 @@ function distributeIntoBrackets(factors) {
           }
           return arr;
         }
+
+        let buffer = removeParsePlus(parse(displayPlainText(outputParts[i].slice(0))));
 
         outputParts[i] = collect(buffer);
       }
@@ -2045,7 +2047,7 @@ function checkExpect(actual, expected): void {
     /**
      * does what Object.Entries does: may 2021 typescript implementation
      */
-    function getObjEntries(obj: Object): [string, any][] {
+    const getObjEntries = (obj: Object): [string, any][] => {
       let result: [string, any][] = [];
       let keys: string[] = Object.keys(obj);
 

@@ -1,12 +1,12 @@
-import { Molasses } from "../../../../molasses.js";
-import { MathVector } from "../../../../tools/math/vector.js";
-import { Canvas } from "../../../../components/canvas.component.js";
-import { PacmanEntityEnum, PacmanDirectionEnum, PacmanHelper, PacmanStateEnum } from "../../helper.js";
-import { PacmanCharacter } from "./character.js";
-import { PacmanConstants } from "../constants.js";
-import { PacmanMapNode } from "../map-node.js";
-import { PacmanPlayer } from "./player.js";
-import { PacmanState } from "../state.js";
+import { Molasses } from "../../../../molasses";
+import { MathVector } from "../../../../tools/math/vector";
+import { Canvas } from "../../../../components/canvas.component";
+import { PacmanEntityEnum, PacmanDirectionEnum, PacmanHelper, PacmanStateEnum } from "../../helper";
+import { PacmanCharacter } from "./character";
+import { PacmanConstants } from "../constants";
+import { PacmanMapNode } from "../map-node";
+import { PacmanPlayer } from "./player";
+import { PacmanState } from "../state";
 
 interface PacmanGhostCreationData {
   name: PacmanEntityEnum;

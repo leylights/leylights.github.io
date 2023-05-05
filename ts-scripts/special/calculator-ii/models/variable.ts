@@ -1,5 +1,5 @@
-import { CalculatorSingular } from "./singular.js";
-import { CalculatorTerm } from "./term.js";
+import { CalculatorSingular } from "./singular";
+import { CalculatorTerm } from "./term";
 
 export class CalculatorVariable extends CalculatorSingular {
   constructor(name: string) {

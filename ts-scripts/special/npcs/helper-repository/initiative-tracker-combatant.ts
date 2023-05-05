@@ -1,4 +1,4 @@
-import { NPCsCharacterData } from "../core/character-data.js";
+import { NPCsCharacterData } from "../core/character-data";
 
 export class NPCsInitiativeTrackerCombatant {
   initiative: number;

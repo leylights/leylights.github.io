@@ -1,4 +1,4 @@
-import { Molasses } from "../../molasses.js";
+import { Molasses } from "../../molasses";
 
 export class COVIDHelper {
   static formatAsPercentage(n: number) {

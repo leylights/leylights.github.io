@@ -1,8 +1,8 @@
-import { PacmanStateEnum } from "../helper.js";
-import { PacmanPowerPellet } from "./entities/power-pellet.js";
-import { PacmanNormalPellet } from "./entities/normal-pellet.js";
-import { PacmanFruit } from "./entities/fruit.js";
-import { PacmanConstants } from "./constants.js";
+import { PacmanStateEnum } from "../helper";
+import { PacmanPowerPellet } from "./entities/power-pellet";
+import { PacmanNormalPellet } from "./entities/normal-pellet";
+import { PacmanFruit } from "./entities/fruit";
+import { PacmanConstants } from "./constants";
 
 export class PacmanState {
   static gameState: PacmanStateEnum = PacmanStateEnum.WAITING_FOR_PLAYER;

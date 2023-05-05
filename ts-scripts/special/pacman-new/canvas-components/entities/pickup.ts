@@ -1,6 +1,6 @@
-import { PacmanEntityEnum } from "../../helper.js";
-import { PacmanConstants } from "../constants.js";
-import { PacmanEntity } from "./entity.js";
+import { PacmanEntityEnum } from "../../helper";
+import { PacmanConstants } from "../constants";
+import { PacmanEntity } from "./entity";
 
 
 export class PacmanPickup extends PacmanEntity {

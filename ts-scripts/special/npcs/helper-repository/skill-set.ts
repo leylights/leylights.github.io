@@ -1,5 +1,5 @@
-import { NPCsAbility } from "./general.js";
-import { STR, DEX, INT, WIS, CHA } from "./general.js";
+import { NPCsAbility } from "./general";
+import { STR, DEX, INT, WIS, CHA } from "./general";
 
 type NPCsSkillGiveData = {
   name: string;

@@ -1,4 +1,4 @@
-import { NPCsAction } from "./action.js";
+import { NPCsAction } from "./action";
 
 export type NPCsReactionList = {
   parry: NPCsReaction;

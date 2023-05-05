@@ -1,5 +1,5 @@
 /* eslint-disable */
-import {Molasses} from "../molasses.js";
+import {Molasses} from "../molasses";
 
 /**
  * Infection Spread Modeller

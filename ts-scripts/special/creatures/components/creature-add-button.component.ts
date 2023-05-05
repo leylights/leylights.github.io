@@ -1,7 +1,7 @@
-import { Molasses } from "../../../molasses.js";
-import { Button } from "../../../components/button.component.js";
-import { SummonsCreatureFactory } from "../creature-factory.js";
-import { SummonsCreature } from "../creature.js";
+import { Molasses } from "../../../molasses";
+import { Button } from "../../../components/button.component";
+import { SummonsCreatureFactory } from "../creature-factory";
+import { SummonsCreature } from "../creature";
 
 export class SummonsCreatureAddButton {
   private table: HTMLTableElement;
