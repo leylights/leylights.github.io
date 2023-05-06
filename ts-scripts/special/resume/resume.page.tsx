@@ -11,7 +11,7 @@ import React, { useEffect, useState } from "react";
 
 const Language: React.FC<{
   children: React.ReactNode;
-  term?: string;
+  term?: Lowercase<string>;
 }> = ({ term, children }) => {
   return (
     <Term term={term} className="language">
@@ -22,7 +22,7 @@ const Language: React.FC<{
 
 const Term: React.FC<{
   children: React.ReactNode;
-  term?: string;
+  term?: Lowercase<string>;
   className?: string;
 }> = ({ term, className, children }) => {
   const [isActive, setIsActive] = useState<boolean>(false);
@@ -30,31 +30,67 @@ const Term: React.FC<{
   const classNames = ["resume-highlight"];
   if (!term) classNames.push("nolink");
   if (className) classNames.push(className);
-  if (isActive) classNames.push("active");
+  if (isActive) classNames.push("user-highlighted-skill");
+
+  const skillsToMatch = term?.split(" ") as Lowercase<string>[];
 
   useEffect(() => {
     if (term) {
-      const skillsToMatch = term.split(" ");
-
-      ResumePage.matchSkillListToSkills(skillsToMatch, setIsActive);
+      ResumePage.matchSkillListToSkills(skillsToMatch, (newValue: boolean) => {
+        setIsActive(newValue);
+      });
     }
-  }, []);
+  }, [term, skillsToMatch, setIsActive, children]);
+
+  const handleClick = () => {
+    if (term) {
+      const successfullyFoundTerms =
+        ResumePage.highlightSkillsForTerms(skillsToMatch);
+      if (successfullyFoundTerms) {
+        setIsActive(true);
+      }
+    }
+  };
 
   return (
-    <span className={classNames.join(" ")} data-term={term}>
+    <span
+      className={classNames.join(" ")}
+      data-term={term}
+      onClick={handleClick}
+    >
       {children}
     </span>
   );
 };
 
 class SkillData {
-  names: string[];
-  strict: boolean;
-  toggleListeners: ((isActive: boolean) => void)[] = [];
+  primaryName: string;
+  names: Lowercase<string>[];
 
-  constructor(names: string[], strict: boolean) {
-    this.names = names;
+  strict: boolean;
+  isEmphasized: boolean;
+  toggleListeners: ((isActive: boolean) => void)[] = [];
+  componentId: string;
+  isDisabled: boolean = false;
+
+  constructor(props: {
+    primaryName: string;
+    aliases?: string[];
+    isEmphasized?: boolean;
+    strict?: boolean;
+  }) {
+    const { primaryName, aliases = [], isEmphasized, strict } = props;
+    this.names = [
+      primaryName.toLowerCase() as Lowercase<string>,
+      ...(aliases.map((a) => a.toLowerCase()) as Lowercase<string>[]),
+    ];
+    this.primaryName = primaryName;
     this.strict = strict;
+    this.isEmphasized = isEmphasized;
+
+    this.componentId = `skill-${this.primaryName
+      .toLowerCase()
+      .replace(/ /g, "-")}`;
   }
 }
 
@@ -75,6 +111,8 @@ export class ResumePage {
     this.loadExperience();
     this.loadProjects();
     this.loadLanguages();
+
+    this.disableUnmatchedSkills();
 
     this.loadContact();
   }
@@ -123,8 +161,16 @@ export class ResumePage {
             <li>
               Contributed to overhauling a mature React-based web app to use
               modern{" "}
-              <Language term="React typescript javascript">React</Language>{" "}
-              state management patterns
+              <Language term="react typescript javascript">React</Language>{" "}
+              state management patterns with{" "}
+              <Language term="react typescript javascript jest quality">
+                Jest
+              </Language>{" "}
+              unit testing and{" "}
+              <Language term="typescript javascript cypress quality">
+                Cypress
+              </Language>{" "}
+              end-to-end testing.
             </li>
           </ul>
         </ResumeOccupationItemComponent>
@@ -140,17 +186,19 @@ export class ResumePage {
           <ul>
             <li>
               Led integration of{" "}
-              <Language term="quality javascript typescript">Jest</Language>,{" "}
-              <Language term="quality javascript">ESLint</Language>, and{" "}
-              <Language term="typescript">TypeScript</Language> with a mature
-              codebase, starting the team's use of{" "}
+              <Language term="quality javascript typescript jest">
+                Jest
+              </Language>
+              , <Language term="quality javascript typescript">ESLint</Language>
+              , and <Language term="typescript javascript">TypeScript</Language>{" "}
+              with a mature codebase, starting the team's use of{" "}
               <Term term="quality">test-driven development</Term> with{" "}
               <Term term="quality">28% code coverage</Term> in two months to
               reduce and prevent user-facing errors.
             </li>
             <li>
               Performed and improved on a{" "}
-              <Term term="accessibility design html css">
+              <Term term="accessibility design">
                 WCAG2.1 accessibility audit
               </Term>{" "}
               to <Term term="accessibility design">decrease UX friction</Term>{" "}
@@ -179,9 +227,9 @@ export class ResumePage {
             <li>
               Independently developed{" "}
               <Language term="javascript typescript api">NestJS</Language>{" "}
-              <Term term="api">RESTful API</Term> endpoints and complex{" "}
-              <Language term="api sql">SQL</Language> stored procedures to
-              support frontend specifications`
+              <Term term="javascript typescript api">RESTful API</Term>{" "}
+              endpoints and complex <Language term="api sql">SQL</Language>{" "}
+              stored procedures to support frontend specifications
             </li>
             <li>
               Developed <Term>new frontend interfaces</Term> using{" "}
@@ -189,8 +237,8 @@ export class ResumePage {
               specifications and display API data.
             </li>
             <li>
-              `Contributed to the development process, including{" "}
-              <Language term="git">git</Language> workflows,
+              Contributed to the development process, including{" "}
+              <Language term="git">git</Language> workflows,{" "}
               <Term term="quality communication">code reviews</Term>,{" "}
               <Term term="quality">test-driven development</Term>, and
               consultation with design teams to{" "}
@@ -210,20 +258,23 @@ export class ResumePage {
         >
           <ul>
             <li>
-              Designed and developed a{" "}
               <Term term="independence html css">
-                mobile-friendly online eLearning platform
+                Designed and developed a mobile-friendly online eLearning
+                platform
               </Term>{" "}
               for an international client with 2300+ total users, using{" "}
-              <Language>HTML</Language>, <Language>CSS</Language>,{" "}
-              <Language>JavaScript</Language>, and an internal language.
-              Entrusted with implementing <Language>CSS</Language> with minimal
-              HTML changes to render an existing platform with 2500+ users{" "}
+              <Language term="html">HTML</Language>,{" "}
+              <Language term="css">CSS</Language>,{" "}
+              <Language term="javascript">JavaScript</Language>, and an internal
+              language. Entrusted with implementing{" "}
+              <Language term="css">CSS</Language> with minimal HTML changes to
+              render an existing platform with 2500+ users{" "}
               <Term term="css">mobile-aware</Term>
             </li>
             <li>
-              Developed and implemented <Language>JavaScript</Language> web
-              components to <Term>promote user engagement</Term> with
+              Developed and implemented{" "}
+              <Language term="javascript">JavaScript</Language> web components
+              to <Term term="design">promote user engagement</Term> with
               educational materials
             </li>
             <li>
@@ -274,8 +325,9 @@ export class ResumePage {
         >
           <ul>
             <li>
-              <Term term="team">Worked with a team</Term> to teach{" "}
-              <Language>JavaScript</Language> fundamentals to local youth
+              <Term term="team communication">Worked with a team</Term> to teach{" "}
+              <Language term="javascript">JavaScript</Language> fundamentals to
+              local youth
             </li>
             <li>
               Led 1-1 lessons with struggling students to reduce drop-out rates
@@ -321,8 +373,8 @@ export class ResumePage {
               <Term term="html css javascript typescript">
                 mobile-aware portfolio website
               </Term>
-              , upgrading it as my development and <Term>design</Term>{" "}
-              capabilities grew
+              , upgrading it as my development and{" "}
+              <Term term="design">design</Term> capabilities grew
             </li>
             <li>
               Used centralized data with a custom{" "}
@@ -333,54 +385,60 @@ export class ResumePage {
               <span className="project-title">
                 <Term term="javascript typescript api html css">
                   COVID-19 data dashboard:
-                </Term>
+                </Term>{" "}
               </span>
-              Leverages an <Term term="API">external API</Term> to display
+              Leverages an <Term term="api">external API</Term> to display
               health data to contextualize health measures.
             </li>
             <li>
               <span className="project-title">
-                <Term term="javascript typescript">Algebra calculator:</Term>
+                <Term term="javascript typescript">Algebra calculator:</Term>{" "}
               </span>
               Uses a custom algorithm to find a solution to many types of
               algebraic equations.
             </li>
             <li>
               <span className="project-title">
-                <Term term="javascript typescript">Infection model:</Term>
+                <Term term="javascript typescript">Infection model:</Term>{" "}
               </span>
               Simulates viral community transmission with a geometric
               simulation.
             </li>
           </ul>
         </ResumeExperienceItemComponent>
-        <ResumeSmallExperienceItem title="Wordlebot" dates={["Summer 2022"]}>
-          <span>
-            Developed a <Language term="javascript typescript">NodeJS</Language>{" "}
-            application with <Language term="typescript">TypeScript</Language>
-            and Google's{" "}
-            <Language term="javascript typescript">
-              Puppeteer library
-            </Language>{" "}
-            to algorithmically solve the daily New York Times Wordle.
-          </span>
-        </ResumeSmallExperienceItem>
-        <ResumeSmallExperienceItem title="Goose" dates={["Summer 2022"]}>
-          <span>
-            Developed an <Language term="html css">HTML/CSS</Language>-only
-            framework using
-            <Language term="javascript typescript">TypeScript</Language> for
-            development and implementation of web components,{" "}
-            <Term term="quality">enabling newcomers to write better code</Term>.
-          </span>
-        </ResumeSmallExperienceItem>
-        <ResumeSmallExperienceItem title="CC3K" dates={["Winter 2021"]}>
-          <span>
-            Developed a roguelike game in <Language>C++</Language> using{" "}
-            <Term>object-oriented principles</Term>
-            for CS 246 at the University of Waterloo.
-          </span>
-        </ResumeSmallExperienceItem>
+        <div id="small-projects">
+          <ResumeSmallExperienceItem title="Wordlebot" dates={["Summer 2022"]}>
+            <span>
+              Developed a{" "}
+              <Language term="javascript typescript">NodeJS</Language>{" "}
+              application with <Language term="typescript">TypeScript</Language>{" "}
+              and Google's{" "}
+              <Language term="javascript typescript">
+                Puppeteer library
+              </Language>{" "}
+              to algorithmically solve the daily New York Times Wordle.
+            </span>
+          </ResumeSmallExperienceItem>
+          <ResumeSmallExperienceItem title="Goose" dates={["Summer 2022"]}>
+            <span>
+              Developed an <Language term="html css">HTML/CSS</Language>-only
+              framework using{" "}
+              <Language term="javascript typescript">TypeScript</Language> for{" "}
+              development and implementation of web components,{" "}
+              <Term term="quality">
+                enabling newcomers to write better code
+              </Term>
+              .
+            </span>
+          </ResumeSmallExperienceItem>
+          <ResumeSmallExperienceItem title="CC3K" dates={["Winter 2021"]}>
+            <span>
+              Developed a roguelike game in <Language term="c++">C++</Language>{" "}
+              using <Term>object-oriented principles</Term> for CS 246 at the
+              University of Waterloo.
+            </span>
+          </ResumeSmallExperienceItem>
+        </div>
       </>
     );
   }
@@ -391,6 +449,10 @@ export class ResumePage {
         ["TypeScript", true, ["API"]],
         ["JavaScript", true],
         ["HTML", true],
+        ["Accessibility", true],
+        ["Quality", true],
+        ["Project leadership", true, ["leadership", "communication"]],
+        ["Communication", true, ["team", "leadership"]],
         ["CSS", true],
         ["PHP", false],
         ["Jest", true, ["quality"]],
@@ -401,13 +463,10 @@ export class ResumePage {
         ["Git", true],
         ["GitHub", false, ["git"]],
         ["PHPUnit", false, ["PHP", "quality"]],
-        ["Test-driven development", true, ["quality"]],
         ["R", false, [], true],
         ["SQL", true],
         ["C", false, [], true],
         ["Java", false, ["Java"], true],
-        ["Communication", true, ["team", "taught"]],
-        ["Web design", false, ["design"]],
         ["French", true],
         ["NestJS", false, ["API"]],
         ["TypeORM", false, ["API"]],
@@ -415,24 +474,95 @@ export class ResumePage {
 
     const components: React.ReactNode[] = [];
 
-    skillInfo.forEach(([name, , aliases = [], searchForStrictWord]) => {
-      this.skillMap[name] = {
-        names: [name.toLowerCase(), ...aliases.map((a) => a.toLowerCase())],
-        strict: searchForStrictWord,
-        toggleListeners: [],
-        // skillComponentId: null,
-      };
+    skillInfo.forEach(([name, isEmphasized, aliases = [], strict]) => {
+      this.skillMap[name.toLowerCase()] = new SkillData({
+        primaryName: name,
+        aliases: aliases.map((a) => a.toLowerCase()),
+        isEmphasized,
+        strict,
+      });
     });
 
-    skillInfo.forEach(([skillName, isEmphasized]) => {
+    Object.values(this.skillMap).forEach((skillData) => {
       components.push(
-        <ResumeSkillComponent name={skillName} isHighlighted={isEmphasized} />
+        <ResumeSkillComponent
+          name={skillData.primaryName}
+          isEmphasized={skillData.isEmphasized}
+          key={skillData.componentId}
+          onClick={() => {
+            Array.from(document.getElementsByClassName("resume-skill")).forEach(
+              (s) => s.classList.remove("skill-to-highlight")
+            );
+            ResumePage.highlightSkillsForTerms(skillData.names);
+          }}
+          id={skillData.componentId}
+        />
       );
     });
 
     skillsRoot.render(<>{components}</>);
+  }
 
-    console.log(this.skillMap);
+  // returns false if unsuccessful
+  static highlightSkillsForTerms(termList: string[]): boolean {
+    // disable all other terms first
+    for (const { toggleListeners, componentId } of Object.values(
+      this.skillMap
+    )) {
+      toggleListeners.forEach((listener) => {
+        listener(false);
+      });
+
+      document
+        .getElementById(componentId)
+        ?.classList.remove("skill-to-highlight");
+    }
+
+    // console.log(this.skillMap);
+    // debugger;
+
+    // enable desired term
+    let hasEnabledAny: boolean = false;
+
+    for (const term of termList) {
+      const skillData = this.skillMap[term.toLowerCase()];
+
+      // toggle terms
+      skillData?.toggleListeners.forEach((listener) => {
+        listener(true);
+        hasEnabledAny = true;
+      });
+
+      // highlight relevant skills
+      for (const { names, componentId } of Object.values(this.skillMap)) {
+        if (names.includes(term.toLowerCase() as Lowercase<string>)) {
+          document
+            .getElementById(componentId)
+            ?.classList.add("skill-to-highlight");
+        }
+      }
+
+      if (hasEnabledAny) {
+        const skillElement = document.getElementById(skillData?.componentId);
+        skillElement?.classList.add("skill-to-highlight");
+      }
+    }
+
+    if (!hasEnabledAny) {
+      ResumePage.disableUnmatchedSkills();
+    }
+
+    return hasEnabledAny;
+  }
+
+  static disableUnmatchedSkills() {
+    for (const { componentId, toggleListeners } of Object.values(
+      this.skillMap
+    )) {
+      if (toggleListeners.length === 0) {
+        document.getElementById(componentId)?.classList.add("no-matches");
+      }
+    }
   }
 
   private static loadContact(): void {
@@ -472,9 +602,17 @@ export class ResumePage {
   }
 
   static matchSkillListToSkills(
-    skillsToMatch: string[],
+    skillsToMatch: Lowercase<string>[],
     toggleListener: (isActive: boolean) => void
   ) {
+    for (const skill of skillsToMatch) {
+      if (!this.skillMap[skill]) {
+        this.skillMap[skill] = new SkillData({
+          primaryName: skill,
+        });
+      }
+    }
+
     for (const skillData of Object.values(this.skillMap)) {
       const anySkillsMatch = skillData.names.reduce(
         (prev, skillInMasterList) => {
