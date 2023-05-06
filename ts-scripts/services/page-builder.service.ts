@@ -97,11 +97,6 @@ export class PageBuilder {
     const minimumLoadingTime = 500; // required to prevent 'flashbang loading screen' effect
     document.addEventListener("readystatechange", () => {
       if (document.readyState === "complete") {
-        console.log(
-          `init: ${PageBuilder.initTime % 100000}, current: ${
-            Date.now() % 100000
-          }, difference: ${Date.now() - PageBuilder.initTime}`
-        );
         if (Date.now() - PageBuilder.initTime <= minimumLoadingTime)
           setTimeout(() => {
             PageBuilder.fireLoadEvents();
@@ -193,7 +188,6 @@ export class PageBuilder {
   }
 
   static fireLoadEvents() {
-    console.log('firing', PageBuilder.loadListeners)
     PageBuilder.loadListeners.forEach((listener) => listener());
   }
 }
