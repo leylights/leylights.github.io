@@ -1,4 +1,5 @@
 {
+  "name": "some-molasses",
   "private": true,
   "dependencies": {
     "@babel/preset-env": "^7.21.5",
@@ -27,11 +28,9 @@
     "build": "npm-run-all sass-build ts-build",
     "dev": "npm-run-all --parallel sass-watch ts-watch start",
     "start": "http-server",
-
     "sass-build": "sass sass:stylesheets --no-source-map",
     "sass-watch": "sass --watch sass:stylesheets --no-source-map",
     "sass-wipe": "powershell Remove-Item stylesheets/* -Recurse",
-    
     "ts-build": "webpack --config webpack.config.js",
     "ts-watch": "webpack --config webpack.config.js --watch"
   }

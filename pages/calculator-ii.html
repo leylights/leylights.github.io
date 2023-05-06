@@ -55,11 +55,11 @@
           <li>A variable</li>
           <li>
             <p>A function. Functions can be either unary (such as logarithms), or binary. There are no
-              <math>n</math>-ary
-              functions implemented for <math>n > 2</math>; instead, a term such as <math>1 + 2 + 3</math> is
+              <span class="math">n</span>-ary
+              functions implemented for <span class="math">n > 2</span>; instead, a term such as <span class="math">1 + 2 + 3</span> is
               interpreted
               as two binary functions:
-              first, <math>(1 + 2)</math>, then, <math>((1 + 2) + 3)</math>.
+              first, <span class="math">(1 + 2)</span>, then, <span class="math">((1 + 2) + 3)</span>.
             </p>
             <p>For the binary functions, there are five possible operators:
             <ul>
@@ -114,15 +114,15 @@
           equation
           is then able to be interpreted by the reformatting and solving steps.</p>
         <p>
-          All reformatting steps reformat the equation <math>f(x₁, ..., xₘ) = g(xₘ₊₁, ..., xₙ)</math> by understanding
+          All reformatting steps reformat the equation <span class="math">f(x₁, ..., xₘ) = g(xₘ₊₁, ..., xₙ)</span> by understanding
           it as
-          <math>f(x₁, ..., xₘ) - g(xₘ₊₁, ..., xₙ) = 0</math>, then only reformatting the left side, since there is
+          <span class="math">f(x₁, ..., xₘ) - g(xₘ₊₁, ..., xₙ) = 0</span>, then only reformatting the left side, since there is
           nothing to change about the new right side.
         </p>
         <h4>Expand exponents</h4>
         <p>
           To reduce the number of cases the distributive property handler has to understand, all exponents are expanded
-          into a series of multiplied terms. For example, <math>(x+2)^2</math> becomes <math>(x+2)(x+2)</math>.
+          into a series of multiplied terms. For example, <span class="math">(x+2)^2</span> becomes <span class="math">(x+2)(x+2)</span>.
         </p>
         <h4>Apply the distributive property</h4>
         <p>
@@ -130,29 +130,29 @@
           include
         </p>
         <ul>
-          <li><math>x(y+z) = xy + xz</math></li>
-          <li><math>x(y-z) = xy - xz</math></li>
-          <li><math>f(x)(y+z) = f(x)y + f(x)z</math></li>
-          <li><math>(x*y)/z = x/z + y/z</math></li>
+          <li><span class="math">x(y+z) = xy + xz</span></li>
+          <li><span class="math">x(y-z) = xy - xz</span></li>
+          <li><span class="math">f(x)(y+z) = f(x)y + f(x)z</span></li>
+          <li><span class="math">(x*y)/z = x/z + y/z</span></li>
           <li>The list goes on for 40+ unique combinations.</li>
         </ul>
-        <p>The end goal of this is to, where possible, bring the disjunctive operators <math>+</math> and <math>-</math>
+        <p>The end goal of this is to, where possible, bring the disjunctive operators <span class="math">+</span> and <span class="math">-</span>
           to the top level of the equation. Then, like terms can more easily be collected in later steps, without having
           to repeat the distribution step.</p>
         <h4>Apply the commutative property</h4>
         <p>To allow the program to more easily identify like terms for the collection step, all conjunctive
           terms&mdash;those with values connected by multiplication&mdash;are rearranged such that any variables are on
-          the right side of the term, and any values are on the left side of the term. For example, <math>(x * 4)</math>
-          becomes <math>(4 * x)</math> </p>
+          the right side of the term, and any values are on the left side of the term. For example, <span class="math">(x * 4)</span>
+          becomes <span class="math">(4 * x)</span> </p>
         <h4>Collect like terms</h4>
         <p>All terms that share equal coefficients are collected, reducing the complexity of the evaluation step and
           making the type of equation easier to identify when solving it. </p>
-        <p>For example, <math>((4 * x) + (5 * x))</math> becomes <math>((4 + 5) * x)</math>.</p>
+        <p>For example, <span class="math">((4 * x) + (5 * x))</span> becomes <span class="math">((4 + 5) * x)</span>.</p>
         <h4>Evaluate numerical values</h4>
         <p>In this step, the program finally does arithmetic to simplify all numerical values. It also cancels out
           multiplication by zero or one, checks for division by zero or one, and simplifies any addition or subtraction
           by zero.</p>
-        <p>For example, <math>((4 + 5) * x)</math> becomes <math>(9 * x)</math>.</p>
+        <p>For example, <span class="math">((4 + 5) * x)</span> becomes <span class="math">(9 * x)</span>.</p>
         <h4>Identify the equation type</h4>
         <p>The calculator first tries to identify the type of equation before solving it. Special types, such as linear
           diophantine equations, variable-free equations, and quadratic equations can then be filtered into special

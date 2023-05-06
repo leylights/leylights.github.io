@@ -153,7 +153,7 @@
 #main .body {
   padding-bottom: 4em;
 }
-#main .body math {
+#main .body .math {
   font-family: "Cambria Math", Arial, sans-serif;
 }
 #main .body #steps-title {
