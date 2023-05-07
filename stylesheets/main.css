@@ -343,6 +343,24 @@ nav#desktop-header .header-menu-item-container #header-resume-button .header-lin
   }
 }
 
+@keyframes fade-up {
+  from {
+    top: 30px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 nav#side-menu {
   width: 0;
   height: 100%;
