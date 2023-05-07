@@ -566,23 +566,7 @@ export class ResumePage {
   }
 
   private static loadContact(): void {
-    if (!CoreDataService.shouldRiverify) {
-      document.getElementById("connect-links").appendChild(
-        Molasses.createElement({
-          type: "li",
-          children: [
-            Molasses.createElement({
-              type: "a",
-              innerText: "in/colestantinople",
-              otherNodes: {
-                target: "_blank",
-                href: "www.linkedin.com/in/colestantinople/",
-              },
-            }),
-          ],
-        })
-      );
-    } else {
+    if (CoreDataService.shouldRiverify) {
       document.getElementById("connect-links").appendChild(
         Molasses.createElement({
           type: "li",
@@ -593,6 +577,21 @@ export class ResumePage {
               otherNodes: {
                 target: "_blank",
                 href: "https://github.com/some-molasses",
+              },
+            }),
+          ],
+        })
+      );
+      document.getElementById("connect-links").appendChild(
+        Molasses.createElement({
+          type: "li",
+          children: [
+            Molasses.createElement({
+              type: "a",
+              innerText: "in/some-molasses",
+              otherNodes: {
+                target: "_blank",
+                href: "https://www.linkedin.com/in/some-molasses/",
               },
             }),
           ],
