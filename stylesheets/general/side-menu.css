@@ -1,18 +1,148 @@
-/* Error: Undefined mixin.
- *    ,
- * 14 | /   @include desktop-and-above {
- * 15 | |     display: none;
- * 16 | \   }
- *    '
- *   sass\general\side-menu.scss 14:3  root stylesheet */
-
-body::before {
-  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
-      "Droid Sans Mono", monospace, monospace;
-  white-space: pre;
+@keyframes fade-up {
+  from {
+    top: 30px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+nav#side-menu {
+  width: 0;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 10000;
+  overflow-x: hidden;
+  transition: 0.5s;
+  background-color: var(--primary-bg-color);
+  text-align: right;
+  color: var(--primary-accent-color);
+}
+@media (min-width: 820px) {
+  nav#side-menu {
+    display: none;
+  }
+}
+nav#side-menu #side-menu-content {
+  position: absolute;
+  width: calc(100vw - 1em);
+  font-weight: 300;
+}
+nav#side-menu #side-menu-content h1 {
+  margin: auto;
+  line-height: var(--header-inner-size);
+  font-size: 26px;
+  color: var(--primary-accent-color);
+  text-align: right;
+  padding-right: 20px;
+  height: var(--header-inner-size);
+  border-bottom: 5px solid var(--primary-accent-color);
+}
+nav#side-menu #side-menu-content .side-menu-top-level-item {
+  position: relative;
   display: block;
-  padding: 1em;
-  margin-bottom: 1em;
-  border-bottom: 2px solid black;
-  content: "Error: Undefined mixin.\a    \2577 \a 14 \2502  \250c    @include desktop-and-above {\a 15 \2502  \2502      display: none;\a 16 \2502  \2514    }\a    \2575 \a   sass\\general\\side-menu.scss 14:3  root stylesheet";
+  width: 100%;
+}
+nav#side-menu #side-menu-content .side-menu-top-level-item .side-menu-top-level-button {
+  margin: auto;
+  display: block;
+  width: 100%;
+  position: relative;
+  background-color: var(--primary-bg-color);
+  border: none;
+  outline: none;
+  font-size: 1.2em;
+  font-weight: 300;
+  font-family: inherit;
+  color: var(--primary-accent-color);
+  cursor: pointer;
+  text-align: right;
+  padding: 1em 0;
+  padding-right: 25px;
+}
+nav#side-menu #side-menu-content .side-menu-top-level-item .side-menu-top-level-button.active {
+  background-color: var(--primary-accent-color);
+}
+nav#side-menu #side-menu-content .side-menu-top-level-item .side-menu-top-level-button > div {
+  padding: 0.5em 0 0.5em 0;
+  border-bottom: 2px solid var(--primary-accent-color);
+}
+nav#side-menu #side-menu-content .side-menu-top-level-item a.side-menu-top-level-button {
+  width: calc(100% - 25px);
+}
+nav#side-menu #side-menu-content .side-menu-item {
+  display: none;
+  position: relative;
+  width: 100%;
+  margin: auto;
+  overflow: hidden;
+  background-color: transparent;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: 0.4s;
+  text-decoration: none;
+}
+nav#side-menu #side-menu-content .side-menu-item a {
+  display: block;
+  padding: 11px;
+  text-decoration: none;
+  overflow: hidden;
+  font-size: 1.1em;
+  color: var(--text-color);
+  cursor: pointer;
+  text-align: right;
+  padding-right: 34px;
+}
+nav#side-menu #side-menu-content .side-menu-item a:visited, nav#side-menu #side-menu-content .side-menu-item a:link {
+  color: var(--text-color);
+}
+nav#side-menu #side-menu-content .side-menu-item a:hover {
+  color: var(--primary-accent-color);
+}
+nav#side-menu #side-menu-content .side-menu-dropdown {
+  display: none;
+}
+nav#side-menu #side-menu-content .side-menu-dropdown a {
+  margin-right: 20px;
+  border-right: 3px solid var(--primary-accent-color);
+}
+nav#side-menu #side-menu-content #side-menu-end-button {
+  margin: auto;
+  margin-top: 10px;
+  display: block;
+  padding: 0;
+  background-color: transparent;
+  outline: 0;
+  position: relative;
+  padding: 20px 0;
+  border: none;
+  cursor: pointer;
+  max-width: 100px;
+}
+nav#side-menu #side-menu-content #side-menu-end-button img {
+  display: block;
+  max-height: 100px;
+  filter: invert(10%) sepia(100%) saturate(6520%) hue-rotate(247deg) brightness(71%) contrast(135%);
+}
+nav#side-menu .dark-mode-container {
+  width: 100%;
+  text-align: center;
+  margin: 40px 0;
+}
+nav#side-menu .dark-mode-container .dark-mode-toggle {
+  margin: auto;
+}
+nav#side-menu.open {
+  width: 100%;
 }
