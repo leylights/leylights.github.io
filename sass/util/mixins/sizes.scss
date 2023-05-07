@@ -16,3 +16,9 @@
   }
 }
 
+@mixin desktop-and-above {
+  @media (min-width: 820px) {
+    @content;
+  }
+}
+

@@ -116,6 +116,9 @@
   padding: 6px;
   text-align: center;
 }
+#main header #header-main-content input:focus-visible {
+  outline: 3px solid var(--secondary-accent-color);
+}
 #main header #preview-steps {
   position: absolute;
   bottom: 0;

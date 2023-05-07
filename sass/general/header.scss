@@ -1,6 +1,6 @@
-@use 'sass:math';
+@use "sass:math";
 
-@import '../util/mixins/mixins.scss';
+@import "../util/mixins/mixins.scss";
 
 nav#desktop-header {
   background-color: var(--primary-bg-color);
@@ -132,7 +132,8 @@ nav#desktop-header {
     display: inline-block;
     position: relative;
 
-    &:hover {
+    &:hover,
+    &:focus-within {
       color: var(--primary-accent-color);
       cursor: pointer;
 
@@ -145,8 +146,20 @@ nav#desktop-header {
       height: var(--header-inner-size);
       line-height: var(--header-inner-size);
       display: inline-block;
-      padding: 0 1.5em;
+      padding: 0 24px;
       color: var(--text-color);
+
+      &:focus,
+      &:hover {
+        .header-link {
+          color: var(--primary-accent-color);
+        }
+
+        #header-resume-button {
+          background-color: var(--secondary-accent-color);
+          color: var(--text-color);
+        }
+      }
     }
 
     .header-dropdown-body {
@@ -174,7 +187,8 @@ nav#desktop-header {
           display: block;
           text-align: left;
 
-          &:hover {
+          &:hover,
+          &:focus-within {
             background-color: var(--secondary-bg-color);
             color: var(--primary-accent-color);
             cursor: pointer;
@@ -204,10 +218,7 @@ nav#desktop-header {
     .header-link {
       color: var(--text-color);
       text-decoration: none;
-
-      &:hover {
-        color: var(--primary-accent-color);
-      }
+      height: 100%;
     }
 
     #header-resume-button {
@@ -216,11 +227,6 @@ nav#desktop-header {
       color: var(--invert-text-color);
       padding: 7px 16px;
       transition: var(--hover-color-transition);
-
-      &:hover {
-        background-color: var(--secondary-accent-color);
-        color: var(--text-color);
-      }
 
       .header-link {
         text-decoration: none !important;
