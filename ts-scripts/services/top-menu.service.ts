@@ -24,7 +24,7 @@ export class TopMenuService {
         classList: "header-menu-item-container",
         children: [
           Molasses.createElement({
-            type: "div",
+            type: "button",
             classList: "header-menu-item",
             children: [
               Molasses.createElement({
@@ -48,20 +48,15 @@ export class TopMenuService {
         classList: "header-menu-item-container",
         children: [
           Molasses.createElement({
-            type: "div",
+            type: "a",
             classList: "header-menu-item",
+            otherNodes: [{ type: "href", value: link }],
             children: [
               Molasses.createElement({
-                type: "a",
-                classList: "header-link",
-                otherNodes: [{ type: "href", value: link }],
-                children: [
-                  Molasses.createElement({
-                    type: "span",
-                    id: spanId,
-                    innerText: text.toLowerCase(),
-                  }),
-                ],
+                type: "span",
+                classList: 'header-link',
+                id: spanId,
+                innerText: text.toLowerCase(),
               }),
             ],
           }),

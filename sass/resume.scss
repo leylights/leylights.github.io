@@ -5,7 +5,7 @@
   --skill-highlight-colour: var(--tertiary-accent-color);
 }
 
-body {
+.content {
   margin: auto;
   margin-top: 0;
   font-weight: 300;
@@ -366,13 +366,6 @@ a:hover {
 }
 
 @include tablet-width {
-  .itemImage {
-    display: none;
-  }
-
-  .itemSurround {
-    top: 50%;
-  }
 
   #education-degrees {
     flex-direction: column;

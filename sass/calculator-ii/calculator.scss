@@ -114,6 +114,10 @@ $steps-output-height: 80px;
         font-size: 1.5em;
         padding: $padding;
         text-align: center;
+
+        &:focus-visible {
+          outline: 3px solid var(--secondary-accent-color);
+        }
       }
     }
 
