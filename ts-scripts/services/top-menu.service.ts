@@ -1,19 +1,18 @@
-
 /**
  * top-menu.service.js
- * 
- * @author River Stanley, 
+ *
+ * @author River Stanley,
  * Start Date: January 2021
  */
 
-import { Molasses } from '../molasses';
-import { CoreDataService } from './core-data.service';
-import { DarkModeService } from './dark-mode.service';
-import { MenuItemMulti } from './menus/menu-item-multi';
-import { MenuItemSingle } from './menus/menu-item-single';
-import { MenuItem } from './menus/menu-item';
-import { MenuLayouts } from './menus/menu-layouts.data';
-import { SideMenuService } from './side-menu.service';
+import { Molasses } from "../molasses";
+import { CoreDataService } from "./core-data.service";
+import { DarkModeService } from "./dark-mode.service";
+import { MenuItemMulti } from "./menus/menu-item-multi";
+import { MenuItemSingle } from "./menus/menu-item-single";
+import { MenuItem } from "./menus/menu-item";
+import { MenuLayouts } from "./menus/menu-layouts.data";
+import { SideMenuService } from "./side-menu.service";
 
 export class TopMenuService {
   private static header: HTMLElement;
@@ -21,132 +20,148 @@ export class TopMenuService {
   public static build() {
     function getDropdownButton(text: string, menuId: string) {
       return Molasses.createElement({
-        type: 'div',
-        classList: 'header-menu-item-container',
+        type: "div",
+        classList: "header-menu-item-container",
         children: [
           Molasses.createElement({
-            type: 'div',
-            classList: 'header-menu-item',
+            type: "div",
+            classList: "header-menu-item",
             children: [
               Molasses.createElement({
-                type: 'span',
+                type: "span",
                 innerText: text.toLowerCase(),
               }),
             ],
           }),
           Molasses.createElement({
-            type: 'div',
-            classList: 'header-dropdown-body',
+            type: "div",
+            classList: "header-dropdown-body",
             id: menuId,
-          })
+          }),
         ],
       });
     }
 
     function getNoDropdownButton(text: string, link: string, spanId?: string) {
       return Molasses.createElement({
-        type: 'div',
-        classList: 'header-menu-item-container',
-        children: [Molasses.createElement({
-          type: 'div',
-          classList: 'header-menu-item',
-          children: [
-            Molasses.createElement({
-              type: 'a',
-              classList: 'header-link',
-              otherNodes: [{ type: 'href', value: link }],
-              children: [
-                Molasses.createElement({
-                  type: 'span',
-                  id: spanId,
-                  innerText: text.toLowerCase(),
-                }),
-              ]
-            })],
-        }),]
+        type: "div",
+        classList: "header-menu-item-container",
+        children: [
+          Molasses.createElement({
+            type: "div",
+            classList: "header-menu-item",
+            children: [
+              Molasses.createElement({
+                type: "a",
+                classList: "header-link",
+                otherNodes: [{ type: "href", value: link }],
+                children: [
+                  Molasses.createElement({
+                    type: "span",
+                    id: spanId,
+                    innerText: text.toLowerCase(),
+                  }),
+                ],
+              }),
+            ],
+          }),
+        ],
       });
     }
 
     TopMenuService.header = Molasses.createElement({
-      type: 'nav',
-      id: 'desktop-header',
+      type: "nav",
+      id: "desktop-header",
       children: [
         Molasses.createElement({
-          type: 'div',
-          id: 'header-inner-bounds',
+          type: "div",
+          id: "header-inner-bounds",
           children: [
             Molasses.createElement({
-              type: 'div',
-              id: 'header-left',
+              type: "div",
+              id: "header-left",
               children: [
-
                 Molasses.createElement({
-                  type: 'a',
-                  otherNodes: [{ type: 'href', value: '/' }],
-                  children: [Molasses.createElement({
-                    type: 'img',
-                    id: 'header-logo',
-                    classList: 'site-logo',
-                    otherNodes: [{ type: 'src', value: CoreDataService.siteLogoSrc }],
-                  }),
-                  Molasses.createElement({
-                    type: `div`,
-                    id: 'header-title',
-                    children: [
-                      Molasses.createElement({
-                        type: 'div',
-                        classList: 'inner',
-                        children: [
-                          Molasses.createElement({
-                            type: 'h1',
-                            classList: 'name',
-                            innerText: CoreDataService.siteName.replace('.github.io', ''),
-                          }),
-                          CoreDataService.siteName.includes('.github.io') ?
+                  type: "a",
+                  otherNodes: [{ type: "href", value: "/" }],
+                  children: [
+                    Molasses.createElement({
+                      type: "img",
+                      id: "header-logo",
+                      classList: "site-logo",
+                      otherNodes: [
+                        { type: "src", value: CoreDataService.siteLogoSrc },
+                      ],
+                    }),
+                    Molasses.createElement({
+                      type: `div`,
+                      id: "header-title",
+                      children: [
+                        Molasses.createElement({
+                          type: "div",
+                          classList: "inner",
+                          children: [
                             Molasses.createElement({
-                              type: 'span',
-                              classList: 'github-io',
-                              innerText: '.github.io'
-                            }) : null
-                        ]
-                      }),
-                    ]
-                  }),
-                  ]
+                              type: "h1",
+                              classList: "name",
+                              innerText: CoreDataService.siteName.replace(
+                                ".github.io",
+                                ""
+                              ),
+                            }),
+                            CoreDataService.siteName.includes(".github.io")
+                              ? Molasses.createElement({
+                                  type: "span",
+                                  classList: "github-io",
+                                  innerText: ".github.io",
+                                })
+                              : null,
+                          ],
+                        }),
+                      ],
+                    }),
+                  ],
                 }),
-              ]
-            }), Molasses.createElement({
-              type: 'div',
-              id: 'header-menu',
+              ],
+            }),
+            Molasses.createElement({
+              type: "div",
+              id: "header-menu",
               children: [
-                this.createDarkModeToggle('left-nav-toggle'),
-                getDropdownButton('Games', 'games-menu'),
-                getDropdownButton('Tools', 'tools-menu'),
-                getNoDropdownButton('Archive', '/pages/archive.html'),
-                getNoDropdownButton('Resume', '/pages/resume.html', 'header-resume-button'),
+                this.createDarkModeToggle("left-nav-toggle"),
+                getDropdownButton("Games", "games-menu"),
+                getDropdownButton("Tools", "tools-menu"),
+                getNoDropdownButton("Archive", "/pages/archive.html"),
+                getNoDropdownButton(
+                  "Resume",
+                  "/pages/resume.html",
+                  "header-resume-button"
+                ),
               ],
             }),
           ],
         }),
         Molasses.createElement({
-          type: 'button',
-          id: 'side-menu-opener',
+          type: "button",
+          id: "side-menu-opener",
           children: [
             Molasses.createElement({
-              type: 'img',
-              id: 'side-menu-opener-image',
-              otherNodes: [{ type: 'src', value: '/siteimages/menuicon.png' }],
+              type: "img",
+              id: "side-menu-opener-image",
+              otherNodes: [{ type: "src", value: "/siteimages/menuicon.png" }],
             }),
           ],
         }),
-        this.createDarkModeToggle('right-nav-toggle'),
+        this.createDarkModeToggle("right-nav-toggle"),
       ],
     });
 
-    TopMenuService.header.querySelector('#side-menu-opener').addEventListener('click', SideMenuService.toggleMenu);
+    TopMenuService.header
+      .querySelector("#side-menu-opener")
+      .addEventListener("click", SideMenuService.toggleMenu);
     TopMenuService.generateMenu();
 
-    document.body.appendChild(TopMenuService.header);
+    document.body.insertAdjacentElement("afterbegin", TopMenuService.header);
   }
 
   /**
@@ -155,43 +170,46 @@ export class TopMenuService {
 
   private static createTopItem(item: MenuItem, parent?: HTMLElement) {
     // determine parent
-    let type: keyof HTMLElementTagNameMap = 'a';
+    let type: keyof HTMLElementTagNameMap = "a";
     if (!parent) {
       if (item instanceof MenuItemSingle)
         switch (item.type) {
-          case 'Game':
-            parent = TopMenuService.header.querySelector('#games-menu');
+          case "Game":
+            parent = TopMenuService.header.querySelector("#games-menu");
             break;
-          case 'Tool':
-            parent = TopMenuService.header.querySelector('#tools-menu');
+          case "Tool":
+            parent = TopMenuService.header.querySelector("#tools-menu");
             break;
         }
       else {
-        parent = TopMenuService.header.querySelector('#tools-menu');
-        type = 'div';
+        parent = TopMenuService.header.querySelector("#tools-menu");
+        type = "div";
       }
     }
 
     const newItem = Molasses.createElement({
       type: type,
-      classList: 'header-item',
-      innerHTML: item instanceof MenuItemSingle && item.isExternalLink
-        ? item.shortName + ' (\u2B73)'
-        : item.shortName,
+      classList: "header-item",
+      innerHTML:
+        item instanceof MenuItemSingle && item.isExternalLink
+          ? item.shortName + " (\u2B73)"
+          : item.shortName,
     });
 
     // links need to work on index and child pages
 
     if (item instanceof MenuItemSingle && item.singleLinks.href)
-      newItem.setAttributeNode(Molasses.betterCreateAttr('href', item.singleLinks.href));
+      newItem.setAttributeNode(
+        Molasses.betterCreateAttr("href", item.singleLinks.href)
+      );
 
     parent.appendChild(newItem);
 
     if (item instanceof MenuItemMulti) {
-      newItem.classList.add('dropdown');
-      const subMenu = document.createElement('div');
-      subMenu.classList.add('header-dropdown-body');
-      newItem.appendChild(subMenu)
+      newItem.classList.add("dropdown");
+      const subMenu = document.createElement("div");
+      subMenu.classList.add("header-dropdown-body");
+      newItem.appendChild(subMenu);
       item.children.forEach((child: MenuItem) => {
         TopMenuService.createTopItem(child, subMenu);
       });
@@ -200,28 +218,32 @@ export class TopMenuService {
 
   static createDarkModeToggle(id: string): HTMLElement {
     const toggle: HTMLElement = Molasses.createElement({
-      type: 'div',
-      classList: 'dark-mode-toggle',
+      type: "div",
+      classList: "dark-mode-toggle",
       id: id,
       children: [
         Molasses.createElement({
-          type: 'input',
-          otherNodes: { type: 'checkbox' },
+          type: "input",
+          otherNodes: { type: "checkbox" },
         }),
         Molasses.createElement({
-          type: 'div',
-          classList: 'slider',
+          type: "div",
+          classList: "slider",
         }),
       ],
     });
 
-    if (DarkModeService.isDark) toggle.querySelector('input').checked = true;
+    if (DarkModeService.isDark) toggle.querySelector("input").checked = true;
 
-    toggle.querySelector('input').addEventListener('click', function () {
+    toggle.querySelector("input").addEventListener("click", function () {
       DarkModeService.toggleDarkMode();
 
-      for (const input of Array.from(document.querySelectorAll('.dark-mode-toggle input'))) {
-        if (input !== this) (input as HTMLInputElement).checked = !(input as HTMLInputElement).checked;
+      for (const input of Array.from(
+        document.querySelectorAll(".dark-mode-toggle input")
+      )) {
+        if (input !== this)
+          (input as HTMLInputElement).checked = !(input as HTMLInputElement)
+            .checked;
       }
     });
 
