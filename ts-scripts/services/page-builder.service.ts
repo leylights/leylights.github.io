@@ -178,8 +178,6 @@ export class PageBuilder {
   }
 
   static registerLoadListener(listener: () => any) {
-    console.log(document.readyState);
-    console.log(listener)
     if (document.readyState === "complete") {
       listener();
     } else {

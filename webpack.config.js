@@ -16,6 +16,7 @@ const entrypoints = [
   "special/calculator-ii/calculator.page",
   "special/covid/dashboard.page",
   "special/creatures/summons.page",
+  "special/nodes/nodes.page",
   "special/npcs/dice-histogram.page",
   "special/npcs/npc-creator",
   "special/npcs/npc-generator",

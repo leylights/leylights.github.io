@@ -472,4 +472,14 @@ export const MenuItems = {
       highlightType: 2
     }
   }),
+  nodes: new MenuItemSingle({
+    name: 'Nodes',
+    type: 'Tool',
+    date: 'August 2023',
+    description: ' - test - ',
+    links: {
+      href: '/pages/nodes.html',
+    },
+    isSecret: true,
+  }),
 };
