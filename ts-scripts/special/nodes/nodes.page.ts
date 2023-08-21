@@ -13,22 +13,19 @@ import { NodesNode } from "./node";
 const SHOW_INTERNALS: boolean = false;
 
 class NodesPage {
+  static isEditable: boolean = false;
+
   static mousePos: { x: number; y: number } = { x: 0, y: 0 };
+  static isMouseDown: boolean = false;
 
   static canvas: Canvas = new Canvas({
     parentElement: document.getElementById("canvasContainer"),
   });
 
+  static nextNodeColour: string = NodesNode.getColour();
   static nodes: NodesNode[] = [
     new NodesNode(0, 0, "orange"),
     new NodesNode(Math.random() * 100, -Math.random() * 100, "cyan"),
-    new NodesNode(-Math.random() * 300, -Math.random() * 100, "green"),
-    new NodesNode(-Math.random() * 200, -Math.random() * 100, "pink"),
-    new NodesNode(-Math.random() * 200, -Math.random() * 100, "yellow"),
-    new NodesNode(-Math.random() * 200, -Math.random() * 100, "aqua"),
-    new NodesNode(Math.random() * 100, -Math.random() * 100, "cyan"),
-    new NodesNode(-Math.random() * 300, -Math.random() * 100, "green"),
-    new NodesNode(-Math.random() * 200, -Math.random() * 100, "pink"),
     new NodesNode(-Math.random() * 200, -Math.random() * 100, "yellow"),
     new NodesNode(-Math.random() * 200, -Math.random() * 100, "aqua"),
   ];
@@ -38,23 +35,55 @@ class NodesPage {
     new NodesNode(0, 0, "FireBrick"),
   ];
 
+  static selectedNode: NodesNode = null;
+
+  static handleContextMenu(e: MouseEvent) {
+    e.preventDefault();
+    this.isEditable = !this.isEditable;
+
+    const tooltip = document.getElementById("edit-tooltip");
+
+    tooltip.classList.toggle("editing");
+    if (tooltip.classList.contains("editing")) {
+      tooltip.innerHTML = "Right click to stop editing";
+    } else {
+      tooltip.innerHTML = "Right click to edit";
+    }
+  }
+
+  static handleMouseMove(e: MouseEvent) {
+    this.mousePos.x = e.x - this.canvas.width / 2;
+    this.mousePos.y =
+      e.y -
+      this.canvas.height / 2 -
+      this.canvas.element.getBoundingClientRect().top;
+  }
+
+  static handleMouseDown(e: MouseEvent) {
+    if (e.button === 0) {
+      this.isMouseDown = true;
+    }
+  }
+
   static init() {
     this.canvas.clearColour = null;
     this.canvas.start(() => {
       this.mainLoop();
     });
-    this.canvas.addEventListener("mousemove", (e) => {
-      this.mousePos.x = e.x - this.canvas.width / 2;
-      this.mousePos.y =
-        e.y -
-        this.canvas.height / 2 -
-        this.canvas.element.getBoundingClientRect().top;
-    });
+
+    this.canvas.addEventListener("mousemove", (e) => this.handleMouseMove(e));
+    this.canvas.addEventListener("contextmenu", (e) =>
+      this.handleContextMenu(e)
+    );
+    this.canvas.addEventListener("mousedown", (e) => this.handleMouseDown(e));
   }
 
   static mainLoop() {
     this.redraw();
+
     this.updateNodes();
+
+    this.isMouseDown = false;
   }
 
   static redraw() {
@@ -63,8 +92,12 @@ class NodesPage {
     const { width, height } = this.canvas;
 
     for (const node of this.nodes) {
-      node.redraw(this.canvas, { width, height });
+      node.draw(this.canvas, { width, height }, this.mousePos);
     }
+  }
+
+  static getPotentialNode() {
+    return new NodesNode(this.mousePos.x, this.mousePos.y, this.nextNodeColour);
   }
 
   static getMotionNode1() {
@@ -108,22 +141,58 @@ class NodesPage {
     const mouseNode = new NodesNode(this.mousePos.x, this.mousePos.y, "blue");
     const motionNode1 = this.getMotionNode1();
     const motionNode2 = this.getMotionNode2();
+    const potentialNode = this.getPotentialNode();
 
     if (SHOW_INTERNALS) {
-      motionNode1.redraw(this.canvas, this.canvas);
-      motionNode2.redraw(this.canvas, this.canvas);
+      motionNode1.draw(this.canvas, this.canvas, this.mousePos);
+      motionNode2.draw(this.canvas, this.canvas, this.mousePos);
     }
 
+    // find the hovered node first
+    let hoveredNode: NodesNode = null;
+    if (this.isEditable) {
+      this.nodes.forEach((node) => {
+        if (node.isMouseHovering(this.mousePos)) {
+          hoveredNode = node;
+        }
+      });
+    }
+
+    if (!hoveredNode && this.isEditable) {
+      potentialNode.draw(this.canvas, this.canvas, this.mousePos);
+
+      if (this.isMouseDown) {
+        this.nodes.push(potentialNode);
+        this.nextNodeColour = NodesNode.getColour();
+      }
+    }
+
+    // if the hovered node is clicked, precompute that
+    let clickedNode: NodesNode = null;
+    if (this.isMouseDown && hoveredNode) {
+      hoveredNode.isBeingEdited = !hoveredNode.isBeingEdited;
+      clickedNode = hoveredNode;
+
+      if (!this.selectedNode) {
+        this.selectedNode = clickedNode;
+      } else if(clickedNode === this.selectedNode) {
+        this.selectedNode = null;
+      }
+    }
+
+    // main loop
     this.nodes.forEach((node) => {
       const vectorSum = node.getAttractiveVectorTo(originNode);
       if (SHOW_INTERNALS) node.drawVector(vectorSum, this.canvas, "blue");
 
-      const mouseRepellant = node
-        .getRepulsiveVectorTo(mouseNode)
-        .scalarMultiply(1.5);
-      vectorSum.add(mouseRepellant);
+      if (!this.isEditable) {
+        const mouseRepellant = node
+          .getRepulsiveVectorTo(mouseNode)
+          .scalarMultiply(1.5);
+        vectorSum.add(mouseRepellant);
 
-      if (SHOW_INTERNALS) node.drawVector(mouseRepellant, this.canvas, "red");
+        if (SHOW_INTERNALS) node.drawVector(mouseRepellant, this.canvas, "red");
+      }
 
       const motionRepellant1 = node.getRepulsiveVectorTo(motionNode1);
       vectorSum.add(motionRepellant1);
@@ -143,6 +212,14 @@ class NodesPage {
 
       node.appliedForces = [];
     });
+
+    if (clickedNode) {
+      this.nodes.forEach((node) => {
+        if (node != clickedNode) {
+          node.isBeingEdited = false;
+        }
+      });
+    }
   }
 }
 
