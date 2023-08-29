@@ -48,6 +48,8 @@ class NodesPage {
       tooltip.innerHTML = "Right click to stop editing";
     } else {
       tooltip.innerHTML = "Right click to edit";
+      this.selectedNode.isBeingEdited = false;
+      this.selectedNode = null;
     }
   }
 
@@ -91,6 +93,14 @@ class NodesPage {
 
     const { width, height } = this.canvas;
 
+    // draw bonds
+    this.nodes.forEach((node) => {
+      node.boundNodes.forEach((boundNode) => {
+        node.drawVectorToNode(boundNode, this.canvas);
+      });
+    });
+
+    // draw nodes
     for (const node of this.nodes) {
       node.draw(this.canvas, { width, height }, this.mousePos);
     }
@@ -101,9 +111,10 @@ class NodesPage {
   }
 
   static getMotionNode1() {
-    const period = 7000;
-    const halfWidth = this.canvas.width / 2;
-    const halfHeight = this.canvas.height / 2;
+    const closeness = 0.5; // lesser = tighter cycle around the origin
+    const period = 6000;
+    const halfWidth = this.canvas.width * closeness;
+    const halfHeight = this.canvas.height * closeness;
     const now = Date.now();
     return new NodesNode(
       halfWidth * Math.sin((Math.PI * now) / period),
@@ -113,9 +124,10 @@ class NodesPage {
   }
 
   static getMotionNode2() {
+    const closeness = 0.35; // lesser = tighter cycle around the origin
     const period = 10000;
-    const widthBound = this.canvas.width * 0.4;
-    const heightBound = this.canvas.height * 0.4;
+    const widthBound = this.canvas.width * closeness;
+    const heightBound = this.canvas.height * closeness;
     const now = Date.now();
     return new NodesNode(
       widthBound * Math.cos((Math.PI * (now - period)) / period),
@@ -133,6 +145,10 @@ class NodesPage {
         this.nodes[i].appliedForces.push(
           relativeVector.clone().scalarMultiply(-1)
         );
+
+        if (node.boundNodes.includes(this.nodes[i])) {
+          node.appliedForces.push(node.getAttractiveVectorTo(this.nodes[i]));
+        }
       }
     });
 
@@ -170,14 +186,30 @@ class NodesPage {
     // if the hovered node is clicked, precompute that
     let clickedNode: NodesNode = null;
     if (this.isMouseDown && hoveredNode) {
-      hoveredNode.isBeingEdited = !hoveredNode.isBeingEdited;
       clickedNode = hoveredNode;
 
       if (!this.selectedNode) {
         this.selectedNode = clickedNode;
-      } else if(clickedNode === this.selectedNode) {
+        clickedNode.isBeingEdited = true;
+      } else if (clickedNode === this.selectedNode) {
         this.selectedNode = null;
+        clickedNode.isBeingEdited = false;
+      } else {
+        clickedNode.addBondTo(this.selectedNode);
+        this.selectedNode.addBondTo(clickedNode);
       }
+    }
+
+    // handle operations relating to the selected node
+    if (this.selectedNode) {
+      this.canvas.drawLine(
+        this.selectedNode.x + this.canvas.width / 2,
+        this.selectedNode.y + this.canvas.height / 2,
+        this.mousePos.x + this.canvas.width / 2,
+        this.mousePos.y + this.canvas.height / 2,
+        "#888",
+        2
+      );
     }
 
     // main loop

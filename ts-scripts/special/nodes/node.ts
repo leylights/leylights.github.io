@@ -49,6 +49,7 @@ export class NodesNode {
   colour: string;
 
   appliedForces: MathVector[] = [];
+  boundNodes: NodesNode[] = [];
 
   isBeingEdited: boolean = false;
 
@@ -60,6 +61,10 @@ export class NodesNode {
       this.y = y;
     }
     this.colour = colour ? colour : NodesNode.getColour();
+  }
+
+  addBondTo(node: NodesNode) {
+    this.boundNodes.push(node);
   }
 
   draw(
@@ -90,6 +95,17 @@ export class NodesNode {
       canvas.height / 2 + this.y + vector.y * multiplier,
       colour,
       1
+    );
+  }
+
+  drawVectorToNode(node: NodesNode, canvas: Canvas) {
+    canvas.drawLine(
+      canvas.width / 2 + this.x,
+      canvas.height / 2 + this.y,
+      canvas.width / 2 + node.x,
+      canvas.height / 2 + node.y,
+      '#888',
+      2
     );
   }
 
