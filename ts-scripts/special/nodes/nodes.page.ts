@@ -26,8 +26,8 @@ class NodesPage {
   static nodes: NodesNode[] = [
     new NodesNode(0, 0, "orange"),
     new NodesNode(Math.random() * 100, -Math.random() * 100, "cyan"),
-    new NodesNode(-Math.random() * 200, -Math.random() * 100, "yellow"),
-    new NodesNode(-Math.random() * 200, -Math.random() * 100, "aqua"),
+    // new NodesNode(-Math.random() * 200, -Math.random() * 100, "yellow"),
+    // new NodesNode(-Math.random() * 200, -Math.random() * 100, "aqua"),
   ];
 
   static assistantNodes: NodesNode[] = [
@@ -48,8 +48,11 @@ class NodesPage {
       tooltip.innerHTML = "Right click to stop editing";
     } else {
       tooltip.innerHTML = "Right click to edit";
-      this.selectedNode.isBeingEdited = false;
-      this.selectedNode = null;
+      
+      if (this.selectedNode) {
+        this.selectedNode.isBeingEdited = false;
+        this.selectedNode = null;
+      }
     }
   }
 
@@ -147,7 +150,7 @@ class NodesPage {
         );
 
         if (node.boundNodes.includes(this.nodes[i])) {
-          node.appliedForces.push(node.getAttractiveVectorTo(this.nodes[i]));
+          node.appliedForces.push(node.getAttractiveVectorTo(this.nodes[i], 0.25));
         }
       }
     });
@@ -226,11 +229,13 @@ class NodesPage {
         if (SHOW_INTERNALS) node.drawVector(mouseRepellant, this.canvas, "red");
       }
 
-      const motionRepellant1 = node.getRepulsiveVectorTo(motionNode1);
-      vectorSum.add(motionRepellant1);
-
-      const motionRepellant2 = node.getRepulsiveVectorTo(motionNode2);
-      vectorSum.add(motionRepellant2);
+      // add ambient motion
+      if (!this.isEditable) {
+        const motionRepellant1 = node.getRepulsiveVectorTo(motionNode1);
+        const motionRepellant2 = node.getRepulsiveVectorTo(motionNode2);
+        vectorSum.add(motionRepellant1);
+        vectorSum.add(motionRepellant2);
+      }
 
       for (const vector of node.appliedForces) {
         if (SHOW_INTERNALS) node.drawVector(vector, this.canvas, "red");

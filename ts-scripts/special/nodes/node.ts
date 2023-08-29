@@ -109,7 +109,7 @@ export class NodesNode {
     );
   }
 
-  getAttractiveVectorTo(node: NodesNode): MathVector {
+  getAttractiveVectorTo(node: NodesNode, strengthMultiplier: number = 1): MathVector {
     // = force / (dx^2) * (dx/|dx|) = force / (dx|dx|)
     const dx = node.x == this.x ? Math.random() * 10 : node.x - this.x;
     const dy = node.y == this.y ? Math.random() * 10 : node.y - this.y;
@@ -117,7 +117,7 @@ export class NodesNode {
     const direction = new MathVector(dx, dy).setMagnitude(2);
 
     const distance = Math.sqrt(dx ** 2 + dy ** 2);
-    const magnitude = distance / NODE_ATTRACTIVE_DIVISOR;
+    const magnitude = (distance * strengthMultiplier) / NODE_ATTRACTIVE_DIVISOR;
 
     direction.setMagnitude(magnitude);
 
