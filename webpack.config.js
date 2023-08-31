@@ -42,6 +42,7 @@ module.exports = {
     path: path.resolve(__dirname, "scripts"),
   },
   mode: "development",
+  devtool: "inline-source-map",
   module: {
     rules: [
       {

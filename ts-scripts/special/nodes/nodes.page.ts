@@ -16,6 +16,7 @@ class NodesPage {
   static isEditable: boolean = false;
 
   static mousePos: { x: number; y: number } = { x: 0, y: 0 };
+  static wasClickedThisFrame: boolean = false;
   static isMouseDown: boolean = false;
 
   static canvas: Canvas = new Canvas({
@@ -24,10 +25,14 @@ class NodesPage {
 
   static nextNodeColour: string = NodesNode.getColour();
   static nodes: NodesNode[] = [
-    new NodesNode(0, 0, "orange"),
+    new NodesNode(Math.random() * 100, -Math.random() * 100, "red"),
+    new NodesNode(Math.random() * 100, -Math.random() * 100, "yellow"),
+    new NodesNode(Math.random() * 100, -Math.random() * 100, "orange"),
+    new NodesNode(Math.random() * 100, -Math.random() * 100, "green"),
+    new NodesNode(Math.random() * 100, -Math.random() * 100, "purple"),
+    new NodesNode(Math.random() * 100, -Math.random() * 100, "violet"),
     new NodesNode(Math.random() * 100, -Math.random() * 100, "cyan"),
-    // new NodesNode(-Math.random() * 200, -Math.random() * 100, "yellow"),
-    // new NodesNode(-Math.random() * 200, -Math.random() * 100, "aqua"),
+    new NodesNode(Math.random() * 100, -Math.random() * 100, "black"),
   ];
 
   static assistantNodes: NodesNode[] = [
@@ -48,7 +53,7 @@ class NodesPage {
       tooltip.innerHTML = "Right click to stop editing";
     } else {
       tooltip.innerHTML = "Right click to edit";
-      
+
       if (this.selectedNode) {
         this.selectedNode.isBeingEdited = false;
         this.selectedNode = null;
@@ -64,8 +69,15 @@ class NodesPage {
       this.canvas.element.getBoundingClientRect().top;
   }
 
+  static handleMouseUp(e: MouseEvent) {
+    if (e.button === 0) {
+      this.isMouseDown = false;
+    }
+  }
+
   static handleMouseDown(e: MouseEvent) {
     if (e.button === 0) {
+      this.wasClickedThisFrame = true;
       this.isMouseDown = true;
     }
   }
@@ -80,6 +92,7 @@ class NodesPage {
     this.canvas.addEventListener("contextmenu", (e) =>
       this.handleContextMenu(e)
     );
+    this.canvas.addEventListener("mouseup", (e) => this.handleMouseUp(e));
     this.canvas.addEventListener("mousedown", (e) => this.handleMouseDown(e));
   }
 
@@ -88,7 +101,7 @@ class NodesPage {
 
     this.updateNodes();
 
-    this.isMouseDown = false;
+    this.wasClickedThisFrame = false;
   }
 
   static redraw() {
@@ -150,7 +163,9 @@ class NodesPage {
         );
 
         if (node.boundNodes.includes(this.nodes[i])) {
-          node.appliedForces.push(node.getAttractiveVectorTo(this.nodes[i], 0.25));
+          node.appliedForces.push(
+            node.getAttractiveVectorTo(this.nodes[i], 0.25)
+          );
         }
       }
     });
@@ -180,7 +195,10 @@ class NodesPage {
     if (!hoveredNode && this.isEditable) {
       potentialNode.draw(this.canvas, this.canvas, this.mousePos);
 
-      if (this.isMouseDown) {
+      if (
+        this.wasClickedThisFrame ||
+        (this.isMouseDown && Date.now() % 400 < 20)
+      ) {
         this.nodes.push(potentialNode);
         this.nextNodeColour = NodesNode.getColour();
       }
@@ -188,16 +206,23 @@ class NodesPage {
 
     // if the hovered node is clicked, precompute that
     let clickedNode: NodesNode = null;
-    if (this.isMouseDown && hoveredNode) {
+    if (this.wasClickedThisFrame && hoveredNode) {
       clickedNode = hoveredNode;
 
       if (!this.selectedNode) {
+        // no node selected
         this.selectedNode = clickedNode;
         clickedNode.isBeingEdited = true;
       } else if (clickedNode === this.selectedNode) {
+        // clicked currently-selected node
         this.selectedNode = null;
         clickedNode.isBeingEdited = false;
+      } else if (this.selectedNode.boundNodes.includes(clickedNode)) {
+        // clicked a bonded node
+        clickedNode.removeBondTo(this.selectedNode);
+        this.selectedNode.removeBondTo(clickedNode);
       } else {
+        // clicked an unbonded node
         clickedNode.addBondTo(this.selectedNode);
         this.selectedNode.addBondTo(clickedNode);
       }
@@ -244,6 +269,9 @@ class NodesPage {
 
       node.x += vectorSum.x;
       node.y += vectorSum.y;
+
+      // boundaries
+      node.restoreBoundaries(this.canvas);
 
       if (SHOW_INTERNALS) node.drawVector(vectorSum, this.canvas, "black");
 

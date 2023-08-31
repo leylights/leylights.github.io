@@ -67,6 +67,26 @@ export class NodesNode {
     this.boundNodes.push(node);
   }
 
+  removeBondTo(node: NodesNode) {
+    const index = this.boundNodes.indexOf(node);
+    this.boundNodes.splice(index, 1);
+  }
+
+  restoreBoundaries(canvas: Canvas) {
+    if (this.y < -canvas.height / 2) {
+      this.y = -canvas.height / 2;
+    }
+    if (this.y > canvas.height / 2) {
+      this.y = canvas.height / 2;
+    }
+    if (this.x < -canvas.width / 2) {
+      this.x = -canvas.width / 2;
+    }
+    if (this.x > canvas.width / 2) {
+      this.x = canvas.width / 2;
+    }
+  }
+
   draw(
     canvas: Canvas,
     canvasDimensions: { width: number; height: number },
@@ -104,17 +124,27 @@ export class NodesNode {
       canvas.height / 2 + this.y,
       canvas.width / 2 + node.x,
       canvas.height / 2 + node.y,
-      '#888',
+      "#888",
       2
     );
   }
 
-  getAttractiveVectorTo(node: NodesNode, strengthMultiplier: number = 1): MathVector {
-    // = force / (dx^2) * (dx/|dx|) = force / (dx|dx|)
-    const dx = node.x == this.x ? Math.random() * 10 : node.x - this.x;
-    const dy = node.y == this.y ? Math.random() * 10 : node.y - this.y;
+  getAttractiveVectorTo(
+    node: NodesNode,
+    strengthMultiplier: number = 1
+  ): MathVector {
+    return this.getAttractiveVectorToPoint(node, strengthMultiplier);
+  }
 
-    const direction = new MathVector(dx, dy).setMagnitude(2);
+  private getAttractiveVectorToPoint(
+    point: { x: number; y: number },
+    strengthMultiplier: number = 1
+  ): MathVector {
+    // = force / (dx^2) * (dx/|dx|) = force / (dx|dx|)
+    const dx = point.x == this.x ? Math.random() * 10 : point.x - this.x;
+    const dy = point.y == this.y ? Math.random() * 10 : point.y - this.y;
+
+    const direction = new MathVector(dx, dy);
 
     const distance = Math.sqrt(dx ** 2 + dy ** 2);
     const magnitude = (distance * strengthMultiplier) / NODE_ATTRACTIVE_DIVISOR;
@@ -125,11 +155,18 @@ export class NodesNode {
   }
 
   getRepulsiveVectorTo(node: NodesNode): MathVector {
-    // = force / (dx^2) * (dx/|dx|) = force / (dx|dx|)
-    const dx = node.x == this.x ? Math.random() * 10 : node.x - this.x;
-    const dy = node.y == this.y ? Math.random() * 10 : node.y - this.y;
+    return this.getRepulsiveVectorToPoint(node);
+  }
 
-    const direction = new MathVector(dx, dy).setMagnitude(2).scalarMultiply(-1);
+  private getRepulsiveVectorToPoint(point: {
+    x: number;
+    y: number;
+  }): MathVector {
+    // = force / (dx^2) * (dx/|dx|) = force / (dx|dx|)
+    const dx = point.x == this.x ? Math.random() * 10 : point.x - this.x;
+    const dy = point.y == this.y ? Math.random() * 10 : point.y - this.y;
+
+    const direction = new MathVector(dx, dy).scalarMultiply(-1);
 
     const distance = Math.sqrt(dx ** 2 + dy ** 2);
     const magnitude = NODE_REPULSIVE_FORCE / distance;
