@@ -1,3 +1,5 @@
+@import '../util/mixins/mixins.scss';
+
 nav#side-menu {
   width: 0;
   height: 100%;
@@ -10,6 +12,10 @@ nav#side-menu {
   background-color: var(--primary-bg-color);
   text-align: right;
   color: var(--primary-accent-color);
+
+  @include desktop-and-above {
+    display: none;
+  }
 
   #side-menu-content {
     position: absolute;
@@ -125,7 +131,8 @@ nav#side-menu {
       img {
         display: block;
         max-height: 100px;
-        filter: invert(10%) sepia(100%) saturate(6520%) hue-rotate(247deg) brightness(71%) contrast(135%);
+        filter: invert(10%) sepia(100%) saturate(6520%) hue-rotate(247deg)
+          brightness(71%) contrast(135%);
       }
     }
   }

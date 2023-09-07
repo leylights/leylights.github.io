@@ -1,17 +1,17 @@
-@use 'sass:math';
+@use "sass:math";
 
 :root {
   --button-padding: 0.5em;
   --line-chart-axis-value-padding: 5px;
   --header-inner-size: 68px;
-  --primary-font: 'Poppins', Verdana;
+  --primary-font: "Poppins", Verdana;
   --hover-color-transition: linear 0.15s;
 }
 
-@import 'util/mixins/mixins.scss';
-@import 'general/colours';
-@import 'general/header';
-@import 'general/side-menu';
+@import "util/mixins/mixins.scss";
+@import "general/colours";
+@import "general/header";
+@import "general/side-menu";
 
 body {
   margin: 0;
@@ -21,10 +21,26 @@ body {
 input {
   font-family: var(--primary-font);
   outline: none;
+
+  &:focus-visible {
+    outline: initial;
+  }
+}
+
+button {
+  background: inherit;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
 }
 
 a {
   text-decoration: none;
+}
+
+canvas.pointer {
+  cursor: pointer;
 }
 
 #loadingScreen {
@@ -244,17 +260,22 @@ div.dark-mode-toggle {
     transition: 0.25s;
   }
 
-  > input[type='checkbox'] {
+  > input[type="checkbox"] {
     position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
+    height: calc(100% + 40px);
+    width: calc(100% + 40px);
+    top: -20px;
+    left: -20px;
     z-index: 2;
     margin: 0;
     appearance: none;
     cursor: pointer;
     background: none;
+    padding: 8px;
+
+    &:focus-visible {
+      border: 2px solid var(--accent-color);
+    }
   }
 
   input:checked ~ .slider {
@@ -274,7 +295,7 @@ div.dark-mode-toggle {
   border: 1px solid var(--reject-color) !important;
 }
 
-@import 'components/line-chart';
+@import "components/line-chart";
 
 @media only screen and (max-width: 770px) {
   #hamImage {
@@ -295,5 +316,5 @@ div.dark-mode-toggle {
 }
 
 @include dark-mode {
-  @import './main-dark';
+  @import "./main-dark";
 }

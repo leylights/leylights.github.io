@@ -16,6 +16,7 @@ const entrypoints = [
   "special/calculator-ii/calculator.page",
   "special/covid/dashboard.page",
   "special/creatures/summons.page",
+  "special/nodes/nodes.page",
   "special/npcs/dice-histogram.page",
   "special/npcs/npc-creator",
   "special/npcs/npc-generator",
@@ -41,6 +42,7 @@ module.exports = {
     path: path.resolve(__dirname, "scripts"),
   },
   mode: "development",
+  devtool: "inline-source-map",
   module: {
     rules: [
       {
