@@ -103,6 +103,12 @@ export class NodesNode {
       canvas.fillCircle(x, y, this.radius + 3, "#888", true);
     }
 
+    if(this.isBeingEdited) {
+      const deleteRadius = 12; 
+      canvas.fillCircle(x + this.radius, y - this.radius, deleteRadius, "#888", true);  
+      canvas.fillCircle(x + this.radius, y - this.radius, deleteRadius - 3, "red", true); 
+    }
+
     canvas.fillCircle(x, y, this.radius, this.colour, true);
   }
 
